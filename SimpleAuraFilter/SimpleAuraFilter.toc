@@ -1,0 +1,20 @@
+## Interface: 60200
+## Title: SimpleAuraFilter
+## Notes: Filters unimportant Buffs.
+## Author: Vaeyl of Nozdormu, Sanctity of Nozdormu
+## Version: 0.3
+## SavedVariables: SimpleAuraFilterDB
+## RequiredDeps: Tukui
+## OptionalDeps: Ace3
+## X-Embeds: Ace3
+## X-Category: Interface Enhancements
+## X-Curse-Packaged-Version: 0.3
+## X-Curse-Project-Name: SimpleAuraFilter
+## X-Curse-Project-ID: simpleaurafilter
+## X-Curse-Repository-ID: wow/simpleaurafilter/mainline
+
+embeds.xml
+
+Locale-enUS.lua
+Locale-deDE.lua
+Core.lua

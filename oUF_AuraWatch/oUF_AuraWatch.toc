@@ -1,0 +1,10 @@
+## Interface: 60200
+## Title: oUF AuraWatch
+## Author: Astromech
+## Version: 1.5.2-7
+## Notes: Adds aura timers and indicators to oUF
+## RequiredDeps: Tukui
+## OptionalDeps: oUF
+## X-oUF: oUF
+
+oUF_AuraWatch.lua
