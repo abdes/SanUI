@@ -32,20 +32,20 @@ S.switch2Mode = function(mode)
 		print("Either you didn't set the Skada profile for mode "..mode.." or Skada is not loaded. Either way, cannot load Skada profile!")
 	end	
 	
-	if S["Modes"][mode]["castbar"] and IsAddOnLoaded("oUF_Hank_v3") then
+	if S["Modes"][mode]["castbar"] and IsAddOnLoaded("oUF_Hank") then
 		S.switchCastbar(S["Modes"][mode]["castbar"])
 	else
-		print("Either you didn't set the castbar profile for mode "..mode.." or oUF_Hank_v3 is not loaded. Either way, cannot load castbar profile!")
+		print("Either you didn't set the castbar profile for mode "..mode.." or oUF_Hank is not loaded. Either way, cannot load castbar profile!")
 	end	
 	
 	if S["Modes"][mode]["raidframes"] then
 		S.switchRaidFrames(S["Modes"][mode]["raidframes"])
 	end
 	
-	if S["Modes"][mode]["powerbar"] and IsAddOnLoaded("oUF_Hank_v3") then
+	if S["Modes"][mode]["powerbar"] and IsAddOnLoaded("oUF_Hank") then
 		S.switchPowerbar(S["Modes"][mode]["powerbar"])
 	else
-		print("Either you didn't set the powerbar profile for mode "..mode.." or oUF_Hank_v3 is not loaded. Either way, cannot load powerbar profile!")
+		print("Either you didn't set the powerbar profile for mode "..mode.." or oUF_Hank is not loaded. Either way, cannot load powerbar profile!")
 	end	
 	
 	if S["Modes"][mode]["eclipsebar"] then

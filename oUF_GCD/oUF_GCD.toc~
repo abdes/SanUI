@@ -1,0 +1,8 @@
+## Interface: 50400
+## Title: oUF_GCD
+## Notes: Hungtar's oUF Global Cooldown Bar
+## Author: Hungtar
+## Version: 0.0.2
+## Dependencies: Tukui
+
+oUF_GCD.lua

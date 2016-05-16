@@ -23,7 +23,7 @@ S.switchCoolLine = function(profile)
 			[GetSpellInfo(779) or "Prankenhieb"] = true, -- Swipe(Bear
 			[GetSpellInfo(77758) or "Hauen"] = true, -- Thrash
 			[GetSpellInfo(6807) or "Zermalmen"] = true, -- Maul
-			[GetSpellInfo(33745) or "Aufschlitzen"] = true, --Lacerate
+			--[GetSpellInfo(33745) or "Aufschlitzen"] = true, --Lacerate
 		}
 		
 	elseif profile == "Simplex" then

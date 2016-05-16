@@ -1,0 +1,7 @@
+## Interface: 60200
+
+## Title: |cffC495DDTukui Addon Menu|r
+## Author: Safturento
+## RequiredDeps: Tukui, SanUI
+## OptionalDeps: WIM, DBM-Core
+AddonMenu.lua

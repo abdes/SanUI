@@ -1,0 +1,41 @@
+--v1.0 | 5-13-2010
+Release
+
+--v1.1 | 5-15-2010
+Minor fixes
+
+--v1.2 | 5-15-2010
+Added functions and cleaned up text
+
+--v1.3 | 5-16-2010
+Added a config to add spacing between minimap and button,
+ for those who use data text windows under the minimap
+
+--v1.4 | 5-17-2010
+Added guide for creating new modules
+
+--v1.5 | 5-17-2010
+Fixed bug in v1.4
+Added font config
+
+--v1.5.1 | 5-18-2010
+Minor fixes
+
+--v1.5.2 | 5-19-2010
+Fixed font issue
+
+--v1.6 | 5-19-2010
+Added ability to anchor menu to top of minimap
+Added ability to resize the Height of buttons
+
+--v1.7 | 5-19-2010
+Added key ring toggle
+Fixed minor issues with text not resetting on certain panels
+
+--v1.8 | 6-1-2010
+Added raid size toggle for raid frames
+Added a toggle for HudMap
+Added option to hide loot frame when showing skada
+
+--v2.0 | 10-15-2010
+Fixed bug, work only for Tukui 12+ only
