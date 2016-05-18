@@ -409,6 +409,7 @@ function TukuiUnitFrames:UpdateTotemOverride(event, slot)
 
     local Totem = Bar[slot]
     local HaveTotem, Name, Start, Duration, Icon = GetTotemInfo(slot)
+    local SpellID = select(7, GetSpellInfo(Name))
 
     local Colors = T["Colors"]
 
@@ -417,15 +418,20 @@ function TukuiUnitFrames:UpdateTotemOverride(event, slot)
     end
 
     local R, G, B = unpack(Colors.totems[slot])
+    local A = 1
+    
+    if Totem.Icon then
+        A = 0.6
+    end
 
     if (HaveTotem) then
         Totem.TimeLeft = (Start + Duration) - GetTime()
         Totem:SetMinMaxValues(0, Duration)
         Totem:SetScript("OnUpdate", TukuiUnitFrames.UpdateTotemTimer)
-        Totem:SetStatusBarColor(R, G, B)
+        Totem:SetStatusBarColor(R, G, B, A)
         
         if Totem.Icon then
-            Totem.Icon.Backdrop:Show()
+            Totem.bg:SetAlpha(0)
             Totem.Icon:SetTexture(Icon)
         end
 
@@ -435,7 +441,7 @@ function TukuiUnitFrames:UpdateTotemOverride(event, slot)
         Totem:SetScript("OnUpdate", nil)
         
         if Totem.Icon then
-            Totem.Icon.Backdrop:Hide()
+            Totem.bg:SetAlpha(Totem.bg.multiplier)
             Totem.Icon:SetTexture(nil)
         end
 
@@ -783,7 +789,7 @@ function TukuiUnitFrames:GetPartyFramesAttributes()
         ]],
         "initial-width", C.Party.Portrait and T.Scale(162) or T.Scale(206),
         "initial-height", C.Party.Portrait and T.Scale(24) or T.Scale(40),
-        "showSolo", false,
+        "showSolo", true,
         "showParty", true,
         "showPlayer", C["Party"].ShowPlayer,
         "showRaid", true,
@@ -810,7 +816,7 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
         "showParty", true,
         "showRaid", true,
         "showPlayer", true,
-        "showSolo", false,
+        "showSolo", true,
         "xoffset", T.Scale(4),
         "yOffset", T.Scale(-4),
         "point", "TOP",

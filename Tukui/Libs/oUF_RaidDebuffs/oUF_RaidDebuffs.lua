@@ -25,7 +25,22 @@ assert(oUF, 'oUF RaidDebuffs: unable to locate oUF')
 
 local PLAYER_CLASS = select(2, UnitClass'player')
 
-local SPEC_CORE_ABILITY_TEXT = {}
+local bossDebuffPrio = 9999999
+local invalidPrio = -1
+local auraFilters = {
+    ['HARMFUL'] = true,
+}
+
+local debuffTypeColor = {
+    ['none'] = {0, 0, 0},
+}
+for k, v in next, DebuffTypeColor do
+    if(k ~= '' and k ~= 'none') then
+        debuffTypeColor[k] = { v.r, v.g, v.b }
+    end
+end
+
+SPEC_CORE_ABILITY_TEXT = {}
 SPEC_CORE_ABILITY_TEXT[250] = "DK_BLOOD";
 SPEC_CORE_ABILITY_TEXT[251] = "DK_FROST";
 SPEC_CORE_ABILITY_TEXT[252] = "DK_UNHOLY";
@@ -77,22 +92,6 @@ SPEC_CORE_ABILITY_TEXT[73] = "WARRIOR_PROT";
 
 SPEC_CORE_ABILITY_TEXT[577] = "DH_HAVOC";
 SPEC_CORE_ABILITY_TEXT[581] = "DH_VENGEANCE";
-
-
-local bossDebuffPrio = 9999999
-local invalidPrio = -1
-local auraFilters = {
-    ['HARMFUL'] = true,
-}
-
-local debuffTypeColor = {
-    ['none'] = {0, 0, 0},
-}
-for k, v in next, DebuffTypeColor do
-    if(k ~= '' and k ~= 'none') then
-        debuffTypeColor[k] = { v.r, v.g, v.b }
-    end
-end
 
 local dispelPrio = {
     ['Magic']   = 4,

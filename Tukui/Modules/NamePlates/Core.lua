@@ -83,9 +83,24 @@ function Plates:SetupPlate(options)
     CastBar.Icon:SetTexCoord(.08, .92, .08, .92)
     CastBar.Icon:ClearAllPoints()
     CastBar.Icon:SetPoint("TOPRIGHT", HealthBar, "TOPLEFT", -4, 0)
-	CastBar.Icon.Backdrop = CreateFrame("Frame", nil, CastBar)
-	CastBar.Icon.Backdrop:SetAllPoints(CastBar.Icon)
-	CastBar.Icon.Backdrop:CreateShadow()
+    
+    CastBar.IconBackdrop = CreateFrame("Frame", nil, CastBar)
+    CastBar.IconBackdrop:SetSize(CastBar.Icon:GetSize())
+    CastBar.IconBackdrop:SetPoint("TOPRIGHT", HealthBar, "TOPLEFT", -4, 0)
+    CastBar.IconBackdrop:CreateShadow()
+    CastBar.IconBackdrop:SetFrameLevel(CastBar:GetFrameLevel() - 1 or 0)
+    
+    -- Fix icon border displayed on empty icon, sometime castbar icon is not found on a cast? beta bug?
+    hooksecurefunc(CastBar.Icon, "SetTexture", function(self)
+        local CastBar = self:GetParent()
+        local Icon = select(4, UnitCastingInfo(CastBar.unit))
+        
+        if Icon then
+            CastBar.IconBackdrop:Show()
+        else
+            CastBar.IconBackdrop:Hide()
+        end
+    end)
     
     CastBar.Text:SetFont(C.Medias.Font, 9, "OUTLINE")
     

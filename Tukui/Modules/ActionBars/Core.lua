@@ -18,7 +18,7 @@ local Frames = {
     MainMenuBar, MainMenuBarArtFrame, OverrideActionBar,
     PossessBarFrame, PetActionBarFrame, IconIntroTracker,
     ShapeshiftBarLeft, ShapeshiftBarMiddle, ShapeshiftBarRight,
-    TalentMicroButtonAlert,
+    TalentMicroButtonAlert, CollectionsMicroButtonAlert, EJMicroButtonAlert
 }
 
 function TukuiActionBars:DisableBlizzard()

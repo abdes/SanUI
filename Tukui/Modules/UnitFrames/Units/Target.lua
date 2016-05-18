@@ -380,21 +380,6 @@ function TukuiUnitFrames:Target()
     local Threat = Health:CreateTexture(nil, "OVERLAY")
     Threat.Override = TukuiUnitFrames.UpdateThreat
 
-    if (Class == "PRIEST" and C.UnitFrames.WeakBar) then
-        -- Weakened Soul Bar
-        local WSBar = CreateFrame("StatusBar", nil, Power)
-        WSBar:SetFrameStrata(self:GetFrameStrata())
-        WSBar:SetAllPoints(Power)
-        WSBar:SetStatusBarTexture(PowerTexture)
-        WSBar:GetStatusBarTexture():SetHorizTile(false)
-        WSBar:SetBackdrop(TukuiUnitFrames.Backdrop)
-        WSBar:SetBackdropColor(unpack(C["General"].BackdropColor))
-        WSBar:SetStatusBarColor(0.75, 0.04, 0.04)
-
-        -- Register
-        self.WeakenedSoul = WSBar
-    end
-
     self:Tag(Name, "[Tukui:GetNameColor][Tukui:NameLong] [Tukui:DiffColor][level] [shortclassification]")
     self.Name = Name
     self.Panel = Panel
