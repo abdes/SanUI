@@ -1,10 +1,11 @@
 Position Buffs for SAF
 Refactor SAF
-Check Raidbuffs/Debuffs for Raidframes
+Check Raidbuffs/Debuffs for Raidframes i.e. what needs to be shown
 oUF_Hank..
 Check weakauras/rotational displays
 Clear up files (i.e. comments --> code needed?)
 Check lag indicator on castbar
 Checkout details combat log
-Fix raidbuffs datatext
-Fix buffs in raidframes
+Investigate raidbuffs datatext (no more raidbuffs in legion... other usage?)
+Fix textauras in raidframes
+Rewrite aurawatch code for timers

@@ -302,7 +302,7 @@ local function SetupIcons(self)
 	watch.watched = {}
 	if not watch.missingAlpha then watch.missingAlpha = 0.75 end
 	if not watch.presentAlpha then watch.presentAlpha = 1 end
-	
+
 	for _,icon in pairs(icons) do
 	
 		local name, _, image = GetSpellInfo(icon.spellID)
@@ -361,6 +361,8 @@ local function SetupIcons(self)
 				icon.timerGroups[k] = icon:CreateAnimationGroup()
 			
 				icon.timerGroups[k].animation = icon.timerGroups[k]:CreateAnimation("Alpha")
+				icon.timerGroups[k].animation:SetToAlpha(1)
+				icon.timerGroups[k].animation:SetFromAlpha(1)
 				icon.timerGroups[k].animation:SetScript("OnFinished",function()
 							icon.extraTex:SetVertexColor(unpack(icon.timers[k][2]))
 						end)
