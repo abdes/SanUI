@@ -13,14 +13,6 @@ you can specify, as explained below.
 		such that values are text strings, but the keys can be anything.
 		
 		Note each text can have several options set as well. See below.
-	strictMatching
-		Default: false
-		If true, TextAuras will only show a text if the specific aura
-		with the specified spell id is on the unit. If false, AuraWatch
-		will show the text if any aura with the same name and icon texture 
-		(as returned by GetSpellInfo)
-		is on the unit. Strict matching can be undesireable because most
-		ranks of an aura have different spell ids.
 	fromUnits
 		Default {["player"] = true, ["pet"] = true, ["vehicle"] = true}
 		A table of units from which auras can originate. Have the units be the keys
@@ -47,6 +39,7 @@ The following settings are unique to texts:
 Here is an example of how to set oUF_AW up:
 
 	local createTextAuras = function(self, unit)
+		local auras = {}
 		local texts = {}
 		
 		-- A table of spellIDs to create icons for
@@ -104,14 +97,6 @@ local PLAYER_UNITS = {
 	vehicle = true,
 	pet = true,
 }
-
---key for swiftmend, will get special treatment
--- local smname, _, smimage = GetSpellInfo(18562)
--- local smkey = smname..smimage
--- local smtexts = {}
---local rjname = GetSpellInfo(774) --rejuvenation
---local rgname = GetSpellInfo(8936) --regrowth
---local germname = GetSpellInfo(155777) --germination (druid lvl 100 talent)
 
 local DAY, HOUR, MINUTE = 86400, 3600, 60 --used for formatting text
 local DAYISH, HOURISH, MINUTEISH = 3600 * 23.5, 60 * 59.5, 59.5 --used for formatting text at transition points
@@ -214,14 +199,13 @@ do
 	function Update(frame, event, unit)
 		if frame.unit ~= unit then return end
 		local watch = frame.TextAuras
-		local index, texts = 1, watch.watched
+		local index, watched = 1, watch.watched
 		local _, name, texture, count, duration, expires, caster, key, icon, spellid 
 		local filter = "HELPFUL"
 		local guid = UnitGUID(unit)
 		if not GUIDs[guid] then SetupGUID(guid) end
-		--local swiftmendable = false
 		
-		for key, text in pairs(texts) do
+		for key, text in pairs(watched) do
 			text:Hide()
 			text:SetText('')
 		end
@@ -236,16 +220,8 @@ do
 					break
 				end
 			else
-				-- if name == rjname or name == rgname or name == germname then
-					-- swiftmendable = true
-				-- end
-				
-				if watch.strictMatching then
-					key = spellid
-				else
-					key = name..texture
-				end
-				text = texts[key]
+				key = spellid
+				text = watched[key]
 				if text and (text.anyUnit or (caster and text.fromUnits[caster])) then
 					ResetText(watch, text, count, duration, expires)
 					GUIDs[guid][key] = true
@@ -255,15 +231,9 @@ do
 			end
 		end
 		
-		-- if swiftmendable and icons[smkey] then
-			-- ResetIcon(watch,smicons[frame],1,3,3) -- values arbitraty, don't show cd frame for swiftmend!
-			-- GUIDs[guid][smkey] = true
-			-- found[smkey] = true
-		-- end
-		
 		for key in pairs(GUIDs[guid]) do
-			if texts[key] and not found[key] then
-				ExpireText(watch, texts[key])
+			if watched[key] and not found[key] then
+				ExpireText(watch, watched[key])
 			end
 		end
 		
@@ -283,11 +253,11 @@ local function SetupTexts(self)
 			text:SetFont("Fonts\\FRIZQT__.TTF", 9, "THINOUTLINE")
 		end
 	
-		local name, _, image = GetSpellInfo(text.spellID)
+		local name = GetSpellInfo(text.spellID)
+		local image = GetSpellTexture(text.spellID)
+		
 		if not name then error("oUF_NotAuraWatch error: no spell with "..tostring(text.spellID).." spell ID exists") end
 		text.name = name
-		
-		-- if text.spellID == 18562 then smtexts[self] = text end
 
 		if text.fromUnits == nil then
 			text.fromUnits = watch.fromUnits or PLAYER_UNITS
@@ -296,12 +266,7 @@ local function SetupTexts(self)
 			text.anyUnit = watch.anyUnit
 		end
 		
-		
-		if watch.strictMatching then
-			watch.watched[spellID] = text
-		else
-			watch.watched[name..image] = text
-		end
+		watch.watched[text.spellID] = text
 		
 	end
 end
