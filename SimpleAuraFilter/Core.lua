@@ -1,13 +1,10 @@
 -- BUFFS_PER_ROW = 8;
--- CONSOLIDATED_BUFFS_PER_ROW = 4;
 -- BUFF_ACTUAL_DISPLAY = 0;
 -- BUFF_ROW_SPACING = 0;
 
 local BUFFS_PER_ROW = 10;
 
 local T,C,L = unpack(Tukui)
-
-local consolidatedBuffs = { };
 
 SimpleAuraFilter = LibStub("AceAddon-3.0"):NewAddon("SimpleAuraFilter", "AceConsole-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("SimpleAuraFilter")
@@ -16,12 +13,9 @@ S = SimpleAuraFilter
 
 SimpleAuraFilter.debug = true
 
---SetCVar("consolidateBuffs",0)
 
 TemporaryEnchantFrame:ClearAllPoints()
---TemporaryEnchantFrame:Point("TOPRIGHT", UIParent, "TOPRIGHT", -10, -TukuiMinimap:GetHeight()-26)
 TemporaryEnchantFrame:Point("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
---TemporaryEnchantFrame.SetPoint = TukuiDB.dummy
 
 TempEnchant1:ClearAllPoints()
 TempEnchant2:ClearAllPoints()
@@ -36,7 +30,6 @@ WorldStateAlwaysUpFrame:SetFrameLevel(0)
 
 for i = 1, 3 do
 	local f = CreateFrame("Frame", nil, _G["TempEnchant"..i])
-	--f:CreatePanel("", 30, 30, "CENTER", _G["TempEnchant"..i], "CENTER", 0, 0)	
 	f:Size(30)
 	f:SetPoint("CENTER",_G["TempEnchant"..i], "CENTER", 0, 0)
 	f:SetTemplate("Transparent")
@@ -48,7 +41,6 @@ for i = 1, 3 do
 	_G["TempEnchant"..i]:Width(30)	
 	_G["TempEnchant"..i.."Duration"]:ClearAllPoints()
 	_G["TempEnchant"..i.."Duration"]:Point("BOTTOM", 0, -13)
-	--_G["TempEnchant"..i.."Duration"]:SetFont(C["media"].font, 12)
 end
 
 local function MyBuffButton_OnClick (button)
@@ -62,41 +54,34 @@ local function MyBuffButton_OnClick (button)
 end
 
 local function HideBadBuff(buttonName, indexi, filter)
-	local unit = PlayerFrame.unit;
-	local name, rank, texture, count, debuffType, duration, expirationTime, _, _, shouldConsolidate = UnitAura(unit, indexi, filter);
+	local unit = PlayerFrame.unit
+	local name, rank, texture, count, debuffType, duration, expirationTime = UnitAura(unit, indexi, filter)
 
-	local buffName = buttonName..indexi;
-	local buff = _G[buffName];
+	local buffName = buttonName..indexi
+	local buff = _G[buffName]
 
 	if ( name ) then
-
-		-- this one is SAF code
 		if SimpleAuraFilter:IsBadBuff(name) then
-			buff.bad = true;
-			buff:Hide();
-			buff.duration:Hide();
-			buff.count:Hide();
+			buff.bad = true
+			buff:Hide()
+			buff.duration:Hide()
+			buff.count:Hide()
 		else
-			buff.bad = false;
+			buff.bad = false
 		end
 	end
-	return 1;
+	return 1
 end
 
 local buffRows = 0
 
 local function MyBuffFrame_UpdateAllBuffAnchors()
 	local buff, previousBuff, aboveBuff,icon;
-	local numBuffs = 0;
-	local hidden = 0; -- SAF
+	local numBuffs = 0
+	local hidden = 0
 	local slack = BuffFrame.numEnchants or 0
-	local numConsolidated = BuffFrame.numConsolidated or 0
-	local inde = 0;
+	local inde = 0
 	buffRows = 0
-	
-	if (  numConsolidated > 0 ) then
-		slack = slack + 1;	-- one icon for all consolidated buffs
-	end
 	
 	for i = 1, BUFF_ACTUAL_DISPLAY do
 		buff = _G["BuffButton"..i];
@@ -104,109 +89,52 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 		
 		if not _G["BuffButton"..i.."Panel"] then
 			local panel = CreateFrame("Frame", "BuffButton".. i .."Panel", buff)
-			--panel:CreatePanel("Default", 30, 30, "CENTER", buff, "CENTER", 0, 0)
 			panel:Size(30)
 			panel:SetPoint("CENTER",buff, "CENTER", 0, 0)
 			panel:SetTemplate("Transparent")
 			panel:SetFrameLevel(buff:GetFrameLevel() - 1)
 			panel:SetFrameStrata(buff:GetFrameStrata())
 			
-			--buff:SetTemplate()
 			icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 			icon:Point("TOPLEFT", buff, 2, -2)
 			icon:Point("BOTTOMRIGHT", buff, -2, 2)
 		end
 		
 		
-		if not buff:IsShown() then --SAF
-			hidden = hidden + 1 --SAF
-			numBuffs = numBuffs + 1; --SAF
-		else
-			if ( buff.consolidated ) then	
-				if ( buff.parent == BuffFrame ) then
-					buff:SetParent(ConsolidatedBuffsContainer);
-					buff.parent = ConsolidatedBuffsContainer;
-				end
-			else
-				numBuffs = numBuffs + 1;
-				inde = numBuffs + slack - hidden;
-				if ( buff.parent ~= BuffFrame ) then
-					buff.count:SetFontObject(NumberFontNormal);
-					buff:SetParent(BuffFrame);
-					buff.parent = BuffFrame;
-				end
-				buff:ClearAllPoints();
-				if ( (inde > 1) and (mod(inde, BUFFS_PER_ROW) == 1) ) then
-					-- New row
-					buffRows = buffRows + 1
-					if ( inde == BUFFS_PER_ROW+1 ) then
-						buff:Point("TOP", ConsolidatedBuffs, "BOTTOM", 0, -BUFF_ROW_SPACING);
-					else
-						buff:Point("TOP", aboveBuff, "BOTTOM", 0, -BUFF_ROW_SPACING);
-					end
-					aboveBuff = buff;
-				elseif ( inde == 1 ) then
-					buffRows = 1
-					buff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0);
-				else
-					if ( numBuffs == 1 ) then
-						if ( BuffFrame.numEnchants > 0 ) then
-							buff:Point("TOPRIGHT", "TemporaryEnchantFrame", "TOPLEFT", -4, 0);
-						else
-							buff:Point("TOPRIGHT", ConsolidatedBuffs, "TOPLEFT", -4, 0);
-						end
-					else
-						buff:SetPoint("RIGHT", previousBuff, "LEFT", -4, 0);
-					end
-				end
-				previousBuff = buff;
-			end
-		end --SAF
-	end
-
-	-- if ( ConsolidatedBuffsTooltip:IsShown() ) then
-		-- ConsolidatedBuffs_UpdateAllAnchors();
-	-- end
-	
-end
-
-local function MyConsolidatedBuffs_UpdateAllAnchors()
-	local buff, previousBuff, aboveBuff;
-	local numBuffs = 0;
-	local hidden = 0;
-	local inde = 0;
-	
-	for _, buff in pairs(consolidatedBuffs) do
-		numBuffs = numBuffs + 1
-		if ( buff.parent == BuffFrame ) then
-			buff:SetParent(ConsolidatedBuffsContainer);
-			buff.parent = ConsolidatedBuffsContainer;
-		end
 		if not buff:IsShown() then
 			hidden = hidden + 1
+			numBuffs = numBuffs + 1
 		else
-			inde = numBuffs - hidden
+			numBuffs = numBuffs + 1
+			inde = numBuffs + slack - hidden
+			if ( buff.parent ~= BuffFrame ) then
+				buff.count:SetFontObject(NumberFontNormal)
+				buff:SetParent(BuffFrame)
+				buff.parent = BuffFrame
+			end
 			buff:ClearAllPoints();
-			if ( (inde > 1) and (mod(inde, CONSOLIDATED_BUFFS_PER_ROW) == 1) ) then
-				-- new row
+			if ( (inde > 1) and (mod(inde, BUFFS_PER_ROW) == 1) ) then -- New row
 				buffRows = buffRows + 1
-				buff:SetPoint("TOP", aboveBuff, "BOTTOM", 0, -BUFF_ROW_SPACING);
-				aboveBuff = buff;
-			elseif ( not previousBuff ) then
-				buff:SetPoint("TOPLEFT", ConsolidatedBuffsContainer, "TOPLEFT", 0, 0);
+				buff:Point("TOP", aboveBuff, "BOTTOM", 0, -BUFF_ROW_SPACING)
+				aboveBuff = buff
+			elseif ( inde == 1 ) then
+				buffRows = 1
+				buff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
 				aboveBuff = buff;
 			else
-				buff:SetPoint("LEFT", previousBuff, "RIGHT", 7, 0);
+				if ( numBuffs == 1 ) then
+					buff:Point("TOPRIGHT", "TemporaryEnchantFrame", "TOPLEFT", -4, 0)
+				else
+					buff:SetPoint("RIGHT", previousBuff, "LEFT", -4, 0)
+				end
 			end
 			previousBuff = buff;
 		end
 	end
-	ConsolidatedBuffsTooltip:SetWidth(min(inde * 24 + 18, 114));
-	ConsolidatedBuffsTooltip:SetHeight(floor((inde + 3) / 4 ) * CONSOLIDATED_BUFF_ROW_HEIGHT + 16);
 end
 
 local function UpdateDebuffAnchors(buttonName, index)
-	local debuff = _G[buttonName..index];
+	local debuff = _G[buttonName..index]
 	local icon = _G[buttonName..index.."Icon"]
 	local border	= _G[buttonName..index.."Border"]
 	
@@ -220,7 +148,6 @@ local function UpdateDebuffAnchors(buttonName, index)
 		panel:SetFrameLevel(debuff:GetFrameLevel() - 1)
 		panel:SetFrameStrata(debuff:GetFrameStrata())
 		
-		--buff:SetTemplate()
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		icon:Point("TOPLEFT", debuff, 2, -2)
 		icon:Point("BOTTOMRIGHT", debuff, -2, 2)
@@ -240,19 +167,10 @@ local function UpdateDebuffAnchors(buttonName, index)
 	panel:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 	debuff:ClearAllPoints()
 	
-	if not SanUI_DebuffsAlt then
-		if index == 1 then
-			debuff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, -buffRows*BUFF_ROW_SPACING - T.Scale(buffRows * 30 + 10) )
-			--Point("BOTTOMRIGHT", UIParent, "TOPRIGHT", -10, -TukuiMinimap:GetHeight()-20)
-		else
-			debuff:Point("RIGHT", _G[buttonName..(index-1)], "LEFT", -4, 0)
-		end
-	elseif SanUI_DebuffsAlt then
-		if index == 1 then
-			debuff:Point("BOTTOM", TukuiActionBarBackground,"TOP", 0, T.Scale(4))
-		else
-			debuff:Point("LEFT", _G[buttonName..(index-1)], "RIGHT", T.Scale(4), 0)
-		end
+	if index == 1 then
+		debuff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, -buffRows*BUFF_ROW_SPACING - T.Scale(buffRows * 30 + 10) )
+	else
+		debuff:Point("RIGHT", _G[buttonName..(index-1)], "LEFT", -4, 0)
 	end
 end
 
@@ -262,12 +180,6 @@ local function UpdateAllDebuffAnchors()
 		UpdateDebuffAnchors("DebuffButton",i)
 	end
 	
-end
-
-
-function SimpleAuraFilter:OnInitialize()
-    -- Called when the addon is loaded
-   
 end
 
 function SimpleAuraFilter:OnEnable()
@@ -310,16 +222,11 @@ function SimpleAuraFilter:OnEnable()
     
 	--Hooking the neccesary functions here
 	
-	--BuffButton_OnClick = function (button) return SimpleAuraFilter:BuffButton_OnClick(button) end
 	hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
 	hooksecurefunc("AuraButton_Update", HideBadBuff)
 	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
-	--hooksecurefunc("ConsolidatedBuffs_UpdateAllAnchors",MyConsolidatedBuffs_UpdateAllAnchors)
 	hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuffAnchors)
 	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",UpdateAllDebuffAnchors)
-	-- Repair damage done by overwriting
-	--ConsolidatedBuffs:SetScript("OnUpdate", ConsolidatedBuffs_OnUpdate)
-	--ConsolidatedBuffs:SetScript("OnEnter", ConsolidatedBuffs_OnEnter)
 	
 	-- Chat Command
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("SimpleAuraFilter", options, {"saf"})
@@ -330,17 +237,6 @@ function SimpleAuraFilter:HandleProfileChanges()
 	BuffFrame_UpdateAllBuffAnchors()
 
 end
-
--- handle weapon enchants
--- local f = CreateFrame("Frame")
--- f:SetScript("OnEvent", function() mainhand, _, _, offhand = GetWeaponEnchantInfo() end)
--- f:RegisterEvent("UNIT_INVENTORY_CHANGED")
--- f:RegisterEvent("PLAYER_EVENTERING_WORLD")
-
--- ********* Hooks
-
-
--- *********
 
 function SimpleAuraFilter:IsBadBuff(name)
 	if self.allbuffs then return false end
@@ -357,7 +253,6 @@ function SimpleAuraFilter:ToggleAllBuffs()
 	if self.allbuffs then self:Print("Filter off") else self:Print("Filter on") end
 	BuffFrame_Update()
 	BuffFrame_UpdateAllBuffAnchors()
-	ConsolidatedBuffs_UpdateAllAnchors()
 end
 
 function SimpleAuraFilter:OpenMenu()

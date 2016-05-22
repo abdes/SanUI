@@ -1,5 +1,3 @@
-Position Buffs for SAF
-Refactor SAF
 Check Raidbuffs/Debuffs for Raidframes i.e. what needs to be shown
 oUF_Hank..
 Check weakauras/rotational displays

@@ -16,6 +16,9 @@ function S.misc(self,event,arg)
 	end
 	
 	if (event == "PLAYER_ENTERING_WORLD") then
+	
+		BuffFrame:ClearAllPoints()
+		BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
 
 		S.disableBlizzard()
 	
