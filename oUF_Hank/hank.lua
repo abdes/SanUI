@@ -1,7 +1,7 @@
 local oUF_Hank = {}
 local cfg = oUF_Hank_config
 
-local oUF = TukuiUnitFrameFramework
+--local oUF = TukuiUnitFrameFramework
 
 -- GLOBALS: oUF_player, oUF_pet, oUF_target, oUF_focus
 -- GLOBALS: _G, MIRRORTIMER_NUMTIMERS, SPELL_POWER_HOLY_POWER, MAX_TOTEMS, MAX_COMBO_POINTS, DebuffTypeColor, SPEC_WARLOCK_DEMONOLOGY

@@ -1,7 +1,7 @@
 ﻿local cfg = oUF_Hank_config
 local oUF_Hank = {}
 oUF_Hank_hooks = {}
-local oUF = TukuiUnitFrameFramework
+--local oUF = TukuiUnitFrameFramework
 
 local _, ns = ...
 

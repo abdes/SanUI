@@ -1,7 +1,7 @@
 local T, C, L = select(2, ...):unpack()
 
 local Framework = select(2, ...)
-local oUF = oUF or Framework.oUF
+local oUF = Framework.oUF
 
 oUF.colors.disconnected = {
     0.1, 0.1, 0.1
