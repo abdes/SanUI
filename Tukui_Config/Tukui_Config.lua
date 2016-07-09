@@ -221,13 +221,10 @@ end
 
 local ButtonOnClick = function(self)
     if self.Toggled then
-        self.Anim:SetChange(0, 0, 0) -- TEMP
-        self.Anim:Play()
-
+        self.Tex:SetColorTexture(1, 0, 0)
         self.Toggled = false
     else
-        self.Anim:SetChange(1, 1, 1) -- TEMP
-        self.Anim:Play()
+        self.Tex:SetColorTexture(0, 1, 0)
         self.Toggled = true
     end
 
@@ -236,12 +233,12 @@ end
 
 local ButtonCheck = function(self)
     self.Toggled = true
-    self.Tex:SetTexture(1, 1, 1) -- TEMP
+    self.Tex:SetColorTexture(0, 1, 0)
 end
 
 local ButtonUncheck = function(self)
     self.Toggled = false
-    self.Tex:SetTexture(0, 0, 0) -- TEMP
+    self.Tex:SetColorTexture(1, 0, 0)
 end
 
 local ResetColor = function(self)
@@ -250,7 +247,7 @@ local ResetColor = function(self)
     if (Defaults[self.Group] and Defaults[self.Group][self.Option]) then
         local Default = Defaults[self.Group][self.Option]
 
-        self.Color:SetTexture(Default[1], Default[2], Default[3])
+        self.Color:SetColorTexture(Default[1], Default[2], Default[3])
         TukuiConfig:SetOption(self.Group, self.Option, {Default[1], Default[2], Default[3]})
     end
 end
@@ -320,11 +317,11 @@ local ListItemOnClick = function(self)
 end
 
 local ListItemOnEnter = function(self)
-    self.Hover:SetTexture(0.2, 1, 0.2, 0.5)
+    self.Hover:SetColorTexture(0.2, 1, 0.2, 0.5)
 end
 
 local ListItemOnLeave = function(self)
-    self.Hover:SetTexture(0.2, 1, 0.2, 0)
+    self.Hover:SetColorTexture(0.2, 1, 0.2, 0)
 end
 
 local AddListItems = function(self, info)
@@ -453,12 +450,7 @@ local CreateConfigButton = function(parent, group, option, value)
     Button.Tex = Button:CreateTexture(nil, "OVERLAY")
     Button.Tex:SetPoint("TOPLEFT", 2, -2)
     Button.Tex:SetPoint("BOTTOMRIGHT", -2, 2)
-    Button.Tex:SetTexture(1, 0, 0)
-
-    Button.Anim = CreateAnimationGroup(Button.Tex):CreateAnimation("Color")
-    Button.Anim:SetDuration(0.5)
-    Button.Anim:SetSmoothing("InOut")
-    Button.Anim:SetColorType("Texture")
+    Button.Tex:SetColorTexture(1, 0, 0)
 
     Button.Check = ButtonCheck
     Button.Uncheck = ButtonUncheck
@@ -564,13 +556,13 @@ local CreateConfigColorPicker = function(parent, group, option, value)
 
                 value = {NewR, NewG, NewB, NewA}
                 TukuiConfig:SetOption(group, option, value)
-                self.Color:SetTexture(NewR, NewG, NewB, NewA)
+                self.Color:SetColorTexture(NewR, NewG, NewB, NewA)
             end
 
             local SameColorCallback = function()
                 value = {OldR, OldG, OldB, OldA}
                 TukuiConfig:SetOption(group, option, value)
-                self.Color:SetTexture(OldR, OldG, OldB, OldA)
+                self.Color:SetColorTexture(OldR, OldG, OldB, OldA)
             end
 
             ShowColorPicker(OldR, OldG, OldB, OldA, ColorCallback, SameColorCallback)
@@ -587,7 +579,7 @@ local CreateConfigColorPicker = function(parent, group, option, value)
     Button.Color = Button:CreateTexture(nil, "OVERLAY")
     Button.Color:Point("TOPLEFT", 2, -2)
     Button.Color:Point("BOTTOMRIGHT", -2, 2)
-    Button.Color:SetTexture(value[1], value[2], value[3])
+    Button.Color:SetColorTexture(value[1], value[2], value[3])
 
     Button.Label = Button:CreateFontString(nil, "OVERLAY")
     Button.Label:SetFont(C.Medias.Font, 12)

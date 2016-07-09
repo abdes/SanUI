@@ -26,7 +26,7 @@ TukuiUnitFrames.AddClassFeatures["DRUID"] = function(self)
 
     DruidMana.Background = DruidMana:CreateTexture(nil, "BORDER")
     DruidMana.Background:SetAllPoints()
-    DruidMana.Background:SetTexture(0.30, 0.52, 0.90, 0.2)
+    DruidMana.Background:SetColorTexture(0.30, 0.52, 0.90, 0.2)
 
     -- Register
     self.DruidMana = DruidMana

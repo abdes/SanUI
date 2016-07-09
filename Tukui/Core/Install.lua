@@ -53,6 +53,8 @@ function Install:Step1()
     SetCVar("violenceLevel", 5)
     SetCVar("ShowClassColorInNameplate", 1)
     SetCVar("nameplateShowSelf", 0)
+    SetCVar("NamePlateVerticalScale", 1)
+    SetCVar("NamePlateHorizontalScale", 1)
 
     if (ActionBars) then
         SetActionBarToggles(1, 1, 1, 1)

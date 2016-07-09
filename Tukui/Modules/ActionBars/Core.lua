@@ -319,7 +319,7 @@ function TukuiActionBars:UpdateStanceBar(...)
                 end
 
                 Start, Duration, Enable = GetShapeshiftFormCooldown(i)
-                CooldownFrame_SetTimer(Cooldown, Start, Duration, Enable)
+                CooldownFrame_Set(Cooldown, Start, Duration, Enable)
 
                 if IsActive then
                     StanceBarFrame.lastSelected = Button:GetID()

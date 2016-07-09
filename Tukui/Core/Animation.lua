@@ -45,7 +45,7 @@ local Set = {
     ["border"] = ColorFrames.SetBackdropBorderColor,
     ["statusbar"] = ColorFrames.SetStatusBarColor,
     ["text"] = Text.SetTextColor,
-    ["texture"] = Texture.SetTexture,
+    ["texture"] = Texture.SetColorTexture,
     ["vertex"] = Texture.SetVertexColor,
 }
 

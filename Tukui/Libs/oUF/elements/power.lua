@@ -71,7 +71,7 @@
    -- Add a background
    local Background = Power:CreateTexture(nil, 'BACKGROUND')
    Background:SetAllPoints(Power)
-   Background:SetTexture(1, 1, 1, .5)
+   Background:SetColorTexture(1, 1, 1, .5)
 
    -- Options
    Power.frequentUpdates = true
@@ -146,11 +146,7 @@ local Update = function(self, event, unit)
     power.disconnected = disconnected
 
     local r, g, b, t
-    if(power.colorTapping and not UnitPlayerControlled(unit) and
-        UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not
-        UnitIsTappedByAllThreatList(unit)) then
-        t = self.colors.tapped
-    elseif(power.colorDisconnected and disconnected) then
+    if(power.colorDisconnected and disconnected) then
         t = self.colors.disconnected
     elseif(displayType == ALTERNATE_POWER_INDEX and power.altPowerColor) then
         t = power.altPowerColor

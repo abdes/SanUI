@@ -28,7 +28,7 @@ function TukuiDT:ToggleDataPositions()
             local Frame = Anchors[i]
 
             Frame:EnableMouse(false)
-            Frame.Tex:SetTexture(0.2, 1, 0.2, 0)
+            Frame.Tex:SetColorTexture(0.2, 1, 0.2, 0)
         end
 
         Active = false
@@ -37,7 +37,7 @@ function TukuiDT:ToggleDataPositions()
             local Frame = Anchors[i]
 
             Frame:EnableMouse(true)
-            Frame.Tex:SetTexture(0.2, 1, 0.2, 0.2)
+            Frame.Tex:SetColorTexture(0.2, 1, 0.2, 0.2)
             Frame:SetScript("OnMouseDown", OnMouseDown)
         end
 

@@ -24,7 +24,7 @@ function TukuiUnitFrames:FocusTarget()
 
     Health.Background = Health:CreateTexture(nil, "BORDER")
     Health.Background:SetAllPoints()
-    Health.Background:SetTexture(0.1, 0.1, 0.1)
+    Health.Background:SetColorTexture(0.1, 0.1, 0.1)
 
     Health.Value = Health:CreateFontString(nil, "OVERLAY")
     Health.Value:SetFontObject(Font)
@@ -59,7 +59,7 @@ function TukuiUnitFrames:FocusTarget()
 
     Power.Background = Power:CreateTexture(nil, "BORDER")
     Power.Background:SetAllPoints()
-    Power.Background:SetTexture(0.1, 0.1, 0.1)
+    Power.Background:SetColorTexture(0.1, 0.1, 0.1)
     Power.Background.multiplier = 0.3
 
     Power.Value = Power:CreateFontString(nil, "OVERLAY")

@@ -33,7 +33,7 @@ function TukuiUnitFrames:Pet()
     Health.Background = Health:CreateTexture(nil, "BORDER")
     Health.Background:Point("TOPLEFT", Health, -1, 1)
     Health.Background:Point("BOTTOMRIGHT", Health, 1, -1)
-    Health.Background:SetTexture(0, 0, 0)
+    Health.Background:SetColorTexture(0, 0, 0)
 
     Health.frequentUpdates = true
 
@@ -63,7 +63,7 @@ function TukuiUnitFrames:Pet()
     Power.Background = Power:CreateTexture(nil, "BORDER")
     Power.Background:Point("TOPLEFT", Power, -1, 1)
     Power.Background:Point("BOTTOMRIGHT", Power, 1, -1)
-    Power.Background:SetTexture(0, 0, 0)
+    Power.Background:SetColorTexture(0, 0, 0)
 
     Power.frequentUpdates = true
 

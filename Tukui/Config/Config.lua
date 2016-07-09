@@ -15,8 +15,8 @@ C["General"] = {
 C["ActionBars"] = {
     ["Enable"] = true,
     ["EquipBorder"] = true,
-    ["HotKey"] = false,
-    ["Macro"] = false,
+    ["HotKey"] = true,
+    ["Macro"] = true,
     ["ShapeShift"] = true,
     ["Pet"] = true,
     ["SwitchBarOnStance"] = true,
@@ -91,20 +91,16 @@ C["Misc"] = {
     ["ReputationEnable"] = true,
     ["ErrorFilterEnable"] = true,
     ["AutoInviteEnable"] = false,
+    ["TalkingHeadEnable"] = true,
 }
 
 C["NamePlates"] = {
-    -- NEED CLEANUP WHEN COMPLETE
     ["Enable"] = true,
-    ["HealthText"] = false,
     ["Width"] = 150,
     ["Height"] = 6,
     ["CastHeight"] = 4,
-    ["Spacing"] = 4,
-    ["NonTargetAlpha"] = .5,
     ["Texture"] = "Tukui",
     ["Font"] = "Tukui Outline",
-    ["NameTextColor"] = true,
 }
 
 C["Party"] = {
@@ -169,7 +165,6 @@ C["UnitFrames"] = {
     ["Smooth"] = true,
     ["TargetEnemyHostileColor"] = true,
     ["CombatLog"] = false,
-    ["WeakBar"] = true,
     ["HealBar"] = true,
     ["TotemBar"] = true,
     ["AnticipationBar"] = true,
@@ -178,7 +173,6 @@ C["UnitFrames"] = {
     ["FocusTargetAuras"] = true,
     ["ArenaAuras"] = true,
     ["BossAuras"] = true,
-    ["SerendipityBar"] = true,
     ["OnlySelfDebuffs"] = false,
     ["OnlySelfBuffs"] = false,
     ["Threat"] = false,

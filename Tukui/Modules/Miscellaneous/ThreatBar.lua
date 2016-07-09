@@ -90,7 +90,7 @@ function ThreatBar:Create()
     self.Background = self:CreateTexture(nil, "BORDER")
     self.Background:Point("TOPLEFT", self, 0, 0)
     self.Background:Point("BOTTOMRIGHT", self, 0, 0)
-    self.Background:SetTexture(0.15, 0.15, 0.15)
+    self.Background:SetColorTexture(0.15, 0.15, 0.15)
 
     self:SetScript("OnShow", function(self)
         self:SetScript("OnUpdate", self.OnUpdate)

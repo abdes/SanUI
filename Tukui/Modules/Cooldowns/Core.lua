@@ -28,7 +28,7 @@ function CD:UpdateCooldown(start, duration, enable, charges, maxcharges, forceSh
 end
 
 function CD:AddHooks()
-    hooksecurefunc("CooldownFrame_SetTimer", CD.UpdateCooldown)
+    hooksecurefunc("CooldownFrame_Set", CD.UpdateCooldown)
 end
 
 function CD:Enable()

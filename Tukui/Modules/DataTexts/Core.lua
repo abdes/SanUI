@@ -86,7 +86,7 @@ function TukuiDT:CreateAnchors()
 
         Frame.Tex = Frame:CreateTexture()
         Frame.Tex:SetAllPoints()
-        Frame.Tex:SetTexture(0.2, 1, 0.2, 0)
+        Frame.Tex:SetColorTexture(0.2, 1, 0.2, 0)
 
         self.Anchors[i] = Frame
 

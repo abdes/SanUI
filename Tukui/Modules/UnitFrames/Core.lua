@@ -580,13 +580,13 @@ function TukuiUnitFrames:SetGridGroupRole()
     local Role = UnitGroupRolesAssigned(self.unit)
 
     if Role == "TANK" then
-        LFDRole:SetTexture(67/255, 110/255, 238/255,.3)
+        LFDRole:SetColorTexture(67/255, 110/255, 238/255,.3)
         LFDRole:Show()
     elseif Role == "HEALER" then
-        LFDRole:SetTexture(130/255,  255/255, 130/255, .15)
+        LFDRole:SetColorTexture(130/255,  255/255, 130/255, .15)
         LFDRole:Show()
     elseif Role == "DAMAGER" then
-        LFDRole:SetTexture(176/255, 23/255, 31/255, .27)
+        LFDRole:SetColorTexture(176/255, 23/255, 31/255, .27)
         LFDRole:Show()
     else
         LFDRole:Hide()
@@ -619,6 +619,7 @@ function TukuiUnitFrames:CreateAuraWatch(frame)
     Auras.missingAlpha = 0
     Auras.icons = {}
     Auras.PostCreateIcon = TukuiUnitFrames.CreateAuraWatchIcon
+    Auras.strictMatching = true
 
     if (not C["Raid"].AuraWatchTimers) then
         Auras.hideCooldown = true
@@ -789,7 +790,7 @@ function TukuiUnitFrames:GetPartyFramesAttributes()
         ]],
         "initial-width", C.Party.Portrait and T.Scale(162) or T.Scale(206),
         "initial-height", C.Party.Portrait and T.Scale(24) or T.Scale(40),
-        "showSolo", true,
+        "showSolo", false,
         "showParty", true,
         "showPlayer", C["Party"].ShowPlayer,
         "showRaid", true,
@@ -816,7 +817,7 @@ function TukuiUnitFrames:GetRaidFramesAttributes()
         "showParty", true,
         "showRaid", true,
         "showPlayer", true,
-        "showSolo", true,
+        "showSolo", false,
         "xoffset", T.Scale(4),
         "yOffset", T.Scale(-4),
         "point", "TOP",

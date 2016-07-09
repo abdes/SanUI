@@ -32,7 +32,7 @@ function TukuiUnitFrames:TargetOfTarget()
     Health.Background = Health:CreateTexture(nil, "BORDER")
     Health.Background:Point("TOPLEFT", Health, -1, 1)
     Health.Background:Point("BOTTOMRIGHT", Health, 1, -1)
-    Health.Background:SetTexture(0, 0, 0)
+    Health.Background:SetColorTexture(0, 0, 0)
 
     Health.frequentUpdates = true
 

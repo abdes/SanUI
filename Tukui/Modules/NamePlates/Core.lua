@@ -3,7 +3,6 @@ local T, C, L = select(2, ...):unpack()
 --[[
 C["NamePlates"] = {
     ["Enable"] = true,
-    ["HealthText"] = false,
     ["Width"] = 150,
     ["Height"] = 6,
     ["CastHeight"] = 4,
@@ -18,6 +17,7 @@ C["NamePlates"] = {
 local _G = _G
 local unpack = unpack
 local Plates = CreateFrame("Frame", nil, WorldFrame)
+local Noop = function() end
 
 function Plates:SetName()
     -- QUESTION! NAME IN WHITE OR CLASSCOLORED? :X
@@ -54,24 +54,49 @@ function Plates:ColorHealth()
     end
 end
 
+function Plates:DisplayCastIcon()
+    local Icon = self
+    local Tex = Icon:GetTexture()
+    local Backdrop = Icon:GetParent()
+    
+    if Tex then
+        if not Backdrop:IsShown() then
+            Backdrop:Show()
+        end
+    else
+        if Backdrop:IsShown() then
+            Backdrop:Hide()
+        end
+    end
+end
+
 function Plates:SetupPlate(options)
+    if self.IsEdited then
+        return
+    end
+
     local HealthBar = self.healthBar
     local Highlight = self.selectionHighlight
     local Aggro = self.aggroHighlight
     local CastBar = self.castBar
     local CastBarIcon = self.castBar.Icon
     local Shield = self.castBar.BorderShield
+    local Flash = self.castBar.Flash
+    local Spark = self.castBar.Spark
     local Name = self.name
+    local Texture = T.GetTexture(C["NamePlates"].Texture)
+    local Font = T.GetFont(C["NamePlates"].Font)
+    local FontName, FontSize, FontFlags = _G[Font]:GetFont()
 
     -- HEALTHBAR
-    HealthBar:SetStatusBarTexture(C.Medias.Normal)
+    HealthBar:SetStatusBarTexture(Texture)
     HealthBar.background:ClearAllPoints()
     HealthBar.background:SetInside(0, 0)
     HealthBar:CreateShadow()
     HealthBar.border:SetAlpha(0)
 
     -- CASTBAR
-    CastBar:SetStatusBarTexture(C.Medias.Normal)
+    CastBar:SetStatusBarTexture(Texture)
     CastBar.background:ClearAllPoints()
     CastBar.background:SetInside(0, 0)
     CastBar:CreateShadow()
@@ -80,29 +105,25 @@ function Plates:SetupPlate(options)
         CastBar.border:SetAlpha(0)
     end
     
-    CastBar.Icon:SetTexCoord(.08, .92, .08, .92)
-    CastBar.Icon:ClearAllPoints()
-    CastBar.Icon:SetPoint("TOPRIGHT", HealthBar, "TOPLEFT", -4, 0)
+    --CastBar.Icon.SetTexture = function() end
+    CastBar.SetStatusBarTexture = function() end
     
     CastBar.IconBackdrop = CreateFrame("Frame", nil, CastBar)
     CastBar.IconBackdrop:SetSize(CastBar.Icon:GetSize())
     CastBar.IconBackdrop:SetPoint("TOPRIGHT", HealthBar, "TOPLEFT", -4, 0)
+    CastBar.IconBackdrop:SetBackdrop({bgFile = C.Medias.Blank})
+    CastBar.IconBackdrop:SetBackdropColor(unpack(C.Medias.BackdropColor))
     CastBar.IconBackdrop:CreateShadow()
     CastBar.IconBackdrop:SetFrameLevel(CastBar:GetFrameLevel() - 1 or 0)
     
-    -- Fix icon border displayed on empty icon, sometime castbar icon is not found on a cast? beta bug?
-    hooksecurefunc(CastBar.Icon, "SetTexture", function(self)
-        local CastBar = self:GetParent()
-        local Icon = select(4, UnitCastingInfo(CastBar.unit))
-        
-        if Icon then
-            CastBar.IconBackdrop:Show()
-        else
-            CastBar.IconBackdrop:Hide()
-        end
-    end)
-    
-    CastBar.Text:SetFont(C.Medias.Font, 9, "OUTLINE")
+    CastBar.Icon:SetTexCoord(.08, .92, .08, .92)
+    CastBar.Icon:SetParent(CastBar.IconBackdrop)
+    CastBar.Icon:ClearAllPoints()
+    CastBar.Icon:SetAllPoints(CastBar.IconBackdrop)
+    CastBar.Icon.ClearAllPoints = Noop
+    CastBar.Icon.SetPoint = Noop
+
+    CastBar.Text:SetFont(FontName, 9, "OUTLINE")
     
     CastBar.startCastColor.r, CastBar.startCastColor.g, CastBar.startCastColor.b = unpack(Plates.Options.CastBarColors.StartNormal)
     CastBar.startChannelColor.r, CastBar.startChannelColor.g, CastBar.startChannelColor.b = unpack(Plates.Options.CastBarColors.StartChannel)
@@ -110,14 +131,20 @@ function Plates:SetupPlate(options)
     CastBar.nonInterruptibleColor.r, CastBar.nonInterruptibleColor.g, CastBar.nonInterruptibleColor.b = unpack(Plates.Options.CastBarColors.NonInterrupt)
     CastBar.finishedCastColor.r, CastBar.finishedCastColor.g, CastBar.finishedCastColor.b = unpack(Plates.Options.CastBarColors.Success)
     
+    hooksecurefunc(CastBar.Icon, "SetTexture", Plates.DisplayCastIcon) -- sometime no icons is found, beta bug? so backdrop display update here
+    
     -- UNIT NAME
-    Name:SetFont(C.Medias.Font, 10, "OUTLINE")
+    Name:SetFont(FontName, 10, "OUTLINE")
     hooksecurefunc(Name, "Show", Plates.SetName)
     
     -- WILL DO A BETTER VISUAL FOR THIS LATER
     Highlight:Kill()
     Shield:Kill()
     Aggro:Kill()
+    Flash:Kill()
+    Spark:Kill()
+    
+    self.IsEdited = true
 end
 
 function Plates:Enable()
@@ -136,12 +163,29 @@ function Plates:Enable()
     DefaultCompactNamePlatePlayerFrameSetUpOptions = Plates.Options.PlayerSize
     
     if ClassNameplateManaBarFrame then
+        ClassNameplateManaBarFrame.Border:SetAlpha(0)
         ClassNameplateManaBarFrame:SetStatusBarTexture(C.Medias.Normal)
         ClassNameplateManaBarFrame.ManaCostPredictionBar:SetTexture(C.Medias.Normal)
+        ClassNameplateManaBarFrame:SetBackdrop({bgFile = C.Medias.Blank})
+        ClassNameplateManaBarFrame:SetBackdropColor(.2, .2, .2)
+        ClassNameplateManaBarFrame:CreateShadow()
     end
     
     hooksecurefunc("DefaultCompactNamePlateFrameSetupInternal", self.SetupPlate)
     hooksecurefunc("CompactUnitFrame_UpdateHealthColor", self.ColorHealth)
+    
+    -- Disable Blizzard rescale
+    NamePlateDriverFrame.UpdateNamePlateOptions = function() end
+    
+    -- Make sure nameplates are always scaled at 1
+    SetCVar("NamePlateVerticalScale", "1")
+    SetCVar("NamePlateHorizontalScale", "1")
+    
+    -- Hide the option to rescale, because we will do it from Tukui settings.
+    InterfaceOptionsNamesPanelUnitNameplatesMakeLarger:Hide()
+    
+    -- Set the Width of NamePlate
+    C_NamePlate.SetNamePlateOtherSize(C.NamePlates.Width, 45)
 end
 
 T["NamePlates"] = Plates

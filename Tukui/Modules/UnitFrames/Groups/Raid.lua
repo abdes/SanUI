@@ -29,7 +29,7 @@ function TukuiUnitFrames:Raid()
 
     Health.Background = Health:CreateTexture(nil, "BORDER")
     Health.Background:SetAllPoints()
-    Health.Background:SetTexture(.1, .1, .1)
+    Health.Background:SetColorTexture(.1, .1, .1)
 
     if C.Raid.ShowHealthText then
         Health.Value = Health:CreateFontString(nil, "OVERLAY", 1)
@@ -69,7 +69,7 @@ function TukuiUnitFrames:Raid()
 
     Power.Background = Power:CreateTexture(nil, "BORDER")
     Power.Background:SetAllPoints(Power)
-    Power.Background:SetTexture(0.1, 0.1, 0.1)
+    Power.Background:SetColorTexture(0.1, 0.1, 0.1)
     Power.Background.multiplier = 0.3
 
     Power:SetStatusBarTexture(PowerTexture)
@@ -108,7 +108,7 @@ function TukuiUnitFrames:Raid()
 
     local LFDRole = Health:CreateTexture(nil, "OVERLAY")
     LFDRole:SetInside(Panel)
-    LFDRole:SetTexture(0, 0, 0, 0)
+    LFDRole:SetColorTexture(0, 0, 0, 0)
     LFDRole.Override = TukuiUnitFrames.SetGridGroupRole
 
     local RaidIcon = Health:CreateTexture(nil, "OVERLAY")

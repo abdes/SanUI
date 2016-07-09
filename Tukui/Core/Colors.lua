@@ -3,10 +3,6 @@ local T, C, L = select(2, ...):unpack()
 local Framework = select(2, ...)
 local oUF = oUF or Framework.oUF
 
-oUF.colors.tapped = {
-    0.55, 0.57, 0.61
-}
-
 oUF.colors.disconnected = {
     0.1, 0.1, 0.1
 }

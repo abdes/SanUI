@@ -36,7 +36,7 @@ function TukuiUnitFrames:Player()
 
     Health.Background = Health:CreateTexture(nil, "BACKGROUND")
     Health.Background:SetAllPoints()
-    Health.Background:SetTexture(.1, .1, .1)
+    Health.Background:SetColorTexture(.1, .1, .1)
 
     Health.Value = Health:CreateFontString(nil, "OVERLAY")
     Health.Value:SetFontObject(Font)
@@ -72,7 +72,7 @@ function TukuiUnitFrames:Player()
 
     Power.Background = Power:CreateTexture(nil, "BORDER")
     Power.Background:SetAllPoints()
-    Power.Background:SetTexture(0.1, 0.1, 0.1)
+    Power.Background:SetColorTexture(0.1, 0.1, 0.1)
     Power.Background.multiplier = 0.3
 
     Power.Value = Power:CreateFontString(nil, "OVERLAY")
@@ -324,7 +324,7 @@ function TukuiUnitFrames:Player()
         self.Totems = Bar
     end
     
-    if (C.UnitFrames.ComboBar) then
+    if (C.UnitFrames.ComboBar) and (Class == "ROGUE" or Class == "DRUID") then
         local ComboPoints = CreateFrame("Frame", self:GetName()..'ComboPointsBar', self)
         ComboPoints:SetFrameStrata(self:GetFrameStrata())
         ComboPoints:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 1)
