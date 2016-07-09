@@ -21,7 +21,7 @@ local referenceSpells = {
 	45902,			-- Blood Strike (Death Knight) (was 66215)
 	3044,			-- Arcane Shot (Hunter)
 	585,			-- Smite (Priest)
-	19740,			-- Blessing of Might (Paladin)
+	35395,			-- Crusader Strike (Paladin)
 	172,			-- Corruption (Warlock)
 	34428,			-- Victory Rush (Warrior) (was 772)
 	44614,			-- Frostfire (Mage)
