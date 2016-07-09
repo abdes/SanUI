@@ -6,6 +6,11 @@
 
 local S,C = unpack(SanUI)
 
+hooksecurefunc("UIParent_UpdateTopFramePositions", function()
+		BuffFrame:ClearAllPoints()
+		BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
+end)
+
 local f = CreateFrame("frame")
 
 function S.misc(self,event,arg)
@@ -16,7 +21,6 @@ function S.misc(self,event,arg)
 	end
 	
 	if (event == "PLAYER_ENTERING_WORLD") then
-	
 		BuffFrame:ClearAllPoints()
 		BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
 
