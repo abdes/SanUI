@@ -5,3 +5,4 @@ Clear up files (i.e. comments --> code needed?)
 Checkout details combat log
 Investigate raidbuffs datatext (no more raidbuffs in legion... other usage?)
 Rewrite aurawatch code for timers
+Remove GetSpellTexture call from SAF
