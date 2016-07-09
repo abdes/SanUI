@@ -1,3 +1,4 @@
+if true then return end
 local S,C,L = unpack(SanUI)
 
 local DataText = S["DataTexts"]
