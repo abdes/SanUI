@@ -116,14 +116,16 @@ local updateThreat = function(self, event, unit)
 	
 	if threat and threat > 1 then
 		self.Health.bg:SetVertexColor(120/255,12/255,12/255)
-		self.Health.bg:SetTexture(.8,.8,.8)
+		self.Health.bg:SetColorTexture(.8,.8,.8)
 		self.Health:SetStatusBarColor(.3,.3,.3,.7)
+
 		local fontName, fontHeight, fontFlags = self.Name:GetFont()
 		self.Name:SetFont(fontName,fontHeight,"OUTLINE")
 	else
-		self.Health.bg:SetVertexColor(.1,.1,.1)
-		self.Health.bg:SetTexture(.3,.3,.3)
+		self.Health.bg:SetColorTexture(.3,.3,.3)
+		self.Health.bg:SetVertexColor(0,0,0,1)
 		self.Health:SetStatusBarColor(.3,.3,.3,1)
+
 		local fontName, fontHeight, fontFlags = self.Name:GetFont()
 		self.Name:SetFont(fontName,fontHeight,"")
 	end
@@ -145,6 +147,7 @@ local function Shared(self, unit)
 	health:Height(28)
 	health:SetStatusBarTexture(normTex)
 	health:SetFrameLevel(8)
+	health:SetStatusBarColor(.3, .3, .3, 1)
 	self.Health = health
 	
 	--if C["UnitFrames"].gridhealthvertical == true then
@@ -152,29 +155,23 @@ local function Shared(self, unit)
 	--end
 	
 	health.bg = health:CreateTexture(nil, "BORDER")
-	health.bg:SetAllPoints(health)
+	health.bg:SetAllPoints()
 	health.bg:SetTexture(normTex)
-	health.bg:SetTexture(0.3, 0.3, 0.3)
-	health.bg.Multiplier = (0.3)
-	self.Health.bg = health.bg
+	health.bg:SetColorTexture(0.3, 0.3, 0.3)
+	health.bg:SetVertexColor(0,0,0,1)
 	
 	--health.PostUpdate = S.PostUpdateHealthRaid
 	
 	health.frequentUpdates = true
-	
 	health.colorDisconnected = false
 	health.colorClass = false
-	
 	health.colorTapping = false
 	health.colorClassNPC = false
 	health.colorClassPet = false
 	health.colorReaction = false
 	health.colorSmooth = false
 	health.colorHealth = false
-	
-	health:SetStatusBarColor(.3, .3, .3, 1)
-	health.bg:SetVertexColor(.1, .1, .1, 1)		
-	
+
 	local name = self.Health:CreateFontString(nil, "OVERLAY")
 	name:SetPoint("CENTER",self.Health,"CENTER")
 	name:SetFont(font1, 11)
