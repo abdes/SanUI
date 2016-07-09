@@ -4,7 +4,6 @@ oUF_Hank_hooks = {}
 local oUF = TukuiUnitFrameFramework
 
 local _, ns = ...
---local oUF = oUFTukui
 
 ns._Objects = {}
 ns._Headers = {}
@@ -57,42 +56,6 @@ local function valShort(value)
 		return ("%.1f"):format(value / 1e3):gsub("%.?0+$", "") .. "k"
 	else
 		return value
-	end
-end
-
-
-
-local function UpdateEclipseText(self)
-	local ep = UnitPower("player", SPELL_POWER_ECLIPSE)
-	local ed = GetEclipseDirection()
-	
-	self.Text:SetText(ep)
-	
-	
-	if ed =='moon' and 0 <= ep and ep <= 40 then
-		self.Text:SetTextColor(1,0,0)
-	elseif ed == 'sun' and -40 <= ep and ep <= 0 then
-		self.Text:SetTextColor(1,0,0)
-	else
-		self.Text:SetTextColor(1,1,1)
-	end
-	
-	-- if (ep == 0) then
-		-- self.Text:SetText("0")
-	-- elseif (ep < 0 ) then --sitzt korrekt 
-		-- --self.Text:SetPoint("CENTER",self.LunarBar.icon)--,"TOPRIGHT")
-		-- self.Text:SetText(ep)
-	-- elseif (ep > 0) then
-		-- --self.Text:SetPoint("CENTER",self.SolarBar.icon) --,"TOPLEFT")
-		
-	-- end
-			
-	if (ed == "sun") then
-		self.Text2:SetText(">")
-	elseif (ed == "moon") then
-		self.Text2:SetText("<")
-	else
-		self.Text2:SetText("-")
 	end
 end
 
@@ -435,93 +398,6 @@ sharedStyle = function(self, unit, isSingle)
 				-- self.shrooms:SetPoint("TOPRIGHT",self,"TOPRIGHT",0,-4)
 				-- self:Tag(self.shrooms,"[shrooms]")
 			-- end
-				
-			-- if TukuiDB.MyClass == "DRUID" then
-							
-				-- local eclipseBar = CreateFrame('Frame', nil, self)
-				-- eclipseBar:SetPoint("TOP", UIParent, "CENTER", 0, -180)
-				-- eclipseBar:SetSize(self.Castbar:GetSize())
-				-- eclipseBar:SetFrameStrata("BACKGROUND")
-				-- eclipseBar:SetFrameLevel(8)
-				-- eclipseBar:SetTemplate()
-				-- eclipseBar:SetBackdropBorderColor(0,0,0,0)
-				
-				-- local eclipseborder = CreateFrame("Frame", nil, eclipseBar)
-				-- eclipseborder:Size(1)
-				-- eclipseborder:Point("CENTER", eclipseBar, "CENTER", 0, 0)
-				-- eclipseborder:SetTemplate("Transparent")
-				-- eclipseborder:ClearAllPoints()
-				-- eclipseborder:SetPoint("TOPLEFT", eclipseBar, -TukuiDB.Scale(2), TukuiDB.Scale(2))
-				-- eclipseborder:SetPoint("BOTTOMRIGHT", eclipseBar, TukuiDB.Scale(2), TukuiDB.Scale(-2))
-				-- eclipseborder:SetFrameStrata("BACKGROUND")
-				
-				
-				-- local lunarBar = CreateFrame('StatusBar', nil, eclipseBar)
-				-- lunarBar:SetPoint('LEFT', eclipseBar, 'LEFT', 0, 0)
-				-- lunarBar:SetSize(eclipseBar:GetWidth(), eclipseBar:GetHeight())
-				-- lunarBar:SetStatusBarTexture(Normal)
-				-- lunarBar:SetStatusBarColor(.30, .52, .90)
-				-- eclipseBar.LunarBar = lunarBar
-				
-				-- -- lunarBar.iconBackground = CreateFrame("Frame",nil,lunarBar)
-				-- -- lunarBar.iconBackground:Size(25)
-				-- -- lunarBar.iconBackground:Point("RIGHT",lunarBar,"LEFT",-TukuiDB.Scale(4),0)
-				-- -- lunarBar.iconBackground:SetTemplate("Transparent")
-
-				-- -- local mytex
-				-- -- _,_, mytex = GetSpellInfo(77492)
-				-- -- lunarBar.icon = lunarBar.iconBackground:CreateTexture()
-				-- -- lunarBar.icon:SetTexture(mytex)
-				-- -- lunarBar.icon:SetPoint("TOPLEFT",lunarBar.iconBackground, TukuiDB.Scale(2), TukuiDB.Scale(-2))
-				-- -- lunarBar.icon:SetPoint("BOTTOMRIGHT", lunarBar.iconBackground, TukuiDB.Scale(-2), TukuiDB.Scale(2))
-				-- -- lunarBar.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)	
-				
-				-- local solarBar = CreateFrame('StatusBar', nil, eclipseBar)
-				-- solarBar:SetPoint('LEFT', lunarBar:GetStatusBarTexture(), 'RIGHT', 0, 0)
-				-- solarBar:SetSize(eclipseBar:GetWidth(), eclipseBar:GetHeight())
-				-- solarBar:SetStatusBarTexture(Normal)
-				-- solarBar:SetStatusBarColor(.80, .82,  .60)
-				-- eclipseBar.SolarBar = solarBar
-				
-				-- -- solarBar.iconBackground = CreateFrame("Frame",nil,solarBar)
-				-- -- solarBar.iconBackground:Size(25)
-				-- -- solarBar.iconBackground:Point("LEFT",lunarBar,"RIGHT",TukuiDB.Scale(4),0)
-				-- -- solarBar.iconBackground:SetTemplate("Transparent")
-
-				-- -- _,_, mytex = GetSpellInfo(79577)
-				-- -- solarBar.icon = lunarBar.iconBackground:CreateTexture()
-				-- -- solarBar.icon:SetTexture(mytex)
-				-- -- solarBar.icon:SetPoint("TOPLEFT",solarBar.iconBackground, TukuiDB.Scale(2), TukuiDB.Scale(-2))
-				-- -- solarBar.icon:SetPoint("BOTTOMRIGHT", solarBar.iconBackground, TukuiDB.Scale(-2), TukuiDB.Scale(2))
-				-- -- solarBar.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)	
-
-				-- local eclipseBarText = eclipseBar:CreateFontString(nil, 'OVERLAY')
-				-- eclipseBarText:SetPoint('BOTTOM', eclipseBar,"TOP",0,2)
-				-- eclipseBarText:SetFont(font2, 22,"OUTLINE")
-				-- eclipseBar.PostUpdatePower = UpdateEclipseText
-				
-				-- local eclipseBarText2 = solarBar:CreateFontString(nil, 'OVERLAY')
-				-- eclipseBarText2:SetPoint('CENTER', lunarBar:GetStatusBarTexture(),'RIGHT',0,0)
-				-- eclipseBarText2:SetFont(font2, 18,"OUTLINE")
-
-				-- self.EclipseBar = eclipseBar
-				-- self.EclipseBar.Text = eclipseBarText
-				-- self.EclipseBar.Text2 = eclipseBarText2
-
-				-- hooksecurefunc(TukuiDB.Panels,"Enable",function()
-					-- eclipseBar:SetParent(TukuiDB["Panels"].PetBattleHider)
-				-- end)
-								
-				-- local ed = GetEclipseDirection()
-				
-				-- if (ed == "sun") then
-					-- self.EclipseBar.Text2:SetText(">")
-				-- elseif (ed == "moon") then
-					-- self.EclipseBar.Text2:SetText("<")
-			    -- else
-					-- self.EclipseBar.Text2:SetText("-")
-				-- end
-			-- end	
 		
 		end
 		
