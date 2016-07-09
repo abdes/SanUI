@@ -103,17 +103,17 @@ colors = setmetatable({
 -- If you use fontain (http://www.wowace.com/addons/fontain/), please change "UFFonts" under "Single font overrides"
 
 -- Target name
-FontStyleBig = {"Interface\\AddOns\\oUF_Hank_v3\\fonts\\din1451e.ttf", 28, "THICKOUTLINE"},
+FontStyleBig = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 28, "THICKOUTLINE"},
 -- Power, absolute health
-FontStyleMedium = {"Interface\\AddOns\\oUF_Hank_v3\\fonts\\din1451e.ttf", 16, "OUTLINE"},
+FontStyleMedium = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 16, "OUTLINE"},
 -- ToT, TToT, pet
-FontStyleSmall = {"Interface\\AddOns\\oUF_Hank_v3\\fonts\\din1451e.ttf", 14},
+FontStyleSmall = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 14},
 -- Castbar: Time text, focus spell name
-CastBarBig = {"Interface\\AddOns\\oUF_Hank_v3\\fonts\\tahoma.ttf", 15},
+CastBarBig = {"Interface\\AddOns\\oUF_Hank\\fonts\\tahoma.ttf", 15},
 -- Castbar: Spell name (player, target)
-CastBarMedium = {"Interface\\AddOns\\oUF_Hank_v3\\fonts\\tahoma.ttf", 9},
+CastBarMedium = {"Interface\\AddOns\\oUF_Hank\\fonts\\tahoma.ttf", 9},
 -- Castbar: Latency
-CastBarSmall = {"Interface\\AddOns\\oUF_Hank_v3\\fonts\\tahoma.ttf", 8},
+CastBarSmall = {"Interface\\AddOns\\oUF_Hank\\fonts\\tahoma.ttf", 8},
 
 ---------------------- Castbar ------------------------------
 -------------------------------------------------------------
