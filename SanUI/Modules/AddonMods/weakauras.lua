@@ -101,7 +101,7 @@ function S.weakAurasDialog()
 	main.RightButton:SkinButton()
 	main.RightButton:CreateShadow()
 	main.RightButton:FontString("Text", C.Medias.Font, 12)
-	main.RightButton.Texdifft:SetPoint("CENTER")
+	main.RightButton.Text:SetPoint("CENTER")
 	main.RightButton.Text:SetText("Just reload")
 	main.RightButton:SetScript("OnClick", function() 
 		SanUIdb.addedWeakAuras = true
