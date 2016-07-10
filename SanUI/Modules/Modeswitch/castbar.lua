@@ -30,7 +30,13 @@ S.switchCastbar = function(profile)
 	else
 		oUF_player.Castbar:ClearAllPoints()
 		oUF_player.Castbar.button:ClearAllPoints()
-		oUF_player.Castbar:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", S.Scale(2), S.Scale(-2))
+		if oUF_player.ClassIcons then
+			local nr_classicons = #oUF_player.ClassIcons
+			oUF_player.Castbar:SetPoint("TOPRIGHT", oUF_player.ClassIcons[nr_classicons]:GetParent(), "BOTTOMRIGHT", S.Scale(2), S.Scale(-2))
+		else
+			oUF_player.Castbar:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", S.Scale(2), S.Scale(-20))
+		end
+		
 		oUF_player.Castbar.button:SetPoint("TOPRIGHT",oUF_player.Castbar.bg,"TOPLEFT",-S.Scale(2),0)
 	end
 	

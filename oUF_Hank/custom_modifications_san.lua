@@ -251,7 +251,11 @@ sharedStyle = function(self, unit, isSingle)
 		castbar:SetStatusBarTexture(Normal)
 			
 		if (unit == "player" or unit:find("boss")) then
-			castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
+			if self.ClassIcons then
+				castbar:SetPoint("TOPRIGHT", self.ClassIcons[1]:GetParent(), "BOTTOMRIGHT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
+			else
+				castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-20))
+			end
 			castbar:SetHeight(TukuiDB.Scale(15))
 			castbar:SetWidth(TukuiDB.Scale(150))
 		elseif (unit == "target") then
