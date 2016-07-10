@@ -1162,7 +1162,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 			end
 		end
 	-- ClassIcons: Harmony Orbs / Shadow Orbs / Holy Power
-	elseif unit == "player" and (playerClass == "MONK" or playerClass == "PRIEST" or playerClass == "PALADIN" or playerClass == "WARLOCK") then
+	elseif unit == "player" and (playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "WARLOCK") then
 		local data = oUF_Hank.classResources[playerClass]
 		local bg = {}
 		self.ClassIcons = {}
