@@ -72,7 +72,7 @@ oUF_Hank.classResources = {
 		active = {'Interface\\AddOns\\oUF_Hank\\textures\\shard.blp'},
 		size = {16, 16},
 		spacing = 5,
-		max = 4,
+		max = 5,
 	}
 }
 
