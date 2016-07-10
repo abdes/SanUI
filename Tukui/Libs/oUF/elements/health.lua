@@ -21,6 +21,8 @@
  The following options are listed by priority. The first check that returns
  true decides the color of the bar.
 
+ .colorTapping      - Use `self.colors.tapping` to color the bar if the unit
+                      isn't tapped by the player.
  .colorDisconnected - Use `self.colors.disconnected` to color the bar if the
                       unit is offline.
  .colorClass        - Use `self.colors.class[class]` to color the bar based on
@@ -54,12 +56,12 @@
    Health:SetPoint('TOP')
    Health:SetPoint('LEFT')
    Health:SetPoint('RIGHT')
-
+   
    -- Add a background
    local Background = Health:CreateTexture(nil, 'BACKGROUND')
    Background:SetAllPoints(Health)
-   Background:SetColorTexture(1, 1, 1, .5)
-
+   Background:SetTexture(1, 1, 1, .5)
+   
    -- Options
    Health.frequentUpdates = true
    Health.colorTapping = true
@@ -67,10 +69,10 @@
    Health.colorClass = true
    Health.colorReaction = true
    Health.colorHealth = true
-
+   
    -- Make the background darker.
    Background.multiplier = .5
-
+   
    -- Register it with oUF
    self.Health = Health
    self.Health.bg = Background
@@ -84,105 +86,111 @@
 local parent, ns = ...
 local oUF = ns.oUF
 
+local isBetaClient = select(4, GetBuildInfo()) >= 70000
+
 oUF.colors.health = {49/255, 207/255, 37/255}
 
 local Update = function(self, event, unit)
-    if(self.unit ~= unit) then return end
-    local health = self.Health
+	if(self.unit ~= unit) then return end
+	local health = self.Health
 
-    if(health.PreUpdate) then health:PreUpdate(unit) end
+	if(health.PreUpdate) then health:PreUpdate(unit) end
 
-    local min, max = UnitHealth(unit), UnitHealthMax(unit)
-    local disconnected = not UnitIsConnected(unit)
-    health:SetMinMaxValues(0, max)
+	local min, max = UnitHealth(unit), UnitHealthMax(unit)
+	local disconnected = not UnitIsConnected(unit)
+	health:SetMinMaxValues(0, max)
 
-    if(disconnected) then
-        health:SetValue(max)
-    else
-        health:SetValue(min)
-    end
+	if(disconnected) then
+		health:SetValue(max)
+	else
+		health:SetValue(min)
+	end
 
-    health.disconnected = disconnected
+	health.disconnected = disconnected
 
-    local r, g, b, t
-    if(health.colorDisconnected and not UnitIsConnected(unit)) then
-        t = self.colors.disconnected
-    elseif(health.colorClass and UnitIsPlayer(unit)) or
-        (health.colorClassNPC and not UnitIsPlayer(unit)) or
-        (health.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
-        local _, class = UnitClass(unit)
-        t = self.colors.class[class]
-    elseif(health.colorReaction and UnitReaction(unit, 'player')) then
-        t = self.colors.reaction[UnitReaction(unit, "player")]
-    elseif(health.colorSmooth) then
-        r, g, b = self.ColorGradient(min, max, unpack(health.smoothGradient or self.colors.smooth))
-    elseif(health.colorHealth) then
-        t = self.colors.health
-    end
+	local r, g, b, t
+	if(health.colorTapping and not UnitPlayerControlled(unit) and
+		(isBetaClient and UnitIsTapDenied(unit) or not isBetaClient and UnitIsTapped(unit) and
+		not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit))) then
+		t = self.colors.tapped
+	elseif(health.colorDisconnected and not UnitIsConnected(unit)) then
+		t = self.colors.disconnected
+	elseif(health.colorClass and UnitIsPlayer(unit)) or
+		(health.colorClassNPC and not UnitIsPlayer(unit)) or
+		(health.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
+		local _, class = UnitClass(unit)
+		t = self.colors.class[class]
+	elseif(health.colorReaction and UnitReaction(unit, 'player')) then
+		t = self.colors.reaction[UnitReaction(unit, "player")]
+	elseif(health.colorSmooth) then
+		r, g, b = self.ColorGradient(min, max, unpack(health.smoothGradient or self.colors.smooth))
+	elseif(health.colorHealth) then
+		t = self.colors.health
+	end
 
-    if(t) then
-        r, g, b = t[1], t[2], t[3]
-    end
+	if(t) then
+		r, g, b = t[1], t[2], t[3]
+	end
 
-    if(b) then
-        health:SetStatusBarColor(r, g, b)
+	if(b) then
+		health:SetStatusBarColor(r, g, b)
 
-        local bg = health.bg
-        if(bg) then local mu = bg.multiplier or 1
-            bg:SetVertexColor(r * mu, g * mu, b * mu)
-        end
-    end
+		local bg = health.bg
+		if(bg) then local mu = bg.multiplier or 1
+			bg:SetVertexColor(r * mu, g * mu, b * mu)
+		end
+	end
 
-    if(health.PostUpdate) then
-        return health:PostUpdate(unit, min, max)
-    end
+	if(health.PostUpdate) then
+		return health:PostUpdate(unit, min, max)
+	end
 end
 
 local Path = function(self, ...)
-    return (self.Health.Override or Update) (self, ...)
+	return (self.Health.Override or Update) (self, ...)
 end
 
 local ForceUpdate = function(element)
-    return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
+	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
 local Enable = function(self, unit)
-    local health = self.Health
-    if(health) then
-        health.__owner = self
-        health.ForceUpdate = ForceUpdate
+	local health = self.Health
+	if(health) then
+		health.__owner = self
+		health.ForceUpdate = ForceUpdate
 
-        if(health.frequentUpdates) then
-            self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
-        else
-            self:RegisterEvent('UNIT_HEALTH', Path)
-        end
+		if(health.frequentUpdates) then
+			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
+		else
+			self:RegisterEvent('UNIT_HEALTH', Path)
+		end
 
-        self:RegisterEvent("UNIT_MAXHEALTH", Path)
-        self:RegisterEvent('UNIT_CONNECTION', Path)
+		self:RegisterEvent("UNIT_MAXHEALTH", Path)
+		self:RegisterEvent('UNIT_CONNECTION', Path)
 
-        -- For tapping.
-        self:RegisterEvent('UNIT_FACTION', Path)
+		-- For tapping.
+		self:RegisterEvent('UNIT_FACTION', Path)
 
-        if(health:IsObjectType'StatusBar' and not health:GetStatusBarTexture()) then
-            health:SetStatusBarTexture[[Interface\TargetingFrame\UI-StatusBar]]
-        end
+		if(health:IsObjectType'StatusBar' and not health:GetStatusBarTexture()) then
+			health:SetStatusBarTexture[[Interface\TargetingFrame\UI-StatusBar]]
+		end
 
-        return true
-    end
+		return true
+	end
 end
 
 local Disable = function(self)
-    local health = self.Health
-    if(health) then
-        health:Hide()
-        self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
-        self:UnregisterEvent('UNIT_HEALTH', Path)
-        self:UnregisterEvent('UNIT_MAXHEALTH', Path)
-        self:UnregisterEvent('UNIT_CONNECTION', Path)
+	local health = self.Health
+	if(health) then
+		health:Hide()
+		self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
+		self:UnregisterEvent('UNIT_HEALTH', Path)
+		self:UnregisterEvent('UNIT_MAXHEALTH', Path)
+		self:UnregisterEvent('UNIT_CONNECTION', Path)
 
-        self:UnregisterEvent('UNIT_FACTION', Path)
-    end
+		self:UnregisterEvent('UNIT_FACTION', Path)
+	end
 end
 
 oUF:AddElement('Health', Path, Enable, Disable)
