@@ -26,7 +26,7 @@ local referenceSpells = {
 	34428,			-- Victory Rush (Warrior) (was 772)
 	44614,			-- Frostfire (Mage)
 	403,			-- Lightning Bolt (Shaman)
-	1752,			-- Sinister Strike (Rogue)
+	6770,			-- Sap (Rogue)
 	5176,			-- Wrath (Druid)
 	100780			-- Jab (Monk)
 }
