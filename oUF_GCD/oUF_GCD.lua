@@ -19,7 +19,7 @@ http://www.wowinterface.com/downloads/info14769-oUF_GCD-HungtarsoUFGlobalCooldow
 local referenceSpells = {
 	47541,			-- Death Coil (Death Knight)
 	45902,			-- Blood Strike (Death Knight) (was 66215)
-	3044,			-- Arcane Shot (Hunter)
+	186257,			-- Aspect of the Cheetah (Hunter)
 	585,			-- Smite (Priest)
 	35395,			-- Crusader Strike (Paladin)
 	172,			-- Corruption (Warlock)
