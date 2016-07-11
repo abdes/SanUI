@@ -28,7 +28,9 @@ local referenceSpells = {
 	403,			-- Lightning Bolt (Shaman)
 	6770,			-- Sap (Rogue)
 	5176,			-- Wrath (Druid)
-	100780			-- Jab (Monk)
+	100780,			-- Jab (Monk)
+	162794,			-- Chaos Strike (Demon Hunter, Havoc)
+	222030,			-- Soul Cleave (Demon Hunter, Vengeance)
 }
 
 
