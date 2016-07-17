@@ -24,6 +24,7 @@ Modules\AddonMods\bugsack.lua
 Modules\AddonMods\energized.lua
 Modules\AddonMods\weakauras_displays.lua
 Modules\AddonMods\weakauras.lua
+Modules\AddonMods\details.lua
 
 Modules\Modeswitch\actionbuttons.lua
 Modules\Modeswitch\bossbars.lua
