@@ -224,9 +224,6 @@ end
 
 -----World State Button-----
 if SanUIButtonOrder["WorldFrame"] then
-	WorldStateAlwaysUpFrame:ClearAllPoints()
-	WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
-	
 	local WSButton = CreateFrame("Frame", "WorldStateToggle", Menu)
 	CreateButton(WSButton, SanUIButtonOrder["WorldFrame"])
 	

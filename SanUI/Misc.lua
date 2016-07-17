@@ -5,12 +5,6 @@
 -- Things to execute on PLAYER_ENTERING_WORLD
 
 local S,C = unpack(SanUI)
-
-hooksecurefunc("UIParent_UpdateTopFramePositions", function()
-		BuffFrame:ClearAllPoints()
-		BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
-end)
-
 local f = CreateFrame("frame")
 
 function S.misc(self,event,arg)
@@ -23,12 +17,18 @@ function S.misc(self,event,arg)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		BuffFrame:ClearAllPoints()
 		BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
+		
+		hooksecurefunc("UIParent_UpdateTopFramePositions", function()
+			BuffFrame:ClearAllPoints()
+			BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
+		end)
+		
+		WorldStateAlwaysUpFrame:ClearAllPoints()
+		WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
 
 		S.disableBlizzard()
 	
 		S.modCoolLine(event)
-		
-		--S.modEnergized(event)
 		
 		S.CreateUtilities(nil,event,"SanUI")
 			
@@ -38,11 +38,6 @@ function S.misc(self,event,arg)
 		-- need to do those things only once
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		
-		--this should be last, it might induce a reloadui
-		if not SanUIdb.addedWeakAuras and TukuiData[GetRealmName()][UnitName("Player")].InstallDone then
-			S.weakAurasDialog()
-		end
-
 		-- seems we can't register before pew, will error out on
 		-- PLAYER_TALENT_UPDATE
 		f:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
@@ -50,6 +45,11 @@ function S.misc(self,event,arg)
 		
 		if IsAddOnLoaded("Details") and (S.MyName == "Shimmer" or S.MyName == "Sanctity") then
 			S.modDetails(event)
+		end
+		
+		--this should be last, it might induce a reloadui
+		if not SanUIdb.addedWeakAuras and TukuiData[GetRealmName()][UnitName("Player")].InstallDone then
+			S.weakAurasDialog()
 		end
 	end
 		
@@ -69,13 +69,8 @@ function S.misc(self,event,arg)
 					SanUIdb["Mode"] = S["profiles"]["DEFAULT"]["modes"][1]
 				end
 			end	
-				
-		elseif name == "SimpleAuraFilter" then	
-			-- Position SAF
-			BuffFrame:ClearAllPoints()
-			BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
 		end	
-	end	
+	end
 end
 
 f:RegisterEvent("PLAYER_ENTERING_WORLD")

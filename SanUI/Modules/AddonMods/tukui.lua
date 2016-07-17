@@ -1,9 +1,6 @@
 local S,C,L = unpack(SanUI)
 S["UnitFrames"].Enable = function() return end
 
-
-local S,C,L = unpack(SanUI)
-
 -- Minimap
 hooksecurefunc(S["Maps"]["Minimap"],"Enable",function()
 	Minimap:ClearAllPoints()
@@ -13,7 +10,6 @@ hooksecurefunc(S["Maps"]["Minimap"],"Enable",function()
 end)
 
 hooksecurefunc(S["ActionBars"],"Enable",function()
-
 	local TukuiBar1 = S["Panels"].ActionBar1
 	local TukuiBar2 = S["Panels"].ActionBar2
 	local TukuiBar3 = S["Panels"].ActionBar3
@@ -66,8 +62,6 @@ S["ActionBars"].AddHooks = function(self)
 	hooksecurefunc("ActionButton_Update", self.SkinButton)
 	hooksecurefunc("ActionButton_UpdateFlyout", self.StyleFlyout)
 	hooksecurefunc("SpellButton_OnClick", self.StyleFlyout)
-	--hooksecurefunc("ActionButton_ShowOverlayGlow", self.StartButtonHighlight)
-	--hooksecurefunc("ActionButton_HideOverlayGlow", self.StopButtonHighlight)
 	hooksecurefunc("ActionButton_UpdateHotkeys", self.UpdateHotKey)
 	hooksecurefunc(ExtraActionButton1.style, "SetTexture", self.DisableExtraButtonTexture)
 	hooksecurefunc("PetActionButton_SetHotkeys", self.UpdateHotKey)
