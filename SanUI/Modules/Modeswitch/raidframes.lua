@@ -81,7 +81,6 @@ S.ModRaidButton = function(button,unit,size,auras)
 	end
 	
 	changeAuras(button,auras)
-	
 end
 
 local function changeRaidButtons(size,auras)
@@ -123,7 +122,6 @@ dealWith40:SetScript("OnEvent", function(self)
 		local _, _, _, _, maxPlayers, _, _ = GetInstanceInfo()
 		local curPlayers = GetNumGroupMembers()
 		
-		--print("calling changeraid from dealwith40")
 		if not inInstance or not maxPlayers then
 			changeRaid(curPlayers)
 		else
@@ -157,33 +155,18 @@ S.switchRaidFrames = function(profile)
 		pets:SetAttribute("maxColumns", 8)
 		SetAttributeByProxy(pets,"unitsPerColumn", 5)
 		SetAttributeByProxy(pets,"point","LEFT")
-
-		--Check for rampant growth and adjust swiftmend display
-		--accordingly
-		local _,_,_,hasRg,_ = GetTalentInfo(7,3,GetActiveSpecGroup())
-		local isResto = (GetSpecialization() == 4)
-		local need_swiftmend = isResto and not hasRg
-
-		local killAuras = nil
-		
-		if not need_swiftmend then
-			killAuras = {18562}
-			S.swiftmend_shown = false
-		else
-			S.swiftmend_shown = true
-		end
 			
 		changeRaid = function(numraid) --executed when raid roster etc changes, supposed to deal with raid size 40
 			if numraid > 25 then
 				showRaidPets(false)
 				frame:SetAttribute("initial-height", 24)
 				pets:SetAttribute("initial-height", 24)
-				changeRaidButtons(24,killAuras)
+				changeRaidButtons(24)
 			elseif  numraid < 26 then
 				showRaidPets(true)
 				frame:SetAttribute("initial-height", 28)
 				pets:SetAttribute("initial-height", 28)
-				changeRaidButtons(28,killAuras)
+				changeRaidButtons(28)
 			end
 		end
 		
