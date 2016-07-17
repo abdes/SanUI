@@ -72,7 +72,6 @@ S["Modes"] = {
 	
 		["raidframes"] = "SanHeal",		--SanHeal always shows the Healing Raid Frames
 							--SanChicken always shows the DD Raid Frames
-		["Skada"] = "SanHeal",			--Skada profile to use, if you choose one that doesn't exist, a new one with that name will be created
 		["SimpleAuraFilter"] = "SanHeal",	--Those profiles aren't delivered with SanUI, choose any you want and configure ingame
 							--Just Shift+Rightclick on any buff to hide, it will be cancelled now, but never show up again, even if you have it
 		["castbar"] = "SanHeal",		--SanHeal/SanFeral puts it under the player frame, SanChicken in the middle between player and target with symbol above
@@ -100,7 +99,6 @@ S["Modes"] = {
 	},
 	["SanChicken"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SanChicken",
 		["SimpleAuraFilter"] = "SanChicken",
 		["castbar"] = "SanChicken",
 		["powerbar"] = "Hidden",
@@ -114,7 +112,6 @@ S["Modes"] = {
 	},
 	["SanBear"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SanBear",
 		["SimpleAuraFilter"] = "SanBear",
 		["castbar"] = "SanBear",
 		["powerbar"] = "SanBear",
@@ -127,7 +124,6 @@ S["Modes"] = {
 	},
 	["SanCat"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SanCat",
 		["SimpleAuraFilter"] = "SanCat",
 		["castbar"] = "SanCat",
 		["powerbar"] = "SanCat",
@@ -141,7 +137,6 @@ S["Modes"] = {
 	},
 	["PickerEnh"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "PickerEnh",
 		["SimpleAuraFilter"] = "PickerEnh",
 		["castbar"] = "SanHeal",
 		["powerbar"] = "SahneUnholy",
@@ -154,7 +149,6 @@ S["Modes"] = {
 	},
 	["NortrumTank"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SanBear",
 		["SimpleAuraFilter"] = "NortrumTank",
 		["castbar"] = "SanBear",
 		["powerbar"] = "SanBear",
@@ -167,7 +161,6 @@ S["Modes"] = {
 	},
 	["SahneUnholy"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SanCat",
 		["SimpleAuraFilter"] = "SanCat",
 		["castbar"] = "DK",
 		["powerbar"] = "SahneUnholy",
@@ -180,7 +173,6 @@ S["Modes"] = {
 	},
 	["SandWW"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SanCat",
 		["SimpleAuraFilter"] = "SanCat",
 		["castbar"] = "DK",
 		["powerbar"] = "SahneUnholy",
@@ -193,7 +185,6 @@ S["Modes"] = {
 	},
 	["Alakabaster"] = { --Profile for a Mage
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SanChicken",
 		["SimpleAuraFilter"] = "SanChicken",
 		["castbar"] = "SanChicken",
 		["powerbar"] = "Hidden",
@@ -206,7 +197,6 @@ S["Modes"] = {
 	},
 	["NelaHeal"] = {
 		["raidframes"] = "SanHeal",
-		["Skada"] = "NelaHeal",
 		["SimpleAuraFilter"] = "NelaHeal",
 		["castbar"] = "Pally",
 		["powerbar"] = "Hidden",
@@ -219,7 +209,6 @@ S["Modes"] = {
 	},
 	["NelaTank"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "NelaTank",
 		["SimpleAuraFilter"] = "NelaTank",
 		["castbar"] = "Pally",
 		["powerbar"] = "Hidden",
@@ -232,7 +221,6 @@ S["Modes"] = {
 	},
 	["NelaRet"] = {
 		["raidframes"] = "SanChicken",
-		["Skada"] = "NelaRet",
 		["SimpleAuraFilter"] = "NelaRet",
 		["castbar"] = "Pally",
 		["powerbar"] = "Hidden",
@@ -245,7 +233,6 @@ S["Modes"] = {
 	},
 	["SinHeal"] = { --Profile for a Healpriest
 		["raidframes"] = "SanHeal",
-		["Skada"] = "SinHeal",
 		["SimpleAuraFilter"] = "SinHeal",
 		["castbar"] = "SanHeal",
 		["powerbar"] = "Hidden",
@@ -258,7 +245,6 @@ S["Modes"] = {
 	},
 	["SinShadow"] = { --Profile for a Shadow Priest
 		["raidframes"] = "SanChicken",
-		["Skada"] = "SinShadow",
 		["SimpleAuraFilter"] = "SinShadow",
 		["castbar"] = "SanChicken",
 		["powerbar"] = "Hidden",
@@ -270,7 +256,6 @@ S["Modes"] = {
 		["ActionButtons"] = "SanHeal",
 	},
 	["Suran"] = {
-		["Skada"] = "Suran",
 		["SimpleAuraFilter"] = "SanFeral",
 		["castbar"] = "SanFeral",
 		["powerbar"] = "Rogue",
@@ -280,7 +265,6 @@ S["Modes"] = {
 		["bossbars"] = "Suran",	
 	},
 	["Borrack"] = {
-		["Skada"] = "Suran",
 		["SimpleAuraFilter"] = "SanFeral",
 		["castbar"] = "SanFeral",
 		["powerbar"] = "Rogue",
@@ -290,7 +274,6 @@ S["Modes"] = {
 		["bossbars"] = "Suran",	
 	},
 	["Manyak"] = {
-		["Skada"] = "ManyakHeal",
 		["SimpleAuraFilter"] = "",
 		["castbar"] = "Manyak",
 		["powerbar"] = "Manyak",
@@ -301,7 +284,6 @@ S["Modes"] = {
 	},
 	["Simplex"] = { --Enh Shaman
 		["raidframes"] = "SanFeral",
-		["Skada"] = "SanFeral",
 		["SimpleAuraFilter"] = "Simplex",
 		["castbar"] = "SanFeral",
 		["powerbar"] = "Hidden",

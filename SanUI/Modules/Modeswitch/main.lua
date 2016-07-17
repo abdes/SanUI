@@ -26,12 +26,6 @@ S.switch2Mode = function(mode)
 		print("Either you didn't set the SimpleAuraFilter profile for mode "..mode.." or SimpleAuraFilter is not loaded. Either way, cannot load SimpleAuraFilter profile!")
 	end
 	
-	if S["Modes"][mode]["Skada"] and IsAddOnLoaded("Skada") then
-		Skada.db:SetProfile(S["Modes"][mode]["Skada"])
-	else
-		print("Either you didn't set the Skada profile for mode "..mode.." or Skada is not loaded. Either way, cannot load Skada profile!")
-	end	
-	
 	if S["Modes"][mode]["castbar"] and IsAddOnLoaded("oUF_Hank") then
 		S.switchCastbar(S["Modes"][mode]["castbar"])
 	else

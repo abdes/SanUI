@@ -5,7 +5,7 @@
 ## Notes: Druid UI based on Tukui.
 ## SavedVariablesPerCharacter: SanUIdb
 ## RequiredDeps: Tukui, oUF_Hank, tullaCC
-## OptionalDeps: Skada, CoolLine, BugSack, WeakAuras
+## OptionalDeps: CoolLine, BugSack, WeakAuras, Details
 Core\init.lua
 Config\profiles.lua
 Config\config_cc.lua
@@ -20,7 +20,6 @@ Modules\Unitframes\raidframes.lua
 Modules\AddonMods\blizzard.lua
 Modules\AddonMods\tukui.lua
 Modules\AddonMods\coolline.lua
-Modules\AddonMods\skadaskin.lua
 Modules\AddonMods\bugsack.lua
 Modules\AddonMods\energized.lua
 Modules\AddonMods\weakauras_displays.lua

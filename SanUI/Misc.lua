@@ -65,29 +65,6 @@ function S.misc(self,event,arg)
 					SanUIdb["Mode"] = S["profiles"]["DEFAULT"]["modes"][1]
 				end
 			end	
-			
-			-- SanUI has both Skada and Tukui as dependencies
-			-- so the following should work here
-			hooksecurefunc(S["Panels"],"Enable",function()
-				local cuberight = S["Panels"].CubeRight
-			
-				if cuberight then
-					cuberight:EnableMouse(true)
-					cuberight:SetScript("OnMouseDown", function(self,button)
-						if Skada then 
-							if button == "RightButton" then
-								Skada:Reset()
-							elseif SkadaBarWindowSkada and button == "LeftButton" and SkadaBarWindowSkada:IsShown() then
-								SkadaBarWindowSkada:Hide()
-							elseif SkadaBarWindowSkada and button == "LeftButton" and not SkadaBarWindowSkada:IsShown() then
-								SkadaBarWindowSkada:Show()
-							end
-						else 
-							ToggleAllBags() 
-						end
-					end)
-				end
-			end)
 				
 		elseif name == "SimpleAuraFilter" then	
 			-- Position SAF

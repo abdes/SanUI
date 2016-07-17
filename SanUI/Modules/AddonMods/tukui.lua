@@ -73,7 +73,7 @@ S["ActionBars"].AddHooks = function(self)
 	hooksecurefunc("PetActionButton_SetHotkeys", self.UpdateHotKey)
 end
 
---ChatFrame 4 is where skada resides, so we move it to the left
+-- Move ChatFrame 4 in favor of space for a damage meter
 local ChangeDefaultChatPosition = function(frame)
 
 	if frame then

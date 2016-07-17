@@ -906,7 +906,18 @@ oUF:Factory(function(self)
 	local MaxGroup = CreateFrame("Frame", "SanUIRaidMaxGroup")
 	MaxGroup:RegisterEvent("PLAYER_ENTERING_WORLD")
 	MaxGroup:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-	MaxGroup:SetScript("OnEvent", function(self)
+	MaxGroup:SetScript("OnEvent", function(self, event)
+		if InCombatLockdown() then
+		print("registering regen_enabled")
+			MaxGroup:RegisterEvent("PLAYER_REGEN_ENABLED")
+			return
+		end
+		
+		if event == "PLAYER_REGEN_ENABLED" then
+		print("unregistering regen_enabled")
+			MaxGroup:UnregisterEvent("PLAYER_REGEN_ENABLED")
+		end
+		
 		local filter
 		local inInstance, instanceType = IsInInstance()
 		local _, _, _, _, maxPlayers, _, _ = GetInstanceInfo()
