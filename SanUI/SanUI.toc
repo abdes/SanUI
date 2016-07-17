@@ -5,7 +5,7 @@
 ## Notes: Druid UI based on Tukui.
 ## SavedVariablesPerCharacter: SanUIdb
 ## RequiredDeps: Tukui, oUF_Hank, tullaCC
-## OptionalDeps: CoolLine, BugSack, WeakAuras, Details
+## OptionalDeps: CoolLine, BugSack, WeakAuras, Details, DBM-Core
 Core\init.lua
 Config\profiles.lua
 Config\config_cc.lua
@@ -39,5 +39,6 @@ Modules\Modeswitch\raidframes.lua
 Modules\Modeswitch\main.lua
 
 Modules\Misc\raidutilities.lua
+Modules\Misc\addon_menu.lua
 
 Misc.lua

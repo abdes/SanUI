@@ -1,3 +1,6 @@
+-- Originally by safturento@tukui.org
+-- modified for SanUI by Shimmer@EU-Mal'Ganis
+
 -----Button Order-----
 --Change the numbers below to change the
 --order of the buttons to your liking.
@@ -97,12 +100,10 @@ end
 -- Open/Close Button
 local MenuOpen = CreateFrame("Frame", "MenuOpen", UIParent)
 if AnchorSide == true then
-	--MenuOpen:CreatePanel("", TukuiMinimap:GetWidth() ,14 ,"TOP", Minimap, "BOTTOM", 0, -5 - Offset)
 	MenuOpen:Size(10)
 	MenuOpen:Point("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", 3, 0)
 	MenuOpen:SetTemplate()
 else
-	--MenuOpen:CreatePanel("", TukuiMinimap:GetWidth()+4 ,14 ,"BOTTOM", Minimap, "TOP", 0, 5 + Offset)
 	MenuOpen:Size(Minimap:GetWidth()+4 ,14)
 	MenuOpen:Point("BOTTOM", Minimap, "TOP", 0, 5 + Offset)
 	MenuOpen:SetTemplate()
@@ -216,11 +217,13 @@ local function CreateButton(f, o) --(Frame,ButtonOrderName)
 		f:EnableMouse(true)
 	end
 	
+	f:SetScript("OnEnter", ButtonEnter)
+	f:SetScript("OnLeave", ButtonLeave)
+	
 end
 
 -----World State Button-----
 if SanUIButtonOrder["WorldFrame"] then
-	--Re-anchor World State Frame
 	WorldStateAlwaysUpFrame:ClearAllPoints()
 	WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
 	
@@ -254,83 +257,11 @@ if #S["profiles"][S.myname]["modes"] >1 then
 		
 		Button.title:SetText(profile)
 		
-		Button:SetScript("OnEnter", function()
-			Button.title:SetTextColor(1, 1, 0.5)
-		end)
-		Button:SetScript("OnLeave", function()
-			Button.title:SetTextColor(1, 1, 1)
-		end)
 		Button:SetScript("OnMouseDown", function()
 			S.switch2Mode(profile)
 			MenuMouseDown()
 		end)
 		
-	end
-end
-
------Skada Toggle Button-----
-if SanUIButtonOrder["Skada"] then
-	local SkadaButton = CreateFrame("Frame", "SkadaToggle", Menu)
-	CreateButton(SkadaButton, SanUIButtonOrder["Skada"])
-
-	if not SkadaBarWindowSkada then 
-		SkadaButton.title:SetTextColor(0.6, 0.6, 0.6)
-		SkadaButton.title:SetText("Skada Disabled")
-	else
-		if SkadaBarWindowSkada:IsShown() then
-			SkadaButton.title:SetText("Hide Damage")
-			if HideChat == true then
-				ChatFrame4:SetAlpha(0)
-			end
-		else
-			SkadaButton.title:SetText("Show Damage")
-			if HideChat == true then
-				ChatFrame4:SetAlpha(1)
-			end
-		end
-		
-		SkadaButton:SetScript("OnEnter", function()
-			SkadaButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		SkadaButton:SetScript("OnLeave", function()
-			SkadaButton.title:SetTextColor(1, 1, 1)
-		end)
-		SkadaButton:SetScript("OnMouseDown", function()
-			if SkadaBarWindowSkada:IsShown() then
-				SkadaButton.title:SetText("Show Damage")
-				SkadaBarWindowSkada:Hide()
-				MenuMouseDown()
-			else
-				SkadaButton.title:SetText("Hide Damage")
-				SkadaBarWindowSkada:Show()
-				MenuMouseDown()
-			end
-		end)
-	end
-end
-
------Grid Toggle Button----
-if SanUIButtonOrder["Grid"] then
-	local GridButton = CreateFrame("Frame", "GridToggle", Menu)
-	CreateButton(GridButton, SanUIButtonOrder["Grid"])
-
-	if not IsAddOnLoaded("Grid") then 
-		GridButton.title:SetTextColor(0.6, 0.6, 0.6)
-		GridButton.title:SetText("Grid Disabled")
-	else
-		GridButton.title:SetText("Grid")
-		
-		GridButton:SetScript("OnEnter", function()
-			GridButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		GridButton:SetScript("OnLeave", function()
-			GridButton.title:SetTextColor(1, 1, 1)
-		end)
-		
-		GridButton:SetScript("OnMouseDown", function()
-				SlashCmdList.ACECONSOLE_GRID('')
-				MenuMouseDown()
-		end)
 	end
 end
 
@@ -345,13 +276,6 @@ if SanUIButtonOrder["DBM"] then
 	else
 		DBMButton.title:SetText("DBM")
 		
-		DBMButton:SetScript("OnEnter", function()
-			DBMButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		DBMButton:SetScript("OnLeave", function()
-			DBMButton.title:SetTextColor(1, 1, 1)
-		end)
-		
 		DBMButton:SetScript("OnMouseDown", function()
 				SlashCmdList.DEADLYBOSSMODS('')
 				MenuMouseDown()
@@ -359,30 +283,6 @@ if SanUIButtonOrder["DBM"] then
 	end
 end
 
------DXE Toggle Button----
-if SanUIButtonOrder["DXE"] then
-	local DXEButton = CreateFrame("Frame", "DXEToggle", Menu)
-	CreateButton(DXEButton, SanUIButtonOrder["DXE"])
-
-	if not IsAddOnLoaded("DXE") then 
-		DXEButton.title:SetTextColor(0.6, 0.6, 0.6)
-		DXEButton.title:SetText("DXE Disabled")
-	else
-		DXEButton.title:SetText("DXE")
-		
-		DXEButton:SetScript("OnEnter", function()
-			DXEButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		DXEButton:SetScript("OnLeave", function()
-			DXEButton.title:SetTextColor(1, 1, 1)
-		end)
-		
-		DXEButton:SetScript("OnMouseDown", function()
-				DXE:ToggleConfig()
-				MenuMouseDown()
-		end)
-	end
-end
 -----Altoholic Button -------
 if SanUIButtonOrder["Altoholic"] then
 	local AltoholicButton = CreateFrame("Frame", "AltoholicToggle", Menu)
@@ -394,149 +294,9 @@ if SanUIButtonOrder["Altoholic"] then
 	else
 		AltoholicButton.title:SetText("Altoholic")
 		
-		AltoholicButton:SetScript("OnEnter", function()
-			AltoholicButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		AltoholicButton:SetScript("OnLeave", function()
-			AltoholicButton.title:SetTextColor(1, 1, 1)
-		end)
-		
 		AltoholicButton:SetScript("OnMouseDown", function()
 				Altoholic:ToggleUI()
 				MenuMouseDown()
 		end)
 	end
-end
-
------Recount Toggle Button-----
-if SanUIButtonOrder["Recount"] then
-	local RecountButton = CreateFrame("Frame", "AtlasButton", Menu)
-	CreateButton(RecountButton, SanUIButtonOrder["Recount"])
-
-	if not IsAddOnLoaded("Recount") then 
-		RecountButton.title:SetTextColor(0.6, 0.6, 0.6)
-		RecountButton.title:SetText("Recount Disabled")	
-	else
-		if Recount_MainWindow:IsShown() then
-			RecountButton.title:SetText("Hide Recount")
-		else
-			RecountButton.title:SetText("Show Recount")
-		end
-
-		RecountButton:SetScript("OnEnter", function()
-			RecountButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		RecountButton:SetScript("OnLeave", function()
-			RecountButton.title:SetTextColor(1, 1, 1)
-		end)
-		RecountButton:SetScript("OnMouseDown", function()
-			if Recount_MainWindow:IsShown() then
-				RecountButton.title:SetText("Show Recount")
-				SlashCmdList.ACECONSOLE_RECOUNT('toggle')
-			else
-				RecountButton.title:SetText("Hide Recount")
-				SlashCmdList.ACECONSOLE_RECOUNT('toggle')
-			end
-		end)
-	end
-end
-
------Omen Toggle Button-----
-if SanUIButtonOrder["Omen"] then
-	local OmenButton = CreateFrame("Frame", "OmenButton", Menu)
-	CreateButton(OmenButton, SanUIButtonOrder["Omen"])
-	
-	if not IsAddOnLoaded("Omen") then 
-		OmenButton.title:SetTextColor(0.6, 0.6, 0.6)
-		OmenButton.title:SetText("Omen Disabled")	
-	else
-		if OmenAnchor:IsShown() then
-			OmenButton.title:SetText("Show Omen")
-		else
-			OmenButton.title:SetText("Hide Omen")
-		end
-
-		OmenButton:SetScript("OnEnter", function()
-			OmenButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		OmenButton:SetScript("OnLeave", function()
-			OmenButton.title:SetTextColor(1, 1, 1)
-		end)
-		OmenButton:SetScript("OnMouseDown", function()
-			if OmenAnchor:IsShown() then
-				OmenButton.title:SetText("Show Omen")
-				SlashCmdList.ACECONSOLE_OMEN('toggle')
-			else
-				OmenButton.title:SetText("Hide Omen")
-				SlashCmdList.ACECONSOLE_OMEN('toggle')
-			end
-		end)
-	end
-end
-
------AtlasLoot Toggle button-----
-if SanUIButtonOrder["AtlasLoot"] then
-	local AtlasButton = CreateFrame("Frame", "AtlasToggle", Menu)
-	CreateButton(AtlasButton,SanUIButtonOrder["AtlasLoot"])
-	
-	if not IsAddOnLoaded("AtlasLoot") then 
-		AtlasButton.title:SetTextColor(0.6, 0.6, 0.6)
-		AtlasButton.title:SetText("AtlasLoot Disabled")	
-	else
-		AtlasButton.title:SetText("Show Atlas Loot")
-
-		AtlasButton:SetScript("OnEnter", function()
-			AtlasButton.title:SetTextColor(1, 1, 0.5)
-		end)
-		AtlasButton:SetScript("OnLeave", function()
-			AtlasButton.title:SetTextColor(1, 1, 1)
-		end)
-		AtlasButton:SetScript("OnMouseDown", function()
-			if AtlasLootDefaultFrame:IsShown() then
-				AtlasButton.title:SetText("Show Atlas Loot")
-				AtlasLootDefaultFrame:Hide()
-			else
-				AtlasButton.title:SetText("Hide Atlas Loot")
-				 AtlasLootDefaultFrame:Show()
-			end
-		end)
-		
-		AtlasLootDefaultFrame_CloseButton:SetScript("OnMouseDown", function()
-			AtlasButton.title:SetText("Show Atlas Loot")
-			AtlasLootDefaultFrame:Hide()
-		end)	
-	end
-end
-
------Keyring Toggle Button-----
-if SanUIButtonOrder["KeyRing"] then
-    local KRButton = CreateFrame("Frame", "KeyRingToggle", Menu)
-    CreateButton(KRButton, SanUIButtonOrder["KeyRing"])
- 
-    if ContainerFrame1:IsShown() then
-		KRButton.title:SetText("Hide Key Ring")
-	else
-		KRButton.title:SetText("Show Key Ring")
-	end
- 
-    KRButton:SetScript("OnEnter", function()
-        KRButton.title:SetTextColor(1, 1, 0.5)
-    end)
-    KRButton:SetScript("OnLeave", function()
-           KRButton.title:SetTextColor(1, 1, 1)
-        end)
-    KRButton:SetScript("OnMouseDown", function()
-        if ContainerFrame1:IsShown() then
-            KRButton.title:SetText("Show Key Ring")
-            ToggleKeyRing()
-        else
-            KRButton.title:SetText("Hide Key Ring")
-            ToggleKeyRing()
-        end
-    end)
-	
-	ContainerFrame1CloseButton:SetScript("OnMouseDown", function()
-		ToggleKeyRing()
-		KRButton.title:SetText("Show Key Ring")
-	end)
 end
