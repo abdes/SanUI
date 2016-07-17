@@ -16,6 +16,7 @@ Modules\Cooldowns\compat43.lua
 Modules\Unitframes\oUF_VelhariBar.lua
 Modules\Unitframes\oUF_TextAuras.lua
 Modules\Unitframes\raidframes.lua
+Modules\Unitframes\bossframes.lua
 
 Modules\AddonMods\blizzard.lua
 Modules\AddonMods\tukui.lua

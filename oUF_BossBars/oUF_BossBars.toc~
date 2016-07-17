@@ -1,7 +1,0 @@
-## Interface: 50400
-## Version: 1.02
-## Notes: Replace Blizzard BossXTargetFrames with oUF items
-## RequiredDeps: Tukui, SanUI
-## Title: oUF_BossBars
-## Author: Kameelyan
-oUF_BossBars.lua

@@ -54,7 +54,7 @@ S.switch2Mode = function(mode)
 	end
 	
 	
-	if S["Modes"][mode]["bossbars"] and IsAddOnLoaded("oUF_BossBars") then
+	if S["Modes"][mode]["bossbars"] then
 		S.switchBossBars(S["Modes"][mode]["bossbars"])
 	else
 		print("Either you didn't set the bossbars profile for mode "..mode.." or oUF_BossBars is not loaded. Either way, cannot load BossBars profile!")
