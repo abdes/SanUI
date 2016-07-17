@@ -1,6 +1,6 @@
-## Interface: 60200
+## Interface: 70000
 ## Title: oUF AuraWatch
-## Author: Astromech
+## Author: Astromech, modified by Shimmer of EU-Mal'Ganis
 ## Version: 1.5.2-7
 ## Notes: Adds aura timers and indicators to oUF
 ## RequiredDeps: Tukui

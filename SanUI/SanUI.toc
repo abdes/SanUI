@@ -1,4 +1,4 @@
-﻿## Interface: 60200
+﻿## Interface: 70000
 ## Author: Sanctity of Nozdormu
 ## Version: 6.2.0.0
 ## Title: SanUI

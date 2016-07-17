@@ -1,7 +1,7 @@
-## Interface: 60200
+## Interface: 70000
 ## Title: SimpleAuraFilter
 ## Notes: Filters unimportant Buffs.
-## Author: Vaeyl of Nozdormu, Sanctity of Nozdormu
+## Author: Vaeyl of Nozdormu, Shimmer of EU-Mal'Ganis
 ## Version: 0.3
 ## SavedVariables: SimpleAuraFilterDB
 ## RequiredDeps: Tukui
