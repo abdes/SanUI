@@ -82,11 +82,8 @@ sharedStyle = function(self, unit, isSingle)
 	if self.Debuffs and self.Buffs then
 		local col = 0
 		local row = 0
-		--local gap = self.Buffs.spacing
 		local sizex = self.Buffs.size + cfg.AuraSpacing
-		-- local sizey = self.Buffs.size
 		local cols = math.floor(self.Buffs:GetWidth() / sizex + .5)
-		-- local rows = math.floor(self.Buffs:GetHeight() / sizey + .5)
 		
 		self.Buffs.buffsPerRow = cols	
 	end
@@ -107,11 +104,7 @@ PreSetPosition = function(buffs, max)
 			
 		end
 	elseif (unit == "player" or unit == "focus") then
-		if buffs.visibleBuffs > 0 then --and buffs.buffsPerRow  and buffs.buffsPerRow  > 0 then
-			-- Anchor debuff frame to bottomost buff icon, i.e the last buff row
-			-- buffs:GetParent().Debuffs:ClearAllPoints()
-			-- local rows = math.ceil(buffs.visibleBuffs/buffs.buffsPerRow)
-			-- buffs:GetParent().Debuffs:SetPoint("TOPRIGHT", buffs[(rows-1)*buffs.buffsPerRow + 1], "BOTTOMRIGHT", 0, -cfg.AuraSpacing -2)
+		if buffs.visibleBuffs > 0 then
 			buffs:GetParent().Debuffs:SetPoint("TOPRIGHT", buffs, "BOTTOMRIGHT", 0, -cfg.AuraSpacing -2)
 		else
 			buffs:GetParent().Debuffs:SetPoint("TOPRIGHT", buffs:GetParent(), "BOTTOMRIGHT", 0, -25)
@@ -172,9 +165,6 @@ OnEnterAura = function(self, icon)
 		self.HighlightAura.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		self.HighlightAura.icon:SetDrawLayer('ARTWORK')
 		self.HighlightAura.icon.overlayFrame = CreateFrame("frame", nil, icon, nil)
-		--self.HighlightAura.overlayFrame:SetFrameLevel(icon.cd:GetFrameLevel() + 1)	   
-		--self.HighlightAura.overlay:SetParent(icon.overlayFrame)
-		--self.HighlightAura.count:SetParent(icon.overlayFrame)
 		self.HighlightAura.icon.remaining:SetParent(icon.overlayFrame)
 		self.HighlightAura.oldicon = icon
 		
@@ -205,12 +195,12 @@ end,
 	-- return ("FF%.2x%.2x%.2x"):format(color.r * 255, color.g * 255, color.b * 255)
 -- end
 
--- oUF_Hank_hooks.ClassToT_etc = {
-	-- sharedStyle = function(self, unit, isSingle)
-		-- if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "|c[classColor]\226\128\186  [smartName] @ [perhp]%|r")
-		-- elseif unit == "targettargettarget" then self:Tag(name, "|c[classColor]\194\187 [smartName] @ [perhp]%|r") end
-	-- end,
--- }
+oUF_Hank_hooks.ClassToT_etc = {
+sharedStyle = function(self, unit, isSingle)
+	if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "|c[classColor]\226\128\186  [smartName] @ [perhp]%|r")
+	elseif unit == "targettargettarget" then self:Tag(name, "|c[classColor]\194\187 [smartName] @ [perhp]%|r") end
+end,
+}
 
 oUF_Hank_hooks.HealthColored = {
 	UpdateHealth = function(self)
@@ -378,31 +368,24 @@ sharedStyle = function(self, unit, isSingle)
 		-- GCD frame for player
 		if (unit == "player") then
 					
-				self.GCD = CreateFrame("StatusBar", self:GetName().."_GCD", self)
-				self.GCD:SetHeight(TukuiDB.Scale(5))
-				self.GCD:SetWidth(TukuiDB.Scale(150))
-				self.GCD:SetPoint('TOPLEFT',castbar, 'BOTTOMLEFT', 0, -TukuiDB.Scale(4))
-				self.GCD:SetStatusBarTexture(Normal)
-				self.GCD:SetStatusBarColor(0.8,0.8,0.8)
-				
-				local gcdcastborder = CreateFrame("Frame", nil, self.GCD)
-				gcdcastborder:Size(1)
-				gcdcastborder:Point("CENTER", health, "CENTER", 0, 0)
-				gcdcastborder:SetTemplate("Transparent")
-				gcdcastborder:ClearAllPoints()
-				gcdcastborder:SetPoint("TOPLEFT", self.GCD, -TukuiDB.Scale(2), TukuiDB.Scale(2))
-				gcdcastborder:SetPoint("BOTTOMRIGHT", self.GCD, TukuiDB.Scale(2), TukuiDB.Scale(-2))
-				--gcdcastborder:SetFrameStrata("BACKGROUND")
-				gcdcastborder:SetFrameStrata(self.GCD:GetFrameStrata())
-				gcdcastborder:SetFrameLevel(self.GCD:GetFrameLevel()-1)
-				
-			-- if TukuiDB.MyClass == "DRUID" then
-				-- self.shrooms = self:CreateFontString(nil, "OVERLAY")
-				-- self.shrooms:SetFontObject("UFFontMedium")
-				-- self.shrooms:SetPoint("TOPRIGHT",self,"TOPRIGHT",0,-4)
-				-- self:Tag(self.shrooms,"[shrooms]")
-			-- end
-		
+			self.GCD = CreateFrame("StatusBar", self:GetName().."_GCD", self)
+			self.GCD:SetHeight(TukuiDB.Scale(5))
+			self.GCD:SetWidth(TukuiDB.Scale(150))
+			self.GCD:SetPoint('TOPLEFT',castbar, 'BOTTOMLEFT', 0, -TukuiDB.Scale(4))
+			self.GCD:SetStatusBarTexture(Normal)
+			self.GCD:SetStatusBarColor(0.8,0.8,0.8)
+			
+			local gcdcastborder = CreateFrame("Frame", nil, self.GCD)
+			gcdcastborder:Size(1)
+			gcdcastborder:Point("CENTER", health, "CENTER", 0, 0)
+			gcdcastborder:SetTemplate("Transparent")
+			gcdcastborder:ClearAllPoints()
+			gcdcastborder:SetPoint("TOPLEFT", self.GCD, -TukuiDB.Scale(2), TukuiDB.Scale(2))
+			gcdcastborder:SetPoint("BOTTOMRIGHT", self.GCD, TukuiDB.Scale(2), TukuiDB.Scale(-2))
+			gcdcastborder:SetFrameStrata(self.GCD:GetFrameStrata())
+			gcdcastborder:SetFrameLevel(self.GCD:GetFrameLevel()-1)	
+			
+			self.GCD.border = gcdcastborder
 		end
 		
 		if (unit == "focus") then
@@ -420,42 +403,6 @@ sharedStyle = function(self, unit, isSingle)
 				-- self.CPoints[i]:SetPoint("BOTTOM", self.CPoints[i - 1], "TOP")
 			-- end
 		-- end
-		
-		if SanUI_FocusCastbar == "PvP" then
-		
-			if (unit == "focus") then
-				self.Castbar:SetScale(1/oUF_Hank_config.FocusFrameScale)
-				self.Castbar:ClearAllPoints()
-				self.Castbar:SetHeight(TukuiDB.Scale(20))
-				self.Castbar:SetWidth(TukuiDB.Scale(240))
-				self.Castbar:SetPoint("CENTER", UIParent, "CENTER", 0, 250)
-				
-				self.Castbar.bg = CreateFrame("Frame", nil, self.Castbar)
-				self.Castbar.bg:SetTemplate()
-				self.Castbar.bg:SetPoint("TOPLEFT", TukuiDB.Scale(-2), TukuiDB.Scale(2))
-				self.Castbar.bg:SetPoint("BOTTOMRIGHT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
-				self.Castbar.bg:SetFrameLevel(5)
-				self.Castbar.bg:CreateShadow()
-				
-				
-				self.Castbar.button = CreateFrame("Frame", nil, self.Castbar)
-				self.Castbar.button:SetHeight(TukuiDB.Scale(40))
-				self.Castbar.button:SetWidth(TukuiDB.Scale(40))
-				self.Castbar.button:SetPoint("CENTER", 0, TukuiDB.Scale(50))
-				self.Castbar.button:SetTemplate()
-
-				self.Castbar.Icon = self.Castbar.button:CreateTexture(nil, "ARTWORK")
-				self.Castbar.Icon:SetPoint("TOPLEFT", self.Castbar.button, TukuiDB.Scale(2), TukuiDB.Scale(-2))
-				self.Castbar.Icon:SetPoint("BOTTOMRIGHT", self.Castbar.button, TukuiDB.Scale(-2), TukuiDB.Scale(2))
-				self.Castbar.Icon:SetTexCoord(0.08, 0.92, 0.08, .92)
-					
-				self.Castbar.button:CreateShadow()	
-				
-				self.Buffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -TukuiDB.Scale(0))
-			end
-		end
-		
-		
 	end	
 end,
 }
@@ -613,18 +560,10 @@ oUF_Hank_hooks.customPowerBar = {
 		
 		power.colorDisconnected = true
 		
-		--if db.showsmooth == true then
-			power.Smooth = true
-		--end
-		
-		-- if db.unicolor == true then
-			--power.colorTapping = true
-			--power.colorClass = true
-			powerBG.Multiplier = 0.1				
-		-- else
-			--power.colorPower = true
-		--end
-		
+
+		power.Smooth = true
+		powerBG.Multiplier = 0.1				
+
 		--no idea why we need this...
 		power:SetFrameLevel(powerPanel:GetFrameLevel()+1)
 		
@@ -634,118 +573,3 @@ oUF_Hank_hooks.customPowerBar = {
 	end
 	end,
  }
--- oUF_Hank_hooks.NoOmniCC = {
-	-- PostCreateIcon = function(icons, icon)
-		-- icon.cd.noOCC = true
-		-- icon.cd.noCooldownCount = true
-	-- end,
--- }
-
--- local function StyleBuffs(buttonName, index, debuff)
-	-- local buff		= _G[buttonName..index]
-	-- local icon		= _G[buttonName..index.."Icon"]
-	-- local border	= _G[buttonName..index.."Border"]
-	-- local duration	= _G[buttonName..index.."Duration"]
-	-- local count 	= _G[buttonName..index.."Count"]
-	-- if icon and not _G[buttonName..index.."Panel"] then
-		-- icon:SetTexCoord(.08, .92, .08, .92)
-		-- icon:SetPoint("TOPLEFT", buff, TukuiDB.Scale(2), TukuiDB.Scale(-2))
-		-- icon:SetPoint("BOTTOMRIGHT", buff, TukuiDB.Scale(-2), TukuiDB.Scale(2))
-		
-		-- buff:SetHeight(TukuiDB.Scale(30))
-		-- buff:SetWidth(TukuiDB.Scale(30))
-				
-		-- duration:ClearAllPoints()
-		-- duration:SetPoint("BOTTOM", 0, TukuiDB.Scale(-13))
-		-- duration:SetFont(TukuiCF["Medias"].font, 12)
-		
-		-- count:ClearAllPoints()
-		-- count:SetPoint("TOPLEFT", TukuiDB.Scale(1), TukuiDB.Scale(-2))
-		-- count:SetFont(TukuiCF["Medias"].font, 12, "OUTLINE")
-		
-		-- local panel = CreateFrame("Frame", buttonName..index.."Panel", buff)
-		-- panel.Size(30)
-		-- panel.Point("CENTER", buff, "CENTER", 0, 0)
-		-- panel.SetTemplate("Transparent")
-		-- panel:SetFrameLevel(buff:GetFrameLevel() - 1)
-		-- panel:SetFrameStrata(buff:GetFrameStrata())
-	-- end
-	-- if border then border:Hide() end
--- end
-
--- oUF_Hank_hooks.BossFrames = {
-
--- sharedStyle = function(self,unit)
-	-- if not self.unit:find("boss") then return end
-	
-	-- local health, healthFill = self.health, self.healthFill
-	
-	-- for i =  1, 4 do
-		-- health[i] = self:CreateTexture(nil, "ARTWORK")
-		-- health[i]:SetTexture("Interface\\AddOns\\oUF_Hank_v3\\textures\\digits.blp")
-		-- health[i]:Hide()
-		-- healthFill[i] = self:CreateTexture(nil, "OVERLAY")
-		-- healthFill[i]:SetTexture("Interface\\AddOns\\oUF_Hank_v3\\textures\\digits.blp")
-		-- healthFill[i]:SetVertexColor(0.6,0.6,0.6)
-		-- healthFill[i]:Hide()
-	-- end
-		
-
-	-- health[4]:SetPoint("RIGHT")
-	-- health[3]:SetPoint("RIGHT", health[4], "LEFT")
-	-- health[2]:SetPoint("RIGHT", health[3], "LEFT")
-	-- health[1]:SetPoint("RIGHT", health[2], "LEFT")
-		
-	-- healthFill[4]:SetPoint("BOTTOM", health[4])
-	-- healthFill[3]:SetPoint("BOTTOM", health[3])
-	-- healthFill[2]:SetPoint("BOTTOM", health[2])
-	-- healthFill[1]:SetPoint("BOTTOM", health[1])
-	
-	-- self.power:ClearAllPoints()
-	-- self.power:SetPoint("BOTTOMRIGHT", health[1], "BOTTOMLEFT", -5, 0)
-	-- self:Tag(power,"[mergedPower]")
-	-- self.power:SetTextColor(0.31, 0.45, 0.63)
-	
-	-- self.name:ClearAllPoints()
-	-- self.name:SetPoint("BOTTOMRIGHT",  self.power, "TOPRIGHT")
-	-- self:Tag(name, "[name]")
-	-- self.name:SetTextColor(1,1,1)
-	
-	-- self.Castbar:SetScale(1/0.8)
-	-- self.Castbar:ClearAllPoints()
-	-- self.Castbar:SetPoint("TOPRIGHT",health[4],"BOTTOMRIGHT",0,-5)
-
--- end,
-
--- UpdateHealth = function(self)
-	
-	-- if not self.unit:find("boss") then return end
-
-	-- local status = (not UnitIsConnected(self.unit) or nil) and "Off" or UnitIsGhost(self.unit) and "G" or UnitIsDead(self.unit) and "X"
-	
-	-- if not status then
-		-- local h, hMax = UnitHealth(self.unit), UnitHealthMax(self.unit)
-		-- local hPerc = ("%d%%"):format(h / hMax * 100 + 0.5)
-		-- local len = string.len(hPerc)
-	
-		-- for i = 1, 4 do
-			-- if i > len then
-				-- self.health[5 - i]:Hide()
-				-- self.healthFill[5 - i]:Hide()
-			-- else
-				-- local digit = string.sub(hPerc , -i, -i)
-				
-				-- self.health[5 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"])
-				-- self.health[5 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
-				-- self.health[5 - i]:Show()
-				-- self.healthFill[5 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"] * h / hMax)
-				-- self.healthFill[5 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], (2 + 2 * oUF_Hank.digitTexCoords["height"] - oUF_Hank.digitTexCoords["height"] * h / hMax) / oUF_Hank.digitTexCoords["texHeight"], (2 + 2 * oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
-				-- self.healthFill[5 - i]:Show()
-			-- end
-		-- end
-		
-		-- self.power:SetPoint("BOTTOMRIGHT", self.health[5 - len], "BOTTOMLEFT", -5, 0)
-	-- end
-	
--- end,
--- }
