@@ -296,7 +296,6 @@ do
 end
 
 local function SetupIcons(self)
-
 	local watch = self.NotAuraWatch
 	local icons = watch.icons
 	watch.watched = {}

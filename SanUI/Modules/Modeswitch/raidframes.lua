@@ -3,7 +3,6 @@ local S,C = unpack(SanUI)
 local RaidButtonSize = 28
 
 local function changeAuras(frame,auras)
-
 	if not frame.NotAuraWatch then
 		print("Frame "..frame:GetName().." not watched by NotAuraWatch, can't change Auras!")
 		return
@@ -67,7 +66,6 @@ local function showRaidPets(show)
 end
 
 S.ModRaidButton = function(button,unit,size,auras)
-
 	button:Height(size)
 	button.Health:Height(size)
 	button.Health.bg:Height(size)
@@ -220,7 +218,6 @@ S.switchRaidFrames = function(profile)
 		dealWith40:GetScript("OnEvent")()	
 
 		S.swiftmend_shown = false
-		
 	end
 end
 
