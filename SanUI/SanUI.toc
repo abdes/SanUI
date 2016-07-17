@@ -13,6 +13,7 @@ Config\config_cc.lua
 Modules\Cooldowns\cc.lua
 Modules\Cooldowns\compat43.lua
 
+Modules\Unitframes\oUF_NotAuraWatch.lua
 Modules\Unitframes\oUF_VelhariBar.lua
 Modules\Unitframes\oUF_TextAuras.lua
 Modules\Unitframes\raidframes.lua
