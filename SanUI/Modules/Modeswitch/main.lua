@@ -5,7 +5,6 @@ local S = unpack(SanUI)
 --         * The appropriate addon is loaded
 
 S.switch2Mode = function(mode)
-
 	if InCombatLockdown() then
 		print("Can't change modes in combat!")
 		return
@@ -48,12 +47,6 @@ S.switch2Mode = function(mode)
 		print("No eclipsebar profile for mode "..mode.."! Can't Switch!")
 	end
 	
-	-- if S["Modes"][mode]["Filger"] and IsAddOnLoaded("Tukui_Filger") then
-		-- S.switchFilger(S["Modes"][mode]["Filger"])
-	-- else
-		-- print("Either you didn't set the filger profile for mode "..mode.." or Tukui_Filger is not loaded. Either way, cannot load BossBars profile!")
-	-- end
-	
 	if S["Modes"][mode]["gcd"] and IsAddOnLoaded("oUF_GCD") then
 		S.switchGCD(S["Modes"][mode]["gcd"])
 	else
@@ -82,14 +75,13 @@ S.switch2Mode = function(mode)
 	if S["Modes"][mode]["DBM"] and IsAddOnLoaded("DBM-Core") then 
 		DBM:ApplyProfile(S["Modes"][mode]["DBM"])
 	else
-		print("No DBM profile for mode "..mode.."! Can't Switch!")
+		print("DBM not loaded or no DBM profile for mode "..mode.."! Can't Switch!")
 	end
 	
 	SanUIdb["Mode"] = mode
 end
 
-S.reload_needed = function(event)
-	
+S.reload_needed = function(event)	
 	for k, f in pairs(S.reload_checks) do
 		if f(event) then
 			return true
@@ -97,5 +89,4 @@ S.reload_needed = function(event)
 	end
 
 	return false
-
 end
