@@ -38,6 +38,5 @@ Modules\Modeswitch\raidframes.lua
 Modules\Modeswitch\main.lua
 
 Modules\Misc\raidutilities.lua
-Modules\Misc\raidbuffs.lua
 
 Misc.lua
