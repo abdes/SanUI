@@ -13,14 +13,12 @@ S = SimpleAuraFilter
 
 SimpleAuraFilter.debug = true
 
-
 TemporaryEnchantFrame:ClearAllPoints()
 TemporaryEnchantFrame:Point("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
 
 TempEnchant1:ClearAllPoints()
 TempEnchant2:ClearAllPoints()
 TempEnchant3:ClearAllPoints()
-
 TempEnchant1:Point("TOPRIGHT", TemporaryEnchantFrame, "TOPRIGHT",0,0)
 TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -4, 0)
 TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -4, 0)
@@ -99,8 +97,7 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 			icon:Point("TOPLEFT", buff, 2, -2)
 			icon:Point("BOTTOMRIGHT", buff, -2, 2)
 		end
-		
-		
+			
 		if not buff:IsShown() then
 			hidden = hidden + 1
 			numBuffs = numBuffs + 1
@@ -175,7 +172,6 @@ local function UpdateDebuffAnchors(buttonName, index)
 end
 
 local function UpdateAllDebuffAnchors()
-
 	for i = 1, DEBUFF_ACTUAL_DISPLAY do
 		UpdateDebuffAnchors("DebuffButton",i)
 	end
@@ -183,8 +179,6 @@ local function UpdateAllDebuffAnchors()
 end
 
 function SimpleAuraFilter:OnEnable()
-    -- Called when the addon is enabled
-	
     self.db = LibStub("AceDB-3.0"):New("SimpleAuraFilterDB")
     if not self.db.profile.filters then self.db.profile.filters = {} end	
 	
@@ -220,8 +214,6 @@ function SimpleAuraFilter:OnEnable()
 	
 	self.buffs = {}
     
-	--Hooking the neccesary functions here
-	
 	hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
 	hooksecurefunc("AuraButton_Update", HideBadBuff)
 	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
@@ -265,7 +257,6 @@ function SimpleAuraFilter:OpenMenu()
 	--s:SetLayout("Float")
 	d:AddChild(s)
 	
-	
 	for name,_ in pairs(self.db.profile.filters) do
 		local temp = LibStub("AceGUI-3.0"):Create("Button")				
 		temp:SetText(name)
@@ -281,7 +272,6 @@ function SimpleAuraFilter:OpenMenu()
 end
 
 -- ********* Helpers
-
 function SimpleAuraFilter:Debug(...)
     if self.debug then self:Print(...) end
 end
