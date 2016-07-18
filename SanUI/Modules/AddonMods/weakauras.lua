@@ -114,6 +114,11 @@ S.AddOnCommands["addweakauras"] = S.weakAurasDialog
 
 function S.addWeakAuras()
 
+	if true then
+		print("Not implemented yet, watch out for legion release!")
+		return
+	end
+
 	if not IsAddOnLoaded("WeakAuras") then print("WeakAuras not loaded!") return end
 	if not WeakAurasSaved then print("WeakAurasSaved not loaded!") return end
 
