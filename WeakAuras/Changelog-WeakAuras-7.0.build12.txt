@@ -1,0 +1,24 @@
+tag 7.0.build12
+dc47a6344ca4ff5e4c463f32460da332233f6530
+Benjamin Staneck <staneck@gmail.com>
+2016-07-18 01:37:27 +0200
+
+
+
+--------------------
+
+Benjamin Staneck:
+	- silence a global
+Infus:
+	- Make gigantic dynamic groups editable in the options
+	Add a PauseAllDynamicGroups() and ResumeAllDynamicGroups() which
+	temporarily delays all ControlChildren calls.
+	
+	The dynamic groups are paused before mass editing, such as importing,
+	clicking the view icon, deleting the group. This makes it significantly
+	faster to edit those auars.
+	
+	Ticket-Nr: 581
+Benjamin Staneck:
+	- OCD formatting
+	- fix a typo

@@ -209,7 +209,9 @@ function spinnerFunctions.SetProgress(self, region, startAngle, endAngle, progre
   if (not clockwise) then
     quadrant = 5 - quadrant;
   end
+  self.scrollframe:Hide();
   self.scrollframe:SetAllPoints(self.circularTextures[quadrant])
+  self.scrollframe:Show();
 
   local ULx, ULy = ApplyTransform(0, 0, region)
   local LLx, LLy = ApplyTransform(0, 1, region)
@@ -230,6 +232,7 @@ function spinnerFunctions.SetProgress(self, region, startAngle, endAngle, progre
   local degree = pAngle;
   if not clockwise then degree = -degree + 90 end
   Transform(self.wedge, -0.5, -0.5, degree + region.rotation, region.aspect)
+
   WeakAuras.animRotate(self.wedge, -degree, "BOTTOMRIGHT");
 end
 
@@ -700,7 +703,7 @@ local function modify(parent, region, data)
     end
 
     local function UpdateCustom()
-        UpdateValue(region.customValueFunc(data.trigger));
+        UpdateValue(region.customValueFunc(region.state.trigger));
     end
 
     function region:SetDurationInfo(duration, expirationTime, customValue, inverse)
@@ -711,7 +714,7 @@ local function modify(parent, region, data)
 
         if(customValue) then
             if(type(customValue) == "function") then
-                local value, total = customValue(data.trigger);
+                local value, total = customValue(region.state.trigger);
                 if(total > 0 and value < total) then
                     region.customValueFunc = customValue;
                     region:SetScript("OnUpdate", UpdateCustom);
