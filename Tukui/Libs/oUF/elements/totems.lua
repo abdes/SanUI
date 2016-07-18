@@ -60,9 +60,6 @@ local oUF = ns.oUF
 
 -- Order the list based upon the default UIs priorities.
 local priorities = STANDARD_TOTEM_PRIORITIES
-if(select(2, UnitClass'player') == 'SHAMAN') then
-	priorities = SHAMAN_TOTEM_PRIORITIES
-end
 
 local UpdateTooltip = function(self)
 	GameTooltip:SetTotem(self:GetID())
@@ -142,13 +139,32 @@ local Enable = function(self)
 				end
 			end
 		end
+		
+		-- Right click to remove totem
+		hooksecurefunc("TotemButton_Update", function(btot)
+			if(btot.slot > 0) then
+				local tot = totems[priorities[btot.slot]]
+				local cd = _G[btot:GetName().."IconCooldown"]
+				
+				btot:ClearAllPoints()
+				btot:SetParent(tot)
+				btot:SetAllPoints(tot)
+				btot:SetFrameStrata(tot:GetFrameStrata())
+				btot:SetFrameLevel(tot:GetFrameLevel() + 1)
+				btot:SetAlpha(0)
+				
+				cd:Hide()
+			end
+		end)
+		
+		-- Fix a taint in combat because of right-click feature above
+		TotemFrame_AdjustPetFrame = function() end
 
 		self:RegisterEvent('PLAYER_TOTEM_UPDATE', Path, true)
 
 		TotemFrame.Show = TotemFrame.Hide
 		TotemFrame:Hide()
 
-		TotemFrame:UnregisterEvent"PLAYER_TOTEM_UPDATE"
 		TotemFrame:UnregisterEvent"PLAYER_ENTERING_WORLD"
 		TotemFrame:UnregisterEvent"UPDATE_SHAPESHIFT_FORM"
 		TotemFrame:UnregisterEvent"PLAYER_TALENT_UPDATE"
@@ -165,7 +181,6 @@ local Disable = function(self)
 		TotemFrame.Show = nil
 		TotemFrame:Show()
 
-		TotemFrame:RegisterEvent"PLAYER_TOTEM_UPDATE"
 		TotemFrame:RegisterEvent"PLAYER_ENTERING_WORLD"
 		TotemFrame:RegisterEvent"UPDATE_SHAPESHIFT_FORM"
 		TotemFrame:RegisterEvent"PLAYER_TALENT_UPDATE"
