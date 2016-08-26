@@ -1,0 +1,14 @@
+tag 2.2.1.2
+3208feea6e2c96451b782bb633405b55c275b627
+Benjamin Staneck <staneck@gmail.com>
+2016-08-24 21:45:53 +0200
+
+
+
+--------------------
+
+pwf:
+	- activating aura environment when aura triggers custom logic
+Benjamin Staneck:
+	- Update README.md
+	- Update README.md

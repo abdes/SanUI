@@ -680,6 +680,9 @@ function GenericTrigger.Add(data, region)
             stacksFunc = event_prototypes[trigger.event].stacksFunc;
 
             trigger.unevent = trigger.unevent or "auto";
+            if (event_prototypes[trigger.event].automaticrequired) then
+              trigger.unevent = "auto";
+            end
 
             if(trigger.unevent == "custom") then
               untriggerFuncStr = ConstructFunction(event_prototypes[trigger.event], untrigger);
@@ -1165,11 +1168,13 @@ do
   function WeakAuras.InitCooldownReady()
   cdReadyFrame = CreateFrame("FRAME");
   cdReadyFrame:RegisterEvent("SPELL_UPDATE_COOLDOWN");
+  cdReadyFrame:RegisterEvent("SPELL_UPDATE_CHARGES");
   cdReadyFrame:RegisterEvent("RUNE_POWER_UPDATE");
   cdReadyFrame:RegisterEvent("RUNE_TYPE_UPDATE");
   cdReadyFrame:RegisterEvent("UNIT_SPELLCAST_SENT");
   cdReadyFrame:SetScript("OnEvent", function(self, event, ...)
-    if(event == "SPELL_UPDATE_COOLDOWN" or event == "RUNE_POWER_UPDATE" or event == "RUNE_TYPE_UPDATE") then
+
+    if(event == "SPELL_UPDATE_COOLDOWN" or event == "SPELL_UPDATE_CHARGES" or event == "RUNE_POWER_UPDATE" or event == "RUNE_TYPE_UPDATE") then
       WeakAuras.CheckCooldownReady();
     elseif(event == "UNIT_SPELLCAST_SENT") then
       local unit, name = ...;
@@ -1286,10 +1291,12 @@ do
   function WeakAuras.CheckCooldownReady()
     CheckGCD();
 
+    local runeDuration = -100;
     for id, _ in pairs(runes) do
       local startTime, duration = GetRuneCooldown(id);
       startTime = startTime or 0;
       duration = duration or 0;
+      runeDuration = duration > 0 and duration or runeDuration
       local time = GetTime();
 
       if(not startTime or startTime == 0) then
@@ -1335,6 +1342,7 @@ do
       local charges, maxCharges, startTime, duration = GetSpellCharges(id);
       if (charges == nil) then -- charges is nil if the spell has no charges
         startTime, duration = GetSpellCooldown(id);
+        charges = GetSpellCount(id);
       elseif (charges == maxCharges) then
         startTime, duration = 0, 0;
       end
@@ -1355,7 +1363,7 @@ do
           spellCdDurs[id] = duration;
           spellCdExps[id] = endTime;
           spellCdHandles[id] = timer:ScheduleTimer(SpellCooldownFinished, endTime - time, id);
-          if (spellsRune[id] and duration ~= 10) then
+          if (spellsRune[id] and abs(duration - runeDuration) > 0.001 ) then
             spellCdDursRune[id] = duration;
             spellCdExpsRune[id] = endTime;
           end
@@ -1371,22 +1379,26 @@ do
           if (maxCharges == nil or charges + 1 == maxCharges) then
             spellCdHandles[id] = timer:ScheduleTimer(SpellCooldownFinished, endTime - time, id);
           end
-          if (spellsRune[id] and duration ~= 10) then
+          if (spellsRune[id] and abs(duration - runeDuration) > 0.001 ) then
             spellCdDursRune[id] = duration;
             spellCdExpsRune[id] = endTime;
           end
           WeakAuras.ScanEvents("SPELL_COOLDOWN_CHANGED", id);
         end
-      elseif(duration > 0) then
-        -- GCD, do nothing
       else
         if(spellCdExps[id]) then
-          -- Somehow CheckCooldownReady caught the spell cooldown before the timer callback
-          -- This shouldn't happen, but if it does, no problem
-          if(spellCdHandles[id]) then
-            timer:CancelTimer(spellCdHandles[id]);
+          local endTime = startTime + duration;
+          if (duration == WeakAuras.gcdDuration() and spellCdExps[id] > endTime or duration == 0) then
+           -- CheckCooldownReady caught the spell cooldown before the timer callback
+           -- This happens if a proc resets the cooldown
+            if(spellCdHandles[id]) then
+              timer:CancelTimer(spellCdHandles[id]);
+            end
+            SpellCooldownFinished(id);
           end
-          SpellCooldownFinished(id);
+        end
+        if (chargesChanged) then
+          WeakAuras.ScanEvents("SPELL_COOLDOWN_CHANGED", id);
         end
       end
     end
@@ -1475,6 +1487,9 @@ do
 
     if (ignoreRunes) then
       spellsRune[id] = true;
+      for i = 1, 6 do
+        WeakAuras.WatchRuneCooldown(i);
+      end
     end
 
     if not(spells[id]) then
@@ -1761,8 +1776,8 @@ do
       local expirationTime = now + duration;
 
       local newBar;
-      bars[spellId] = bars[spellId] or {};
-      local bar = bars[spellId];
+      bars[text] = bars[text] or {};
+      local bar = bars[text];
       bar.addon = addon;
       bar.spellId = spellId;
       bar.text = text;
@@ -1780,11 +1795,9 @@ do
       end
     elseif (event == "BigWigs_StopBar") then
       local addon, text = ...
-      for key, bar in pairs(bars) do
-        if (key == text) then
-          bars[key] = nil;
-          WeakAuras.ScanEvents("BigWigs_StopBar", key);
-        end
+      if(bars[text]) then
+        WeakAuras.ScanEvents("BigWigs_StopBar", text);
+        bars[text] = nil;
       end
     elseif (event == "BigWigs_StopBars"
             or event == "BigWigs_OnBossDisable"
@@ -2303,10 +2316,52 @@ function GenericTrigger.CreateFallbackState(data, triggernum, state)
   state.show = true;
   state.changed = true;
   local event = events[data.id][triggernum];
+
+  WeakAuras.ActivateAuraEnvironment(data.id, "", state);
   state.name = event.nameFunc and event.nameFunc(data.trigger) or nil;
   state.icon = event.iconFunc and event.iconFunc(data.trigger) or nil;
   state.texture = event.textureFunc and event.textureFunc(data.trigger) or nil;
   state.stacks = event.stacksFunc and event.stacksFunc(data.trigger) or nil;
+
+  if (event.durationFunc) then
+    local arg1, arg2, arg3, inverse = event.durationFunc(data.trigger);
+    arg1 = type(arg1) == "number" and arg1 or 0;
+    arg2 = type(arg2) == "number" and arg2 or 0;
+
+    if(type(arg3) == "string") then
+      state.durationFunc = event.durationFunc;
+    elseif (type(arg3) == "function") then
+      state.durationFunc = arg3;
+    else
+      state.durationFunc = nil;
+    end
+
+    if (arg3) then
+      state.progressType = "static";
+      state.duration = nil;
+      state.resort = state.expirationTime ~= nil;
+      state.expirationTime = nil;
+      state.value = arg1;
+      state.total = arg2;
+    else
+      state.progressType = "timed";
+      state.duration = arg1;
+      state.resort = state.expirationTime ~= arg2;
+      state.expirationTime = arg2;
+      state.autoHide = arg1 > 0.01;
+      state.value = nil;
+      state.total = nil;
+      state.inverse = inverse;
+    end
+  else
+    state.progressType = "static";
+    state.duration = nil;
+    state.resort = nil;
+    state.expirationTime = nil;
+    state.value = nil;
+    state.total = nil;
+  end
+  WeakAuras.ActivateAuraEnvironment(nil);
 end
 
 WeakAuras.RegisterTriggerSystem({"event", "status", "custom"}, GenericTrigger);

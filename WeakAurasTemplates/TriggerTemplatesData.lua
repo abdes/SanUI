@@ -335,7 +335,7 @@ templates.class.PALADIN = {
         { spell = 211422, type = "buff", unit = "player" }, -- Knight of the Silver Hand
         { spell = 214202, type = "buff", unit = "player", talent = 6 }, -- Rule of Law
         { spell = 216413, type = "buff", unit = "player", talent = 13 }, -- Divine Purpose
-        { spell = 221886, type = "buff", unit = "player", talent = 4 }, -- Divine Steed
+        { spell = 221886, type = "buff", unit = "player"}, -- Divine Steed
         { spell = 223306, type = "buff", unit = "player", talent = 1 }, -- Bestow Faith
         { spell = 223316, type = "buff", unit = "player", talent = 16 }, -- Fervent Martyr
       },
@@ -383,7 +383,7 @@ templates.class.PALADIN = {
         { spell = 156910, type = "ability", talent = 19}, -- Beacon of Faith
         { spell = 200025, type = "ability", talent = 21}, -- Beacon of Virtue
         { spell = 200652, type = "ability"}, -- Tyr's Deliverance
-        { spell = 205656, type = "ability", talent = 4}, -- Divine Steed
+        { spell = 205656, type = "ability"}, -- Divine Steed
         { spell = 214202, type = "ability", talent = 6}, -- Rule of Law
         { spell = 223306, type = "ability", talent = 1}, -- Bestow Faith
       },
@@ -471,6 +471,7 @@ templates.class.PALADIN = {
         { spell = 96231, type = "ability"}, -- Rebuke
         { spell = 115750, type = "ability", talent = 9}, -- Blinding Light
         { spell = 152262, type = "ability", talent = 20}, -- Seraphim
+        { spell = 184092, type = "ability"}, -- Light of the Protector
         { spell = 190784, type = "ability"}, -- Divine Steed
         { spell = 204013, type = "ability", talent = 11}, -- Blessing of Salvation
         { spell = 204018, type = "ability", talent = 10}, -- Blessing of Spellwarding
@@ -519,7 +520,7 @@ templates.class.PALADIN = {
         { spell = 205191, type = "buff", unit = "player", talent = 14 }, -- Eye for an Eye
         { spell = 209785, type = "buff", unit = "player", talent = 4 }, -- The Fires of Justice
         { spell = 217020, type = "buff", unit = "player", talent = 5 }, -- Zeal
-        { spell = 221886, type = "buff", unit = "player", talent = 17 }, -- Divine Steed
+        { spell = 221886, type = "buff", unit = "player"}, -- Divine Steed
         { spell = 223819, type = "buff", unit = "player" }, -- Divine Purpose
         { spell = 224668, type = "buff", unit = "player", talent = 20 }, -- Crusade
       },
@@ -564,7 +565,7 @@ templates.class.PALADIN = {
         { spell = 205191, type = "ability", talent = 14}, -- Eye for an Eye
         { spell = 205228, type = "ability", talent = 3}, -- Consecration
         { spell = 205273, type = "ability"}, -- Wake of Ashes
-        { spell = 205656, type = "ability", talent = 17}, -- Divine Steed
+        { spell = 205656, type = "ability"}, -- Divine Steed
         { spell = 210191, type = "ability", talent = 15}, -- Word of Glory
         { spell = 210220, type = "ability", talent = 21}, -- Holy Wrath
         { spell = 213644, type = "ability"}, -- Cleanse Toxins
@@ -642,8 +643,8 @@ templates.class.HUNTER = {
         { spell = 5116, type = "ability"}, -- Concussive Shot
         { spell = 5384, type = "ability"}, -- Feign Death
         { spell = 19386, type = "ability", talent = 14}, -- Wyvern Sting
-        { spell = 19574, type = "ability", talent = 15}, -- Bestial Wrath
-        { spell = 19577, type = "ability"}, -- Intimidation
+        { spell = 19574, type = "ability"}, -- Bestial Wrath
+        { spell = 19577, type = "ability", talent = 15}, -- Intimidation
         { spell = 34026, type = "ability"}, -- Kill Command
         { spell = 34477, type = "ability"}, -- Misdirection
         { spell = 53209, type = "ability", talent = 6}, -- Chimaera Shot
@@ -2612,6 +2613,7 @@ templates.class.DRUID = {
         { spell = 29166, type = "buff", unit = "group" }, -- Innervate
         { spell = 102560, type = "buff", unit = "player", talent = 14 }, -- Incarnation: Chosen of Elune
         { spell = 137452, type = "buff", unit = "player", talent = 5 }, -- Displacer Beast
+        { spell = 157228, type = "buff", unit = "player"}, -- Owlkin Frenzy
         { spell = 164545, type = "buff", unit = "player" }, -- Solar Empowerment
         { spell = 164547, type = "buff", unit = "player" }, -- Lunar Empowerment
         { spell = 191034, type = "buff", unit = "player" }, -- Starfall
@@ -3880,6 +3882,30 @@ tinsert(templates.class.MONK[1][5].args, createSimplePowerTemplate(3));
 tinsert(templates.class.MONK[2][5].args, createSimplePowerTemplate(0));
 tinsert(templates.class.MONK[3][5].args, createSimplePowerTemplate(3));
 tinsert(templates.class.MONK[3][5].args, createSimplePowerTemplate(12));
+
+templates.class.MONK[1][6] = {
+  title = L["Ability Charges"],
+  args = {
+    { spell = 115072, type = "ability", showOn = "always"}, -- Expel Harm
+  },
+  icon = 627486,
+};
+
+templates.class.MONK[2][6] = {
+  title = L["Ability Charges"],
+  args = {
+    { spell = 205406, type = "spellcount"}, -- Sheilun's Gift
+  },
+  icon = 1242282,
+};
+
+templates.class.MONK[3][6] = {
+  title = L["Ability Charges"],
+  args = {
+    { spell = 101546, type = "spellcount"}, -- Spinning Crane Kick
+  },
+  icon = 606543,
+};
 
 -- Druid
 for i = 1, 4 do

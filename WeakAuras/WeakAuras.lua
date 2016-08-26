@@ -40,23 +40,30 @@ local L = WeakAuras.L
 -- GLOBALS: SLASH_WEAKAURAS1 SLASH_WEAKAURAS2 SlashCmdList GTFO UNKNOWNOBJECT C_PetBattles
 
 local queueshowooc;
-function WeakAuras.OpenOptions(msg)
+
+function WeakAuras.LoadOptions(msg)
   if not(IsAddOnLoaded("WeakAurasOptions")) then
     if InCombatLockdown() then
       -- inform the user and queue ooc
       print("|cff9900FF".."WeakAuras Options"..FONT_COLOR_CODE_CLOSE.." will finish loading after combat.")
       queueshowooc = msg or "";
       WeakAuras.frames["Addon Initialization Handler"]:RegisterEvent("PLAYER_REGEN_ENABLED")
-      return;
+      return false;
     else
       local loaded, reason = LoadAddOn("WeakAurasOptions");
       if not(loaded) then
         print("|cff9900FF".."WeakAuras Options"..FONT_COLOR_CODE_CLOSE.." could not be loaded: "..RED_FONT_COLOR_CODE.._G["ADDON_"..reason]);
-        return;
+        return false;
       end
     end
   end
-  WeakAuras.ToggleOptions(msg);
+  return true;
+end
+
+function WeakAuras.OpenOptions(msg)
+  if (WeakAuras.LoadOptions(msg)) then
+    WeakAuras.ToggleOptions(msg);
+  end
 end
 
 SLASH_WEAKAURAS1, SLASH_WEAKAURAS2 = "/weakauras", "/wa";
@@ -859,7 +866,19 @@ function WeakAuras.UpdateCurrentInstanceType(instanceType)
   end
 end
 
+local pausedOptionsProcessing = false;
+function WeakAuras.pauseOptionsProcessing(enable)
+  pausedOptionsProcessing = enable;
+end
+
+function WeakAuras.IsOptionsProcessingPaused()
+  return pausedOptionsProcessing;
+end
+
 function WeakAuras.ScanForLoads(self, event, arg1)
+  if (WeakAuras.IsOptionsProcessingPaused()) then
+    return;
+  end
   -- PET_BATTLE_CLOSE fires twice at the end of a pet battle. IsInBattle evaluates to TRUE during the
   -- first firing, and FALSE during the second. I am not sure if this check is necessary, but the
   -- following IF statement limits the impact of the PET_BATTLE_CLOSE event to the second one.
@@ -1068,6 +1087,7 @@ loadFrame:RegisterEvent("PET_BATTLE_OPENING_START");
 loadFrame:RegisterEvent("PET_BATTLE_CLOSE");
 loadFrame:RegisterEvent("UNIT_ENTERED_VEHICLE");
 loadFrame:RegisterEvent("UNIT_EXITED_VEHICLE");
+loadFrame:RegisterEvent("SPELLS_CHANGED");
 
 function WeakAuras.RegisterLoadEvents()
   loadFrame:SetScript("OnEvent", WeakAuras.ScanForLoads);
@@ -1636,7 +1656,12 @@ function WeakAuras.Modernize(data)
     if not data.fontFlags then
         data.fontFlags = "OUTLINE";
     end
+  end
 
+  if data.regionType == "text" then
+    if (type(data.outline) == "boolean") then
+      data.outline = data.outline and "OUTLINE" or "None";
+    end
   end
 
   if (not data.activeTriggerMode) then
@@ -1814,12 +1839,16 @@ function WeakAuras.pAdd(data)
       timers[id] = nil;
     end
 
+    if (data.activeTriggerMode >= data.numTriggers) then
+      data.activeTriggerMode = WeakAuras.trigger_modes.first_active;
+    end
     triggerState[id] = {};
     triggerState[id].disjunctive = data.numTriggers > 1 and data.disjunctive or "all";
     triggerState[id].numTriggers = data.numTriggers;
     triggerState[id].activeTriggerMode = data.activeTriggerMode or 0;
     triggerState[id].triggerLogicFunc = triggerLogicFunc;
     triggerState[id].triggers = {};
+    triggerState[id].triggerCount = 0;
 
     WeakAuras.LoadEncounterInitScripts(id)
 
@@ -2083,7 +2112,9 @@ function WeakAuras.Announce(message, output, _, extra, id, type)
 end
 
 function WeakAuras.PerformActions(data, type, region)
-  if not(paused or squelch_actions) then
+  if (paused) then
+    return;
+  end;
   local actions;
   if(type == "start") then
     actions = data.actions.start;
@@ -2093,7 +2124,7 @@ function WeakAuras.PerformActions(data, type, region)
     return;
   end
 
-  if(actions.do_message and actions.message_type and actions.message) then
+  if(actions.do_message and actions.message_type and actions.message and not squelch_actions) then
     if(actions.message_type == "PRINT") then
       DEFAULT_CHAT_FRAME:AddMessage(actions.message, actions.r or 1, actions.g or 1, actions.b or 1);
     elseif(actions.message_type == "COMBAT") then
@@ -2128,7 +2159,7 @@ function WeakAuras.PerformActions(data, type, region)
     end
   end
 
-  if(actions.do_sound and actions.sound) then
+  if(actions.do_sound and actions.sound and not squelch_actions) then
     if(actions.sound == " custom") then
       if(actions.sound_path) then
         PlaySoundFile(actions.sound_path, actions.sound_channel or "Master");
@@ -2142,7 +2173,7 @@ function WeakAuras.PerformActions(data, type, region)
     end
   end
 
-  if(actions.do_custom and actions.custom) then
+  if(actions.do_custom and actions.custom and not squelch_actions) then
     local func = WeakAuras.LoadFunction("return function() "..(actions.custom).."\n end");
     if func then
       WeakAuras.ActivateAuraEnvironment(region.id, region.cloneId, region.state);
@@ -2151,6 +2182,7 @@ function WeakAuras.PerformActions(data, type, region)
     end
   end
 
+  -- Apply glow actions even if squelch_actions is true
   if(actions.do_glow and actions.glow_action and actions.glow_frame) then
     local glow_frame;
     if(actions.glow_frame:sub(1, 10) == "WeakAuras:") then
@@ -2169,7 +2201,6 @@ function WeakAuras.PerformActions(data, type, region)
         WeakAuras_HideOverlayGlow(glow_frame);
       end
     end
-  end
   end
 end
 
@@ -2609,7 +2640,7 @@ function WeakAuras.CreateFallbackState(id, triggernum, state)
     state.triggernum = 0;
     state.id = id;
   else
-    state.trigger = data.additional_triggers[triggernum];
+    state.trigger = data.additional_triggers[triggernum].trigger;
     state.triggernum = triggernum;
     state.id = id;
   end
@@ -2696,11 +2727,12 @@ function WeakAuras.ShowMouseoverTooltip(region, owner)
 
   local triggerType;
   if (region.state) then
-   triggerType = region.state.trigger.type;
+    triggerType = region.state.trigger.type;
   end
 
   local triggerSystem = triggerType and triggerTypes[triggerType];
   if (not triggerSystem) then
+    GameTooltip:Hide();
     return;
   end
 
@@ -2948,14 +2980,7 @@ function WeakAuras.FixGroupChildrenOrder()
         for i=1, #data.controlledChildren do
           local childRegion = WeakAuras.regions[data.controlledChildren[i]] and WeakAuras.regions[data.controlledChildren[i]].region;
           if(childRegion) then
-            if frameLevel >= 100 then
-              frameLevel = 100
-            else
-              frameLevel = frameLevel + 1
-            end
-            -- Try to fix #358 with info from http://wow.curseforge.com/addons/droodfocus/tickets/14
-            -- by setting SetFrameLevel() twice.
-            childRegion:SetFrameLevel(frameLevel);
+            frameLevel = frameLevel + 1
             childRegion:SetFrameLevel(frameLevel);
           end
         end
@@ -3078,7 +3103,7 @@ end
 
 local function startStopTimers(id, cloneId, triggernum, state)
   if (state.show) then
-    if (state.autoHide and state.duration) then -- autohide, update timer
+    if (state.autoHide and state.duration and state.duration > 0) then -- autohide, update timer
       timers[id] = timers[id] or {};
       timers[id][triggernum] = timers[id][triggernum] or {};
       timers[id][triggernum][cloneId] = timers[id][triggernum][cloneId] or {};
@@ -3168,6 +3193,11 @@ local function ApplyStateToRegion(id, region, state)
   if(region.UpdateCustomText and not WeakAuras.IsRegisteredForCustomTextUpdates(region)) then
     region.UpdateCustomText();
   end
+
+  if(state.texture and region.SetTexture) then
+    region:SetTexture(state.texture);
+  end
+
   WeakAuras.UpdateMouseoverTooltip(region);
   region:Expand();
 end
@@ -3200,15 +3230,18 @@ local function applyToTriggerStateTriggers(stateShown, id, triggernum)
 end
 
 local function evaluateTriggerStateTriggers(id)
+  local result = false;
+  WeakAuras.ActivateAuraEnvironment(id);
   if(triggerState[id].disjunctive == "any" and triggerState[id].triggerCount > 0
       or (triggerState[id].disjunctive == "all" and triggerState[id].triggerCount == triggerState[id].numTriggers)
       or (triggerState[id].disjunctive == "custom"
           and triggerState[id].triggerLogicFunc
           and triggerState[id].triggerLogicFunc(triggerState[id].triggers))
     ) then
-    return true;
+    result = true;
   end
-  return false;
+  WeakAuras.ActivateAuraEnvironment(nil);
+  return result;
 end
 
 local function ApplyStatesToRegions(id, triggernum, states)
@@ -3252,7 +3285,7 @@ function WeakAuras.UpdatedTriggerState(id)
         state.triggernum = 0;
         state.id = id;
       else
-        state.trigger = db.displays[id].additional_triggers[triggernum];
+        state.trigger = db.displays[id].additional_triggers[triggernum].trigger;
         state.triggernum = triggernum;
         state.id = id;
       end
@@ -3337,7 +3370,7 @@ end
 
 local replaceStringCache = {};
 function WeakAuras.ReplacePlaceHolders(textStr, regionValues, regionState)
-  if (regionState) then
+  if (regionState and textStr:len() > 2) then
     for key, value in pairs(regionState) do
       if (type(value) == "string" or type(value) == "number") then
         if (not replaceStringCache[key]) then
