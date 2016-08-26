@@ -368,7 +368,7 @@ local function Shared(self, unit)
 		--{33763, {"TOP",0,0}, {0.4, 0.8, 0.2,0},false,nil,nil,true,true,true,true,{"CENTER",0,0},"CENTER"}, -- Lifebloom
 		{48438, {"TOPRIGHT",0,1}, {0, 1, 1},false,nil,nil,false}, -- Wild Growth
 		{8936, {"TOPLEFT",-1,-7}, {0.4, 0.8, 0.2},false,nil,{{6,{1,1,0}},{3,{1,0,0}}},true,true}, -- Regrowth
-		{18562,{"TOPLEFT",-1,1},{1,1,1},true,nil,nil,true}, -- swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
+		--{18562,{"TOPLEFT",-1,1},{1,1,1},true,nil,nil,true}, -- swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
 	}
 	
 	-- S["UnitFrames"].RaidBuffsTracking["PALADIN"] = {
