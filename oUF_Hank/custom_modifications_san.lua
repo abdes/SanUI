@@ -532,19 +532,22 @@ oUF_Hank_hooks.customPowerBar = {
 		power:SetWidth(248)
 		power:SetHeight(15)
 		power:SetPoint("BOTTOMRIGHT", self.health[4], "BOTTOMLEFT", 351, 33) ---160, -200
+		power:SetFrameStrata("MEDIUM")
+    power:SetFrameLevel(13)
 		power:SetStatusBarTexture(Normal)
 		power:SetMinMaxValues(0,UnitPowerMax(unit))
 		power.frequentUpdates = true
 		
 		local powerBG = power:CreateTexture(nil, 'BORDER')
-        	powerBG:SetAllPoints(power)
+    powerBG:SetAllPoints(power)
 		powerBG:SetTexture(Normal)
 		powerBG:SetVertexColor(0,0,0)
 		powerBG.Multiplier = 0.3
 		
 		local powerPanel = CreateFrame("Frame", "MyPowerPanel", power)
 		powerPanel:SetTemplate()
-		powerPanel:SetFrameStrata("BACKGROUND")
+		powerPanel:SetFrameStrata("MEDIUM")
+    powerPanel:SetFrameLevel(power:GetFrameLevel()-1)
 		powerPanel:SetPoint("TOPLEFT",TukuiDB.Scale(-2), TukuiDB.Scale(2))
 		powerPanel:SetPoint("BOTTOMRIGHT",TukuiDB.Scale(2), -TukuiDB.Scale(2))
 	
