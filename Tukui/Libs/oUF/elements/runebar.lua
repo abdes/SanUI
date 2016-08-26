@@ -52,7 +52,7 @@ local parent, ns = ...
 local oUF = ns.oUF
 
 local runemap, UpdateType
-if(not isBetaClient) then
+if(isBetaClient) then
 	oUF.colors.runes = {
 		{1, 0, 0},   -- blood
 		{0, .5, 0},  -- unholy
@@ -79,6 +79,11 @@ if(not isBetaClient) then
 			return runes:PostUpdateType(rune, rid, alt)
 		end
 	end
+else
+	oUF.colors.runes = {
+		["READY"] = {0.31, 0.45, 0.63},
+		["CD"] = {0.7, 0.7, 0.7},
+	}
 end
 
 local OnUpdate = function(self, elapsed)
@@ -87,6 +92,7 @@ local OnUpdate = function(self, elapsed)
 		return self:SetScript("OnUpdate", nil)
 	else
 		self.duration = duration
+		
 		return self:SetValue(duration)
 	end
 end
@@ -109,11 +115,13 @@ local Update = function(self, event, rid)
 		if(runeReady) then
 			rune:SetMinMaxValues(0, 1)
 			rune:SetValue(1)
+			rune:SetStatusBarColor(unpack(oUF.colors.runes["READY"]))
 			rune:SetScript("OnUpdate", nil)
 		else
 			rune.duration = GetTime() - start
 			rune.max = duration
 			rune:SetMinMaxValues(1, duration)
+			rune:SetStatusBarColor(unpack(oUF.colors.runes["CD"]))
 			rune:SetScript("OnUpdate", OnUpdate)
 		end
 
@@ -122,12 +130,6 @@ local Update = function(self, event, rid)
 
 	if(runes.PostUpdate) then
 		return runes:PostUpdate(rune, rid, start, duration, runeReady)
-	end
-end
-
-local Update = function(self, event)
-	for i=1, 6 do
-		Update(self, event, i)
 	end
 end
 

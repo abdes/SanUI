@@ -58,7 +58,7 @@ local _, PlayerClass = UnitClass'player'
 -- Holds the class specific stuff.
 local ClassPowerID, ClassPowerType
 local ClassPowerEnable, ClassPowerDisable
-local RequireSpec, RequireSpell
+local RequireSpec, RequireSpell, RequirePower
 
 local UpdateTexture = function(element)
 	local color = oUF.colors.power[ClassPowerType]
@@ -155,10 +155,12 @@ local function Visibility(self, event, unit)
 	elseif(ClassPowerID) then
 		if(not RequireSpec or RequireSpec == GetSpecialization()) then
 			if(not RequireSpell or IsPlayerSpell(RequireSpell)) then
-				self:UnregisterEvent('SPELLS_CHANGED', Visibility)
-				shouldEnable = true
-			else
-				self:RegisterEvent('SPELLS_CHANGED', Visibility, true)
+				if(not RequirePower or RequirePower == UnitPowerType('player')) then
+					self:UnregisterEvent('SPELLS_CHANGED', Visibility)
+					shouldEnable = true
+				else
+					self:RegisterEvent('SPELLS_CHANGED', Visibility, true)
+				end
 			end
 		end
 	end
@@ -169,7 +171,7 @@ local function Visibility(self, event, unit)
 	elseif(not shouldEnable and (isEnabled or isEnabled == nil)) then
 		ClassPowerDisable(self)
 	elseif(shouldEnable and isEnabled) then
-		Path(self, event, unit, ClassPowerType)
+		Path(self, event, unit, unit == 'vehicle' and 'COMBO_POINTS' or ClassPowerType)
 	end
 end
 
@@ -183,7 +185,7 @@ end
 
 do
 	ClassPowerEnable = function(self)
-		self:RegisterEvent('UNIT_DISPLAYPOWER', Path)
+		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 		self:RegisterEvent('UNIT_POWER_FREQUENT', Path)
 
 		if(UnitHasVehicleUI('player')) then
@@ -195,7 +197,7 @@ do
 	end
 
 	ClassPowerDisable = function(self)
-		self:UnregisterEvent('UNIT_DISPLAYPOWER', Path)
+		self:UnregisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 		self:UnregisterEvent('UNIT_POWER_FREQUENT', Path)
 
 		local element = self.ClassIcons
@@ -239,6 +241,10 @@ do
 	elseif(PlayerClass == 'ROGUE' or PlayerClass == 'DRUID') then
 		ClassPowerID = SPELL_POWER_COMBO_POINTS
 		ClassPowerType = 'COMBO_POINTS'
+
+		if(isBetaClient and PlayerClass == 'DRUID') then
+			RequirePower = SPELL_POWER_ENERGY
+		end
 	elseif(PlayerClass == 'MAGE' and isBetaClient) then
 		ClassPowerID = SPELL_POWER_ARCANE_CHARGES
 		ClassPowerType = 'ARCANE_CHARGES'

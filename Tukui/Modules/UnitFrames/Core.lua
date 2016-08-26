@@ -90,8 +90,6 @@ function TukuiUnitFrames:DisableBlizzard()
 		end
 	end
 
-	InterfaceOptionsFrameCategoriesButton9:SetHeight(0.00001)
-	InterfaceOptionsFrameCategoriesButton9:SetAlpha(0)
 	InterfaceOptionsFrameCategoriesButton10:SetHeight(0.00001)
 	InterfaceOptionsFrameCategoriesButton10:SetAlpha(0)
 end
@@ -402,6 +400,10 @@ local function clearbit(x, p)
 end
 
 function TukuiUnitFrames:UpdateTotemOverride(event, slot)
+	if slot > 4 then
+		return
+	end
+	
 	local Bar = self.Totems
 	local Priorities = Bar.__map
 
@@ -813,7 +815,7 @@ function TukuiUnitFrames:MainTankTargetAttibutes()
 			local header = self:GetParent()
 			self:SetWidth(header:GetAttribute("initial-width"))
 			self:SetHeight(header:GetAttribute("initial-height"))
-			self:SetAttribute('unitsuffix', 'target')
+			self:SetAttribute("unitsuffix", "target")
 		]],
 		"initial-width", T.Scale(150),
 		"initial-height", T.Scale(22),

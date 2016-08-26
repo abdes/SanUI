@@ -129,7 +129,7 @@ function Experience:Update(event, owner)
 		end
 		
 		if BarType == "XP" then
-			r, g, b = unpack(self.AFColor)
+			r, g, b = unpack(self.XPColor)
 		elseif BarType == "ARTIFACT" then
 			r, g, b = unpack(self.AFColor)
 		else
@@ -147,13 +147,14 @@ function Experience:Create()
 
 		XPBar:SetStatusBarTexture(C.Medias.Normal)
 		XPBar:EnableMouse()
-		XPBar:SetFrameStrata("MEDIUM")
-		XPBar:SetFrameLevel(4)
+		XPBar:SetFrameStrata("BACKGROUND")
+		XPBar:SetFrameLevel(2)
 		XPBar:CreateBackdrop()
 		XPBar:SetScript("OnEnter", Experience.SetTooltip)
 		XPBar:SetScript("OnLeave", HideTooltip)
 
 		RestedBar:SetStatusBarTexture(C.Medias.Normal)
+		RestedBar:SetFrameStrata("BACKGROUND")
 		RestedBar:SetStatusBarColor(unpack(self.RestedColor))
 		RestedBar:SetAllPoints(XPBar)
 		RestedBar:SetOrientation(C.Chat.Background and "HORIZONTAL" or "Vertical")

@@ -11,12 +11,13 @@ function ObjectiveTracker:SetQuestItemButton(block)
 		local Icon = Button.icon
 
 		Button:SetNormalTexture("")
-		Button:CreateBackdrop()
-		Button.Backdrop:SetOutside(Button, 0, 0)
+		Button:SetTemplate()
+		Button:SetBackdropColor(nil)
 		Button:StyleButton()
 
 		Icon:SetTexCoord(.1,.9,.1,.9)
 		Icon:SetInside()
+		Icon:SetDrawLayer("OVERLAY")
 
 		Button.isSkinned = true
 	end

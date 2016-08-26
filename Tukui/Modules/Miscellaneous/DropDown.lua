@@ -29,6 +29,20 @@ function DropDown:Skin()
 			Backdrop:CreateShadow()
 			Backdrop.IsSkinned = true
 		end
+		
+		Backdrop = _G["Lib_DropDownList"..i.."MenuBackdrop"]
+		if Backdrop and not Backdrop.IsSkinned then
+			Backdrop:SetTemplate("Default")
+			Backdrop:CreateShadow()
+			Backdrop.IsSkinned = true
+		end
+
+		Backdrop = _G["Lib_DropDownList"..i.."Backdrop"]
+		if Backdrop and not Backdrop.IsSkinned then
+			Backdrop:SetTemplate("Default")
+			Backdrop:CreateShadow()
+			Backdrop.IsSkinned = true
+		end
 	end
 end
 
@@ -43,6 +57,9 @@ function DropDown:Enable()
 	end
 
 	hooksecurefunc("UIDropDownMenu_CreateFrames", self.Skin)
+	
+	-- use dropdown lib
+	self.Open = Lib_EasyMenu or EasyMenu
 end
 
 Miscellaneous.DropDown = DropDown

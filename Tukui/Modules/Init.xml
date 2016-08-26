@@ -84,6 +84,7 @@
 	<Script file="DataTexts\Elements\Haste.lua"/>
 	<Script file="DataTexts\Elements\HPS.lua"/>
 	<Script file="DataTexts\Elements\Leech.lua"/>
+	<Script file="DataTexts\Elements\Lootspec.lua"/>
 	<Script file="DataTexts\Elements\Mastery.lua"/>
 	<Script file="DataTexts\Elements\Memory.lua"/>
 	<Script file="DataTexts\Elements\Power.lua"/>

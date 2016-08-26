@@ -83,7 +83,11 @@ function Bags:SkinBagButton()
 
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
-	self:SetTemplate()
+	self:SetBackdrop({
+	  edgeFile = C.Medias.Blank,
+	  edgeSize = T.Mult,
+	})
+	self:SetBackdropBorderColor(unpack(C.General.BorderColor))
 	self:StyleButton()
 
 	self.IsSkinned = true
@@ -103,7 +107,7 @@ function Bags:HideBlizzard()
 	BankClose:Hide()
 	BankPortraitTexture:Hide()
 	BagHelpBox:Kill()
-	BankFrame:EnableMouse(0)
+	BankFrame:EnableMouse(false)
 
 	for i = 1, 12 do
 		local CloseButton = _G["ContainerFrame"..i.."CloseButton"]
@@ -157,7 +161,12 @@ function Bags:CreateReagentContainer()
 	SwitchBankButton:Size((Reagent:GetWidth() / 2) - 1, 23)
 	SwitchBankButton:SkinButton()
 	SwitchBankButton:Point("BOTTOMLEFT", Reagent, "TOPLEFT", 0, 2)
-	SwitchBankButton:FontString(Text, C.Medias.Font, 12)
+
+	SwitchBankButton.Text = SwitchBankButton:CreateFontString(nil, "OVERLAY")
+	SwitchBankButton.Text:SetFont(C.Medias.Font, 12)
+	SwitchBankButton.Text:SetJustifyH("LEFT")
+	SwitchBankButton.Text:SetShadowColor(0, 0, 0)
+	SwitchBankButton.Text:SetShadowOffset(T.Mult, -T.Mult)
 	SwitchBankButton.Text:SetPoint("CENTER")
 	SwitchBankButton.Text:SetText("Switch to: "..BANK)
 	SwitchBankButton:SetScript("OnClick", function()
@@ -182,7 +191,11 @@ function Bags:CreateReagentContainer()
 	SortButton:Size((Reagent:GetWidth() / 2) - 1, 23)
 	SortButton:SetPoint("LEFT", SwitchBankButton, "RIGHT", 2, 0)
 	SortButton:SkinButton()
-	SortButton:FontString(Text, C.Medias.Font, 12)
+	SortButton.Text = SortButton:CreateFontString(nil, "OVERLAY")
+	SortButton.Text:SetFont(C.Medias.Font, 12)
+	SortButton.Text:SetJustifyH("LEFT")
+	SortButton.Text:SetShadowColor(0, 0, 0)
+	SortButton.Text:SetShadowOffset(T.Mult, -T.Mult)
 	SortButton.Text:SetPoint("CENTER")
 	SortButton.Text:SetText(BAG_FILTER_CLEANUP)
 	SortButton:SetScript("OnClick", BankFrame_AutoSortButtonOnClick)
@@ -244,7 +257,7 @@ function Bags:CreateReagentContainer()
 
 	UnlockButton:SkinButton()
 
-	Movers:RegisterFrame(Reagent)
+	--Movers:RegisterFrame(Reagent)
 
 	self.Reagent = Reagent
 	-- Couldn't access these.
@@ -258,7 +271,7 @@ function Bags:CreateContainer(storagetype, ...)
 	Container:SetWidth(((ButtonSize + ButtonSpacing) * ItemsPerRow) + 22 - ButtonSpacing)
 	Container:SetPoint(...)
 	Container:SetFrameStrata("MEDIUM")
-	Container:SetFrameLevel(1)
+	Container:SetFrameLevel(50)
 	--Container:RegisterForDrag("LeftButton","RightButton")
 	--Container:SetScript("OnDragStart", function(self) self:StartMoving() end)
 	--Container:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
@@ -289,7 +302,11 @@ function Bags:CreateContainer(storagetype, ...)
 		Sort:SetFrameStrata(Container:GetFrameStrata())
 		Sort:StripTextures()
 		Sort:SkinButton()
-		Sort:FontString(Text, C.Medias.Font, 12)
+		Sort.Text = Sort:CreateFontString(nil, "OVERLAY")
+		Sort.Text:SetFont(C.Medias.Font, 12)
+		Sort.Text:SetJustifyH("LEFT")
+		Sort.Text:SetShadowColor(0, 0, 0)
+		Sort.Text:SetShadowOffset(T.Mult, -T.Mult)
 		Sort.Text:SetPoint("CENTER")
 		Sort.Text:SetText(BAG_FILTER_CLEANUP)
 		Sort.ClearAllPoints = Noop
@@ -397,7 +414,11 @@ function Bags:CreateContainer(storagetype, ...)
 		SwitchReagentButton:Size((Container:GetWidth() / 2) - 1, 23)
 		SwitchReagentButton:SkinButton()
 		SwitchReagentButton:Point("BOTTOMLEFT", Container, "TOPLEFT", 0, 2)
-		SwitchReagentButton:FontString(Text, C.Medias.Font, 12)
+		SwitchReagentButton.Text = SwitchReagentButton:CreateFontString(nil, "OVERLAY")
+		SwitchReagentButton.Text:SetFont(C.Medias.Font, 12)
+		SwitchReagentButton.Text:SetJustifyH("LEFT")
+		SwitchReagentButton.Text:SetShadowColor(0, 0, 0)
+		SwitchReagentButton.Text:SetShadowOffset(T.Mult, -T.Mult)
 		SwitchReagentButton.Text:SetPoint("CENTER")
 		SwitchReagentButton.Text:SetText("Switch to: "..REAGENT_BANK)
 		SwitchReagentButton:SetScript("OnClick", function()
@@ -419,7 +440,11 @@ function Bags:CreateContainer(storagetype, ...)
 		SortButton:Size((Container:GetWidth() / 2) - 1, 23)
 		SortButton:SetPoint("LEFT", SwitchReagentButton, "RIGHT", 2, 0)
 		SortButton:SkinButton()
-		SortButton:FontString(Text, C.Medias.Font, 12)
+		SortButton.Text = SortButton:CreateFontString(nil, "OVERLAY")
+		SortButton.Text:SetFont(C.Medias.Font, 12)
+		SortButton.Text:SetJustifyH("LEFT")
+		SortButton.Text:SetShadowColor(0, 0, 0)
+		SortButton.Text:SetShadowOffset(T.Mult, -T.Mult)
 		SortButton.Text:SetPoint("CENTER")
 		SortButton.Text:SetText(BAG_FILTER_CLEANUP)
 		SortButton:SetScript("OnClick", BankFrame_AutoSortButtonOnClick)
@@ -532,9 +557,21 @@ function Bags:SlotUpdate(id, button)
 	end
 
 	local ItemLink = GetContainerItemLink(id, button:GetID())
-	local Texture, Count, Lock = GetContainerItemInfo(id, button:GetID())
-	local IsQuestItem, QuestId, IsActive = GetContainerItemQuestInfo(id, button:GetID())
+	
+	local Texture, Count, Lock, quality, _, _, _, _, _, ItemID = GetContainerItemInfo(id, button:GetID())
 	local IsNewItem = C_NewItems.IsNewItem(id, button:GetID())
+	
+	if IsNewItem ~= true and button.Animation and button.Animation:IsPlaying() then
+		button.Animation:Stop()
+	end
+	
+	if (button.ItemID == ItemID) then
+		return
+	end
+	
+	button.ItemID = ItemID
+	
+	local IsQuestItem, QuestId, IsActive = GetContainerItemQuestInfo(id, button:GetID())
 	local IsBattlePayItem = IsBattlePayItem(id, button:GetID())
 	local NewItem = button.NewItemTexture
 	local IsProfBag = self:IsProfessionBag(id)
@@ -568,44 +605,16 @@ function Bags:SlotUpdate(id, button)
 
 			button.Animation:Play()
 		end
-	else
-		if button.Animation and button.Animation:IsPlaying() then
-			button.Animation:Stop()
-		end
 	end
-
+	
 	if IsQuestItem then
-		if (button.BorderColor ~= QuestColor) then
-			button:SetBackdropBorderColor(1, 1, 0)
+		button:SetBackdropBorderColor(1, 1, 0)
+	elseif ItemLink then
+		local Rarity = select(3, GetItemInfo(ItemLink)) or 0
 
-			button.BorderColor = QuestColor
-		end
-
-		return
-	end
-
-	if ItemLink then
-		local Name, _, Rarity, _, _, Type = GetItemInfo(ItemLink)
-
-		if (not Lock and Rarity and Rarity > 1) then
-			if (button.BorderColor ~= GetItemQualityColor(Rarity)) then
-				button:SetBackdropBorderColor(GetItemQualityColor(Rarity))
-
-				button.BorderColor = GetItemQualityColor(Rarity)
-			end
-		else
-			if (button.BorderColor ~= C["General"].BorderColor) then
-				button:SetBackdropBorderColor(unpack(C["General"].BorderColor))
-
-				button.BorderColor = C["General"].BorderColor
-			end
-		end
+		button:SetBackdropBorderColor(GetItemQualityColor(Rarity))
 	else
-		if (button.BorderColor ~= C["General"].BorderColor) then
-			button:SetBackdropBorderColor(unpack(C["General"].BorderColor))
-
-			button.BorderColor = C["General"].BorderColor
-		end
+		button:SetBackdropBorderColor(unpack(C["General"].BorderColor))
 	end
 end
 
@@ -835,7 +844,7 @@ function Bags:OpenAllBankBags()
 		if not self.Bank.MoverAdded then
 			local Movers = T["Movers"]
 
-			Movers:RegisterFrame(self.Bank)
+			--Movers:RegisterFrame(self.Bank)
 
 			self.Bank.MoverAdded = true
 		end

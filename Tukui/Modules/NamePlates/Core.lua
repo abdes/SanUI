@@ -75,7 +75,9 @@ function Plates:ColorHealth()
 				if (UnitIsFriend("player", self.unit)) then
 					r, g, b = unpack(T.Colors.reaction[5])
 				else
-					r, g, b = unpack(T.Colors.reaction[1])
+					local Reaction = UnitReaction("player", self.unit)
+
+					r, g, b = unpack(T.Colors.reaction[Reaction])
 				end
 			end
 		end
@@ -162,7 +164,9 @@ function Plates:SetupPlate(options)
 	CastBar:HookScript("OnShow", Plates.SetCastingIcon)
 	
 	-- UNIT NAME
-	Name:SetFont(FontName, 10, "OUTLINE")
+	Name:SetFont(FontName, 10) -- if we add outline, it cause lag? WTF?
+	Name:SetShadowColor(0, 0, 0)
+	Name:SetShadowOffset(1.25, -1.25)
 	hooksecurefunc(Name, "Show", Plates.SetName)
 	
 	-- WILL DO A BETTER VISUAL FOR THIS LATER
