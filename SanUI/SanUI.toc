@@ -10,8 +10,6 @@ Core\init.lua
 Config\profiles.lua
 Config\config_cc.lua
 
-Modules\DataTexts\lootspec.lua
-
 Modules\Cooldowns\cc.lua
 Modules\Cooldowns\compat43.lua
 
