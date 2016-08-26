@@ -30,9 +30,6 @@ hooksecurefunc(S["ActionBars"],"Enable",function()
 		local b2 = _G["MultiBarBottomLeftButton"..i-1]
 		b:Size(C["ActionBars"].NormalButtonSize, C["ActionBars"].NormalButtonSize)
 		b:ClearAllPoints()
-		b:SetFrameStrata("BACKGROUND")
-		b:SetFrameLevel(15)
-		b:ClearAllPoints()
 		
 		if i == 1 then
 			b:SetPoint("LEFT", TukuiBar1, "LEFT",(C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*14), 0)

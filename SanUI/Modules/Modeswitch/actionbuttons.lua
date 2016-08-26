@@ -18,8 +18,6 @@ S.switchActionButtons = function(profile)
 				button:Point("CENTER",UIParent,-89,-185)
 			elseif i == 7 then
 				button:Point("TOPLEFT",ActionButton2,"BOTTOMLEFT",0,-7)
-				button:SetFrameStrata("MEDIUM")
-				button:SetFrameLevel(15) -- High enough? Not sure how to do this properly, but 15 should be enough
 			elseif i == 8 then
 				button:SetPoint("BOTTOMLEFT", 8*C["ActionBars"].NormalButtonSize + 2*C["ActionBars"].ButtonSpacing, C["ActionBars"].ButtonSpacing)
 			else
@@ -48,8 +46,6 @@ S.switchActionButtons = function(profile)
 		for i = 1, 12 do
 			button = _G["ActionButton"..i]
 			button:ClearAllPoints()
-			button:SetFrameStrata("BACKGROUND")
-			button:SetFrameLevel(15)
 			if i == 1 then
 				button:SetPoint("BOTTOMLEFT", S["Panels"].ActionBar1, C["ActionBars"].ButtonSpacing, C["ActionBars"].ButtonSpacing)
 			else
