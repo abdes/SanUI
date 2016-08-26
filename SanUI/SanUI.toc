@@ -32,7 +32,6 @@ Modules\Modeswitch\actionbuttons.lua
 Modules\Modeswitch\bossbars.lua
 Modules\Modeswitch\castbar.lua
 Modules\Modeswitch\coolline.lua
-Modules\Modeswitch\eclipsebar.lua
 Modules\Modeswitch\filger.lua
 Modules\Modeswitch\gcd.lua
 Modules\Modeswitch\powerbar.lua

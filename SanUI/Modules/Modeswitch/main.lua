@@ -41,12 +41,6 @@ S.switch2Mode = function(mode)
 		print("Either you didn't set the powerbar profile for mode "..mode.." or oUF_Hank is not loaded. Either way, cannot load powerbar profile!")
 	end	
 	
-	if S["Modes"][mode]["eclipsebar"] then
-		S.switchEclipsebar(S["Modes"][mode]["eclipsebar"])
-	else
-		print("No eclipsebar profile for mode "..mode.."! Can't Switch!")
-	end
-	
 	if S["Modes"][mode]["gcd"] and IsAddOnLoaded("oUF_GCD") then
 		S.switchGCD(S["Modes"][mode]["gcd"])
 	else
