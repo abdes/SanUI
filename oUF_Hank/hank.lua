@@ -1489,10 +1489,10 @@ oUF:Spawn("targettargettarget", "oUF_ToTT"):SetPoint("BOTTOMLEFT", oUF_ToT, "TOP
 oUF:Spawn("focus", "oUF_focus"):SetPoint("CENTER", UIParent, "CENTER", -cfg.FocusFrameMargin[1], -cfg.FocusFrameMargin[2])
 oUF:Spawn("focustarget", "oUF_ToF"):SetPoint("BOTTOMLEFT", oUF_focus, "TOPLEFT", 0, 5)
 
-for i = 1, MAX_BOSS_FRAMES do
-	oUF:Spawn("boss" .. i, "oUF_boss" .. i):SetPoint("RIGHT", UIParent, cfg.BossFrameMargin[1], -55 * (i - 1) - cfg.BossFrameMargin[2])
-	_G["oUF_boss" .. i]:SetScale(cfg.FrameScale * cfg.BossFrameScale)
-end
+--for i = 1, MAX_BOSS_FRAMES do
+--	oUF:Spawn("boss" .. i, "oUF_boss" .. i):SetPoint("RIGHT", UIParent, cfg.BossFrameMargin[1], -55 * (i - 1) - cfg.BossFrameMargin[2])
+--	_G["oUF_boss" .. i]:SetScale(cfg.FrameScale * cfg.BossFrameScale)
+--end
 
 oUF_player:SetScale(cfg.FrameScale)
 oUF_pet:SetScale(cfg.FrameScale)
