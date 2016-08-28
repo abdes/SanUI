@@ -613,196 +613,188 @@ local function Shared(self, unit)
 	end
 		
 	RaidDebuffs.Debuffs = {
-		--Kargath Bladefist
-		[SpellName(159113)] = 1, --Impale
-		[SpellName(158986)] = 1, --Berserker Rush  
-		
-		--The Butcher
-		[SpellName(156151)] = 1, --The Tenderizer 
-		[SpellName(156147)] = 1, --The cleaver 
-		[SpellName(156152)] = 1, --Gushing Wounds
-		
-		--Tectus
-		[SpellName(162346)] = 1, --Crystalline Barrage(Fixate)   
-		[SpellName(162370)] = 1, --Crystalline Barrage(Voidzone)
-		
-		--Brackenspore
-		[SpellName(163241)] = 1, --Rot
-		[SpellName(160179)] = 1, --Mind Fungus
-		
-		--Mar'gok
-		[SpellName(158605)] = 1, --Mark of Chaos
-		[SpellName(164176)] = 1, --Markof Chaos: Displacement
-		[SpellName(164178)] = 1, --Mark of Chaos: Fortification
-		[SpellName(164191)] = 1, --Mark of Chaos: Replication
-		[SpellName(158619)] = 1, --Fetter
-		[SpellName(158553)] = 1, --Crush Armor
-		[SpellName(157763)] = 1, --Fixate
-		[SpellName(156225)] = 1, --Branded
-		[SpellName(164004)] = 1, --Branded: Displacement 
-		[SpellName(164005)] = 1, --Branded: Fortification 
-		[SpellName(164006)] = 1, --Branded: Replication
-		[SpellName(159200)] = 1, --Destructive Resonance
-		[SpellName(165102)] = 1, --Infinite Darkness
 
-		--------------------------------------------
-		--Blackrock Foundry
-		-------------------------------------------
-		--Blackhand
-		[SpellName(156096)] = 1, --MARKEDFORDEATH
-		[SpellName(175020)] = 1, --IMPALED
-		[SpellName(156047)] = 1, --SLAGGED
-		[SpellName(156401)] = 1, --MOLTENSLAG
-		[SpellName(156404)] = 1, --BURNED
-		[SpellName(158054)] = 1, --SHATTERINGSMASH 158054 155992 159142
-		[SpellName(156888)] = 1, --OVERHEATED
-		[SpellName(157000)] = 1, --ATTACHSLAGBOMBS
-		[SpellName(156772)] = 1, --Incendiary Shot
+	-- Legion
+		-- The Nighthold
+			-- Skorpyron
+				[204766] = 1, -- Energy Surge
+				[214718] = 1, -- Acidic Fragments
+				[211801] = 1, -- Volatile Fragments
+				[204284] = 1, -- Broken Shard (Protection)
+				[204275] = 1, -- Arcanoslash (Tank)
+				[211659] = 1, -- Arcane Tether (Tank debuff)
+				[204483] = 1, -- Focused Blast (Stun)
 
-		--Beastlord Darmac
-		[SpellName(155365)] = 1, --PINNEDDOWN
-		[SpellName(155061)] = 1, --RENDANDTEAR
-		[SpellName(155030)] = 1, --SEAREDFLESH
-		[SpellName(155236)] = 1, --CRUSHARMOR
-		[SpellName(159044)] = 1, --EPICENTRE
-		[SpellName(162276)] = 1, --UNSTEADY Mythic
-		[SpellName(155657)] = 1, --FLAMEINFUSION
-		[SpellName(155399)] = 2, --Conflagration
+			-- Chronomatic Anomaly
+				[206607] = 1, -- Chronometric Particles (Tank stack debuff)
+				[206609] = 1, -- Time Release (Heal buff/debuff)
+				[205653] = 1, -- Passage of Time
+				[225901] = 1, -- Time Bomb
+				[207871] = 1, -- Vortex (Mythic)
+				[212099] = 1, -- Temporal Charge
 
-		--Flamebender Ka'graz
-		[SpellName(155318)] = 1, --LAVASLASH
-		[SpellName(155277)] = 1, --BLAZINGRADIANCE
-		[SpellName(154952)] = 1, --FIXATE
-		[SpellName(155074)] = 1, --CHARRINGBREATH
-		[SpellName(163284)] = 1, --RISINGFLAME
-		[SpellName(162293)] = 1, --EMPOWEREDARMAMENT
+			-- Trilliax
+				[206488] = 1, -- Arcane Seepage
+				[206641] = 1, -- Arcane Spear (Tank)
+				[206798] = 1, -- Toxic Slice
+				[214672] = 1, -- Annihilation
+				[214573] = 1, -- Stuffed
+				[214583] = 1, -- Sterilize
+				[208910] = 1, -- Arcing Bonds
+				[206838] = 1, -- Succulent Feast
 
-		--Operator Thogar 
-		[SpellName(155921)] = 1, --ENKINDLE
-		[SpellName(165195)] = 1, --PROTOTYPEPULSEGRENADE
-		[SpellName(155701)] = 1, --SERRATEDSLASH
-		[SpellName(156310)] = 1, --LAVASHOCK
-		[SpellName(164380)] = 1, --BURNING
+			-- Spellblade Aluriel
+				[212492] = 1, -- Annihilate (Tank)
+				[212494] = 1, -- Annihilated (Main Tank debuff)
+				[212587] = 1, -- Mark of Frost
+				[212531] = 1, -- Mark of Frost (marked)
+				[212530] = 1, -- Replicate: Mark of Frost 
+				[212647] = 1, -- Frostbitten
+				[212736] = 1, -- Pool of Frost
+				[213085] = 1, -- Frozen Tempest
+				[213621] = 1, -- Entombed in Ice
+				[213148] = 1, -- Searing Brand Chosen
+				[213181] = 1, -- Searing Brand Stunned
+				[213166] = 1, -- Searing Brand
+				[213278] = 1, -- Burning Ground
+				[213504] = 1, -- Arcane Fog
 
-		--The Blast Furnace
-		[SpellName(155240)] = 1, --TEMPERED
-		[SpellName(155242)] = 1, --HEAT
-		[SpellName(176133)] = 1, --BOMB
-		[SpellName(156934)] = 1, --RUPTURE
-		[SpellName(175104)] = 1, --MELTARMOR
-		[SpellName(176121)] = 1, --VOLATILEFIRE
-		[SpellName(158702)] = 1, --FIXATE
-		[SpellName(155225)] = 1, --MELT
+			-- Tichondrius
+				[206480] = 1, -- Carrion Plague
+				[215988] = 1, -- Carrion Nightmare
+				[208230] = 1, -- Feast of Blood
+				[212794] = 1, -- Brand of Argus
+				[216685] = 1, -- Flames of Argus
+				[206311] = 1, -- Illusionary Night
+				[206466] = 1, -- Essence of Night
+				[216024] = 1, -- Volatile Wound
+				[216027] = 1, -- Nether Zone
+				[216039] = 1, -- Fel Storm
+				[216726] = 1, -- Ring of Shadows
+				[216040] = 1, -- Burning Soul
 
-		--Hans'gar and Franzok 
-		[SpellName(157139)] = 1, --SHATTEREDVERTEBRAE
-		[SpellName(161570)] = 1, --SEARINGPLATES
-		[SpellName(157853)] = 1, --AFTERSHOCK
+			-- Krosus
+				[206677] = 1, -- Searing Brand
+				[205344] = 1, -- Orb of Destruction
 
-		--Gruul
-		[SpellName(155080)] = 1, --INFERNOSLICE
-		[SpellName(143962)] = 1, --INFERNOSTRIKE 
-		[SpellName(155078)] = 1, --OVERWHELMINGBLOWS
-		[SpellName(36240)] = 1, --CAVEIN
-		[SpellName(165300)] = 1, --FLARE Mythic
+			-- High Botanist Tel'arn
+				[218503] = 1, -- Recursive Strikes (Tank)
+				[219235] = 1, -- Toxic Spores
+				[218809] = 1, -- Call of Night
+				[218342] = 1, -- Parasitic Fixate
+				[218304] = 1, -- Parasitic Fetter
+				[218780] = 1, -- Plasma Explosion
 
-		--Kromog
-		[SpellName(157060)] = 1, --RUNEOFGRASPINGEARTH
-		[SpellName(156766)] = 1, --WARPEDARMOR
-		[SpellName(161839)] = 1, --RUNEOFCRUSHINGEARTH
+			-- Star Augur Etraeus
+				[205984] = 1, -- Gravitaional Pull
+				[214167] = 1, -- Gravitaional Pull
+				[214335] = 1, -- Gravitaional Pull
+				[206936] = 1, -- Icy Ejection
+				[206388] = 1, -- Felburst
+				[206585] = 1, -- Absolute Zero
+				[206398] = 1, -- Felflame
+				[206589] = 1, -- Chilled
+				[205649] = 1, -- Fel Ejection
+				[206965] = 1, -- Voidburst
+				[206464] = 1, -- Coronal Ejection
+				[207143] = 1, -- Void Ejection
+				[206603] = 1, -- Frozen Solid
+				[207720] = 1, -- Witness the Void
+				[216697] = 1, -- Frigid Pulse
 
-		--Oregorger
-		[SpellName(156309)] = 1, --ACIDTORRENT
-		[SpellName(156203)] = 1, --RETCHEDBLACKROCK
-		--[SpellName(EXPLOSIVESHARD)] = 1,
-		[SpellName(173471)] = 1, --ACIDMAW
+			-- Grand Magistrix Elisande
+				[209166] = 1, -- Fast Time
+				[211887] = 1, -- Ablated
+				[209615] = 1, -- Ablation
+				[209244] = 1, -- Delphuric Beam
+				[209165] = 1, -- Slow Time
+				[209598] = 1, -- Conflexive Burst
+				[209433] = 1, -- Spanning Singularity
+				[209973] = 1, -- Ablating Explosion
+				[209549] = 1, -- Lingering Burn
+				[211261] = 1, -- Permaliative Torment
+				[208659] = 1, -- Arcanetic Ring
 
-		--The Iron Maidens
-		[SpellName(164271)] = 1, --PENETRATINGSHOT
-		[SpellName(158315)] = 1, --DARKHUNT
-		[SpellName(156601)] = 1, --SANGUINESTRIKES
-		[SpellName(170395)] = 1, --SORKASPREY
-		[SpellName(170405)] = 1, --MARAKSBLOODCALLING
-		[SpellName(158692)] = 1, --DEADLYTHROW
-		[SpellName(158702)] = 1, --FIXATE
-		[SpellName(158686)] = 1, --EXPOSEARMOR
-		[SpellName(158683)] = 1, --CORRUPTEDBLOOD
-		
-		
-		--HELLFIRE CITADEL
-		--Iron Reaver
-		[SpellName(182001)]=1,--Unstable Orb
-		
-		--Kormrok
-		[SpellName(181306)]=1,--Explosive Burst
-		[SpellName(181321)]=1,--Fel Touch
-		
-		--Hellfire High Council
-		[SpellName(184450)]=1,--Mark of the Necromancer
-		[SpellName(184358)]=1,--Fel Rage
-		[SpellName(184355)]=1,--Bloodboil
-		
-		--Kilrogg Deadeye
-		[SpellName(180372)]=1,--Heart Seeker
-		--[SpellName(182159)]=1,--Fel Corruption
-		
-		--Gorefiend
-		[SpellName(179864)]=1,--Shadow of Death
-		[SpellName(179978)]=1,--Touch of Doom
-		[SpellName(179909)]=1,--Shared Fate
-		
-		--
-		--Shadow-Lord Iskar
-		[SpellName(179202)]=1,--Eye of Anzu
-		--[SpellName(182173)]=1,--Fel Chakram
-		--
-		--Iskar only phase
-		[SpellName(182323)]=2,--Phantasmal Wounds
-		[SpellName(185747)]=3,--Fel Incineration
-		[SpellName(181956)]=4,--Phantasmal Winds
-		--
-		--Add Phase
-		[SpellName(185510)]=3,--Dark Bindings (Mythic)
-		[SpellName(181753)]=4,--Fel Bomb
-		--[SpellName(179219)]=3,--Phantasmal Fel Bomb
-		--
-		
-		--Socrethar the Eternal
-		[SpellName(182038)]=1,--Shattered Defenses
-		[SpellName(184239)]=1,--Shadow Word: Agony
-		[SpellName(188666)]=1,--Eternal Hunger
-		[SpellName(189541)]=1,--Overwhelming Power
+			-- Gul'dan
+				[210339] = 1, -- Time Dilation
+				[180079] = 1, -- Felfire Munitions
+				[206875] = 1, -- Fel Obelisk (Tank)
+				[206840] = 1, -- Gaze of Vethriz
+				[206896] = 1, -- Torn Soul
+				[206221] = 1, -- Empowered Bonds of Fel
+				[208802] = 1, -- Soul Corrosion
+				[212686] = 1, -- Flames of Sargeras
 
-		--Fel Lord Zakuun
-		[SpellName(181508)]=1,--Seed of Destruction
-		[SpellName(179620)]=1,--Fel Crystal
-		[SpellName(179711)]=1,--Befouled
-		[SpellName(179407)]=1,--Disembodied
-		
-		--Xhul'horac
-		[SpellName(186490)]=1,--Chains of Fel
-		[SpellName(186546)]=1,--Black Hole
-		[SpellName(186407)]=1,--Fel Surge
-		[SpellName(186333)]=1,--Void Surge
+		-- The Emerald Nightmare
+			-- Nythendra
+				[204504] = 1, -- Infested
+				[205043] = 1, -- Infested mind
+				[203096] = 1, -- Rot
+				[204463] = 1, -- Volatile Rot
+				[203045] = 1, -- Infested Ground
+				[203646] = 1, -- Burst of Corruption
 
-		--Tyrant Velhari
-		[SpellName(180166)]=1,--Touch of Harm
-		[SpellName(180128)]=1,--Edict of Condemnation
+			-- Elerethe Renferal
+				[210228] = 1, -- Dripping Fangs
+				[215307] = 1, -- Web of Pain
+				[215300] = 1, -- Web of Pain
+				[215460] = 1, -- Necrotic Venom
+				[213124] = 1, -- Venomous Pool
+				[210850] = 1, -- Twisting Shadows
+				[215489] = 1, -- Venomous Pool
 
-		--Mannoroth
-		[SpellName(181099)]=1,--Mark of Doom
-		[SpellName(181597)]=1,--Mannoroth's Gaze
-		[SpellName(182112)]=1,--Shadow Force
-		[SpellName(186362)]=1,--Wrath of Guldan
-		
-		--Archimonde
-		[SpellName(185590)]=1,--Desecrate
-		[SpellName(183864)]=1,--Shadow Blast
-		[SpellName(189897)]=1,--Doomfire
-		--[SpellName(184265)]=1,--Wrought Chaos
-		--[SpellName(185014)]=1,--Focused Chaos
-		[SpellName(184931)]=1,--Shackled Torment
+			-- Il'gynoth, Heart of the Corruption
+				[210279] = 1, -- Creeping Nightmares
+				[213162] = 1, -- Nightmare Blast
+				[212681] = 1, -- Cleansed Ground
+				[210315] = 1, -- Nightmare Brambles
+				[211507] = 1, -- Nightmare Javelin
+				[211471] = 1, -- Scorned Touch
+				[208697] = 1, -- Mind Flay
+				[215143] = 1, -- Cursed Blood
 
+			-- Ursoc
+				[198108] = 1, -- Unbalanced
+				[197943] = 1, -- Overwhelm
+				[204859] = 1, -- Rend Flesh
+				[205611] = 1, -- Miasma
+				[198006] = 1, -- Focused Gaze
+				[197980] = 1, -- Nightmarish Cacophony
+
+			-- Dragons of Nightmare
+				[203102] = 1, -- Mark of Ysondre
+				[203121] = 1, -- Mark of Taerar
+				[203125] = 1, -- Mark of Emeriss
+				[203124] = 1, -- Mark of Lethon
+				[204731] = 1, -- Wasting Dread
+				[203110] = 1, -- Slumbering Nightmare
+				[207681] = 1, -- Nightmare Bloom
+				[205341] = 1, -- Sleeping Fog
+				[203770] = 1, -- Defiled Vines
+				[203787] = 1, -- Volatile Infection
+
+			-- Cenarius
+				[210279] = 1, -- Creeping Nightmares
+				[213162] = 1, -- Nightmare Blast
+				[210315] = 1, -- Nightmare Brambles
+				[212681] = 1, -- Cleansed Ground
+				[211507] = 1, -- Nightmare Javelin
+				[211471] = 1, -- Scorned Touch
+				[211612] = 1, -- Replenishing Roots
+				[216516] = 1, -- Ancient Dream
+
+			-- Xavius
+				[206005] = 1, -- Dream Simulacrum
+				[206651] = 1, -- Darkening Soul
+				[209158] = 1, -- Blackening Soul
+				[211802] = 1, -- Nightmare Blades
+				[206109] = 1, -- Awakening to the Nightmare
+				[209034] = 1, -- Bonds of Terror
+				[210451] = 1, -- Bonds of Terror
+				[208431] = 1, -- Corruption: Descent into Madness
+				[207409] = 1, -- Madness
+				[211634] = 1, -- The Infinite Dark
+				[208385] = 1, -- Tainted Discharge
 	}
 
 	-- S.ReverseTimer = {
