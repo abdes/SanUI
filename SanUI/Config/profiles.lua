@@ -112,11 +112,11 @@ S["Modes"] = {
 		["raidframes"] = "SanChicken",
 		["SimpleAuraFilter"] = "SanBear",
 		["castbar"] = "SanBear",
-		["powerbar"] = "SanBear",
+		["powerbar"] = "SahneUnholy",
 		["gcd"] = "SanBear",
 		["bossbars"] = "SanChicken",
 		["coolline"] = "SanBear",
-		["ActionButtons"] = "SanBear",
+		["ActionButtons"] = "SahneUnholy",
 		["DBM"] = "SanBear", 
 	},
 	["SanCat"] = {

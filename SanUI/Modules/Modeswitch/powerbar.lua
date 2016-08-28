@@ -52,9 +52,9 @@ S.switchPowerbar = function(profile)
 	elseif profile == "SahneUnholy" then
 		Power:ClearAllPoints()
 		--why are those offsets necessary? look at Bar1.lua from Tukui, this should be without offsets
-		Power:SetPoint("BOTTOMLEFT",S["Panels"].ActionBar1,C["ActionBars"].ButtonSpacing+1, C["ActionBars"].ButtonSpacing+2)
+		Power:SetPoint("BOTTOMLEFT",S["Panels"].ActionBar1,C["ActionBars"].ButtonSpacing+2, C["ActionBars"].ButtonSpacing+2)
 		Power:SetPoint("RIGHT",ActionButton9,"LEFT",-C["ActionBars"].ButtonSpacing-1,0)
-		Power:SetHeight(C["ActionBars"].NormalButtonSize-4)
+		Power:Height(C["ActionBars"].NormalButtonSize-3)
 		Power:Show()
 	elseif profile == "Rogue" then
 		Power:ClearAllPoints()
