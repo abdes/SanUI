@@ -541,7 +541,7 @@ local function Shared(self, unit)
 	
 	--Text Auras
 	S["UnitFrames"].TextAuras = {}
-	S["UnitFrames"].TextAuras["DRUID"] ={ 
+	S["UnitFrames"].TextAuras["DRUID"] ={
 		{33763,{"TOP",self.Health,0,-1},8}, --Lifebloom
 	}
 	
@@ -900,13 +900,11 @@ oUF:Factory(function(self)
 	MaxGroup:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	MaxGroup:SetScript("OnEvent", function(self, event)
 		if InCombatLockdown() then
-		print("registering regen_enabled")
 			MaxGroup:RegisterEvent("PLAYER_REGEN_ENABLED")
 			return
 		end
 		
 		if event == "PLAYER_REGEN_ENABLED" then
-		print("unregistering regen_enabled")
 			MaxGroup:UnregisterEvent("PLAYER_REGEN_ENABLED")
 		end
 		
