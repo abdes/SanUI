@@ -379,41 +379,62 @@ local function Shared(self, unit)
 		-- }
 	
 	S["UnitFrames"].RaidBuffsTracking["ALL"] = {
-		{48707,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Anti-Magic Shell
-		{50461,{"TOPRIGHT",2,2},{1,1,1,0},true},-- Anti-Magic Zone
-		--{49222,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Bone Shield
-		{48792,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Icebound Fortitude
-		{55233,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Vampiric Blood
-		{22812,{"TOPRIGHT",2,2},{2,2,1,0},true},	-- Barkskin
-		{102342,{"TOPRIGHT",2,2},{1,1,1,0},true},   -- IronBark
-		{22842,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Frenzied Regeneration
-		{61336,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Survival Instincts
-		{45438,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Ice Block
-		{86659,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Guardian of Ancient Kings
-		{31850,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Ardent Defender
-		{498,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Divine Protection
-		{642,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Divine Shield
-		{1022,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Hand of Protection
-		{6940,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Hand of Sacrifice
-		--{114039,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Hand of Purity
-		{47585,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Dispersion
-		{47788,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Guardian Spirit
-		{33206,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Pain Suppression
-		{81782,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Power Word: Barrier
-		{31224,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Cloak of Shadows
-		{1966,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Feint
-		--{30823,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Shamanistic Rage
-		{108271,{"TOPRIGHT",2,2},{1,1,1,0},true}, --Astral Shift
-		{12975,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Last Stand
-		{97463,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Rallying Cry
-		{114030,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Vigilance
-		{2565,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Shield Block
-		{871,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Shield Wall
-		{2565,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Shield Block
-		{871,{"TOPRIGHT",2,2},{1,1,1,0},true},	-- Shield Wall
-		{115203,{"TOPRIGHT",2,2},{1,1,1,0},true}, -- Fortifying Brew
-		{115176,{"TOPRIGHT",2,2},{1,1,1,0},true}, -- Zen Meditation
-		{116849,{"TOPRIGHT",2,2},{1,1,1,0},true}, -- Lebenskokon
+		--Mage
+		{45438 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ice Block
+		{115610, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Temporal Shield
+	--Death Knight
+		{48797 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Anti-Magic Shell
+		{48792 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Icebound Fortitude
+		{87256 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dancing Rune Weapon
+		{55233 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Vampiric Blood
+		{50461 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Anti-Magic Zone
+		{194679, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Rune Tap
+	--Priest
+		{33206 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Pain Suppression
+		{47788 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian Spirit
+		{81782 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Power Word: Barrier
+		{47585 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dispersion
+	--Warlock
+		{104773, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Unending Resolve
+		--{110913, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dark Bargain
+		{108359, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dark Regeneration
+	--Druid
+		{22812 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Barkskin
+		{102342, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ironbark
+		{61336 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Survival Instincts
+	--Hunter
+		{19263 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Deterrence
+		{53480 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Roar of Sacrifice (Cunning)
+	--Rogue
+		{1966  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Feint
+		{31224 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Cloak of Shadows
+		{74001 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Combat Readiness
+		{5277  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Evasion
+		{45182 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Cheating Death
+	--Shaman
+		{98007 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spirit Link Totem
+	--Paladin
+		{1022  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Hand of Protection
+		{6940  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Hand of Sacrifice
+		{31821 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Devotion Aura
+		{498   , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Divine Protection
+		{642   , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Divine Shield
+		{86659 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of the Ancient Kings (Prot)
+		{31850 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ardent Defender
+	--Warrior
+		{118038, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Die by the Sword
+		{97463 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Rallying Cry
+		{12975 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Last Stand
+		{871   , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield Wall
+		{122973, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Safeguard
+		{228920, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ravager
+	--Monk
+		{120954, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Fortifying Brew
+		{122783, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Diffuse Magic
+		{122278, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dampen Harm
+		{116849, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Life Cocoon
+	--Racial
+		{20594 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Stoneform
 	}
 	
 	-- some special auras to track that should not get the size of RaidBuffsTracking["ALL"]... otherwise the same
