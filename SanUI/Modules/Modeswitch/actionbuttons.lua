@@ -17,9 +17,11 @@ S.switchActionButtons = function(profile)
 			if i == 1 then
 				button:Point("CENTER",UIParent,-89,-185)
 			elseif i == 7 then
-				button:Point("TOPLEFT",ActionButton2,"BOTTOMLEFT",0,-7)
+				button:Point("TOPLEFT",ActionButton2,"BOTTOMLEFT",0, -C["ActionBars"].ButtonSpacing)
 			elseif i == 8 then
-				button:SetPoint("BOTTOMLEFT", 8*C["ActionBars"].NormalButtonSize + 2*C["ActionBars"].ButtonSpacing, C["ActionBars"].ButtonSpacing)
+				button:Point("TOPLEFT",ActionButton7,"BOTTOMLEFT",0, -C["ActionBars"].ButtonSpacing)
+			elseif i == 9 then
+				button:Point("BOTTOMLEFT", 9*C["ActionBars"].NormalButtonSize + 3*C["ActionBars"].ButtonSpacing, C["ActionBars"].ButtonSpacing)	
 			else
 				local previous = _G["ActionButton"..i-1]
 				button:SetPoint("LEFT", previous, "RIGHT", C["ActionBars"].ButtonSpacing, 0)

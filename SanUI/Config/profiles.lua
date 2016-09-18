@@ -116,7 +116,7 @@ S["Modes"] = {
 		["gcd"] = "SanBear",
 		["bossbars"] = "SanChicken",
 		["coolline"] = "SanBear",
-		["ActionButtons"] = "SahneUnholy",
+		["ActionButtons"] = "SanBear",
 		["DBM"] = "SanBear", 
 	},
 	["SanCat"] = {
