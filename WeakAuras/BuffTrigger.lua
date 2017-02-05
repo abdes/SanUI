@@ -32,27 +32,27 @@ Modernize(data)
 # Helper functions mainly for the WeakAuras Options #
 #####################################################
 
-CanGroupShowWithZero(data)
+CanGroupShowWithZero(data, triggernum)
   Returns whether the first trigger could be shown without any affected group members.
   If that is the case no automatic icon can be determined. Only used by the options dialog.
   (If I understood the code correctly)
 
-CanHaveDuration(data)
+CanHaveDuration(data, triggernum)
   Returns whether the trigger can have a duration
 
-CanHaveAuto(data)
+CanHaveAuto(data, triggernum)
   Returns whether the icon can be automatically selected
 
-CanHaveClones(data)
+CanHaveClones(data, triggernum)
   Returns whether the trigger can have clones
 
-CanHaveTooltip(data)
+CanHaveTooltip(data, triggernum)
   Returns the type of tooltip to show for the trigger
 
-GetNameAndIcon(data)
+GetNameAndIcon(data, triggernum)
   Returns the name and icon to show in the options
 
-GetAdditionalProperties(data)
+GetAdditionalProperties(data, triggernum)
   Returns the a tooltip for the additional properties
 
 ]]--
@@ -332,7 +332,7 @@ function WeakAuras.SetAuraVisibility(id, triggernum, cloneId, inverse, active, u
     state.changed = true;
   end
 
-  local autoHide = not inverse and duration ~= 0;
+  local autoHide = false;
   if (state.autoHide ~= autoHide) then
     state.autoHide = autoHide;
     state.changed = true;
@@ -527,7 +527,7 @@ function WeakAuras.ScanAuras(unit)
                 -- Show display and handle clones
                 WeakAuras.SetDynamicIconCache(name, spellId, icon);
                 if(data.autoclone) then
-                  local cloneId = name.."-"..(casGUID or "unknown");
+                  local cloneId = name .. spellId .."-"..(casGUID or "unknown");
                   if (WeakAuras.SetAuraVisibility(id, triggernum, cloneId, data.inverse, true, unit, duration, expirationTime, name, icon, count, index, spellId, unitCaster)) then
                     updateTriggerState = true;
                   end

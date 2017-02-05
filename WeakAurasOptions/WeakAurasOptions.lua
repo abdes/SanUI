@@ -28,7 +28,7 @@ local WeakAuras = WeakAuras
 local L = WeakAuras.L
 local ADDON_NAME = "WeakAurasOptions";
 
--- GLOBALS: WeakAuras WeakAurasSaved WeakAurasOptionsSaved WeakAuras_DropDownMenu AceGUIWidgetLSMlists
+-- GLOBALS: WeakAuras WeakAurasSaved WeakAurasOptionsSaved WeakAuras_DropDownMenu WeakAuras_DropIndicator AceGUIWidgetLSMlists
 -- GLOBALS: GameTooltip GameTooltip_Hide UIParent FONT_COLOR_CODE_CLOSE RED_FONT_COLOR_CODE
 -- GLOBALS: STATICPOPUP_NUMDIALOGS StaticPopupDialogs StaticPopup_Show GetAddOnEnableState
 
@@ -65,6 +65,7 @@ local tempGroup = {
   load = {},
   trigger = {},
   anchorPoint = "CENTER",
+  anchorFrameType = "SCREEN",
   xOffset = 0,
   yOffset = 0
 };
@@ -368,24 +369,26 @@ AceGUI:RegisterLayout("ButtonsScrollLayout", function(content, children)
   for i = 1, #children do
     local child = children[i]
     local frame = child.frame;
-    local frameHeight = (frame.height or frame:GetHeight() or 0);
 
-    frame:ClearAllPoints();
-    if (-yOffset + frameHeight > scrollTop and -yOffset - frameHeight < scrollBottom) then
-        frame:Show();
-        frame:SetPoint("LEFT", content);
-        frame:SetPoint("RIGHT", content);
-        frame:SetPoint("TOP", content, "TOP", 0, yOffset)
-    else
-        frame:Hide();
-        frame.yOffset = yOffset
+    if not child.dragging then
+      local frameHeight = (frame.height or frame:GetHeight() or 0);
+      frame:ClearAllPoints();
+      if (-yOffset + frameHeight > scrollTop and -yOffset - frameHeight < scrollBottom) then
+          frame:Show();
+          frame:SetPoint("LEFT", content);
+          frame:SetPoint("RIGHT", content);
+          frame:SetPoint("TOP", content, "TOP", 0, yOffset)
+      else
+          frame:Hide();
+          frame.yOffset = yOffset
+      end
+      yOffset = yOffset - (frameHeight + 2);
     end
 
     if child.DoLayout then
         child:DoLayout()
     end
 
-    yOffset = yOffset - (frameHeight + 2);
   end
   if(content.obj.LayoutFinished) then
     content.obj:LayoutFinished(nil, yOffset * -1);
@@ -489,12 +492,13 @@ function WeakAuras.ConstructOptions(prototype, data, startorder, subPrefix, subS
       if(triggertype == "untrigger") then
         name = "untrigger_"..name;
       end
-      if (arg.type ~= "toggle" and arg.type ~= "tristate") then
+      if (arg.type == "multiselect") then
         -- Ensure new line for non-toggle options
         options["spacer_"..name] = {
           type = "description",
           name = "",
           order = order,
+          hidden = hidden,
         }
         order = order + 1;
       end
@@ -899,6 +903,9 @@ function WeakAuras.ConstructOptions(prototype, data, startorder, subPrefix, subS
           options[name] = nil;
           order = order - 1;
         end
+        if (arg.control) then
+          options[name].control = arg.control;
+        end
         order = order + 1;
         if(arg.type == "unit" and not (arg.required and triggertype == "untrigger")) then
           options["use_specific_"..name] = {
@@ -1262,11 +1269,19 @@ function WeakAuras.ShowOptions(msg)
   if (frame.window == "codereview") then
     frame.codereview:Close();
   end
+
+  if (WeakAuras.mouseFrame) then
+    WeakAuras.mouseFrame:OptionsOpened();
+  end
+  if (WeakAuras.personalRessourceDisplayFrame) then
+    WeakAuras.personalRessourceDisplayFrame:OptionsOpened();
+  end
 end
 
 function WeakAuras.HideOptions()
   -- dynFrame:SetScript("OnUpdate", nil);
   WeakAuras.UnlockUpdateInfo();
+  WeakAuras.SetDragging()
 
   if(frame) then
     frame:Hide();
@@ -1287,6 +1302,13 @@ function WeakAuras.HideOptions()
 
   WeakAuras.ReloadAll();
   WeakAuras.Resume();
+
+  if (WeakAuras.mouseFrame) then
+    WeakAuras.mouseFrame:OptionsClosed();
+  end
+  if (WeakAuras.personalRessourceDisplayFrame) then
+    WeakAuras.personalRessourceDisplayFrame:OptionsClosed();
+  end
 end
 
 function WeakAuras.IsOptionsOpen()
@@ -2305,7 +2327,8 @@ function WeakAuras.AddOption(id, data)
             name = L["Message Type"],
             order = 2,
             values = send_chat_message_types,
-            disabled = function() return not data.actions.start.do_message end
+            disabled = function() return not data.actions.start.do_message end,
+            control = "WeakAurasSortedDropdown"
           },
           start_message_space = {
             type = "execute",
@@ -2347,7 +2370,12 @@ function WeakAuras.AddOption(id, data)
             name = L["Message"],
             width = "double",
             order = 5,
-            disabled = function() return not data.actions.start.do_message end
+            disabled = function() return not data.actions.start.do_message end,
+            desc = function()
+                 local ret = L["Dynamic text tooltip"];
+                 ret = ret .. WeakAuras.GetAdditionalProperties(data);
+                 return ret
+            end,
           },
           start_do_sound = {
             type = "toggle",
@@ -2360,7 +2388,8 @@ function WeakAuras.AddOption(id, data)
             name = L["Sound"],
             order = 8,
             values = sound_types,
-            disabled = function() return not data.actions.start.do_sound end
+            disabled = function() return not data.actions.start.do_sound end,
+            control = "WeakAurasSortedDropdown"
           },
           start_sound_channel = {
             type = "select",
@@ -2480,7 +2509,8 @@ function WeakAuras.AddOption(id, data)
             name = L["Message Type"],
             order = 22,
             values = send_chat_message_types,
-            disabled = function() return not data.actions.finish.do_message end
+            disabled = function() return not data.actions.finish.do_message end,
+            control = "WeakAurasSortedDropdown"
           },
           finish_message_space = {
             type = "execute",
@@ -2522,7 +2552,12 @@ function WeakAuras.AddOption(id, data)
             name = L["Message"],
             width = "double",
             order = 25,
-            disabled = function() return not data.actions.finish.do_message end
+            disabled = function() return not data.actions.finish.do_message end,
+            desc = function()
+                 local ret = L["Dynamic text tooltip"];
+                 ret = ret .. WeakAuras.GetAdditionalProperties(data);
+                 return ret
+            end,
           },
           finish_do_sound = {
             type = "toggle",
@@ -2535,7 +2570,8 @@ function WeakAuras.AddOption(id, data)
             name = L["Sound"],
             order = 28,
             values = sound_types,
-            disabled = function() return not data.actions.finish.do_sound end
+            disabled = function() return not data.actions.finish.do_sound end,
+            control = "WeakAurasSortedDropdown"
           },
           finish_sound_channel = {
             type = "select",
@@ -5252,6 +5288,7 @@ function WeakAuras.ReloadTriggerOptions(data)
           return status_types;
         end
       end,
+      control = "WeakAurasSortedDropdown",
       hidden = function() return not (trigger.type == "event" or trigger.type == "status"); end
     },
     subeventPrefix = {
@@ -5267,6 +5304,12 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 9,
       values = subevent_suffix_types,
       hidden = function() return not (trigger.type == "event" and trigger.event == "Combat Log" and subevent_actual_prefix_types[trigger.subeventPrefix]); end
+    },
+    spacer_suffix = {
+      type = "description",
+      name = "",
+      order = 9.1,
+      hidden = function() return not (trigger.type == "event" and trigger.event == "Combat Log"); end
     },
     custom_type = {
       type = "select",
@@ -6022,6 +6065,10 @@ function WeakAuras.ReloadGroupRegionOptions(data)
 end
 
 function WeakAuras.AddPositionOptions(input, id, data)
+  local function IsParentDynamicGroup()
+    return data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup";
+  end
+
   local screenWidth, screenHeight = math.ceil(GetScreenWidth() / 20) * 20, math.ceil(GetScreenHeight() / 20) * 20;
   local positionOptions = {
     width = {
@@ -6044,25 +6091,105 @@ function WeakAuras.AddPositionOptions(input, id, data)
       type = "select",
       name = L["Anchor"],
       order = 70,
-      hidden = function() return data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup"; end,
+      hidden = IsParentDynamicGroup,
       values = point_types
+    },
+    anchorFrameType = {
+      type = "select",
+      name = L["anchored to"],
+      order = 72,
+      hidden = IsParentDynamicGroup,
+      values = WeakAuras.anchor_frame_types
+    },
+    -- Input field to select frame to anchor on
+    anchorFrameFrame = {
+      type = "input",
+      name = L["Frame"],
+      order = 72.2,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        return not (data.anchorFrameType == "SELECTFRAME")
+      end
+    },
+    -- Button to select frame to anchor on
+    chooseAnchorFrameFrame = {
+      type = "execute",
+      name = L["Choose"],
+      order = 72.4,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        return not (data.anchorFrameType == "SELECTFRAME")
+      end,
+      func = function()
+        WeakAuras.StartFrameChooser(data, {"anchorFrameFrame"});
+      end
     },
     anchorPoint = {
       type = "select",
-      name = L["to screen's"],
+      name = function()
+        if (data.anchorFrameType == "SCREEN") then
+          return L["to screen's"]
+        elseif (data.anchorFrameType == "PRD") then
+          return L["to Personal Ressource Display's"];
+        elseif (data.anchorFrameType == "SELECTFRAME") then
+          return L["frame's"];
+        end
+      end,
       order = 75,
-      hidden = function() return data.parent; end,
+      hidden = function()
+        if (data.parent) then
+          if (IsParentDynamicGroup()) then
+            return true;
+          end
+          return data.anchorFrameType == "SCREEN" or data.anchorFrameType == "MOUSE";
+        else
+          return data.anchorFrameType == "MOUSE";
+        end
+      end,
       values = point_types
     },
     anchorPointGroup = {
       type = "select",
-      name = L["to group's"],
+      name = function() return L["to group's"] end,
       order = 75,
-      hidden = function() return (not data.parent) or (db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup"); end,
+      hidden = function()
+        if (data.anchorFrameType ~= "SCREEN") then
+          return true;
+        end
+        if (data.parent) then
+          return IsParentDynamicGroup();
+        end
+        return true;
+      end,
       disabled = true,
       values = {["CENTER"] = L["Anchor Point"]},
       get = function() return "CENTER"; end
     },
+    frameStrata = {
+      type = "select",
+      name = L["Frame Strata"],
+      order = 78,
+      values = WeakAuras.frame_strata_types
+    },
+    anchorFrameSpace = {
+      type = "execute",
+      name = "",
+      order = 79,
+      image = function() return "", 0, 0 end,
+      hidden = function()
+        return not (data.anchorFrameType == "MOUSE");
+      end
+    },
+    -- IsParentDynamicGroup => none
+    -- InGroup/Attached to mouse/PRD/SELECTFRAME => -screen -- +screen
+    -- Attached to Screen => depends on anchorPoint
+    --   LEFT/BOTTOM => 0 -- +screen
+    --   CENTER => -screen/2 -- +screen / 2
+    --   RIGHT/TOP => -screen -- +screen
     xOffset1 = {
       type = "range",
       name = L["X Offset"],
@@ -6070,7 +6197,15 @@ function WeakAuras.AddPositionOptions(input, id, data)
       softMin = 0,
       softMax = screenWidth,
       bigStep = 10,
-      hidden = function() return (data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup") or not data.anchorPoint:find("LEFT") end,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return true;
+        end
+        return not data.anchorPoint:find("LEFT")
+      end,
       get = function() return data.xOffset end,
       set = function(info, v)
         data.xOffset = v;
@@ -6093,7 +6228,15 @@ function WeakAuras.AddPositionOptions(input, id, data)
       softMin = ((-1/2) * screenWidth),
       softMax = ((1/2) * screenWidth),
       bigStep = 10,
-      hidden = function() return (data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup") or (data.anchorPoint:find("LEFT") or data.anchorPoint:find("RIGHT")) end,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return true;
+        end
+        return (data.anchorPoint:find("LEFT") or data.anchorPoint:find("RIGHT"));
+      end,
       get = function() return data.xOffset end,
       set = function(info, v)
         data.xOffset = v;
@@ -6116,7 +6259,46 @@ function WeakAuras.AddPositionOptions(input, id, data)
       softMin = (-1 * screenWidth),
       softMax = 0,
       bigStep = 10,
-      hidden = function() return (data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup") or not data.anchorPoint:find("RIGHT") end,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return true;
+        end
+        return not data.anchorPoint:find("RIGHT");
+      end,
+      get = function() return data.xOffset end,
+      set = function(info, v)
+        data.xOffset = v;
+        WeakAuras.Add(data);
+        WeakAuras.SetThumbnail(data);
+        WeakAuras.ResetMoverSizer();
+        if(data.parent) then
+          local parentData = WeakAuras.GetData(data.parent);
+          if(parentData) then
+            WeakAuras.Add(parentData);
+            WeakAuras.SetThumbnail(parentData);
+          end
+        end
+      end
+    },
+    xOffset4 = {
+      type = "range",
+      name = L["X Offset"],
+      order = 80,
+      softMin = (-1 * screenWidth),
+      softMax = screenWidth,
+      bigStep = 10,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return false;
+        end
+        return true;
+      end,
       get = function() return data.xOffset end,
       set = function(info, v)
         data.xOffset = v;
@@ -6139,7 +6321,15 @@ function WeakAuras.AddPositionOptions(input, id, data)
       softMin = 0,
       softMax = screenHeight,
       bigStep = 10,
-      hidden = function() return (data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup") or not data.anchorPoint:find("BOTTOM") end,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return true;
+        end
+        return not data.anchorPoint:find("BOTTOM");
+      end,
       get = function() return data.yOffset end,
       set = function(info, v)
         data.yOffset = v;
@@ -6162,7 +6352,15 @@ function WeakAuras.AddPositionOptions(input, id, data)
       softMin = ((-1/2) * screenHeight),
       softMax = ((1/2) * screenHeight),
       bigStep = 10,
-      hidden = function() return (data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup") or (data.anchorPoint:find("BOTTOM") or data.anchorPoint:find("TOP")) end,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return true;
+        end
+        return data.anchorPoint:find("BOTTOM") or data.anchorPoint:find("TOP");
+      end,
       get = function() return data.yOffset end,
       set = function(info, v)
         data.yOffset = v;
@@ -6185,7 +6383,15 @@ function WeakAuras.AddPositionOptions(input, id, data)
       softMin = (-1 * screenHeight),
       softMax = 0,
       bigStep = 10,
-      hidden = function() return (data.parent and db.displays[data.parent] and db.displays[data.parent].regionType == "dynamicgroup") or not data.anchorPoint:find("TOP") end,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return true;
+        end
+        return not data.anchorPoint:find("TOP");
+      end,
       get = function() return data.yOffset end,
       set = function(info, v)
         data.yOffset = v;
@@ -6201,12 +6407,37 @@ function WeakAuras.AddPositionOptions(input, id, data)
         end
       end
     },
-    frameStrata = {
-      type = "select",
-      name = L["Frame Strata"],
-      order = 90,
-      values = WeakAuras.frame_strata_types
-    }
+    yOffset4 = {
+      type = "range",
+      name = L["Y Offset"],
+      order = 85,
+      softMin = (-1 * screenHeight),
+      softMax = screenHeight,
+      bigStep = 10,
+      hidden = function()
+        if (IsParentDynamicGroup()) then
+          return true;
+        end
+        if (data.parent or data.anchorFrameType ~= "SCREEN") then
+          return false;
+        end
+        return true;
+      end,
+      get = function() return data.yOffset end,
+      set = function(info, v)
+        data.yOffset = v;
+        WeakAuras.Add(data);
+        WeakAuras.SetThumbnail(data);
+        WeakAuras.ResetMoverSizer();
+        if(data.parent) then
+          local parentData = WeakAuras.GetData(data.parent);
+          if(parentData) then
+            WeakAuras.Add(parentData);
+            WeakAuras.SetThumbnail(parentData);
+          end
+        end
+      end
+    },
   };
 
   return union(input, positionOptions);
@@ -6658,6 +6889,7 @@ function WeakAuras.CreateFrame()
   container.frame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -17, 12);
   container.frame:SetPoint("TOPLEFT", frame, "TOPRIGHT", -423, -10);
   container.frame:Show();
+  container.frame:SetClipsChildren(true);
   container.titletext:Hide();
   frame.container = container;
 
@@ -6683,6 +6915,7 @@ function WeakAuras.CreateFrame()
   local texturePickScroll = AceGUI:Create("ScrollFrame");
   texturePickScroll:SetWidth(540);
   texturePickScroll:SetLayout("flow");
+  texturePickScroll.frame:SetClipsChildren(true);
   texturePickDropdown:AddChild(texturePickScroll);
 
   local function texturePickGroupSelected(widget, event, uniquevalue)
@@ -6873,17 +7106,15 @@ function WeakAuras.CreateFrame()
   local iconPick = AceGUI:Create("InlineGroup");
   iconPick.frame:SetParent(frame);
   iconPick.frame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -17, 30); -- 12
-  iconPick.frame:SetPoint("TOPLEFT", frame, "TOPLEFT", 17, -10);
+  iconPick.frame:SetPoint("TOPLEFT", frame, "TOPLEFT", 17, -50);
   iconPick.frame:Hide();
   iconPick:SetLayout("flow");
   frame.iconPick = iconPick;
 
-  local iconPickScroll = AceGUI:Create("InlineGroup");
-  iconPickScroll:SetWidth(540);
+  local iconPickScroll = AceGUI:Create("ScrollFrame");
   iconPickScroll:SetLayout("flow");
-  iconPickScroll.frame:SetParent(iconPick.frame);
-  iconPickScroll.frame:SetPoint("BOTTOMLEFT", iconPick.frame, "BOTTOMLEFT", 10, 22); -- 30
-  iconPickScroll.frame:SetPoint("TOPRIGHT", iconPick.frame, "TOPRIGHT", -10, -70);
+  iconPickScroll.frame:SetClipsChildren(true);
+  iconPick:AddChild(iconPickScroll);
 
   local function iconPickFill(subname, doSort)
     iconPickScroll:ReleaseChildren();
@@ -6914,14 +7145,14 @@ function WeakAuras.CreateFrame()
 
               usedIcons[icon] = true;
               num = num + 1;
-              if(num >= 60) then
+              if(num >= 500) then
                 break;
               end
             end
           end
         end
 
-        if(num >= 60) then
+        if(num >= 500) then
           break;
         end
       end
@@ -6934,7 +7165,7 @@ function WeakAuras.CreateFrame()
   iconPickInput:SetScript("OnEscapePressed", function(...) iconPickInput:SetText(""); iconPickFill(iconPickInput:GetText(), true); end);
   iconPickInput:SetWidth(170);
   iconPickInput:SetHeight(15);
-  iconPickInput:SetPoint("TOPRIGHT", iconPick.frame, "TOPRIGHT", -12, -65);
+  iconPickInput:SetPoint("BOTTOMRIGHT", iconPick.frame, "TOPRIGHT", -12, -5);
   WeakAuras.iconPickInput = iconPickInput;
 
   local iconPickInputLabel = iconPickInput:CreateFontString(nil, "OVERLAY", "GameFontNormal");
@@ -6945,7 +7176,7 @@ function WeakAuras.CreateFrame()
   local iconPickIcon = AceGUI:Create("WeakAurasIconButton");
   iconPickIcon.frame:Disable();
   iconPickIcon.frame:SetParent(iconPick.frame);
-  iconPickIcon.frame:SetPoint("TOPLEFT", iconPick.frame, "TOPLEFT", 15, -30);
+  iconPickIcon.frame:SetPoint("BOTTOMLEFT", iconPick.frame, "TOPLEFT", 15, -15);
 
   local iconPickIconLabel = iconPickInput:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge");
   iconPickIconLabel:SetNonSpaceWrap("true");
@@ -7049,6 +7280,7 @@ function WeakAuras.CreateFrame()
   modelPick:SetLayout("flow");
   frame.modelPick = modelPick;
 
+  -- Old X Y Z controls
   local modelPickZ = AceGUI:Create("Slider");
   modelPickZ:SetSliderValues(-20, 20, 0.05);
   modelPickZ:SetLabel(L["Z Offset"]);
@@ -7073,11 +7305,69 @@ function WeakAuras.CreateFrame()
     modelPick:Pick(nil, nil, nil, modelPickY:GetValue());
   end);
 
+  -- New TX TY TZ, RX, RY, RZ, US controls
+  local modelPickTX = AceGUI:Create("Slider");
+  modelPickTX:SetSliderValues(-1000, 1000, 1);
+  modelPickTX:SetLabel(L["X Offset"]);
+  modelPickTX.frame:SetParent(modelPick.frame);
+  modelPickTX:SetCallback("OnValueChanged", function()
+    modelPick:PickSt(nil, modelPickTX:GetValue());
+  end);
+
+  local modelPickTY = AceGUI:Create("Slider");
+  modelPickTY:SetSliderValues(-1000, 1000, 1);
+  modelPickTY:SetLabel(L["Y Offset"]);
+  modelPickTY.frame:SetParent(modelPick.frame);
+  modelPickTY:SetCallback("OnValueChanged", function()
+    modelPick:PickSt(nil, nil, modelPickTY:GetValue());
+  end);
+
+  local modelPickTZ = AceGUI:Create("Slider");
+  modelPickTZ:SetSliderValues(-1000, 1000, 1);
+  modelPickTZ:SetLabel(L["Z Offset"]);
+  modelPickTZ.frame:SetParent(modelPick.frame);
+  modelPickTZ:SetCallback("OnValueChanged", function()
+    modelPick:PickSt(nil, nil, nil, modelPickTZ:GetValue());
+  end);
+
+  local modelPickRX = AceGUI:Create("Slider");
+  modelPickRX:SetSliderValues(0, 360, 1);
+  modelPickRX:SetLabel(L["X Rotation"]);
+  modelPickRX.frame:SetParent(modelPick.frame);
+  modelPickRX:SetCallback("OnValueChanged", function()
+    modelPick:PickSt(nil, nil, nil, nil, modelPickRX:GetValue());
+  end);
+
+  local modelPickRY = AceGUI:Create("Slider");
+  modelPickRY:SetSliderValues(0, 360, 1);
+  modelPickRY:SetLabel(L["Y Rotation"]);
+  modelPickRY.frame:SetParent(modelPick.frame);
+  modelPickRY:SetCallback("OnValueChanged", function()
+    modelPick:PickSt(nil, nil, nil, nil, nil, modelPickRY:GetValue());
+  end);
+
+  local modelPickRZ = AceGUI:Create("Slider");
+  modelPickRZ:SetSliderValues(0, 360, 1);
+  modelPickRZ:SetLabel(L["Z Rotation"]);
+  modelPickRZ.frame:SetParent(modelPick.frame);
+  modelPickRZ:SetCallback("OnValueChanged", function()
+    modelPick:PickSt(nil, nil, nil, nil, nil, nil, modelPickRZ:GetValue());
+  end);
+
+  local modelPickUS = AceGUI:Create("Slider");
+  modelPickUS:SetSliderValues(5, 1000, 1);
+  modelPickUS:SetLabel(L["Scale"]);
+  modelPickUS.frame:SetParent(modelPick.frame);
+  modelPickUS:SetCallback("OnValueChanged", function()
+    modelPick:PickSt(nil, nil, nil, nil, nil, nil, nil, modelPickUS:GetValue());
+  end);
+
   local modelTree = AceGUI:Create("TreeGroup");
   modelPick.modelTree = modelTree;
   modelPick.frame:SetScript("OnUpdate", function()
     local frameWidth = frame:GetWidth();
     local sliderWidth = (frameWidth - 50) / 3;
+    local narrowSliderWidth = (frameWidth - 50) / 7;
 
     modelTree:SetTreeWidth(frameWidth - 370);
 
@@ -7089,6 +7379,29 @@ function WeakAuras.CreateFrame()
 
     modelPickY.frame:SetPoint("bottomleft", frame, "bottomleft", 35 + (2 * sliderWidth), 43);
     modelPickY.frame:SetPoint("bottomright", frame, "bottomleft", 35 + (3 * sliderWidth), 43);
+
+    -- New controls
+    modelPickTX.frame:SetPoint("bottomleft", frame, "bottomleft", 15, 43);
+    modelPickTX.frame:SetPoint("bottomright", frame, "bottomleft", 15 + narrowSliderWidth, 43);
+
+    modelPickTY.frame:SetPoint("bottomleft", frame, "bottomleft", 20 + narrowSliderWidth, 43);
+    modelPickTY.frame:SetPoint("bottomright", frame, "bottomleft", 20 + (2 * narrowSliderWidth), 43);
+
+    modelPickTZ.frame:SetPoint("bottomleft", frame, "bottomleft", 25 + (2 * narrowSliderWidth), 43);
+    modelPickTZ.frame:SetPoint("bottomright", frame, "bottomleft", 25 + (3 * narrowSliderWidth), 43);
+
+    modelPickRX.frame:SetPoint("bottomleft", frame, "bottomleft", 30 + (3 * narrowSliderWidth), 43);
+    modelPickRX.frame:SetPoint("bottomright", frame, "bottomleft", 30 + (4 * narrowSliderWidth), 43);
+
+    modelPickRY.frame:SetPoint("bottomleft", frame, "bottomleft", 35 + (4 * narrowSliderWidth), 43);
+    modelPickRY.frame:SetPoint("bottomright", frame, "bottomleft", 35 + (5 * narrowSliderWidth), 43);
+
+    modelPickRZ.frame:SetPoint("bottomleft", frame, "bottomleft", 40 + (5 * narrowSliderWidth), 43);
+    modelPickRZ.frame:SetPoint("bottomright", frame, "bottomleft", 40 + (6 * narrowSliderWidth), 43);
+
+    modelPickUS.frame:SetPoint("bottomleft", frame, "bottomleft", 45 + (6 * narrowSliderWidth), 43);
+    modelPickUS.frame:SetPoint("bottomright", frame, "bottomleft", 45 + (7 * narrowSliderWidth), 43);
+
   end);
   modelPick:SetLayout("fill");
   modelTree:SetTree(WeakAuras.ModelPaths);
@@ -7096,7 +7409,11 @@ function WeakAuras.CreateFrame()
     local path = string.gsub(value, "\001", "/");
     if(string.lower(string.sub(path, -3, -1)) == ".m2") then
       local model_path = path;
-      modelPick:Pick(model_path);
+      if (modelPick.givenApi) then
+        modelPick:PickSt(model_path);
+      else
+        modelPick:Pick(model_path);
+      end
     end
   end);
   modelPick:AddChild(modelTree);
@@ -7106,18 +7423,71 @@ function WeakAuras.CreateFrame()
   model:SetFrameStrata("FULLSCREEN");
   modelPick.model = model;
 
+  function modelPick.PickSt(self, model_path, model_tx, model_ty, model_tz, model_rx, model_ry, model_rz, model_us)
+    model_path = model_path or self.data.model_path;
+    model_tx = model_tx or self.data.model_st_tx;
+    model_ty = model_ty or self.data.model_st_ty;
+    model_tz = model_tz or self.data.model_st_tz;
+
+    model_rx = model_rx or self.data.model_st_rx;
+    model_ry = model_ry or self.data.model_st_ry;
+    model_rz = model_rz or self.data.model_st_rz;
+
+    model_us = model_us or self.data.model_st_us;
+
+    if tonumber(model_path) then
+      self.model:SetDisplayInfo(tonumber(model_path))
+    else
+      self.model:SetModel(model_path);
+    end
+    self.model:SetTransform(model_tx / 1000, model_ty / 1000, model_tz / 1000,
+                            rad(model_rx), rad(model_ry), rad(model_rz),
+                            model_us / 1000);
+    if(self.data.controlledChildren) then
+      for index, childId in pairs(self.data.controlledChildren) do
+        local childData = WeakAuras.GetData(childId);
+        if(childData) then
+          childData.model_path = model_path;
+          childData.model_st_tx = model_tx;
+          childData.model_st_ty = model_ty;
+          childData.model_st_tz = model_tz;
+          childData.model_st_rx = model_rx;
+          childData.model_st_ry = model_ry;
+          childData.model_st_rz = model_rz;
+          childData.model_st_us = model_us;
+          WeakAuras.Add(childData);
+          WeakAuras.SetThumbnail(childData);
+          WeakAuras.SetIconNames(childData);
+        end
+      end
+    else
+      self.data.model_path = model_path;
+      self.data.model_st_tx = model_tx;
+      self.data.model_st_ty = model_ty;
+      self.data.model_st_tz = model_tz;
+      self.data.model_st_rx = model_rx;
+      self.data.model_st_ry = model_ry;
+      self.data.model_st_rz = model_rz;
+      self.data.model_st_us = model_us;
+      WeakAuras.Add(self.data);
+      WeakAuras.SetThumbnail(self.data);
+      WeakAuras.SetIconNames(self.data);
+    end
+  end
+
   function modelPick.Pick(self, model_path, model_z, model_x, model_y)
     model_path = model_path or self.data.model_path;
     model_z = model_z or self.data.model_z;
     model_x = model_x or self.data.model_x;
     model_y = model_y or self.data.model_y;
 
-  if tonumber(model_path) then
-    self.model:SetDisplayInfo(tonumber(model_path))
-  else
-    self.model:SetModel(model_path);
-  end
-    self.model:SetPosition(model_z,model_x, model_y);
+    if tonumber(model_path) then
+      self.model:SetDisplayInfo(tonumber(model_path))
+    else
+      self.model:SetModel(model_path);
+    end
+    self.model:ClearTransform();
+    self.model:SetPosition(model_z, model_x, model_y);
     self.model:SetFacing(rad(self.data.rotation));
     if(self.data.controlledChildren) then
       for index, childId in pairs(self.data.controlledChildren) do
@@ -7145,40 +7515,119 @@ function WeakAuras.CreateFrame()
 
   function modelPick.Open(self, data)
     self.data = data;
-  if tonumber(data.model_path) then
-    model:SetDisplayInfo(tonumber(data.model_path))
-  else
-    model:SetModel(data.model_path);
-  end
-    self.model:SetPosition(data.model_z, data.model_x, data.model_y);
-    self.model:SetFacing(rad(data.rotation));
+    if tonumber(data.model_path) then
+      model:SetDisplayInfo(tonumber(data.model_path))
+    else
+      model:SetModel(data.model_path);
+    end
+    if (data.api) then
+      self.model:SetTransform(data.model_st_tx / 1000, data.model_st_ty / 1000, data.model_st_tz / 1000,
+                              rad(data.model_st_rx), rad(data.model_st_ry), rad(data.model_st_rz),
+                              data.model_st_us / 1000);
 
-    modelPickZ:SetValue(data.model_z);
-    modelPickZ.editbox:SetText(("%.2f"):format(data.model_z));
-    modelPickX:SetValue(data.model_x);
-    modelPickX.editbox:SetText(("%.2f"):format(data.model_x));
-    modelPickY:SetValue(data.model_y);
-    modelPickY.editbox:SetText(("%.2f"):format(data.model_y));
+      modelPickTX:SetValue(data.model_st_tx);
+      modelPickTX.editbox:SetText(("%.2f"):format(data.model_st_tx));
+      modelPickTY:SetValue(data.model_st_ty);
+      modelPickTY.editbox:SetText(("%.2f"):format(data.model_st_ty));
+      modelPickTZ:SetValue(data.model_st_tz);
+      modelPickTZ.editbox:SetText(("%.2f"):format(data.model_st_tz));
+
+      modelPickRX:SetValue(data.model_st_rx);
+      modelPickRX.editbox:SetText(("%.2f"):format(data.model_st_rx));
+      modelPickRY:SetValue(data.model_st_ry);
+      modelPickRY.editbox:SetText(("%.2f"):format(data.model_st_ry));
+      modelPickRZ:SetValue(data.model_st_rz);
+      modelPickRZ.editbox:SetText(("%.2f"):format(data.model_st_rz));
+
+      modelPickUS:SetValue(data.model_st_us);
+      modelPickUS.editbox:SetText(("%.2f"):format(data.model_st_us));
+
+      modelPickZ.frame:Hide();
+      modelPickY.frame:Hide();
+      modelPickX.frame:Hide();
+
+      modelPickTX.frame:Show();
+      modelPickTY.frame:Show();
+      modelPickTZ.frame:Show();
+      modelPickRX.frame:Show();
+      modelPickRY.frame:Show();
+      modelPickRZ.frame:Show();
+      modelPickUS.frame:Show();
+
+    else
+      self.model:ClearTransform();
+      self.model:SetPosition(data.model_z, data.model_x, data.model_y);
+      self.model:SetFacing(rad(data.rotation));
+      modelPickZ:SetValue(data.model_z);
+      modelPickZ.editbox:SetText(("%.2f"):format(data.model_z));
+      modelPickX:SetValue(data.model_x);
+      modelPickX.editbox:SetText(("%.2f"):format(data.model_x));
+      modelPickY:SetValue(data.model_y);
+      modelPickY.editbox:SetText(("%.2f"):format(data.model_y));
+
+      modelPickZ.frame:Show();
+      modelPickY.frame:Show();
+      modelPickX.frame:Show();
+
+      modelPickTX.frame:Hide();
+      modelPickTY.frame:Hide();
+      modelPickTZ.frame:Hide();
+      modelPickRX.frame:Hide();
+      modelPickRY.frame:Hide();
+      modelPickRZ.frame:Hide();
+      modelPickUS.frame:Hide();
+    end
 
     if(data.controlledChildren) then
       self.givenModel = {};
+      self.givenApi = {};
       self.givenZ = {};
       self.givenX = {};
       self.givenY = {};
+      self.givenTX = {};
+      self.givenTY = {};
+      self.givenTZ = {};
+      self.givenRX = {};
+      self.givenRY = {};
+      self.givenRZ = {};
+      self.givenUS = {};
       for index, childId in pairs(data.controlledChildren) do
         local childData = WeakAuras.GetData(childId);
         if(childData) then
           self.givenModel[childId] = childData.model_path;
-          self.givenZ[childId] = childData.model_z;
-          self.givenX[childId] = childData.model_x;
-          self.givenY[childId] = childData.model_y;
+          self.givenApi[childId] = childData.api;
+          if (childData.api) then
+            self.givenTX[childId] = childData.model_st_tx;
+            self.givenTY[childId] = childData.model_st_ty;
+            self.givenTZ[childId] = childData.model_st_tz;
+            self.givenRX[childId] = childData.model_st_rx;
+            self.givenRY[childId] = childData.model_st_ry;
+            self.givenRZ[childId] = childData.model_st_rz;
+            self.givenUS[childId] = childData.model_st_us;
+          else
+            self.givenZ[childId] = childData.model_z;
+            self.givenX[childId] = childData.model_x;
+            self.givenY[childId] = childData.model_y;
+          end
         end
       end
     else
       self.givenModel = data.model_path;
-      self.givenZ = data.model_z;
-      self.givenX = data.model_x;
-      self.givenY = data.model_y;
+      self.givenApi = data.api;
+
+      if (data.api) then
+        self.givenTX = data.model_st_tx;
+        self.givenTY = data.model_st_ty;
+        self.givenTZ = data.model_st_tz;
+        self.givenRX = data.model_st_rx;
+        self.givenRY = data.model_st_ry;
+        self.givenRZ = data.model_st_rz;
+        self.givenUS = data.model_st_us;
+      else
+        self.givenZ = data.model_z;
+        self.givenX = data.model_x;
+        self.givenY = data.model_y;
+      end
     end
     frame.container.frame:Hide();
     frame.buttonsContainer.frame:Hide();
@@ -7200,16 +7649,32 @@ function WeakAuras.CreateFrame()
         local childData = WeakAuras.GetData(childId);
         if(childData) then
           childData.model_path = modelPick.givenModel[childId];
-          childData.model_z = modelPick.givenZ[childId];
-          childData.model_x = modelPick.givenX[childId];
-          childData.model_y = modelPick.givenY[childId];
+          childData.api = modelPick.givenApi[childId];
+          if (childData.api) then
+            childData.model_st_tx = modelPick.givenTX[childId];
+            childData.model_st_ty = modelPick.givenTY[childId];
+            childData.model_st_tz = modelPick.givenTZ[childId];
+            childData.model_st_rx = modelPick.givenRX[childId];
+            childData.model_st_ry = modelPick.givenRY[childId];
+            childData.model_st_rz = modelPick.givenRZ[childId];
+            childData.model_st_us = modelPick.givenUS[childId];
+          else
+            childData.model_z = modelPick.givenZ[childId];
+            childData.model_x = modelPick.givenX[childId];
+            childData.model_y = modelPick.givenY[childId];
+          end
           WeakAuras.Add(childData);
           WeakAuras.SetThumbnail(childData);
           WeakAuras.SetIconNames(childData);
         end
       end
     else
-      modelPick:Pick(modelPick.givenPath, modelPick.givenZ, modelPick.givenX, modelPick.givenY);
+      if (modelPick.givenApi) then
+        modelPick:PickSt(modelPick.givenPath, modelPick.givenTX, modelPick.givenTY, modelPick.givenTZ,
+                         modelPick.givenRX, modelPick.givenRY, modelPick.givenRZ, modelPick.givenUS );
+      else
+        modelPick:Pick(modelPick.givenPath, modelPick.givenZ, modelPick.givenX, modelPick.givenY);
+      end
     end
     modelPick.Close();
   end
@@ -7239,6 +7704,7 @@ function WeakAuras.CreateFrame()
   local importexportbox = AceGUI:Create("MultiLineEditBox");
   importexportbox:SetWidth(400);
   importexportbox.button:Hide();
+  importexportbox.frame:SetClipsChildren(true);
   importexport:AddChild(importexportbox);
 
   local importexportClose = CreateFrame("Button", nil, importexport.frame, "UIPanelButtonTemplate");
@@ -7335,6 +7801,7 @@ function WeakAuras.CreateFrame()
     texteditorbox.editBox:SetFont(fontPath, 12);
   end
   texteditor:AddChild(texteditorbox);
+  texteditorbox.frame:SetClipsChildren(true);
 
   local colorTable = {}
   colorTable[IndentationLib.tokens.TOKEN_SPECIAL] = "|c00ff3333"
@@ -7373,6 +7840,9 @@ function WeakAuras.CreateFrame()
 
   colorTable[0] = "|r"
 
+  -- The indention lib overrides GetText, but for the line number
+  -- display we ned the original, so save it here.
+  local originalGetText = texteditorbox.editBox.GetText;
   IndentationLib.enable(texteditorbox.editBox, colorTable, 4);
 
   local texteditorCancel = CreateFrame("Button", nil, texteditor.frame, "UIPanelButtonTemplate");
@@ -7395,7 +7865,45 @@ function WeakAuras.CreateFrame()
   texteditorError:SetJustifyV("TOP");
   texteditorError:SetTextColor(1, 0, 0);
   texteditorError:SetPoint("TOPLEFT", texteditorbox.frame, "BOTTOMLEFT", 5, 25);
-  texteditorError:SetPoint("BOTTOMRIGHT", texteditorCancel, "TOPRIGHT");
+  texteditorError:SetPoint("BOTTOMRIGHT", texteditorClose, "BOTTOMLEFT");
+
+  local textEditorLine = CreateFrame("Editbox", nil, texteditor.frame);
+  -- Set script on enter pressed..
+  textEditorLine:SetPoint("BOTTOMRIGHT", texteditorbox.frame, "TOPRIGHT", -10, -15);
+  textEditorLine:SetFont("Fonts\\FRIZQT__.TTF", 10)
+  textEditorLine:SetJustifyH("RIGHT");
+  textEditorLine:SetWidth(80);
+  textEditorLine:SetHeight(20);
+  textEditorLine:SetNumeric(true);
+  textEditorLine:SetTextInsets(10, 10, 0, 0);
+
+  local oldOnCursorChanged = texteditorbox.editBox:GetScript("OnCursorChanged");
+  texteditorbox.editBox:SetScript("OnCursorChanged", function(...)
+    oldOnCursorChanged(...);
+    local cursorPosition = texteditorbox.editBox:GetCursorPosition();
+    local next = -1;
+    local line = 0;
+    while (next and cursorPosition >= next) do
+      next = originalGetText(texteditorbox.editBox):find("[\n]", next + 1);
+      line = line + 1;
+    end
+    textEditorLine:SetNumber(line);
+  end);
+
+  textEditorLine:SetScript("OnEnterPressed", function()
+    local newLine = textEditorLine:GetNumber();
+    local newPosition = 0;
+    while (newLine > 1 and newPosition) do
+      newPosition = originalGetText(texteditorbox.editBox):find("[\n]", newPosition + 1);
+      newLine = newLine - 1;
+    end
+
+    if (newPosition) then
+      texteditorbox.editBox:SetCursorPosition(newPosition);
+      texteditorbox.editBox:SetFocus();
+    end
+  end);
+
 
   function texteditor.Open(self, data, path, enclose, addReturn)
     self.data = data;
@@ -7961,18 +8469,19 @@ function WeakAuras.CreateFrame()
   end
 
   moversizer.AnchorPoints = function(self, region, data)
+    local scale = region:GetEffectiveScale() / UIParent:GetEffectiveScale();
     local xOff, yOff;
     mover.selfPoint, mover.anchor, mover.anchorPoint, xOff, yOff = region:GetPoint(1);
     mover:ClearAllPoints();
     moversizer:ClearAllPoints();
     if(data.regionType == "group") then
-      mover:SetWidth(region.trx - region.blx);
-      mover:SetHeight(region.try - region.bly);
-      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff + region.blx, yOff + region.bly);
+      mover:SetWidth((region.trx - region.blx) * scale);
+      mover:SetHeight((region.try - region.bly) * scale);
+      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, (xOff + region.blx) * scale, (yOff + region.bly) * scale);
     else
-      mover:SetWidth(region:GetWidth());
-      mover:SetHeight(region:GetHeight());
-      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff, yOff);
+      mover:SetWidth(region:GetWidth() * scale);
+      mover:SetHeight(region:GetHeight() * scale);
+      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff * scale, yOff * scale);
     end
     moversizer:SetPoint("BOTTOMLEFT", mover, "BOTTOMLEFT", -8, -8);
     moversizer:SetPoint("TOPRIGHT", mover, "TOPRIGHT", 8, 8);
@@ -7980,6 +8489,7 @@ function WeakAuras.CreateFrame()
   end
 
   moversizer.SetToRegion = function(self, region, data)
+    local scale = region:GetEffectiveScale() / UIParent:GetEffectiveScale();
     mover.moving.region = region;
     mover.moving.data = data;
     local xOff, yOff;
@@ -7987,13 +8497,13 @@ function WeakAuras.CreateFrame()
     mover:ClearAllPoints();
     moversizer:ClearAllPoints();
     if(data.regionType == "group") then
-      mover:SetWidth(region.trx - region.blx);
-      mover:SetHeight(region.try - region.bly);
-      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff + region.blx, yOff + region.bly);
+      mover:SetWidth((region.trx - region.blx) * scale);
+      mover:SetHeight((region.try - region.bly) * scale);
+      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, (xOff + region.blx) * scale, (yOff + region.bly) * scale);
     else
-      mover:SetWidth(region:GetWidth());
-      mover:SetHeight(region:GetHeight());
-      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff, yOff);
+      mover:SetWidth(region:GetWidth() * scale);
+      mover:SetHeight(region:GetHeight() * scale);
+      mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff * scale, yOff * scale);
     end
     moversizer:SetPoint("BOTTOMLEFT", mover, "BOTTOMLEFT", -8, -8);
     moversizer:SetPoint("TOPRIGHT", mover, "TOPRIGHT", 8, 8);
@@ -8003,7 +8513,8 @@ function WeakAuras.CreateFrame()
       WeakAuras.CancelAnimation(region, true, true, true, true, true);
       mover:ClearAllPoints();
       if(data.regionType == "group") then
-        mover:SetPoint(mover.selfPoint, region, mover.anchorPoint, region.blx, region.bly);
+        local scale = region:GetEffectiveScale() / UIParent:GetEffectiveScale();
+        mover:SetPoint(mover.selfPoint, region, mover.anchorPoint, region.blx * scale, region.bly * scale);
       else
         mover:SetPoint(mover.selfPoint, region, mover.selfPoint);
       end
@@ -8013,6 +8524,7 @@ function WeakAuras.CreateFrame()
     end
 
     mover.doneMoving = function(self)
+      local scale = region:GetEffectiveScale() / UIParent:GetEffectiveScale();
       region:StopMovingOrSizing();
       mover.isMoving = false;
       mover.text:Hide();
@@ -8022,8 +8534,8 @@ function WeakAuras.CreateFrame()
         local anchorX, anchorY = mover.anchorPointIcon:GetCenter();
         local dX = selfX - anchorX;
         local dY = selfY - anchorY;
-        data.xOffset = dX;
-        data.yOffset = dY;
+        data.xOffset = dX / scale;
+        data.yOffset = dY / scale;
       end
       WeakAuras.Add(data);
       WeakAuras.SetThumbnail(data);
@@ -8031,13 +8543,13 @@ function WeakAuras.CreateFrame()
       mover.selfPoint, mover.anchor, mover.anchorPoint, xOff, yOff = region:GetPoint(1);
       mover:ClearAllPoints();
       if(data.regionType == "group") then
-        mover:SetWidth(region.trx - region.blx);
-        mover:SetHeight(region.try - region.bly);
-        mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff + region.blx, yOff + region.bly);
+        mover:SetWidth((region.trx - region.blx) * scale);
+        mover:SetHeight((region.try - region.bly) * scale);
+        mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, (xOff + region.blx) * scale, (yOff + region.bly) * scale);
       else
-        mover:SetWidth(region:GetWidth());
-        mover:SetHeight(region:GetHeight());
-        mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff, yOff);
+        mover:SetWidth(region:GetWidth() * scale);
+        mover:SetHeight(region:GetHeight() * scale);
+        mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff * scale, yOff * scale);
       end
       if(data.parent) then
         local parentData = db.displays[data.parent];
@@ -8088,6 +8600,7 @@ function WeakAuras.CreateFrame()
       end
 
       moversizer.doneSizing = function()
+        local scale = region:GetEffectiveScale() / UIParent:GetEffectiveScale();
         mover.isMoving = false;
         region:StopMovingOrSizing();
         WeakAuras.Add(data);
@@ -8100,9 +8613,9 @@ function WeakAuras.CreateFrame()
         moversizer.text:Hide();
         moversizer:SetScript("OnUpdate", nil);
         mover:ClearAllPoints();
-        mover:SetWidth(region:GetWidth());
-        mover:SetHeight(region:GetHeight());
-        mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff, yOff);
+        mover:SetWidth(region:GetWidth() * scale);
+        mover:SetHeight(region:GetHeight() * scale);
+        mover:SetPoint(mover.selfPoint, mover.anchor, mover.anchorPoint, xOff * scale, yOff * scale);
         WeakAuras.Animate("display", data.id, "main", data.animation.main, WeakAuras.regions[data.id].region, false, nil, true);
       end
 
@@ -8675,6 +9188,11 @@ function WeakAuras.UpdateGroupOrders(data)
   end
 end
 
+function WeakAuras.UpdateButtonsScroll()
+  if WeakAuras.IsOptionsProcessingPaused() then return end
+  frame.buttonsScroll:DoLayout()
+end
+
 local previousFilter;
 function WeakAuras.SortDisplayButtons(filter, overrideReset, id)
   if (WeakAuras.IsOptionsProcessingPaused()) then
@@ -8908,6 +9426,37 @@ function WeakAuras.SetGrouping(data)
   for id, button in pairs(displayButtons) do
     button:SetGrouping(data);
   end
+end
+
+function WeakAuras.SetDragging(data, drop)
+  WeakAuras_DropDownMenu:Hide()
+  for id, button in pairs(displayButtons) do
+    button:SetDragging(data, drop)
+  end
+end
+
+function WeakAuras.DropIndicator()
+  local indicator = frame.dropIndicator
+  if not indicator then
+    indicator = CreateFrame("Frame", "WeakAuras_DropIndicator")
+    indicator:SetHeight(4)
+    indicator:SetFrameStrata("FULLSCREEN")
+
+    local texture = indicator:CreateTexture(nil, "FULLSCREEN")
+    texture:SetBlendMode("ADD")
+    texture:SetAllPoints(indicator)
+    texture:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight")
+
+    local icon = indicator:CreateTexture(nil, "OVERLAY")
+    icon:SetSize(16,16)
+    icon:SetPoint("CENTER", indicator)
+
+    indicator.icon = icon
+    indicator.texture = texture
+    frame.dropIndicator = indicator
+    indicator:Hide()
+  end
+  return indicator
 end
 
 function WeakAuras.UpdateDisplayButton(data)
@@ -9169,9 +9718,9 @@ do
       if(IsMouseButtonDown("RightButton")) then
         valueToPath(data, path, givenValue);
         AceConfigDialog:Open("WeakAuras", frame.container);
-        WeakAuras.StopFrameChooser();
+        WeakAuras.StopFrameChooser(data);
       elseif(IsMouseButtonDown("LeftButton") and oldFocusName) then
-        WeakAuras.StopFrameChooser();
+        WeakAuras.StopFrameChooser(data);
       else
         SetCursor("CAST_CURSOR");
 
@@ -9213,12 +9762,14 @@ do
     end);
   end
 
-  function WeakAuras.StopFrameChooser()
+  function WeakAuras.StopFrameChooser(data)
     if(frameChooserFrame) then
       frameChooserFrame:SetScript("OnUpdate", nil);
       frameChooserBox:Hide();
     end
     ResetCursor();
+    WeakAuras.Add(data);
+    WeakAuras.ResetMoverSizer();
   end
 end
 

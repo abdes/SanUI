@@ -55,6 +55,7 @@ local default = {
   borderBackdrop = "Blizzard Tooltip",
   selfPoint = "CENTER",
   anchorPoint = "CENTER",
+  anchorFrameType = "SCREEN",
   xOffset = 0,
   yOffset = 0,
   stickyDuration = false,
@@ -400,6 +401,25 @@ local function create(parent)
   region.duration = 0;
   region.expirationTime = math.huge;
 
+  local oldSetFrameLevel = region.SetFrameLevel;
+  function region.SetFrameLevel(self, frameLevel)
+    oldSetFrameLevel(self, frameLevel);
+    if region.barInFront then
+      iconFrame:SetFrameLevel(frameLevel + 1);
+      iconFrame:SetFrameLevel(frameLevel + 1);
+      bar:SetFrameLevel(frameLevel + 1);
+      border:SetFrameLevel(frameLevel);
+    else
+      iconFrame:SetFrameLevel(frameLevel);
+      iconFrame:SetFrameLevel(frameLevel);
+      bar:SetFrameLevel(frameLevel);
+      border:SetFrameLevel(frameLevel + 1);
+    end
+    if (self.__WAGlowFrame) then
+      self.__WAGlowFrame:SetFrameLevel(frameLevel + 1);
+    end
+  end
+
 -- Return new display/region
   return region;
 end
@@ -419,12 +439,13 @@ local function animRotate(object, degrees, anchor)
 
         rotate:SetOrigin(anchor, 0, 0);
         rotate:SetDegrees(degrees);
-        rotate:SetDuration(0.000001);
+        rotate:SetDuration(0);
         rotate:SetEndDelay(2147483647);
         group:Play();
+        rotate:SetSmoothProgress(1);
+        group:Pause();
     end
 end
-WeakAuras.animRotate = animRotate;
 
 -- Calculate offset after rotation
 local function getRotateOffset(object, degrees, point)
@@ -823,20 +844,22 @@ local function modify(parent, region, data)
 
   region.useAuto = data.auto and WeakAuras.CanHaveAuto(data);
 
-  -- Adjust framestrata
-    if data.frameStrata == 1 then
-        region:SetFrameStrata(region:GetParent():GetFrameStrata());
-    else
-        region:SetFrameStrata(WeakAuras.frame_strata_types[data.frameStrata]);
-    end
-
   -- Adjust region size
     region:SetWidth(data.width);
     region:SetHeight(data.height);
 
   -- Reset anchors
-    region:ClearAllPoints();
-    region:SetPoint(data.selfPoint, parent, data.anchorPoint, data.xOffset, data.yOffset);
+  region:ClearAllPoints();
+  local anchorFrame = WeakAuras.GetAnchorFrame(data.id, data.anchorFrameType, parent, data.anchorFrameFrame);
+  region:SetParent(anchorFrame);
+  region:SetPoint(data.selfPoint, anchorFrame, data.anchorPoint, data.xOffset, data.yOffset);
+  -- Adjust framestrata
+  if data.frameStrata == 1 then
+      region:SetFrameStrata(region:GetParent():GetFrameStrata());
+  else
+      region:SetFrameStrata(WeakAuras.frame_strata_types[data.frameStrata]);
+  end
+
 
   -- Set overall alpha
     region:SetAlpha(data.alpha);
@@ -882,17 +905,20 @@ local function modify(parent, region, data)
   bar.spark.sparkMirror = data.sparkMirror;
 
   -- Bar or Border (+Backdrop) in front
+  local frameLevel = region:GetFrameLevel();
   if data.barInFront then
-    iconFrame:SetFrameLevel(5);
-    iconFrame:SetFrameLevel(5);
-    bar:SetFrameLevel(5);
-    border:SetFrameLevel(2);
+    iconFrame:SetFrameLevel(frameLevel + 2);
+    iconFrame:SetFrameLevel(frameLevel + 2);
+    bar:SetFrameLevel(frameLevel + 2);
+    border:SetFrameLevel(frameLevel + 1);
   else
-    iconFrame:SetFrameLevel(2);
-    iconFrame:SetFrameLevel(2);
-    bar:SetFrameLevel(2);
-    border:SetFrameLevel(5);
+    iconFrame:SetFrameLevel(frameLevel + 1);
+    iconFrame:SetFrameLevel(frameLevel + 1);
+    bar:SetFrameLevel(frameLevel + 1);
+    border:SetFrameLevel(frameLevel + 2);
   end
+
+  region.barInFront = data.barInFront;
 
   -- Color update function
     region.Color = region.Color or function(self, r, g, b, a)

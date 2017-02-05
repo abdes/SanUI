@@ -105,6 +105,7 @@ local default = {
     rotation = 0,
     selfPoint = "CENTER",
     anchorPoint = "CENTER",
+    anchorFrameType = "SCREEN",
     xOffset = 0,
     yOffset = 0,
     font = "Friz Quadrata TT",
@@ -178,6 +179,34 @@ local function betweenAngles(low, high, needle1, needle2)
   return false;
 end
 
+local function animRotate(object, degrees, anchor, regionRotate, aspect)
+    if (not anchor) then
+        anchor = "CENTER";
+    end
+
+    object.degrees = degrees;
+    object.regionRotate = regionRotate;
+    object.aspect = aspect;
+
+    -- Something to rotate
+    -- Create AnimatioGroup and rotation animation
+    if (not object.animationGroup) then
+      object.animationGroup = object:CreateAnimationGroup();
+      object.animationGroup:SetScript('OnUpdate', function()
+        Transform(object, -0.5, -0.5, -object.degrees + object.regionRotate, object.aspect)
+      end);
+    end
+
+    object.animationGroup.rotate = object.animationGroup.rotate or object.animationGroup:CreateAnimation("rotation");
+
+    local rotate = object.animationGroup.rotate;
+    rotate:SetOrigin(anchor, 0, 0);
+    rotate:SetDegrees(degrees);
+    rotate:SetDuration( 0 );
+    rotate:SetEndDelay(2147483647);
+    object.animationGroup:Play();
+end
+
 function spinnerFunctions.SetProgress(self, region, startAngle, endAngle, progress, clockwise)
   local pAngle = progress * (endAngle - startAngle) + startAngle;
 
@@ -231,9 +260,8 @@ function spinnerFunctions.SetProgress(self, region, startAngle, endAngle, progre
 
   local degree = pAngle;
   if not clockwise then degree = -degree + 90 end
-  Transform(self.wedge, -0.5, -0.5, degree + region.rotation, region.aspect)
 
-  WeakAuras.animRotate(self.wedge, -degree, "BOTTOMRIGHT");
+  animRotate(self.wedge, -degree, "BOTTOMRIGHT", region.rotation, region.aspect);
 end
 
 function spinnerFunctions.SetBackgroundOffset(self, region, offset)
@@ -330,12 +358,6 @@ local function modify(parent, region, data)
     local background, foreground = region.background, region.foreground;
     local foregroundSpinner, backgroundSpinner = region.foregroundSpinner, region.backgroundSpinner;
 
-    if(data.frameStrata == 1) then
-        region:SetFrameStrata(region:GetParent():GetFrameStrata());
-    else
-        region:SetFrameStrata(WeakAuras.frame_strata_types[data.frameStrata]);
-    end
-
     region:SetWidth(data.width);
     region:SetHeight(data.height);
     region.aspect =  data.width / data.height;
@@ -348,7 +370,14 @@ local function modify(parent, region, data)
     backgroundSpinner:SetHeight((data.height + data.backgroundOffset * 2) * scaleWedge);
 
     region:ClearAllPoints();
-    region:SetPoint(data.selfPoint, parent, data.anchorPoint, data.xOffset, data.yOffset);
+    local anchorFrame = WeakAuras.GetAnchorFrame(data.id, data.anchorFrameType, parent, data.anchorFrameFrame);
+    region:SetParent(anchorFrame);
+    region:SetPoint(data.selfPoint, anchorFrame, data.anchorPoint, data.xOffset, data.yOffset);
+    if(data.frameStrata == 1) then
+        region:SetFrameStrata(region:GetParent():GetFrameStrata());
+    else
+        region:SetFrameStrata(WeakAuras.frame_strata_types[data.frameStrata]);
+    end
     region:SetAlpha(data.alpha);
 
     background:SetTexture(data.sameTexture and data.foregroundTexture or data.backgroundTexture);

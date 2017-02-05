@@ -49,6 +49,16 @@ WeakAuras.group_sort_types = {
   none = L["None"]
 };
 
+WeakAuras.group_hybrid_position_types = {
+  hybridFirst = L["Marked First"],
+  hybridLast = L["Marked Last"]
+};
+
+WeakAuras.group_hybrid_sort_types = {
+  ascending = L["Ascending"],
+  descending = L["Descending"],
+};
+
 WeakAuras.precision_types = {
   [0] = "12",
   [1] = "12.3",
@@ -225,6 +235,13 @@ WeakAuras.inverse_point_types = {
   LEFT = "RIGHT",
   CENTER = "CENTER"
 };
+
+WeakAuras.anchor_frame_types = {
+  SCREEN = L["Screen/Parent Group"],
+  PRD = L["Personal Ressource Display"],
+  MOUSE = L["Mouse Cursor"],
+  SELECTFRAME = L["Select Frame"]
+}
 
 WeakAuras.spark_rotation_types = {
     AUTO = L["Automatic Rotation"],
@@ -992,7 +1009,8 @@ WeakAuras.grow_types = {
   ["DOWN"] = L["Down"],
   ["HORIZONTAL"] = L["Centered Horizontal"],
   ["VERTICAL"] = L["Centered Vertical"],
-  ["CIRCLE"] = L["Circular"]
+  ["CIRCLE"] = L["Counter Clockwise"],
+  ["COUNTERCIRCLE"] =L["Clockwise"]
 };
 
 WeakAuras.text_rotate_types = {
@@ -1145,10 +1163,15 @@ WeakAuras.chat_message_types = {
   CHAT_MSG_EMOTE = L["Emote"],
   CHAT_MSG_GUILD = L["Guild"],
   CHAT_MSG_MONSTER_YELL = L["Monster Yell"],
+  CHAT_MSG_MONSTER_EMOTE = L["Monster Emote"],
+  CHAT_MSG_MONSTER_SAY = L["Monster Say"],
+  CHAT_MSG_MONSTER_WHISPER = L["Monster Whisper"],
+  CHAT_MSG_MONSTER_PARTY = L["Monster Party"],
   CHAT_MSG_OFFICER = L["Officer"],
   CHAT_MSG_PARTY = L["Party"],
   CHAT_MSG_RAID = L["Raid"],
   CHAT_MSG_RAID_BOSS_EMOTE = L["Boss Emote"],
+  CHAT_MSG_RAID_BOSS_WHISPER = L["Boss Whisper"],
   CHAT_MSG_RAID_WARNING = L["Raid Warning"],
   CHAT_MSG_SAY = L["Say"],
   CHAT_MSG_WHISPER = L["Whisper"],
@@ -1214,8 +1237,9 @@ WeakAuras.sound_types = {
   ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\TempleBellHuge.ogg"] = "Temple Bell",
   ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Torch.ogg"] = "Torch",
   ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\WarningSiren.ogg"] = "Warning Siren",
-  [" custom"] = "Custom",
-  [" KitID"] = "Sound by Kit ID",
+  ["Sound\\Creature\\LichKing\\IC_Lich King_Special01.ogg"] = "Lich King Apocalypse",
+  [" custom"] = " " .. L["Custom"],
+  [" KitID"] = " " .. L["Sound by Kit ID"],
 };
 
 if(WeakAuras.PowerAurasSoundPath ~= "") then
@@ -1298,3 +1322,33 @@ WeakAuras.cooldown_progress_behavior_types = {
   showOnReady    = L["Not on cooldown"],
   showAlways     = L["Always"]
 };
+
+WeakAuras.item_slot_types = {
+  [1]  = L["Head"],
+  [2]  = L["Neck"],
+  [3]  = L["Shoulder"],
+  [5]  = L["Chest"],
+  [6]  = L["Waist"],
+  [7]  = L["Legs"],
+  [8]  = L["Feet"],
+  [9]  = L["Wrist"],
+  [10] = L["Hands"],
+  [11] = L["Finger 1"],
+  [12] = L["Finger 2"],
+  [13] = L["Trinket 1"],
+  [14] = L["Trinket 2"],
+  [15] = L["Back"],
+  [19] = L["Tabard"]
+}
+
+WeakAuras.charges_change_type = {
+  GAINED = L["Gained"],
+  LOST = L["Lost"],
+  CHANGED = L["Changed"]
+}
+
+WeakAuras.combat_event_type =
+{
+  PLAYER_REGEN_ENABLED = L["Leaving"],
+  PLAYER_REGEN_DISABLED = L["Entering"]
+}
