@@ -381,7 +381,7 @@ local function Shared(self, unit)
 	S["UnitFrames"].RaidBuffsTracking["ALL"] = {
 		--Mage
 		{45438 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ice Block
-		{115610, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Temporal Shield
+		--{115610, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Temporal Shield
 	--Death Knight
 		{48797 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Anti-Magic Shell
 		{48792 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Icebound Fortitude
