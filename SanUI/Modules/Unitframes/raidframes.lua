@@ -945,7 +945,7 @@ oUF:Factory(function(self)
 		elseif maxPlayers == 10 then
 			filter = ten
 		elseif maxPlayers == 20 then
-			filter = twenty
+			filter = forty
 		else
 			filter = forty
 		end
