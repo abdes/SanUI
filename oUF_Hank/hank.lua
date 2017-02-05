@@ -317,6 +317,9 @@ oUF_Hank.PostUpdateIcon = function(icons, unit, icon, index, offset)
 		-- Sticky aura: enemySelfBuffs
 		icon.icon:SetVertexColor(unpack(cfg.AuraStickyColor))
 		icon.icon:SetDesaturated(false)
+	elseif icon.filter == "HARMFUL" and not UnitCanAttack("player", unit) and cfg["Auras" .. upper(unit)].StickyAuras.debuffsOnFriendly then
+		icon.icon:SetVertexColor(unpack(cfg.AuraStickyColor))
+		icon.icon:SetDesaturated(false)
 	else
 		icon.icon:SetVertexColor(1, 1, 1)
 		icon.icon:SetDesaturated(true)
@@ -341,6 +344,8 @@ oUF_Hank.customFilter = function(icons, unit, icon, name, rank, texture, count, 
 	-- Usage of UnitIsUnit: Call from within focus frame will return "target" as caster if focus is targeted (player > target > focus)
 	elseif icons.filter == "HELPFUL" and UnitCanAttack("player", unit) and UnitIsUnit(unit, caster or "") and cfg["Auras" .. upper(unit)].StickyAuras.enemySelfBuffs then
 		-- Sticky aura: enemySelfBuffs
+		return true
+	elseif icon.filter == "HARMFUL" and not UnitCanAttack("player", unit) and cfg["Auras" .. upper(unit)].StickyAuras.debuffsOnFriendly then
 		return true
 	else
 		-- Aura is not sticky, filter is set to blacklist
