@@ -11,7 +11,7 @@ local CHAT_FLAG_DND = CHAT_FLAG_DND
 local LEVEL = LEVEL
 local BackdropColor = {0, 0, 0}
 local Short = T.ShortValue
-local ILevel, TalentSpec, LastUpdate = 0, "", 30
+local ILevel, TalentSpec, MAXILevel, PVPILevel, LastUpdate = 0, "", 0, 0, 30
 local InspectDelay = 0.2
 local InspectFreq = 2
 
@@ -103,7 +103,7 @@ end
 function Tooltip:OnTooltipSetUnit()
 	local NumLines = self:NumLines()
 	local GetMouseFocus = GetMouseFocus()
-	local Unit = (select(2, self:GetUnit())) or (GetMouseFocus and GetMouseFocus:GetAttribute("unit"))
+	local Unit = (select(2, self:GetUnit())) or (GetMouseFocus and GetMouseFocus.GetAttribute and GetMouseFocus:GetAttribute("unit"))
 
 	if (not Unit) and (UnitExists("mouseover")) then
 		Unit = "mouseover"
@@ -190,7 +190,12 @@ function Tooltip:OnTooltipSetUnit()
 					Talent:Show()
 				end
 			else
-				ILevel = Talent:GetItemLevel("player") or UNKNOWN
+				local Best, Current, PVP = GetAverageItemLevel()
+				
+				ILevel = math.floor(Current) or UNKNOWN
+				MAXILevel = math.floor(Best) or UNKNOWN
+				PVPILevel = math.floor(PVP) or UNKNOWN
+				
 				TalentSpec = Talent:GetTalentSpec() or NONE
 			end
 		end
@@ -242,7 +247,16 @@ function Tooltip:OnTooltipSetUnit()
 
 	if (C.Tooltips.ShowSpec and UnitIsPlayer(Unit) and UnitIsFriend("player", Unit) and IsAltKeyDown()) then
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL..": |cff3eea23"..ILevel.."|r")
+		
+		 
+		if Unit == "player" then
+			GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL.." ("..CURRENTLY_EQUIPPED .."): |cff3eea23"..ILevel.."|r")
+			GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL.." ("..PVP.."): |cff3eea23"..PVPILevel.."|r")
+			GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL.." ("..MAXIMUM.."): |cff3eea23"..MAXILevel.."|r")
+		else
+			GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL..": |cff3eea23"..ILevel.."|r")
+		end
+		
 		GameTooltip:AddLine(SPECIALIZATION..": |cff3eea23"..TalentSpec.."|r")
 	end
 
@@ -251,7 +265,8 @@ end
 
 function Tooltip:SetColor()
 	local GetMouseFocus = GetMouseFocus()
-	local Unit = (select(2, self:GetUnit())) or (GetMouseFocus and GetMouseFocus:GetAttribute("unit"))
+	
+	local Unit = select(2, self:GetUnit()) or (GetMouseFocus and GetMouseFocus.GetAttribute and GetMouseFocus:GetAttribute("unit"))
 
 	if (not Unit) and (UnitExists("mouseover")) then
 		Unit = 'mouseover'
@@ -348,7 +363,8 @@ function Tooltip:OnValueChanged()
 	local unit = select(2, self:GetParent():GetUnit())
 	if(not unit) then
 		local GMF = GetMouseFocus()
-		if(GMF and GMF:GetAttribute("unit")) then
+		
+		if (GMF and GMF.GetAttribute and GMF:GetAttribute("unit")) then
 			unit = GMF:GetAttribute("unit")
 		end
 	end

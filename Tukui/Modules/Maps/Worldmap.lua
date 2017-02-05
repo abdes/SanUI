@@ -7,7 +7,13 @@ function WorldMap:OnUpdate(elapsed)
 
 	if WorldMap.Interval < 0 then
 			local InInstance, _ = IsInInstance()
+		
 			local X, Y = GetPlayerMapPosition("player")
+		
+			if not GetPlayerMapPosition("player") then
+				X = 0
+				Y = 0
+			end
 
 			X = math.floor(100 * X)
 			Y = math.floor(100 * Y)
@@ -50,7 +56,7 @@ function WorldMap:CreateCoords()
 	self.Coords:FontString("MouseText", C.Medias.Font, 12, "THINOUTLINE")
 	self.Coords.PlayerText:SetTextColor(1, 1, 1)
 	self.Coords.MouseText:SetTextColor(1, 1, 1)
-	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", WorldMapDetailFrame, "BOTTOMLEFT", 5, 5)
+	self.Coords.PlayerText:SetPoint("BOTTOMLEFT", WorldMapFrame.BorderFrame, "BOTTOMLEFT", 5, 5)
 	self.Coords.PlayerText:SetText("Player:   0, 0")
 	self.Coords.MouseText:SetPoint("BOTTOMLEFT", self.Coords.PlayerText, "TOPLEFT", 0, 5)
 	self.Coords.MouseText:SetText("Mouse:   0, 0")

@@ -60,6 +60,21 @@ function Plates:SetName()
 	end
 end
 
+-- This function below exist because with cannot modify the Blizzard var below in 7.1: 
+-- DefaultCompactNamePlateEnemyFrameOptions.displayNameWhenSelected
+-- Reason: Tainting
+-- Workaround: Hook CompactUnitFrame_UpdateName function
+-- Con of this workaround: More code update execution, so more cpu usage, but not by much
+
+function Plates:UpdateName()
+	local FrameName = self:GetName()
+	
+	if FrameName and FrameName:match("NamePlate") then
+		self.name:SetText(GetUnitName(self.unit, true))
+		self.name:Show()
+	end
+end
+
 function Plates:ColorHealth()
 	if (self:GetName() and string.find(self:GetName(), "NamePlate")) then
 		local r, g, b
@@ -102,10 +117,6 @@ function Plates:SetCastingIcon()
 end
 
 function Plates:SetupPlate(options)
-	if self.IsEdited then
-		return
-	end
-
 	local HealthBar = self.healthBar
 	local Highlight = self.selectionHighlight
 	local Aggro = self.aggroHighlight
@@ -115,11 +126,21 @@ function Plates:SetupPlate(options)
 	local Flash = self.castBar.Flash
 	local Spark = self.castBar.Spark
 	local Name = self.name
+	local Classification = self.ClassificationFrame
 	local Texture = T.GetTexture(C["NamePlates"].Texture)
 	local Font = T.GetFont(C["NamePlates"].Font)
 	local FontName, FontSize, FontFlags = _G[Font]:GetFont()
+	
+	if self.IsEdited then
+		HealthBar:SetHeight(C.NamePlates.Height)
+		CastBar:SetStatusBarTexture(Texture)
+		CastBar:SetHeight(C.NamePlates.CastHeight)
+		
+		return
+	end
 
 	-- HEALTHBAR
+	HealthBar:SetHeight(C.NamePlates.Height)
 	HealthBar:SetStatusBarTexture(Texture)
 	HealthBar.background:ClearAllPoints()
 	HealthBar.background:SetInside(0, 0)
@@ -127,6 +148,7 @@ function Plates:SetupPlate(options)
 	HealthBar.border:SetAlpha(0)
 
 	-- CASTBAR
+	CastBar:SetHeight(C.NamePlates.CastHeight)
 	CastBar:SetStatusBarTexture(Texture)
 	CastBar.background:ClearAllPoints()
 	CastBar.background:SetInside(0, 0)
@@ -135,8 +157,6 @@ function Plates:SetupPlate(options)
 	if CastBar.border then
 		CastBar.border:SetAlpha(0)
 	end
-	
-	CastBar.SetStatusBarTexture = function() end
 	
 	CastBar.IconBackdrop = CreateFrame("Frame", nil, CastBar)
 	CastBar.IconBackdrop:SetSize(CastBar.Icon:GetSize())
@@ -155,26 +175,27 @@ function Plates:SetupPlate(options)
 
 	CastBar.Text:SetFont(FontName, 9, "OUTLINE")
 	
-	CastBar.startCastColor.r, CastBar.startCastColor.g, CastBar.startCastColor.b = unpack(Plates.Options.CastBarColors.StartNormal)
-	CastBar.startChannelColor.r, CastBar.startChannelColor.g, CastBar.startChannelColor.b = unpack(Plates.Options.CastBarColors.StartChannel)
-	CastBar.failedCastColor.r, CastBar.failedCastColor.g, CastBar.failedCastColor.b = unpack(Plates.Options.CastBarColors.Failed)
-	CastBar.nonInterruptibleColor.r, CastBar.nonInterruptibleColor.g, CastBar.nonInterruptibleColor.b = unpack(Plates.Options.CastBarColors.NonInterrupt)
-	CastBar.finishedCastColor.r, CastBar.finishedCastColor.g, CastBar.finishedCastColor.b = unpack(Plates.Options.CastBarColors.Success)
-	
 	CastBar:HookScript("OnShow", Plates.SetCastingIcon)
 	
 	-- UNIT NAME
-	Name:SetFont(FontName, 10) -- if we add outline, it cause lag? WTF?
+	Name:SetFont(FontName, 9, FontFlags)
 	Name:SetShadowColor(0, 0, 0)
 	Name:SetShadowOffset(1.25, -1.25)
 	hooksecurefunc(Name, "Show", Plates.SetName)
 	
 	-- WILL DO A BETTER VISUAL FOR THIS LATER
-	Highlight:Kill()
-	Shield:Kill()
-	Aggro:Kill()
-	Flash:Kill()
-	Spark:Kill()
+	Highlight:SetParent(T.Panels.Hider)
+	Highlight:ClearAllPoints()
+	Shield:SetParent(T.Panels.Hider)
+	Shield:ClearAllPoints()
+	Aggro:SetParent(T.Panels.Hider)
+	Aggro:ClearAllPoints()
+	Flash:SetParent(T.Panels.Hider)
+	Flash:ClearAllPoints()
+	Spark:SetParent(T.Panels.Hider)
+	Spark:ClearAllPoints()
+	Classification:SetParent(T.Panels.Hider)
+	Classification:ClearAllPoints()
 	
 	self.IsEdited = true
 end
@@ -185,14 +206,6 @@ function Plates:Enable()
 	if not Enabled then
 		return
 	end
-	
-	self:RegisterOptions()
-	
-	DefaultCompactNamePlateFriendlyFrameOptions = Plates.Options.Friendly
-	DefaultCompactNamePlateEnemyFrameOptions = Plates.Options.Enemy
-	DefaultCompactNamePlatePlayerFrameOptions = Plates.Options.Player
-	DefaultCompactNamePlateFrameSetUpOptions = Plates.Options.Size
-	DefaultCompactNamePlatePlayerFrameSetUpOptions = Plates.Options.PlayerSize
 	
 	if ClassNameplateManaBarFrame then
 		ClassNameplateManaBarFrame.Border:SetAlpha(0)
@@ -217,7 +230,15 @@ function Plates:Enable()
 	InterfaceOptionsNamesPanelUnitNameplatesMakeLarger:Hide()
 	
 	-- Set the Width of NamePlate
-	C_NamePlate.SetNamePlateOtherSize(C.NamePlates.Width, 45)
+	if T.WoWBuild >= 22881 then
+		C_NamePlate.SetNamePlateFriendlySize(C.NamePlates.Width, 45)
+		C_NamePlate.SetNamePlateEnemySize(C.NamePlates.Width, 45)
+	else
+		C_NamePlate.SetNamePlateOtherSize(C.NamePlates.Width, 45)
+	end
+	
+	hooksecurefunc("CompactUnitFrame_UpdateName", self.UpdateName)
 end
 
 T["NamePlates"] = Plates
+

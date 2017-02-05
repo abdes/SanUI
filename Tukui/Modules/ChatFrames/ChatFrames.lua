@@ -229,16 +229,16 @@ function TukuiChat:SetDefaultChatFramesPositions()
 		local ID = Frame:GetID()
 
 		-- Set font size and chat frame size
-		Frame:Size(Width, 111)
+		Frame:Size(Width, 119)
 
 		-- Set default chat frame position
 		if (ID == 1) then
 			Frame:ClearAllPoints()
-			Frame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 47, 45)
+			Frame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 44, 50)
 		elseif (C.Chat.LootFrame and ID == 4) then
 			if (not Frame.isDocked) then
 				Frame:ClearAllPoints()
-				Frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -47, 45)
+				Frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -44, 50)
 			end
 		end
 
@@ -255,7 +255,7 @@ function TukuiChat:SetDefaultChatFramesPositions()
 		end
 
 		local Anchor1, Parent, Anchor2, X, Y = Frame:GetPoint()
-		TukuiData[GetRealmName()][UnitName("Player")].Chat["Frame" .. i] = {Anchor1, Anchor2, X, Y, Width, 111}
+		TukuiData[GetRealmName()][UnitName("Player")].Chat["Frame" .. i] = {Anchor1, Anchor2, X, Y, Width, 108}
 	end
 end
 
@@ -464,7 +464,12 @@ function TukuiChat:Setup()
 
 	ChatConfigFrameDefaultButton:Kill()
 	ChatFrameMenuButton:Kill()
-	FriendsMicroButton:Kill()
+	
+	if T.WoWBuild >= 22881 then
+		QuickJoinToastButton:Kill()
+	else
+		FriendsMicroButton:Kill()
+	end
 end
 
 function TukuiChat:AddHooks()

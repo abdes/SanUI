@@ -220,11 +220,16 @@ function Minimap:UpdateCoords(t)
 	local X, Y = GetPlayerMapPosition("player")
 	local XText, YText
 	
+	if not GetPlayerMapPosition("player") then
+		X = 0
+		Y = 0
+	end
+	
 	X = math.floor(100 * X)
 	Y = math.floor(100 * Y)
 	
 	if (X == 0 and Y == 0) then
-		Minimap.MinimapCoords.Text:SetText("x, x")
+		Minimap.MinimapCoords.Text:SetText("?, ?")
 	else
 		if (X < 10) then
 			XText = "0"..X
