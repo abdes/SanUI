@@ -597,6 +597,13 @@ local function Shared(self, unit)
 	
 	self.TextAuras = ta
 
+		-- Position and size
+	local RaidIcon = self.Health:CreateTexture(nil, 'OVERLAY')
+	RaidIcon:SetSize(14, 14)
+	RaidIcon:SetPoint('TOP', self,12,5)
+
+	-- Register it with oUF
+	self.RaidIcon = RaidIcon
 	
 	-- Raid Debuffs (big middle icon)
 	local RaidDebuffs = CreateFrame("Frame", nil, self)
