@@ -11,14 +11,34 @@ S.switchCoolLine = function(profile)
 		db = CoolLineDB
 	end
 	
-	if profile == "SanHeal" then
+	if profile == "SanHeal" or profile == "SanChicken" then
 		block = {
-			[GetItemInfo(6948) or "Hearthstone"] = true,  -- Hearthstone
+			[GetItemInfo(6948) or "Hearthstone"] = true,
+			[GetItemInfo(140192) or "Dalaran Hearthstone"] = true,
+			[GetItemInfo(140789) or "Animated Exoskeleton"] = true,
+			[GetItemInfo(142157) or "Aran's Relaxing Ruby"] = true,
+			[GetItemInfo(137486) or "Windscar Whetstone"] = true,
 		}
 		
-	elseif profile == "SanBear" or profile == "SanCat" then
+	elseif profile == "SanBear" then
 		block = {
 			[GetItemInfo(6948) or "Hearthstone"] = true,  -- Hearthstone
+			[GetItemInfo(140192) or "Dalaran Hearthstone"] = true,
+			[GetItemInfo(140793) or "Perfectly Preserved Cake"] = true,
+			[GetSpellInfo(33917) or "Zerfleischen"] = true, -- Mangle(Bear)
+			[GetSpellInfo(779) or "Prankenhieb"] = true, -- Swipe(Bear
+			[GetSpellInfo(77758) or "Hauen"] = true, -- Thrash
+			[GetSpellInfo(6807) or "Zermalmen"] = true, -- Maul
+			--[GetSpellInfo(33745) or "Aufschlitzen"] = true, --Lacerate
+		}
+		
+	elseif profile == "SanCat" then
+		block = {
+			[GetItemInfo(6948) or "Hearthstone"] = true,  -- Hearthstone
+			[GetItemInfo(140793) or "Perfectly Preserved Cake"] = true,
+			[GetItemInfo(140192) or "Dalaran Hearthstone"] = true,
+			[GetItemInfo(137486) or "Windscar Whetstone"] = true,
+			[GetItemInfo(140789) or "Animated Exoskeleton"] = true,
 			[GetSpellInfo(33917) or "Zerfleischen"] = true, -- Mangle(Bear)
 			[GetSpellInfo(779) or "Prankenhieb"] = true, -- Swipe(Bear
 			[GetSpellInfo(77758) or "Hauen"] = true, -- Thrash
@@ -82,6 +102,7 @@ S.switchCoolLine = function(profile)
 	else
 		block = {
 			[GetItemInfo(6948) or "Hearthstone"] = true,  -- Hearthstone
+			[GetItemInfo(140192) or "Dalaran Hearthstone"] = true,
 		}
 	end
 		
