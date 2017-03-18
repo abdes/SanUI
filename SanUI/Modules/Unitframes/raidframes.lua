@@ -740,11 +740,11 @@ local function Shared(self, unit)
 				[SpellName(216697)] = 1, -- Frigid Pulse
 
 			-- Grand Magistrix Elisande
-				[SpellName(209166)] = 1, -- Fast Time
+				--[SpellName(209166)] = 1, -- Fast Time
+				--[SpellName(209165)] = 1, -- Slow Time
 				[SpellName(211887)] = 1, -- Ablated
 				[SpellName(209615)] = 1, -- Ablation
 				[SpellName(209244)] = 1, -- Delphuric Beam
-				[SpellName(209165)] = 1, -- Slow Time
 				[SpellName(209598)] = 1, -- Conflexive Burst
 				[SpellName(209433)] = 1, -- Spanning Singularity
 				[SpellName(209973)] = 1, -- Ablating Explosion
@@ -770,6 +770,9 @@ local function Shared(self, unit)
 				[SpellName(228744)] = 1, -- Flaming Volatile Foam (Guarm)
 				[SpellName(228810)] = 1, -- Briney Volatile Foam (Guarm)
 				[SpellName(228818)] = 1, -- Shadowy Volatile Foam (Guarm)
+				[SpellName(193367)] = 1, -- Fetid Rot (Helya)
+				[SpellName(202476)] = 1, -- Rabid (Helya)
+				[SpellName(232450)] = 1, -- Corrupted Axion (Helya)
 		-- The Emerald Nightmare
 			-- Nythendra
 				--[SpellName(204504)] = 1, -- Infested
