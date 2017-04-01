@@ -10,6 +10,11 @@ hooksecurefunc(S["Maps"]["Minimap"],"Enable",function()
 	Mail:ClearAllPoints()
 	Mail:Point("TOPRIGHT", 0, 0)
 	
+	-- This is needed for the tracking menu (left click on zone name), it's anchored to this
+	MinimapBackdrop:ClearAllPoints()
+	MinimapBackdrop:SetPoint("CENTER",Minimap,"BOTTOM")
+
+	
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:Point("BOTTOMRIGHT",Minimap,"BOTTOMRIGHT")
 end)
