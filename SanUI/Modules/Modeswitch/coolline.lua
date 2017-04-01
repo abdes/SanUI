@@ -18,6 +18,7 @@ S.switchCoolLine = function(profile)
 			[GetItemInfo(140789) or "Animated Exoskeleton"] = true,
 			[GetItemInfo(142157) or "Aran's Relaxing Ruby"] = true,
 			[GetItemInfo(137486) or "Windscar Whetstone"] = true,
+			[GetItemInfo(140807) or "Infernal Contract"] = true
 		}
 		
 	elseif profile == "SanBear" then
@@ -43,6 +44,7 @@ S.switchCoolLine = function(profile)
 			[GetSpellInfo(779) or "Prankenhieb"] = true, -- Swipe(Bear
 			[GetSpellInfo(77758) or "Hauen"] = true, -- Thrash
 			[GetSpellInfo(6807) or "Zermalmen"] = true, -- Maul
+			[GetItemInfo(140807) or "Infernal Contract"] = true
 			--[GetSpellInfo(33745) or "Aufschlitzen"] = true, --Lacerate
 		}
 		
