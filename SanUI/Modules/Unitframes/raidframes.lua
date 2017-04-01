@@ -371,6 +371,13 @@ local function Shared(self, unit)
 		--{18562,{"TOPLEFT",-1,1},{1,1,1},true,nil,nil,true}, -- swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
 	}
 	
+	S["UnitFrames"].RaidBuffsTracking["PRIEST"] = {
+		{41635, "BOTTOMRIGHT", {0.2, 0.7, 0.2}},     -- Prayer of Mending
+		{139, "BOTTOMLEFT", {0.4, 0.7, 0.2}},        -- Renew
+		{17, "TOPLEFT", {1, 1, 1}, false, nil, nil, false},        -- Power Word: Shield
+		{194384, "TOPLEFT", {0.4, 0.8, 0.2}, true, nil, {{6,{1,1,0}},{3,{1,0,0}}}, true},     -- Atonement
+	}
+	
 	-- S["UnitFrames"].RaidBuffsTracking["PALADIN"] = {
 			-- {53563, "TOPLEFT", {0.7, 0.3, 0.7}},	 -- Beacon of Light
 			-- {1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true},	-- Hand of Freedom
@@ -527,6 +534,11 @@ local function Shared(self, unit)
 		--reju should overwrite sm	
 		if auras.icons[774] and auras.icons[18562] then
 			auras.icons[774]:SetFrameLevel(auras.icons[18562]:GetFrameLevel()+1)
+		end
+		
+		--power word shield should overwrite atonement
+		if auras.icons[194384] and auras.icons[17] then
+			auras.icons[17]:SetFrameLevel(auras.icons[194384]:GetFrameLevel()+1)
 		end
 	end
 	
