@@ -5,6 +5,11 @@ S["UnitFrames"].Enable = function() return end
 hooksecurefunc(S["Maps"]["Minimap"],"Enable",function()
 	Minimap:ClearAllPoints()
 	Minimap:SetPoint("TOPLEFT",UIParent,"TOPLEFT",5,-5)
+	
+	local Mail = MiniMapMailFrame
+	Mail:ClearAllPoints()
+	Mail:Point("TOPRIGHT", 0, 0)
+	
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:Point("BOTTOMRIGHT",Minimap,"BOTTOMRIGHT")
 end)
