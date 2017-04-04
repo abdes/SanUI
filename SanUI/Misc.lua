@@ -43,7 +43,7 @@ function S.misc(self,event,arg)
 		f:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 		f:RegisterEvent("PLAYER_TALENT_UPDATE")
 		
-		if IsAddOnLoaded("Details") and (S.MyName == "Shimmer" or S.MyName == "Sanctity") then
+		if IsAddOnLoaded("Details") then
 			S.modDetails(event)
 		end
 		
