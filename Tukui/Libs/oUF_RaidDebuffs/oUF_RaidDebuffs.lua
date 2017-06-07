@@ -144,6 +144,8 @@ local Update = function(self, event, unit)
 					rd.index = i
 					rd.type = 'Dispel'
 					rd.filter = filter
+					---dump(rd.filter)
+					---dump(disFilter)
 				end
 			end
 
