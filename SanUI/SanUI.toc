@@ -1,5 +1,5 @@
 ﻿## Interface: 70100
-## Author: Sanctity of Nozdormu
+## Author: Tavore of EU-Blackmoore
 ## Version: 7.2.0.0
 ## Title: SanUI
 ## Notes: Druid UI based on Tukui.

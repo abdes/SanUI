@@ -6,7 +6,7 @@ local S = unpack(SanUI)
 -- If there's more than 1, the first is loaded by default, and you can choose all of them from the menu
 -- Modes are defined below, see "MODES HERE"
 S["profiles"] = {
- ["Sanctity"] = { 
+ ["Tavore"] = { 
 	modes = {"SanHeal","SanChicken","SanBear", "SanCat" },
 	AddonMenu = {DBM=1, Altoholic=2, WorldFrame=3},
  },
@@ -138,7 +138,7 @@ S["Modes"] = {
 	["JhessDisc"] = {
 		["raidframes"] = "SanHeal",
 		["SimpleAuraFilter"] = "SanChicken",
-		["castbar"] = "SanChicken",
+		["castbar"] = "SanHeal",
 		["powerbar"] = "Hidden",
 		["Filger"] = "SanChicken",
 		["gcd"] = "SanChicken",
@@ -321,7 +321,7 @@ S["Modes"] = {
 if not S["profiles"][S.MyName] then
 
 	if S.MyClass == "DRUID" then
-		S["profiles"][S.MyName] = S["profiles"]["Sanctity"]
+		S["profiles"][S.MyName] = S["profiles"]["Tavore"]
 	else
 		S["profiles"][S.MyName] = S["profiles"]["DEFAULT"]
 		S["Modes"]["Heal"] = S["Modes"]["SanHeal"]

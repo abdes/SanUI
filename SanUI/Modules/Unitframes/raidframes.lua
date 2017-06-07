@@ -655,6 +655,7 @@ local function Shared(self, unit)
 	RaidDebuffs.Debuffs = {
 				[SpellName(209858)] = 1, -- Necrotic Mythic+
 				[SpellName(228796)] = 6, -- Ignite Soul (Nightbane)
+				[SpellName(80051)] = 1, -- Grievous Wound Mythic+
  
 	-- Legion
 		-- The Nighthold
@@ -712,10 +713,10 @@ local function Shared(self, unit)
 				[SpellName(206480)] = 1, -- Carrion Plague
 				[SpellName(215988)] = 1, -- Carrion Nightmare
 				[SpellName(208230)] = 1, -- Feast of Blood
-				[SpellName(212794)] = 1, -- Brand of Argus
+				--[SpellName(212794)] = 1, -- Brand of Argus
 				[SpellName(216685)] = 1, -- Flames of Argus
-				[SpellName(206311)] = 1, -- Illusionary Night
-				[SpellName(206466)] = 1, -- Essence of Night
+				--[SpellName(206311)] = 1, -- Illusionary Night
+				--[SpellName(206466)] = 1, -- Essence of Night
 				[SpellName(216024)] = 1, -- Volatile Wound
 				[SpellName(216027)] = 1, -- Nether Zone
 				[SpellName(216039)] = 1, -- Fel Storm
@@ -742,7 +743,7 @@ local function Shared(self, unit)
 				[SpellName(206388)] = 1, -- Felburst
 				[SpellName(206585)] = 1, -- Absolute Zero
 				[SpellName(206398)] = 1, -- Felflame
-				[SpellName(206589)] = 1, -- Chilled
+				--[SpellName(206589)] = 1, -- Chilled
 				[SpellName(205649)] = 1, -- Fel Ejection
 				[SpellName(206965)] = 1, -- Voidburst
 				[SpellName(206464)] = 1, -- Coronal Ejection
