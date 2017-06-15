@@ -766,7 +766,7 @@ local function Shared(self, unit)
 				[SpellName(208659)] = 1, -- Arcanetic Ring
 
 			-- Gul'dan
-				[SpellName(210339)] = 1, -- Time Dilation
+				--[SpellName(210339)] = 1, -- Time Dilation
 				[SpellName(180079)] = 1, -- Felfire Munitions
 				[SpellName(206875)] = 1, -- Fel Obelisk (Tank)
 				[SpellName(206840)] = 1, -- Gaze of Vethriz
@@ -774,7 +774,13 @@ local function Shared(self, unit)
 				[SpellName(206221)] = 1, -- Empowered Bonds of Fel
 				[SpellName(208802)] = 1, -- Soul Corrosion
 				[SpellName(212686)] = 1, -- Flames of Sargeras
-
+				[SpellName(209270)] = 1, -- Eye of Gul'dan
+				[SpellName(211152)] = 1, -- Empowered Eye of Gul'dan
+				[SpellName(206847)] = 1, -- Parasitic Wound (Mythic)
+				[SpellName(206458)] = 1, -- Sheared Soul (Mythic)
+				[SpellName(206506)] = 1, -- Severed Soul (Mythic)
+				[SpellName(221408)] = 1, -- Bulwark of Azzinoth (Mythic)
+				[SpellName(221337)] = 1, -- Chaos Seed (Mythic)
 				
 		-- Trials of Valor
 				[SpellName(228250)] = 1, -- Shadow Lick (Guarm)
