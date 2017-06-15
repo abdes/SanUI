@@ -636,6 +636,7 @@ local function Shared(self, unit)
 	RaidDebuffs.cd:Point("TOPLEFT", 2, -2)
 	RaidDebuffs.cd:Point("BOTTOMRIGHT", -2, 2)
 	RaidDebuffs.cd.noOCC = true -- remove this line if you want cooldown number on it
+	RaidDebuffs.cd.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
 	
 	RaidDebuffs.count = RaidDebuffs:CreateFontString(nil, "OVERLAY")
 	RaidDebuffs.count:SetFont(font2, 9, "THINOUTLINE")
