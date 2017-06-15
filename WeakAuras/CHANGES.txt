@@ -1,107 +1,272 @@
-tag 2a98a2720fd4f4a707bb4cb2a90fbd50f7086fb8 2.3.0.0
+tag c33fc4ac945081872c0259fb42c1a86afddf9e80 2.4.3
 Author:	Benjamin Staneck <staneck@gmail.com>
-Date:	Mon Jan 30 22:45:45 2017 +0100
+Date:	Wed Jun 14 00:55:51 2017 +0200
 
-This release brings you the possibility to drag and drop to reorder auras inside and in and out of groups. This was a community contribution by Janick Gerstenberger on GitHub.
+commit febf0a5a77d5da0c52e35b65132c10c52c60e86c
+Author: Infus <infus@squorn.de>
+Date:   Tue Jun 13 23:50:53 2017 +0200
 
-commit a4399c778a1d2e7577e6f0344f5e51b4761f4739
+    Fix Power Trigger for Destruction Warlocks
+
+commit 6045607812eaa2c67f15113b836c178fb772481a
 Author: Benjamin Staneck <staneck@gmail.com>
-Date:   Mon Jan 30 21:37:44 2017 +0100
+Date:   Sun Jun 11 05:30:42 2017 +0200
 
-    add AceGUI widgets to the locale scraper
+    remove debug print
 
-commit fa570bc6eec7819035981aab6205379ec9e4a988
+commit 225b58543983f0ff69131595f3c8c6e25589b5ce
+Author: Infus <infus@squorn.de>
+Date:   Sat Jun 10 22:21:58 2017 +0200
+
+    Add "In Group" / "Not In Group" checking to the Combat Log Event trigger
+    
+    Easy to add. Other potentially useful flags to check would be:
+    - Hostility.
+    - Object Type: Guardian, Pet, NPc, Player
+    - Control: NPC vs Player
+    
+    Adding any of those would probably best done with a dedicated
+    combobox per flag type.
+    
+    Ticket-Nr: 969
+
+commit a067de7cea44865487437b6699d1cbfd0bfe7cc6
+Author: Infus <infus@squorn.de>
+Date:   Sat Jun 10 21:28:11 2017 +0200
+
+    Death Knight Rune: Replace "inverse" with Show On
+    
+    Ticket-Nr: 965
+
+commit c933230e958bd8949afa5c07b64a69528221f0f5
+Author: Infus <infus@squorn.de>
+Date:   Sat Jun 10 21:13:53 2017 +0200
+
+    Add inverse option for Conditons/Icon
+    
+    Ticket-Nr: 965
+
+commit 5a8d11e52b5351ff44d43773576d2b53a598d2c8
+Author: Infus <infus@squorn.de>
+Date:   Sat Jun 10 21:08:00 2017 +0200
+
+    Change BigWigs spellid from number to string
+    
+    As apparently it isn't always a number.
+    
+    Ticket-Nr: 971
+
+commit 0700edde130292e5fbca46039a82ab7bc1d91fbc
+Author: Infus <infus@squorn.de>
+Date:   Sat Jun 10 17:21:36 2017 +0200
+
+    Update to 7.2.5 class changes
+
+commit 6bc18c124767e6fb29e022ee0bb54e32f41b1284
+Author: Infus <infus@squorn.de>
+Date:   Sat Jun 10 12:01:56 2017 +0200
+
+    Add description and Tooltip to Conditions/Chat/Message
+
+commit ef3e6d0218bc26551c43fce5ae3f3a7cf1a2907b
 Author: Benjamin Staneck <staneck@gmail.com>
-Date:   Mon Jan 30 21:33:17 2017 +0100
+Date:   Wed Jun 7 01:04:13 2017 +0200
 
-    move babelfish script to the root
+    Update minor version
 
-commit 85ae96f463d49a7ff20ba5f1260f2d94ea079c6e
+commit 454e63afc381cce026bd3872601ce507e1f1ae92
+Author: Infus <infus@squorn.de>
+Date:   Tue Jun 6 16:53:06 2017 +0200
+
+    Region Prototype: Remove unused member
+
+commit 9d39c8def622ed50cfe5df36b4c2d94c11e3b757
+Author: Infus <infus@squorn.de>
+Date:   Tue Jun 6 12:23:44 2017 +0200
+
+    Implement %c support for "Actions/Chat" and "Conditions/Chat"
+    
+    Also add a "Run Custom Code" to Conditions, since essentially %c allows
+    that.
+    
+    Also wrap SendChatMessage into a pcall, since it throws a error if certain
+    escape sequences are passed into it.
+    
+    Github Ticket: 203
+
+commit 282e53eb0ed3012f85b9a9f6ff88203daf305cf8
+Author: Infus <infus@squorn.de>
+Date:   Tue Jun 6 12:23:10 2017 +0200
+
+    By default buttons should not accept keyboard input
+    
+    Broke most text fields in WA.
+
+commit e073ee4f02a17f3a0cd742652eb3fb0778e5cb10
+Author: Infus <infus@squorn.de>
+Date:   Mon Jun 5 18:15:38 2017 +0200
+
+    Drag and Drop: Let "Esc" abort the drag and drop
+    
+    Ticket-Nr: 967
+
+commit dadbbce4e46a8b65cdffe87b5df45c77afa365a8
+Author: Infus <infus@squorn.de>
+Date:   Mon Jun 5 17:50:48 2017 +0200
+
+    Fix GCD trigger to show the name/icon of the spell that triggered the gcd
+    
+    There are two parts to this fix:
+    - Trigger the gcd trigger on UNITSPELL_CAST_SENT
+    - Check that we have a spell name/icon in the gcd trigger
+    
+    The second part is necessary as the gcd triggers a good 20ms before
+    UNIT_SPELLCAST_SENT.
+    
+    This also means that the gcd trigger won't show anything if somehow
+    the gcd starts without a UNIT_SPELLCAST_SENT. I can't think of a
+    situation in which that could happen.
+    
+    Ticket-Nr: 966
+
+commit b2dd659ceb17f4059236e1abe85c90a83823a606
+Author: Infus <infus@squorn.de>
+Date:   Mon Jun 5 17:37:34 2017 +0200
+
+    Icon Options. Readd space that I thought was unnecessary
+    
+    It was necessary.
+
+commit 9833fef5c2fe0587cc403f7e9a3aae58604e546a
+Author: Infus <infus@squorn.de>
+Date:   Mon Jun 5 15:34:46 2017 +0200
+
+    Model: Move setCameraCall to earlier
+    
+    I still have no clue what I'm doing with the model's camara.
+    
+    A fix for ticket 964 introduced a call to SetCamera, this apparently broke
+    the example in ticket 968.
+    
+    This now works for both the Arthas example in ticket 964 and the glaive
+    example in ticket 968.
+    
+    Ticket-Nr: 968
+
+commit 2630ed131c2088c3f535f28fbc066914281fcb11
+Author: Infus <infus@squorn.de>
+Date:   Tue May 30 20:15:32 2017 +0200
+
+    Tweak handling of chat and sound actions for Conditions
+    
+    Instead of treating them as properties that are set and unset,
+    treat them as explicitly as actions. The actions are only called
+    on activating the conditions.
+
+commit c227ab85ec756d8c419663f1b4343fc0c20aa127
+Author: Infus <infus@squorn.de>
+Date:   Sat May 27 22:23:42 2017 +0200
+
+    Move Action Conditions to the main Conditions tab
+    
+    But leave most of the code that allows for splitting up
+    the conditions ui intact.
+
+commit 35ffb2c7168d536ce3bc12fcbd7443204f56d452
+Author: Infus <infus@squorn.de>
+Date:   Sat May 27 19:56:26 2017 +0200
+
+    Adjust Dynamic Groups Animation functions too
+
+commit 7a202216707d618dd959ce85fc466c8804df8a40
+Author: Infus <infus@squorn.de>
+Date:   Fri May 26 23:00:58 2017 +0200
+
+    Hide "Show Cooldown Text" if the "countdownForCooldowns" cvar is 0
+    
+    As in that case the toggle does nothing.
+    
+    Ticket-Nr: 950
+
+commit 8f841975b997de847df6da381e643f4e7b0b3b1e
+Author: Infus <infus@squorn.de>
+Date:   Fri May 26 21:20:17 2017 +0200
+
+    Fix TextEditor for group editing if paths differ
+    
+    The TextEditor gets a "path" to the setting it is modifying, e.g.
+    data.additional_triggers.3.trigger. For group auras, the function
+    appendToTriggerPath tried to figure out the common path.
+    
+    This fails in the linked bug report, because the custom function
+    is in trigger 2 in one aura and in trigger 3 in a different aura.
+    
+    Instead, build a "multipath" structure in appendToTriggerPath, that
+    is a data structure which notes for each id what the path is, and
+    teach the TextEditor how to handle that.
+    
+    Ticket-Nr: 959
+
+commit ce204c30a499beff9ad451d6e6c37dab29878257
+Author: Infus <infus@squorn.de>
+Date:   Fri May 26 20:48:58 2017 +0200
+
+    Rename "Item Set Equipped" to "Equipment Set Equipped"
+    
+    As that is what the trigger actually checks.
+    
+    Ticket-Nr: 956
+
+commit 48afe98c656e5bbe2151cee3555fc82fcbc616d8
+Author: Infus <infus@squorn.de>
+Date:   Fri May 26 18:16:54 2017 +0200
+
+    Fix escaping of Color codes in inline code editor
+    
+    By copying AceGui-MultiLineWidget into our sources and adding
+    IndentationLib.decode/IndentationLib.encode in the right places
+    
+    Ticket-Nr: 961
+
+commit ed79836d0dd3407f3c45dda2980a1ad19769960c
+Author: Infus <infus@squorn.de>
+Date:   Fri May 26 17:27:12 2017 +0200
+
+    Model: Set the Camera index for SetTransform
+    
+    So, somehow loging in does set a different camera from /reloadui.
+    Setting it to 1, makes the model always use the right camera.
+    
+    Ticket-Nr: 964
+
+commit 6b2891d56d0220be2df86e6d354f9394da271864
 Author: Benjamin Staneck <staneck@gmail.com>
-Date:   Mon Jan 30 21:29:26 2017 +0100
+Date:   Tue May 23 22:57:41 2017 +0200
 
-    add "Drag to move" hint to buttons
+    fix Harjatan encounter id
 
-commit 4d78e3e2ba986797db56b17247bc0d7cfc395ef8
-Author: Benjamin Staneck <staneck@gmail.com>
-Date:   Sat Jan 28 18:42:06 2017 +0100
-
-    increment minor version of WeakAurasDisplayButton
-
-commit 31c6f6d123848a518a8438abff5313696f07faff
+commit ff11c03b8523bb883b45efc2a92b0bd79456973f
 Author: Infus <infus@squorn.de>
-Date:   Sat Jan 28 17:04:24 2017 +0100
+Date:   Tue May 23 19:43:38 2017 +0200
 
-    Fix glow frame looking dim
+    Make custom animation functions similar to all other functions
     
-    The glow needs to be in front of other child frames of the region.
+    For some reason animation functions were saved with a "return "
+    prepended. For other functions we add that "return " directly before
+    loadstring. This meant that in various places the string needed
+    to be cut by 8 characters and "return " appended in others.
     
-    Try to ensure that.
+    Somehow that code didn't work though. Instead of figuring out where
+    it doesn't, just remove the special casing of animation functions.
     
-    Ticket-Nr: 833
+    Store just the function in the variable and add "return " only
+    before loadstring.
 
-commit 0e1b43d0e23e2c169461677316d4267e4cc85668
+commit 29953a3a17eda3e1fdbc615ab47d6a9c6b09a0c0
 Author: Infus <infus@squorn.de>
-Date:   Sat Jan 28 15:56:27 2017 +0100
+Date:   Sat May 20 01:13:29 2017 +0200
 
-    Fix ignore rune cd again
+    Fix a bug in Equipment Set Equipped matching all sets
     
-    Broke that accidentally with the change for Epidemic.
-    
-    The intent behind this code is this:
-    
-    Epidemic is a spell with charges, thus GetSpellCharges is the right api.
-    
-    We compare durations between the cooldown duration and rune cd duration
-    to figure out whether a spell is on cooldown only for a rune.
-    
-    But Epidemic has the same cooldown duration as runes.
-    
-    Luckily, GetSpellCharges doesn't adjust it's output based on rune cds.
-    
-    Thus, we can be sure that any cooldown returned by it cannot be due
-    to a rune cd.
-    
-    Ticket-Nr: 835
-
-commit e3799d3f062468d8555cabb90a36a9c56c7421de
-Author: Infus <infus@squorn.de>
-Date:   Sat Jan 28 00:40:45 2017 +0100
-
-    Fix attaching to other auras
-    
-    Since the order in which the auras are created is somewhat random,
-    we must create the anchor frame if it doesn't yet exist.
-    
-    Ticket-Nr: 840
-
-commit 02998216f669a354ef57bf4ffce1edf34ac03f21
-Author: Infus <infus@squorn.de>
-Date:   Sat Jan 28 00:21:49 2017 +0100
-
-    Attach to KuiNameplates: Adjust to upstream change
-
-commit 9f0cbf03da7134c730cef5f4902b1ceb0c4cbdb3
-Author: Infus <infus@squorn.de>
-Date:   Sat Jan 28 00:21:09 2017 +0100
-
-    Replace \n with newlines in ReplacePlaceHolders
-    
-    Ticket-Nr: 841
-
-commit 8958259b3525a1063071c7a8e2dad61bbd53d792
-Author: Janick Gerstenberger <janick.gerstenberger@gmail.com>
-Date:   Mon Jan 23 19:11:38 2017 +0100
-
-    Drag'n'Drop implementation for DisplayButtons (#136)
-    
-    This PR implements drag'n'drop support to the `DisplayButton`s in the Options.
-    Feature and Design is descripted in some [sketches](https://drive.google.com/drive/folders/0BzaKJginnJcgM3dHWUdDQlNRZGM?usp=sharing).
-    
-    The implemented features make several `DisplayButton` controls in their current form obsolete.
-    Chiefly the side control of grouped buttons (up, down, ungroup) which also distinguish grouped buttons from ungrouped one.
-    (see https://www.wowace.com/projects/weakauras-2/issues/790 )
-    
-    ### Issues
-    -  Dropping a element below the list of `DisplayButton` into the scroll frame or onto a category rider undos the drag action. This behavior might be unexpexted.
+    Ticket-Nr: 961
 

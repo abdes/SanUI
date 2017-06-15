@@ -4,7 +4,7 @@ local L = WeakAuras.L;
 local LSM = LibStub("LibSharedMedia-3.0");
 local LBR = LibStub("LibBabble-Race-3.0"):GetLookupTable()
 
--- GLOBALS: MANA RAGE FOCUS ENERGY COMBO_POINTS RUNIC_POWER SOUL_SHARDS LUNAR_POWER HOLY_POWER MAELSTROM CHI INSANITY ARCANE_CHARGES FURY PAIN
+-- luacheck: globals MANA RAGE FOCUS ENERGY COMBO_POINTS RUNIC_POWER SOUL_SHARDS LUNAR_POWER HOLY_POWER MAELSTROM CHI INSANITY ARCANE_CHARGES FURY PAIN
 
 local wipe, tinsert = wipe, tinsert
 local GetNumShapeshiftForms, GetShapeshiftFormInfo = GetNumShapeshiftForms, GetShapeshiftFormInfo
@@ -75,6 +75,12 @@ WeakAuras.sound_channel_types = {
   Music = L["Music"],
   Dialog = L["Dialog"]
 };
+
+WeakAuras.sound_condition_types = {
+  Play = L["Play"],
+  Loop = L["Loop"],
+  Stop = L["Stop"]
+}
 
 WeakAuras.trigger_require_types = {
   any = L["Any Triggers"],
@@ -155,8 +161,8 @@ WeakAuras.class_color_types = {}
 local C_S_O, R_C_C, L_C_N_M, F_C_C_C =  _G.CLASS_SORT_ORDER, _G.RAID_CLASS_COLORS, _G.LOCALIZED_CLASS_NAMES_MALE, _G.FONT_COLOR_CODE_CLOSE
 do
   for i,eClass in ipairs(C_S_O) do
-  WeakAuras.class_color_types[eClass] = "|c"..R_C_C[eClass].colorStr
-  WeakAuras.class_types[eClass] = WeakAuras.class_color_types[eClass]..L_C_N_M[eClass]..F_C_C_C
+    WeakAuras.class_color_types[eClass] = "|c"..R_C_C[eClass].colorStr
+    WeakAuras.class_types[eClass] = WeakAuras.class_color_types[eClass]..L_C_N_M[eClass]..F_C_C_C
   end
 end
 
@@ -224,6 +230,7 @@ WeakAuras.point_types = {
   LEFT = L["Left"],
   CENTER = L["Center"]
 };
+
 WeakAuras.inverse_point_types = {
   BOTTOMLEFT = "TOPRIGHT",
   BOTTOM = "TOP",
@@ -238,14 +245,14 @@ WeakAuras.inverse_point_types = {
 
 WeakAuras.anchor_frame_types = {
   SCREEN = L["Screen/Parent Group"],
-  PRD = L["Personal Ressource Display"],
+  PRD = L["Personal Resource Display"],
   MOUSE = L["Mouse Cursor"],
   SELECTFRAME = L["Select Frame"]
 }
 
 WeakAuras.spark_rotation_types = {
-    AUTO = L["Automatic Rotation"],
-    MANUAL = L["Manual Rotation"]
+  AUTO = L["Automatic Rotation"],
+  MANUAL = L["Manual Rotation"]
 }
 
 WeakAuras.spark_hide_types = {
@@ -388,13 +395,18 @@ WeakAuras.miss_types = {
 };
 
 WeakAuras.environmental_types = {
-  DROWNING = L["Drowning"],
-  FALLING = L["Falling"],
-  FATIGUE = L["Fatigue"],
-  FIRE = L["Fire"],
-  LAVA = L["Lava"],
-  SLIME = L["Slime"]
+  Drowning = L["Drowning"],
+  Falling = L["Falling"],
+  Fatigue = L["Fatigue"],
+  Fire = L["Fire"],
+  Lava = L["Lava"],
+  Slime = L["Slime"]
 };
+
+WeakAuras.combatlog_flags_check_type = {
+  InGroup = L["In Group"],
+  NotInGroup = L["Not in Group"]
+}
 
 WeakAuras.orientation_types = {
   HORIZONTAL_INVERSE = L["Left to Right"],
@@ -822,11 +834,11 @@ if(WeakAuras.PowerAurasPath ~= "") then
     [WeakAuras.PowerAurasPath.."Aura27"] = "Alert",
     [WeakAuras.PowerAurasPath.."Aura29"] = "Paw",
     [WeakAuras.PowerAurasPath.."Aura30"] = "Bull",
---   [WeakAuras.PowerAurasPath.."Aura31"] = "Heiroglyphics Horizontal",
+    --   [WeakAuras.PowerAurasPath.."Aura31"] = "Heiroglyphics Horizontal",
     [WeakAuras.PowerAurasPath.."Aura32"] = "Heiroglyphics",
     [WeakAuras.PowerAurasPath.."Aura34"] = "Circled Arrow",
     [WeakAuras.PowerAurasPath.."Aura35"] = "Short Sword",
---   [WeakAuras.PowerAurasPath.."Aura36"] = "Short Sword Horizontal",
+    --   [WeakAuras.PowerAurasPath.."Aura36"] = "Short Sword Horizontal",
     [WeakAuras.PowerAurasPath.."Aura45"] = "Circular Glow",
     [WeakAuras.PowerAurasPath.."Aura48"] = "Totem",
     [WeakAuras.PowerAurasPath.."Aura49"] = "Dragon Blade",
@@ -848,8 +860,8 @@ if(WeakAuras.PowerAurasPath ~= "") then
     [WeakAuras.PowerAurasPath.."Aura78"] = "Check",
     [WeakAuras.PowerAurasPath.."Aura79"] = "Ghostly Face",
     [WeakAuras.PowerAurasPath.."Aura84"] = "Overlapping Boxes",
---   [WeakAuras.PowerAurasPath.."Aura85"] = "Overlapping Boxes 45°",
---   [WeakAuras.PowerAurasPath.."Aura86"] = "Overlapping Boxes 270°",
+    --   [WeakAuras.PowerAurasPath.."Aura85"] = "Overlapping Boxes 45°",
+    --   [WeakAuras.PowerAurasPath.."Aura86"] = "Overlapping Boxes 270°",
     [WeakAuras.PowerAurasPath.."Aura87"] = "Fairy",
     [WeakAuras.PowerAurasPath.."Aura88"] = "Comet",
     [WeakAuras.PowerAurasPath.."Aura95"] = "Dual Spiral",
@@ -862,7 +874,7 @@ if(WeakAuras.PowerAurasPath ~= "") then
     [WeakAuras.PowerAurasPath.."Aura102"] = "Zig-Zag",
     [WeakAuras.PowerAurasPath.."Aura103"] = "Thorny Ring",
     [WeakAuras.PowerAurasPath.."Aura110"] = "Hunter's Mark",
---   [WeakAuras.PowerAurasPath.."Aura111"] = "Hunter's Mark Horizontal",
+    --   [WeakAuras.PowerAurasPath.."Aura111"] = "Hunter's Mark Horizontal",
     [WeakAuras.PowerAurasPath.."Aura112"] = "Kaleidoscope",
     [WeakAuras.PowerAurasPath.."Aura113"] = "Jesus Face",
     [WeakAuras.PowerAurasPath.."Aura114"] = "Green Mushrrom",
@@ -883,8 +895,8 @@ if(WeakAuras.PowerAurasPath ~= "") then
     [WeakAuras.PowerAurasPath.."Aura143"] = "Ghostly Skull"
   };
   WeakAuras.texture_types["PowerAuras Separated"] = {
-  [WeakAuras.PowerAurasPath.."Aura46"] = "8-Part Ring 1",
-  [WeakAuras.PowerAurasPath.."Aura47"] = "8-Part Ring 2",
+    [WeakAuras.PowerAurasPath.."Aura46"] = "8-Part Ring 1",
+    [WeakAuras.PowerAurasPath.."Aura47"] = "8-Part Ring 2",
     [WeakAuras.PowerAurasPath.."Aura55"] = "Skull on Gear 1",
     [WeakAuras.PowerAurasPath.."Aura56"] = "Skull on Gear 2",
     [WeakAuras.PowerAurasPath.."Aura57"] = "Skull on Gear 3",
@@ -954,6 +966,12 @@ WeakAuras.operator_types = {
   [">="] = L[">="],
   ["<="] = L["<="]
 };
+
+WeakAuras.equality_operator_types = {
+  ["=="] = L["="],
+  ["~="] = L["!="],
+};
+
 
 WeakAuras.string_operator_types = {
   ["=="] = L["Is Exactly"],
@@ -1305,10 +1323,10 @@ WeakAuras.duration_types_no_choice = {
 };
 
 WeakAuras.gtfo_types = {
-    [1] = L["High Damage"],
-    [2] = L["Low Damage"],
-    [3] = L["Fail Alert"],
-    [4] = L["Friendly Fire"]
+  [1] = L["High Damage"],
+  [2] = L["Low Damage"],
+  [3] = L["Fail Alert"],
+  [4] = L["Friendly Fire"]
 };
 
 WeakAuras.pet_behavior_types = {
@@ -1318,8 +1336,8 @@ WeakAuras.pet_behavior_types = {
 };
 
 WeakAuras.cooldown_progress_behavior_types = {
-  showOnCooldown = L["On cooldown"],
-  showOnReady    = L["Not on cooldown"],
+  showOnCooldown = L["On Cooldown"],
+  showOnReady    = L["Not on Cooldown"],
   showAlways     = L["Always"]
 };
 
@@ -1347,8 +1365,18 @@ WeakAuras.charges_change_type = {
   CHANGED = L["Changed"]
 }
 
-WeakAuras.combat_event_type =
-{
+WeakAuras.charges_change_condition_type = {
+  GAINED = L["Gained"],
+  LOST = L["Lost"]
+}
+
+WeakAuras.combat_event_type = {
   PLAYER_REGEN_ENABLED = L["Leaving"],
   PLAYER_REGEN_DISABLED = L["Entering"]
 }
+
+WeakAuras.bool_types =
+  {
+    [0] = L["False"],
+    [1] = L["True"],
+  }
