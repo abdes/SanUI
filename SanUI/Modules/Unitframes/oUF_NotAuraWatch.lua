@@ -314,6 +314,9 @@ local function SetupIcons(self)
 			if not icon.cd and not (watch.hideCooldown or icon.hideCooldown) then
 				local cd = CreateFrame("Cooldown", nil, icon,"CooldownFrameTemplate")
 				cd:SetAllPoints(icon)
+				
+				cd.noCooldownCount = icon.noCooldownCount or false -- needed for tullaCC to not show cooldown numbers
+				
 				icon.cd = cd
 			end
 

@@ -481,6 +481,8 @@ local function Shared(self, unit)
 			icon.hideCount = spell[8]
 			icon.onlyShowPresent = true -- could be defined on a per-icon-basis, but not neccessary just yet
 			
+			icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
+			
 			icon:Width(6)
 			icon:Height(6)
 			
