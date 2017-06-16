@@ -21,6 +21,7 @@ Modules\Unitframes\bossframes.lua
 
 Modules\AddonMods\blizzard.lua
 Modules\AddonMods\tukui.lua
+Modules\AddonMods\tuktui_lfrdatatext.lua
 Modules\AddonMods\coolline.lua
 Modules\AddonMods\bugsack.lua
 Modules\AddonMods\energized.lua
