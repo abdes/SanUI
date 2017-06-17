@@ -142,19 +142,9 @@ local OnEnter = function(self)
 		if (not Unavailable) then
 			AllUnavailable = false
 			local RolesString = MakeString(TankReward, HealerReward, DPSReward)
-<<<<<<< HEAD
-
-			if (RolesString ~= "   ")  then
-				GameTooltip:AddDoubleLine(Name .. ":", RolesString, 1, 1, 1)
-=======
-			
-			local numEncounters, numCompleted = GetLFGDungeonNumEncounters(i)
-			numEncounters = numEncounters or 0
-			numCompleted = numCompleted or 0
 
 			if (RolesString ~= "   ")  then
 				GameTooltip:AddDoubleLine(Name .. "(" .. numCompleted .. "/" .. numEncounters .. "):", RolesString, 1, 1, 1)
->>>>>>> 47d1629... Add improved call to arms datatext
 			end
 
 			if (TankReward or HealerReward or DPSReward) then
