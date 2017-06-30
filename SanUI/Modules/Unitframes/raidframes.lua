@@ -864,6 +864,58 @@ local function Shared(self, unit)
 				[SpellName(207409)] = 1, -- Madness
 				[SpellName(211634)] = 1, -- The Infinite Dark
 				[SpellName(208385)] = 1, -- Tainted Discharge
+				
+			-- Tomb of Sargeras
+			-- Goroth
+				[SpellName(233279)] = 1, -- Shattering Star
+				[SpellName(230345)] = 1, -- Crashing Comet
+				[SpellName(231363)] = 1, -- Burning Armor
+
+			-- Demonic Inquisition
+				[SpellName(233430)] = 1, -- Ubearable Torment
+				[SpellName(233983)] = 1, -- Echoing Anguish
+
+			-- Harjatan
+				[SpellName(231770)] = 1, -- Drenched
+				[SpellName(231998)] = 1, -- Jagged Abrasion
+
+			-- Sisters of the Moon
+				[SpellName(236603)] = 1, -- Rapid Shot
+				--SpellName(234996)] = 1, -- Umbra Suffusion
+				--[SpellName(234995)] = 1, -- Lunar Suffusion
+				[SpellName(236519)] = 1, -- Moon Burn
+				[SpellName(236697)] = 1, -- Deathly Screech
+				[SpellName(236550)] = 1, -- Lunar Fire
+				[SpellName(233263)] = 1, -- Embrace of the eclipse
+
+			-- Mistress Sassz'ine
+				[SpellName(230959)] = 1, -- Concealing Murk
+				[SpellName(232722)] = 1, -- Slicing Tornado
+				[SpellName(232913)] = 1, -- Befouling Ink
+				--[SpellName(234621)] = 1, -- Devouring Maw
+				[SpellName(230201)] = 1, -- Burden of Pain
+
+			-- The Desolate Host
+				[SpellName(236072)] = 1, -- Wailing Souls
+				[SpellName(236449)] = 1, -- Soulbind
+				[SpellName(236515)] = 1, -- Shattering Scream
+				[SpellName(235989)] = 1, -- Tormented Cries
+
+			-- Maiden of Vigilance
+				[SpellName(235117)] = 1, -- Unstable Soul
+				[SpellName(235534)] = 1, -- Creator's Grace
+				[SpellName(235538)] = 1, -- Demon's Vigor
+				[SpellName(234891)] = 1, -- Wrath of the Creators
+				[SpellName(235569)] = 1, -- Hammer of Creation
+				[SpellName(235573)] = 1, -- Hammer of Obliteration
+
+			-- Kil'jaeden
+				[SpellName(238999)] = 1, -- Darkness of a Thousand Souls
+				[SpellName(239155)] = 1, -- Gravity Squeeze
+				[SpellName(234295)] = 1, -- Armageddon Rain
+				[SpellName(240908)] = 1, -- Armageddon Blast
+				[SpellName(239932)] = 1, -- Felclaws
+				[SpellName(240911)] = 1, -- Armageddon Hail
 	}
 
 	-- S.ReverseTimer = {
