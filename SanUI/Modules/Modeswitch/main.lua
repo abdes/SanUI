@@ -41,10 +41,10 @@ S.switch2Mode = function(mode)
 		print("Either you didn't set the powerbar profile for mode "..mode.." or oUF_Hank is not loaded. Either way, cannot load powerbar profile!")
 	end	
 	
-	if S["Modes"][mode]["gcd"] and IsAddOnLoaded("oUF_GCD") then
+	if S["Modes"][mode]["gcd"] and IsAddOnLoaded("oUF_GCD") and IsAddOnLoaded("oUF_Hank") then
 		S.switchGCD(S["Modes"][mode]["gcd"])
 	else
-		print("Either you didn't set the bcd profile for mode "..mode.." or oUF_GCD is not loaded. Either way, cannot load BossBars profile!")
+		print("Either you didn't set the gcd profile for mode "..mode.." or oUF_GCD/oUF_Hank is not loaded. Either way, cannot load GCD profile!")
 	end
 	
 	
