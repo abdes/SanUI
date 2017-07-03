@@ -910,11 +910,11 @@ local function Shared(self, unit)
 				[SpellName(235573)] = 1, -- Hammer of Obliteration
 
 			-- Kil'jaeden
-				[SpellName(238999)] = 1, -- Darkness of a Thousand Souls
-				[SpellName(239155)] = 1, -- Gravity Squeeze
+				--[SpellName(238999)] = 1, -- Darkness of a Thousand Souls
+				--[SpellName(239155)] = 1, -- Gravity Squeeze
 				[SpellName(234295)] = 1, -- Armageddon Rain
 				[SpellName(240908)] = 1, -- Armageddon Blast
-				[SpellName(239932)] = 1, -- Felclaws
+				--[SpellName(239932)] = 1, -- Felclaws
 				[SpellName(240911)] = 1, -- Armageddon Hail
 	}
 
