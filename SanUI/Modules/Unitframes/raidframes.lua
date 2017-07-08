@@ -908,6 +908,10 @@ local function Shared(self, unit)
 				[SpellName(234891)] = 1, -- Wrath of the Creators
 				[SpellName(235569)] = 1, -- Hammer of Creation
 				[SpellName(235573)] = 1, -- Hammer of Obliteration
+				
+			-- Fallen Avatar
+				[SpellName(236494)] = 1, -- Desolate
+				[SpellName(239739)] = 1, -- Dark Mark
 
 			-- Kil'jaeden
 				--[SpellName(238999)] = 1, -- Darkness of a Thousand Souls
