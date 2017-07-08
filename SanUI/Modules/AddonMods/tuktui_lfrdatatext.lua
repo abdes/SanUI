@@ -144,7 +144,7 @@ local OnEnter = function(self)
 			local RolesString = MakeString(TankReward, HealerReward, DPSReward)
 
 			if (RolesString ~= "   ")  then
-			local numEncounters, numCompleted = GetLFGDungeonNumEncounters(i)
+			local numEncounters, numCompleted = GetLFGDungeonNumEncounters(ID)
 				numEncounters = numEncounters or 0
 				numCompleted = numCompleted or 0
 				GameTooltip:AddDoubleLine(Name .. "(" .. numCompleted .. "/" .. numEncounters .. "):", RolesString, 1, 1, 1)
