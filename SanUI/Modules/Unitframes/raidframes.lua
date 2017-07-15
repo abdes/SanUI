@@ -375,7 +375,7 @@ local function Shared(self, unit)
 		{41635, "BOTTOMRIGHT", {0.2, 0.7, 0.2}},     -- Prayer of Mending
 		{139, "BOTTOMLEFT", {0.4, 0.7, 0.2}},        -- Renew
 		{17, "TOPLEFT", {1, 1, 1}, false, nil, nil, false},        -- Power Word: Shield
-		{194384, "TOPLEFT", {0.4, 0.8, 0.2}, true, nil, {{6,{1,1,0}},{3,{1,0,0}}}, true},     -- Atonement
+		{194384, "TOPLEFT", {0.4, 0.8, 0.2}, false, nil, {{6,{1,1,0}},{3,{1,0,0}}}, true},     -- Atonement
 	}
 	
 	-- S["UnitFrames"].RaidBuffsTracking["PALADIN"] = {
@@ -884,9 +884,10 @@ local function Shared(self, unit)
 				--SpellName(234996)] = 1, -- Umbra Suffusion
 				--[SpellName(234995)] = 1, -- Lunar Suffusion
 				[SpellName(236519)] = 1, -- Moon Burn
-				[SpellName(236697)] = 1, -- Deathly Screech
+				--[SpellName(236697)] = 1, -- Deathly Screech
 				[SpellName(236550)] = 1, -- Lunar Fire
 				[SpellName(233263)] = 1, -- Embrace of the eclipse
+				[SpellName(236712)] = 1, -- Lunar Beacon
 
 			-- Mistress Sassz'ine
 				[SpellName(230959)] = 1, -- Concealing Murk
