@@ -890,22 +890,25 @@ local function Shared(self, unit)
 				[SpellName(236712)] = 1, -- Lunar Beacon
 
 			-- Mistress Sassz'ine
-				[SpellName(230959)] = 1, -- Concealing Murk
+				--[SpellName(230959)] = 1, -- Concealing Murk
 				[SpellName(232722)] = 1, -- Slicing Tornado
 				[SpellName(232913)] = 1, -- Befouling Ink
 				--[SpellName(234621)] = 1, -- Devouring Maw
 				[SpellName(230201)] = 1, -- Burden of Pain
+				[SpellName(230384)] = 1, -- Consuming Hunger
 
 			-- The Desolate Host
 				[SpellName(236072)] = 1, -- Wailing Souls
 				[SpellName(236449)] = 1, -- Soulbind
 				[SpellName(236515)] = 1, -- Shattering Scream
 				[SpellName(235989)] = 1, -- Tormented Cries
+				[SpellName(235933)] = 1, -- Spear of Anguish
+				[SpellName(236135)] = 1, -- Wither
 
 			-- Maiden of Vigilance
 				[SpellName(235117)] = 1, -- Unstable Soul
-				[SpellName(235534)] = 1, -- Creator's Grace
-				[SpellName(235538)] = 1, -- Demon's Vigor
+				--[SpellName(235534)] = 1, -- Creator's Grace
+				--[SpellName(235538)] = 1, -- Demon's Vigor
 				[SpellName(234891)] = 1, -- Wrath of the Creators
 				[SpellName(235569)] = 1, -- Hammer of Creation
 				[SpellName(235573)] = 1, -- Hammer of Obliteration
