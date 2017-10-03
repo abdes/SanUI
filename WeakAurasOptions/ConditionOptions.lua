@@ -201,7 +201,7 @@ local function wrapWithPlaySound(func, kit)
   return function(info, v)
     func(info, v);
     if (tonumber(v)) then
-      PlaySoundKitID(tonumber(v), "Master");
+      PlaySound(tonumber(v), "Master");
     else
       PlaySoundFile(v, "Master");
     end
@@ -622,8 +622,8 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
     }
     order = order + 1;
 
-    local descMessage= descIfNoValue2(data, conditions[i].changes[j], "value", "message", propertyType);
-    if (not descMessage) then
+    local descMessage = descIfNoValue2(data, conditions[i].changes[j], "value", "message", propertyType);
+    if (not descMessage and data ~= WeakAuras.tempGroup) then
       descMessage = L["Dynamic text tooltip"] .. WeakAuras.GetAdditionalProperties(data);
     end
 
@@ -667,8 +667,6 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
       order = order,
       name = L["Expand Text Editor"],
       func = function()
-        -- TODO use multipath for this...
-        -- TODO how does this update the display?
         if (data.controlledChildren) then
           -- Collect multi paths
           local multipath = {};
@@ -747,20 +745,20 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
       order = order,
       name = L["Expand Text Editor"],
       func = function()
-        -- TODO multipath
-        -- TODO how does this update the display?
         if (data.controlledChildren) then
           -- Collect multi paths
           local multipath = {};
           for id, reference in pairs(conditions[i].changes[j].references) do
             local conditionIndex = conditions[i].check.references[id].conditionIndex;
             local changeIndex = reference.changeIndex;
+            local childData = WeakAuras.GetData(id);
+            childData.conditions[conditionIndex].changes[changeIndex].value = childData.conditions[conditionIndex].changes[changeIndex].value or {};
             multipath[id] = {"conditions", conditionIndex, "changes", changeIndex, "value", "custom"};
-            print("Adding path", id, conditionIndex, changeIndex);
           end
-          WeakAuras.OpenTextEditor(data, multipath, nil, true);
+          WeakAuras.OpenTextEditor(data, multipath, true, true);
         else
-          WeakAuras.OpenTextEditor(data, {"conditions", i, "changes", j, "value", "custom"});
+          data.conditions[i].changes[j].value = data.conditions[i].changes[j].value or {};
+          WeakAuras.OpenTextEditor(data, {"conditions", i, "changes", j, "value", "custom"}, true);
         end
       end,
     }
@@ -1405,9 +1403,9 @@ local function mergeCondition(all, aura, id, conditionIndex, allProperties)
       WeakAuras.DeepCopy(change, copy);
 
       local propertyType = change.property and allProperties.propertyMap[change.property] and allProperties.propertyMap[change.property].type;
-      if (type == "chat" or type == "sound" or type == "customcode") then
+      if (propertyType == "chat" or propertyType == "sound" or propertyType == "customcode") then
         copy.samevalue = {};
-        for _, propertyName in ipairs(propertyTypeToSubProperty[type]) do
+        for _, propertyName in ipairs(propertyTypeToSubProperty[propertyType]) do
           copy.samevalue[propertyName] = true;
         end
       else

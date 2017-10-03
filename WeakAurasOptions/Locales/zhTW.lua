@@ -9,14 +9,10 @@ local L = WeakAuras.L
 	L["% of Progress"] = "進度%"
 	L["%i Matches"] = "%i符合"
 	L["1 Match"] = "1符合"
-	--Translation missing 
-	-- L["1. Text"] = ""
-	--Translation missing 
-	-- L["1. Text Settings"] = ""
-	--Translation missing 
-	-- L["2. Text"] = ""
-	--Translation missing 
-	-- L["2. Text Settings"] = ""
+	L["1. Text"] = "1. 文字"
+	L["1. Text Settings"] = "1. 文字設定"
+	L["2. Text"] = "2. 文字"
+	L["2. Text Settings"] = "2. 文字設定"
 	L["A 20x20 pixels icon"] = "20x20 大小的圖示"
 	L["A 32x32 pixels icon"] = "32x32 大小的圖示"
 	L["A 40x40 pixels icon"] = "40x40 大小的圖示"
@@ -24,9 +20,8 @@ local L = WeakAuras.L
 	L["A 64x64 pixels icon"] = "64x64 大小的圖示"
 	L["A group that dynamically controls the positioning of its children"] = "可動態控制子元素位置的群組"
 	L["Actions"] = "動作"
-	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "指定的光環|cFFFF0000無法找到時|r激活"
-	--Translation missing 
-	-- L["Add a new display"] = ""
+	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "指定的光環|cFFFF0000無法找到時|r啟動"
+	L["Add a new display"] = "新增特效"
 	--Translation missing 
 	-- L["Add to group %s"] = ""
 	L["Add to new Dynamic Group"] = "新增動態群組"
@@ -95,7 +90,11 @@ local L = WeakAuras.L
 	L["Border Size"] = "邊框大小"
 	L["Border Style"] = "邊框樣式"
 	L["Bottom Text"] = "底部文字"
+	--Translation missing 
+	-- L["Bracket Matching"] = ""
 	L["Button Glow"] = "按鈕發光"
+	--Translation missing 
+	-- L["Can be a name or a UID (e.g., party1). A name only works on friendly players in your group."] = ""
 	L["Can be a name or a UID (e.g., party1). Only works on friendly players in your group."] = "可能是名稱或是用戶名稱(例如，隊伍1)。只在你群組裡的友善玩家作用。"
 	L["Cancel"] = "取消"
 	L["Channel Number"] = "頻道編號"
@@ -284,6 +283,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Left Text"] = "左邊文字"
 	L["Load"] = "載入"
 	L["Loaded"] = "已載入"
+	--Translation missing 
+	-- L["Loop"] = ""
 	L["Low Mana"] = "低法力"
 	L["Main"] = "主要"
 	L["Manage displays defined by Addons"] = "由插件管理已定義的特效"
@@ -356,9 +357,11 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	-- L["Remove this display from its group"] = ""
 	--Translation missing 
 	-- L["Rename"] = ""
-	L["Required For Activation"] = "需激活"
+	--Translation missing 
+	-- L["Repeat After"] = ""
 	--Translation missing 
 	-- L["Required for Activation"] = ""
+	L["Required For Activation"] = "需激活"
 	L["Right 2 HUD position"] = "右2 HUD 位置"
 	L["Right HUD position"] = "右方 HUD 位置"
 	L["Right Text"] = "右邊文字"
@@ -378,6 +381,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	-- L["Set Parent to Anchor"] = ""
 	--Translation missing 
 	-- L["Set tooltip description"] = ""
+	--Translation missing 
+	-- L["Settings"] = ""
 	--Translation missing 
 	-- L["Shift-click to create chat link"] = ""
 	L["Show all matches (Auto-clone)"] = "顯示所有相符的(自動複製)"
@@ -428,6 +433,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Status"] = "狀態"
 	L["Stealable"] = "可法術竊取"
 	L["Sticky Duration"] = "置頂時間"
+	--Translation missing 
+	-- L["Stop Sound"] = ""
 	L["Symbol Settings"] = "符號設定"
 	L["Temporary Group"] = "臨時群組"
 	L["Text"] = "文字"
@@ -477,6 +484,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "不同於開始或結束的動畫，主要動畫將重複循環直到特效被隱藏。"
 	L["Update Custom Text On..."] = "更新自訂文字在..."
 	L["Use Full Scan (High CPU)"] = "使用完整掃描(高CPU)"
+	--Translation missing 
+	-- L["Use SetTransform (will change behaviour in 7.3)"] = ""
 	L["Use SetTransform api"] = "使用 SetTransform API"
 	L["Use tooltip \"size\" instead of stacks"] = "使用提示資訊中的數字代替堆疊數量"
 	L["Vertical Align"] = "垂直對齊"

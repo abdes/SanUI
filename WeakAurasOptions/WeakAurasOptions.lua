@@ -9,8 +9,8 @@ local _G = _G
 -- WoW APIs
 local InCombatLockdown = InCombatLockdown
 local GetSpellInfo, GetItemInfo, GetItemIcon, UnitName = GetSpellInfo, GetItemInfo, GetItemIcon, UnitName
-local GetScreenWidth, GetScreenHeight, GetBuildInfo, GetLocale, GetTime, PlaySoundFile, PlaySoundKitID, CreateFrame, IsAddOnLoaded, LoadAddOn
-  = GetScreenWidth, GetScreenHeight, GetBuildInfo, GetLocale, GetTime, PlaySoundFile, PlaySoundKitID, CreateFrame, IsAddOnLoaded, LoadAddOn
+local GetScreenWidth, GetScreenHeight, GetBuildInfo, GetLocale, GetTime, PlaySoundFile, PlaySound, CreateFrame, IsAddOnLoaded, LoadAddOn
+  = GetScreenWidth, GetScreenHeight, GetBuildInfo, GetLocale, GetTime, PlaySoundFile, PlaySound, CreateFrame, IsAddOnLoaded, LoadAddOn
 
 local AceGUI = LibStub("AceGUI-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
@@ -540,6 +540,7 @@ function WeakAuras.ConstructOptions(prototype, data, startorder, subPrefix, subS
           name = arg.display,
           order = order,
           hidden = hidden,
+          desc = arg.desc,
           disabled = function() return not trigger["use_"..realname]; end,
           get = function() return trigger["use_"..realname] and trigger[realname] or nil; end,
           set = function(info, v)
@@ -794,7 +795,7 @@ function WeakAuras.ConstructOptions(prototype, data, startorder, subPrefix, subS
           options["specific_"..name] = {
             type = "input",
             name = L["Specific Unit"],
-            desc = L["Can be a name or a UID (e.g., party1). Only works on friendly players in your group."],
+            desc = L["Can be a name or a UID (e.g., party1). A name only works on friendly players in your group."],
             order = order,
             hidden = function() return (not trigger["use_specific_"..realname]) or (type(hidden) == "function" and hidden(trigger)) or (type(hidden) ~= "function" and hidden) end,
             get = function() return trigger[realname] end,
@@ -950,7 +951,6 @@ function WeakAuras.ConstructOptions(prototype, data, startorder, subPrefix, subS
 end
 
 local frame;
-
 local db;
 local odb;
 local options;
@@ -1124,11 +1124,13 @@ function WeakAuras.ShowOptions(msg)
   frame:Show();
   frame:PickOption("New");
   if not(firstLoad) then
+    WeakAuras.PauseAllDynamicGroups();
     for id, button in pairs(displayButtons) do
       if(loaded[id] ~= nil) then
         button:PriorityShow(1);
       end
     end
+    WeakAuras.ResumeAllDynamicGroups();
   end
 
   if (frame.window == "codereview") then
@@ -1389,6 +1391,7 @@ function WeakAuras.LayoutDisplayButtons(msg)
     frame.buttonsScroll:PerformLayout()
     WeakAuras.SortDisplayButtons(msg);
 
+    WeakAuras.PauseAllDynamicGroups();
     if (WeakAuras.IsOptionsOpen()) then
       for id, button in pairs(displayButtons) do
         if(loaded[id] ~= nil) then
@@ -1396,6 +1399,7 @@ function WeakAuras.LayoutDisplayButtons(msg)
         end
       end
     end
+    WeakAuras.ResumeAllDynamicGroups();
 
     frame.loadProgress:Hide();
     frame.filterInput:Show();
@@ -2023,7 +2027,6 @@ local function replaceValuesFuncs(intable, data)
   recurse(intable);
 end
 
-
 function WeakAuras.AddOption(id, data)
   local regionOption;
   if(regionOptions[data.regionType]) then
@@ -2128,7 +2131,7 @@ function WeakAuras.AddOption(id, data)
           if(value == "sound" or value == "sound_path") then
             PlaySoundFile(v, data.actions.start.sound_channel or "Master");
           elseif(value == "sound_kit_id") then
-            PlaySoundKitID(v, data.actions.start.sound_channel or "Master");
+            PlaySound(v, data.actions.start.sound_channel or "Master");
           end
           WeakAuras.Add(data);
         end,
@@ -2554,7 +2557,6 @@ function WeakAuras.AddOption(id, data)
               end
 
               local custom = data.actions.finish.message_custom;
-
               if (not custom) then
                 return true;
               end
@@ -2856,7 +2858,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.start.alphaFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.start.alphaFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.start.alphaFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -2865,7 +2867,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.start.type ~= "custom" or data.animation.start.alphaType ~= "custom" or not data.animation.start.use_alpha) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.start.alphaFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.start.alphaFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -2924,7 +2926,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.start.translateFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.start.translateFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.start.translateFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -2933,7 +2935,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.start.type ~= "custom" or data.animation.start.translateType ~= "custom" or not data.animation.start.use_translate) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.start.translateFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.start.translateFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3005,7 +3007,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.start.scaleFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.start.scaleFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.start.scaleFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3014,7 +3016,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.start.type ~= "custom" or data.animation.start.scaleType ~= "custom" or not (data.animation.start.use_scale and WeakAuras.regions[id].region.Scale)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.start.scaleFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.start.scaleFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3082,7 +3084,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.start.rotateFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.start.rotateFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.start.rotateFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3091,7 +3093,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.start.type ~= "custom" or data.animation.start.rotateType ~= "custom" or not (data.animation.start.use_rotate and WeakAuras.regions[id].region.Rotate)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.start.rotateFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.start.rotateFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3149,7 +3151,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.start.colorFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.start.colorFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.start.colorFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3158,7 +3160,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.start.type ~= "custom" or data.animation.start.colorType ~= "custom" or not (data.animation.start.use_color and WeakAuras.regions[id].region.Color)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.start.colorFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.start.colorFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3285,7 +3287,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.main.alphaFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.main.alphaFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.main.alphaFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3294,7 +3296,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.main.type ~= "custom" or data.animation.main.alphaType ~= "custom" or not data.animation.main.use_alpha) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.main.alphaFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.main.alphaFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3353,7 +3355,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.main.translateFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.main.translateFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.main.translateFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3362,7 +3364,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.main.type ~= "custom" or data.animation.main.translateType ~= "custom" or not data.animation.main.use_translate) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.main.translateFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.main.translateFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3430,7 +3432,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.main.scaleFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.main.scaleFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.main.scaleFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3439,7 +3441,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.main.type ~= "custom" or data.animation.main.scaleType ~= "custom" or not (data.animation.main.use_scale and WeakAuras.regions[id].region.Scale)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.main.scaleFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.main.scaleFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3507,7 +3509,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.main.rotateFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.main.rotateFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.main.rotateFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3516,7 +3518,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.main.type ~= "custom" or data.animation.main.rotateType ~= "custom" or not (data.animation.main.use_rotate and WeakAuras.regions[id].region.Rotate)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.main.rotateFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.main.rotateFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3574,7 +3576,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.main.colorFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.main.colorFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.main.colorFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3583,7 +3585,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.main.type ~= "custom" or data.animation.main.colorType ~= "custom" or not (data.animation.main.use_color and WeakAuras.regions[id].region.Color)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.main.colorFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.main.colorFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3687,7 +3689,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.finish.alphaFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.finish.alphaFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.finish.alphaFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3696,7 +3698,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.finish.type ~= "custom" or data.animation.finish.alphaType ~= "custom" or not data.animation.finish.use_alpha) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.finish.alphaFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.finish.alphaFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3755,7 +3757,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.finish.translateFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.finish.translateFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.finish.translateFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3764,7 +3766,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.finish.type ~= "custom" or data.animation.finish.translateType ~= "custom" or not data.animation.finish.use_translate) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.finish.translateFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.finish.translateFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3832,7 +3834,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.finish.scaleFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.finish.scaleFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.finish.scaleFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3841,7 +3843,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.finish.type ~= "custom" or data.animation.finish.scaleType ~= "custom" or not (data.animation.finish.use_scale and WeakAuras.regions[id].region.Scale)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " ..  data.animation.finish.scaleFunc or "");
+                local loadedFunction, errorString = loadstring("return " ..  (data.animation.finish.scaleFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3909,7 +3911,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.finish.rotateFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.finish.rotateFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.finish.rotateFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3918,7 +3920,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.finish.type ~= "custom" or data.animation.finish.rotateType ~= "custom" or not (data.animation.finish.use_rotate and WeakAuras.regions[id].region.Rotate)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.finish.rotateFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.finish.rotateFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -3976,7 +3978,7 @@ function WeakAuras.AddOption(id, data)
               if not(data.animation.finish.colorFunc) then
                 return "";
               end
-              local _, errorString = loadstring("return " .. data.animation.finish.colorFunc or "");
+              local _, errorString = loadstring("return " .. (data.animation.finish.colorFunc or ""));
               return errorString and "|cFFFF0000"..errorString or "";
             end,
             width = "double",
@@ -3985,7 +3987,7 @@ function WeakAuras.AddOption(id, data)
               if(data.animation.finish.type ~= "custom" or data.animation.finish.colorType ~= "custom" or not (data.animation.finish.use_color and WeakAuras.regions[id].region.Color)) then
                 return true;
               else
-                local loadedFunction, errorString = loadstring("return " .. data.animation.finish.colorFunc or "");
+                local loadedFunction, errorString = loadstring("return " .. (data.animation.finish.colorFunc or ""));
                 if(errorString and not loadedFunction) then
                   return false;
                 else
@@ -4854,7 +4856,7 @@ function WeakAuras.ReloadTriggerOptions(data)
       type = "input",
       name = L["Specific Unit"],
       order = 43,
-      desc = L["Can be a name or a UID (e.g., party1). Only works on friendly players in your group."],
+      desc = L["Can be a name or a UID (e.g., party1). A name only works on friendly players in your group."],
       hidden = function() return not (trigger.type == "aura" and trigger.unit == "member") end
     },
     useGroup_count = {
@@ -5463,7 +5465,7 @@ function WeakAuras.ReloadTriggerOptions(data)
       desc = L["Custom trigger event tooltip"],
       width = "double",
       order = 9,
-      hidden = function() return not (trigger.type == "custom" and trigger.custom_type == "event" and trigger.check ~= "update") end,
+      hidden = function() return not (trigger.type == "custom" and trigger.custom_type == "event") end,
       get = function() return trigger.events end,
       set = function(info, v)
         trigger.events = v;
