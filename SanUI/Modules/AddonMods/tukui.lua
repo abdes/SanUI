@@ -1,5 +1,5 @@
 local S,C,L = unpack(SanUI)
-S["UnitFrames"].Enable = function() return end
+--S["UnitFrames"].Enable = function() return end
 
 -- Minimap
 hooksecurefunc(S["Maps"]["Minimap"],"Enable",function()
