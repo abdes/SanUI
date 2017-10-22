@@ -916,6 +916,8 @@ local function Shared(self, unit)
 			-- Fallen Avatar
 				[SpellName(236494)] = 1, -- Desolate
 				[SpellName(239739)] = 1, -- Dark Mark
+				[SpellName(242017)] = 1, -- Black Winds
+				[SpellName(240623)] = 1, -- Tainted Matrix
 
 			-- Kil'jaeden
 				--[SpellName(238999)] = 1, -- Darkness of a Thousand Souls
