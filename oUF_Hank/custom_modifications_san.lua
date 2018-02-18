@@ -372,6 +372,7 @@ sharedStyle = function(self, unit, isSingle)
 			self.GCD:SetHeight(TukuiDB.Scale(5))
 			self.GCD:SetWidth(TukuiDB.Scale(150))
 			self.GCD:SetPoint('TOPLEFT',castbar, 'BOTTOMLEFT', 0, -TukuiDB.Scale(4))
+			self.GCD:SetPoint('TOPRIGHT',castbar, 'BOTTOMRIGHT', 0, -TukuiDB.Scale(4))
 			self.GCD:SetStatusBarTexture(Normal)
 			self.GCD:SetStatusBarColor(0.8,0.8,0.8)
 			
@@ -533,21 +534,21 @@ oUF_Hank_hooks.customPowerBar = {
 		power:SetHeight(15)
 		power:SetPoint("BOTTOMRIGHT", self.health[4], "BOTTOMLEFT", 351, 33) ---160, -200
 		power:SetFrameStrata("MEDIUM")
-    power:SetFrameLevel(13)
+		power:SetFrameLevel(13)
 		power:SetStatusBarTexture(Normal)
 		power:SetMinMaxValues(0,UnitPowerMax(unit))
 		power.frequentUpdates = true
 		
-		local powerBG = power:CreateTexture(nil, 'BORDER')
-    powerBG:SetAllPoints(power)
-		powerBG:SetTexture(Normal)
-		powerBG:SetVertexColor(0,0,0)
-		powerBG.Multiplier = 0.3
+		--local powerBG = power:CreateTexture(nil, 'BORDER')
+		--powerBG:SetAllPoints(power)
+		--powerBG:SetTexture(Normal)
+		--powerBG:SetVertexColor(.1,.1,.1)
+		--powerBG.Multiplier = 0.3
 		
 		local powerPanel = CreateFrame("Frame", "MyPowerPanel", power)
 		powerPanel:SetTemplate()
 		powerPanel:SetFrameStrata("MEDIUM")
-    powerPanel:SetFrameLevel(power:GetFrameLevel()-1)
+		powerPanel:SetFrameLevel(power:GetFrameLevel()-1)
 		powerPanel:SetPoint("TOPLEFT",TukuiDB.Scale(-2), TukuiDB.Scale(2))
 		powerPanel:SetPoint("BOTTOMRIGHT",TukuiDB.Scale(2), -TukuiDB.Scale(2))
 	
@@ -565,13 +566,13 @@ oUF_Hank_hooks.customPowerBar = {
 		
 
 		power.Smooth = true
-		powerBG.Multiplier = 0.1				
+		--powerBG.Multiplier = 0.1				
 
 		--no idea why we need this...
 		power:SetFrameLevel(powerPanel:GetFrameLevel()+1)
 		
 		self.Power = power
-		self.Power.bg = powerBG
+		--self.Power.bg = powerBG
 
 	end
 	end,

@@ -4,9 +4,11 @@ S.switchCastbar = function(profile)
 
 	if profile == "SanChicken" then
 		oUF_player.Castbar:ClearAllPoints()
-		--oUF_player.Castbar.button:ClearAllPoints()
-		oUF_player.Castbar:SetPoint("CENTER",UIParent,"CENTER",0,-270)
-		--oUF_player.Castbar.button:SetPoint("BOTTOM",oUF_player.Castbar,"TOP",0,20)
+		oUF_player.Castbar:SetWidth(288)
+		oUF_player.Castbar.button:ClearAllPoints()
+		oUF_player.Castbar.button:Size(40)
+		oUF_player.Castbar:SetPoint("CENTER",UIParent,"CENTER",0,-263)
+		oUF_player.Castbar.button:SetPoint("BOTTOM",oUF_player.Castbar,"TOP",0,10)
 	elseif profile == "Manyak" then
 		oUF_player.Castbar:ClearAllPoints()
 		oUF_player.Castbar.button:ClearAllPoints()
@@ -30,6 +32,7 @@ S.switchCastbar = function(profile)
 	else
 		oUF_player.Castbar:ClearAllPoints()
 		oUF_player.Castbar.button:ClearAllPoints()
+		oUF_player.Castbar:Width(150)
 		if oUF_player.ClassIcons then
 			local nr_classicons = #oUF_player.ClassIcons
 			oUF_player.Castbar:SetPoint("TOPRIGHT", oUF_player.ClassIcons[nr_classicons]:GetParent(), "BOTTOMRIGHT", S.Scale(2), S.Scale(-2))
@@ -38,6 +41,7 @@ S.switchCastbar = function(profile)
 		end
 		
 		oUF_player.Castbar.button:SetPoint("TOPRIGHT",oUF_player.Castbar.bg,"TOPLEFT",-S.Scale(2),0)
+		oUF_player.Castbar.button:Size(28)
 	end
 	
 	oUF_player.Castbar.Text:SetWidth(oUF_player.Castbar:GetWidth()*0.68)

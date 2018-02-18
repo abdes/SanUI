@@ -21,6 +21,27 @@ S.switchPowerbar = function(profile)
 				Power:SetStatusBarColor(0.69, 0.31, 0.31)
 			end
 		end
+	elseif profile == "SanChicken" then
+		Power.PostUpdate = function(self,unit, min, max)
+			if max > 100 then
+				if min < 40 or min > 100 then
+					Power:SetStatusBarColor(0.69, 0.31, 0.31)
+				--elseif min > 100 then
+				--	Power:SetStatusBarColor(1,.49,.04)
+				else
+					Power:SetStatusBarColor(0.5,1,0)
+		
+				end
+			else
+				if min < 40 or min > 80 then
+					Power:SetStatusBarColor(0.69, 0.31, 0.31)
+				--elseif min > 100 then
+				--	Power:SetStatusBarColor(1,.49,.04)
+				else
+					Power:SetStatusBarColor(0.5,1,0)
+				end
+			end
+		end
 	elseif profile == "SanCat" then
 		Power.PostUpdate = function(self,unit, min, max)
 			local quotient = min/max
@@ -36,7 +57,7 @@ S.switchPowerbar = function(profile)
 		Power.PostUpdate = nil
 	end
 	
-	if profile == "SanCat" then
+	if profile == "SanCat" or profile == "SanChicken" then
 		Power:ClearAllPoints()
 		Power:SetPoint("CENTER",UIParent,"CENTER",0,-188)
 		Power:SetHeight(15)
