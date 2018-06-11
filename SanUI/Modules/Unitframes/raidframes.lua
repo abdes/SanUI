@@ -1031,15 +1031,16 @@ local function Shared(self, unit)
 		[SpellName(253520)] = 1, -- Fulminating Pulse
 
         -- Aggramar
-		[SpellName(245990)] = 1, --	Tank, Inc phys damage taken, stacks
-        [SpellName(244291)] = 1, -- Foe Breaker
+		--[SpellName(245990)] = 1, --	Tank, Inc phys damage taken, stacks
+        --[SpellName(244291)] = 1, -- Foe Breaker
         [SpellName(245995)] = 1, -- Scorching Blaze
         [SpellName(246014)] = 1, -- Searing Tempest
-        [SpellName(244912)] = 1, -- Blazing Eruption
+        --[SpellName(244912)] = 1, -- Blazing Eruption
         [SpellName(247135)] = 1, -- Scorched Earth
         [SpellName(247091)] = 1, -- Catalyzed
         [SpellName(245631)] = 1, -- Unchecked Flame
         [SpellName(245916)] = 1, -- Molten Remnants
+		[SpellName(254452)] = 1, -- Ravenous Blaze
 
         -- Argus the Unmaker
 		[SpellName(248499)] = 1, -- Tank, Inc dmg Taken From Sweeping Scythe, Stacks
