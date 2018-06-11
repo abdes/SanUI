@@ -966,6 +966,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 			unitFrame.ClassIcons.animations[i]:SetScript("OnFinished", function() unitFrame.ClassIcons[i]:SetAlpha(1) end)
 		end
 		updateClassIconAnimation = function(unitFrame, current, max)
+			if true then return end
 			-- bail if we don't have ClassIcons to animate
 			if current == nil then return end
 
@@ -974,6 +975,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 				if unitFrame.ClassIcons.animLastState < current then
 					-- Play animation only when we gain power
 					unitFrame.ClassIcons[current]:SetAlpha(0)
+					--print("Playing " .. current)
 					unitFrame.ClassIcons.animations[current]:Play();
 				end
 			else
