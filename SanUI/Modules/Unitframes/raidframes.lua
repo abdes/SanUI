@@ -378,12 +378,14 @@ local function Shared(self, unit)
 		{194384, "TOPLEFT", {0.4, 0.8, 0.2}, false, nil, {{6,{1,1,0}},{3,{1,0,0}}}, true},     -- Atonement
 	}
 	
-	-- S["UnitFrames"].RaidBuffsTracking["PALADIN"] = {
-			-- {53563, "TOPLEFT", {0.7, 0.3, 0.7}},	 -- Beacon of Light
-			-- {1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true},	-- Hand of Freedom
-			-- {1038, "BOTTOMRIGHT", {0.93, 0.75, 0}, true},	-- Hand of Salvation
-			-- {114163, "TOP", {0.4, 0.8, 0.2},false,nil,{{6,{1,1,0}},{3,{1,0,0}}},true}, -- Eternal flame
-		-- }
+	S["UnitFrames"].RaidBuffsTracking["PALADIN"] = {
+			{53563, "TOPLEFT", {0.7, 0.3, 0.7}},	 -- Beacon of Light
+			{156910, "TOPLEFT", {0.7, 0.3, 0.7}},	 -- Beacon of Faith
+			--{1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true},	-- Hand of Freedom
+			--{1038, "BOTTOMRIGHT", {0.93, 0.75, 0}, true},	-- Hand of Salvation
+			--{114163, "TOP", {0.4, 0.8, 0.2},false,nil,{{6,{1,1,0}},{3,{1,0,0}}},true}, -- Eternal flame
+			{25771, "TOP", {0.6, 0.4, 0.2}, true, nil, nil, true}
+		}
 	
 	S["UnitFrames"].RaidBuffsTracking["ALL"] = {
 		--Mage
@@ -421,9 +423,8 @@ local function Shared(self, unit)
 	--Shaman
 		{98007 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spirit Link Totem
 	--Paladin
-		{1022  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Hand of Protection
-		{6940  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Hand of Sacrifice
-		{31821 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Devotion Aura
+		{1022  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blessing of Protection
+		{6940  , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blessing of Sacrifice
 		{498   , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Divine Protection
 		{642   , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Divine Shield
 		{86659 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of the Ancient Kings (Prot)
