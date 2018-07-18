@@ -1,8 +1,8 @@
-## Interface: 70200
+## Interface: 80000
 ## Title: oUF_Hank
 ## Author: Hank
 ## Maintainer: Gwyd
-## Version: 6.0.2
+## Version: 8.0.0
 ## Dependencies: Tukui, oUF_GCD
 ## OptionalDeps: oUF_SpellRange, oUF_Totembar, oUF_WarlockSpecBars
 ## Notes: oUF layout for |cFFFFA628hank|rui
