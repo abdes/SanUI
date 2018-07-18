@@ -234,30 +234,7 @@ local function createOptions(id, data)
       values = WeakAuras.text_check_types,
       order = 43.1
     },
-    customText = {
-      type = "input",
-      width = "normal",
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "c"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "c")))
-      end,
-      multiline = true,
-      name = L["Custom Function"],
-      order = 43.2,
-      control = "WeakAurasMultiLineEditBox"
-    },
-    customText_expand = {
-      type = "execute",
-      order = 43.3,
-      name = L["Expand Text Editor"],
-      func = function()
-        WeakAuras.OpenTextEditor(data, {"customText"})
-      end,
-      hidden = function()
-        return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "c"))
-                    or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "c")))
-      end,
-    },
+    -- Code Editor added below
     progressPrecision = {
       type = "select",
       order = 44,
@@ -312,11 +289,16 @@ local function createOptions(id, data)
         return not Masque;
       end
     },
+    keepAspectRatio = {
+      type = "toggle",
+      name = L["Keep Aspect Ratio"],
+      order = 49.1
+    },
     stickyDuration = {
       type = "toggle",
       name = L["Sticky Duration"],
       desc = L["Prevents duration information from decreasing when an aura refreshes. May cause problems if used with multiple auras with different durations."],
-      order = 49.2
+      order = 49.4
     },
     useTooltip = {
       type = "toggle",
@@ -324,15 +306,19 @@ local function createOptions(id, data)
       hidden = function() return not WeakAuras.CanHaveTooltip(data) end,
       order = 49.5
     },
-    spacer = {
-      type = "header",
-      name = "",
-      order = 50
-    }
   };
-  options = WeakAuras.AddPositionOptions(options, id, data);
 
-  return options;
+  local function hideCustomTextEditor()
+    return not ((data.text1Enabled and WeakAuras.ContainsPlaceHolders(data.text1, "c"))
+                or (data.text2Enabled and WeakAuras.ContainsPlaceHolders(data.text2, "c")))
+  end
+
+  WeakAuras.AddCodeOption(options, data, L["Custom Function"], "customText", 43.2,  hideCustomTextEditor, {"customText"}, false);
+
+  return {
+    icon = options,
+    position = WeakAuras.PositionOptions(id, data),
+  };
 end
 
 local function createThumbnail(parent)
