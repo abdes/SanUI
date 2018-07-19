@@ -12,7 +12,7 @@ local TukuiDB, TukuiCF = unpack(Tukui)
 local db = TukuiCF["UnitFrames"]
 local font1 = TukuiCF["Medias"].Font
 local font2 = TukuiCF["Medias"].UnitFrameFont
-local Normal = TukuiCF["Medias"].Normal
+local Normal = TukuiCF["Medias"].Blank
 local glowTex = TukuiCF["Medias"].Glow
 local bubbleTex = TukuiCF["Medias"].Bubble
 
@@ -298,9 +298,9 @@ sharedStyle = function(self, unit, isSingle)
 
 		--Castbar time string
 		if(unit ~= "focus") then
-			castbar.time = TukuiDB.SetFontString(castbar, font2, 12)--,"OUTLINE")
+			castbar.time = TukuiDB.SetFontString(castbar, font2, 12, "OUTLINE")
 		else
-			castbar.time = TukuiDB.SetFontString(castbar, font2, 16)--,"OUTLINE")
+			castbar.time = TukuiDB.SetFontString(castbar, font2, 16, "OUTLINE")
 		end
 		castbar.time:SetPoint("RIGHT", castbar, "RIGHT", TukuiDB.Scale(-4), 0)
 		castbar.time:SetTextColor(0.84, 0.75, 0.65)
@@ -311,9 +311,9 @@ sharedStyle = function(self, unit, isSingle)
 
 		--Castbar text string
 		if(unit ~= "focus") then
-			castbar.Text = TukuiDB.SetFontString(castbar,font2, 12)--,"OUTLINE")
+			castbar.Text = TukuiDB.SetFontString(castbar,font2, 12,"OUTLINE")
 		else
-			castbar.Text = TukuiDB.SetFontString(castbar,font2, 16)--,"OUTLINE")
+			castbar.Text = TukuiDB.SetFontString(castbar,font2, 16,"OUTLINE")
 		end
 		castbar.Text:SetJustifyV("MIDDLE")
 		castbar.Text:SetShadowOffset(.8,-.8)
@@ -430,12 +430,12 @@ sharedStyle = function(self, unit, isSingle)
 		
 		self.power:ClearAllPoints()
 		self.name:ClearAllPoints()
-		self.RaidIcon:ClearAllPoints()
+		self.RaidTargetIndicator:ClearAllPoints()
 		
 		self.name:SetPoint("BOTTOMRIGHT",  self.power, "TOPRIGHT")
 		self.power:SetPoint("BOTTOMRIGHT", self.health[1], "BOTTOMLEFT")
-		self.RaidIcon:SetPoint("RIGHT",self.name,"LEFT",-10,0)
-		self.RaidIcon:SetPoint("TOP", self, "TOP", 0, -5)
+		self.RaidTargetIndicator:SetPoint("RIGHT",self.name,"LEFT",-10,0)
+		self.RaidTargetIndicator:SetPoint("TOP", self, "TOP", 0, -5)
 		
 		
 		self.Buffs.initialAnchor = "RIGHT" 
@@ -451,13 +451,13 @@ PostUpdateName = function(self)
 	if self.unit ~= "focus" then return end
 	
 	if (self.name) then
-		self.RaidIcon:ClearAllPoints()
-		self.RaidIcon:SetPoint("TOP", self, "TOP", 0, -5)
+		self.RaidTargetIndicator:ClearAllPoints()
+		self.RaidTargetIndicator:SetPoint("TOP", self, "TOP", 0, -5)
 		-- Reanchor raid icon to the largest string (either name or power)
 		if self.name:GetWidth() >= self.power:GetWidth() then
-			self.RaidIcon:SetPoint("RIGHT", self.name, "LEFT", -10, 0)
+			self.RaidTargetIndicator:SetPoint("RIGHT", self.name, "LEFT", -10, 0)
 		else
-			self.RaidIcon:SetPoint("RIGHT", self.power, "LEFT", -10, 0)
+			self.RaidTargetIndicator:SetPoint("RIGHT", self.power, "LEFT", -10, 0)
 		end
 	end
 

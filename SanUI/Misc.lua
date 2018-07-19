@@ -23,8 +23,10 @@ function S.misc(self,event,arg)
 			BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
 		end)
 		
-		WorldStateAlwaysUpFrame:ClearAllPoints()
-		WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
+		if WorldStateAlwaysUpFrame then
+			WorldStateAlwaysUpFrame:ClearAllPoints()
+			WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
+		end
 
 		S.disableBlizzard()
 	

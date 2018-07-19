@@ -23,8 +23,10 @@ TempEnchant1:Point("TOPRIGHT", TemporaryEnchantFrame, "TOPRIGHT",0,0)
 TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -4, 0)
 TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -4, 0)
 
-WorldStateAlwaysUpFrame:SetFrameStrata("BACKGROUND")
-WorldStateAlwaysUpFrame:SetFrameLevel(0)
+if WorldStateAlwaysUpFrame then 
+	WorldStateAlwaysUpFrame:SetFrameStrata("BACKGROUND")
+	WorldStateAlwaysUpFrame:SetFrameLevel(0)
+end
 
 for i = 1, 3 do
 	local f = CreateFrame("Frame", nil, _G["TempEnchant"..i])

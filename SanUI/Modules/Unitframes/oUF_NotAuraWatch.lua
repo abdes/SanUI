@@ -255,7 +255,7 @@ do
 		end
 		
 		while true do
-			name, _, texture, count, _, duration, remaining, caster, _, _, spellid = UnitAura(unit, index, filter)
+			name, texture, count, _, duration, remaining, caster, _, _, spellid = UnitAura(unit, index, filter)
 			if not name then 
 				if filter == "HELPFUL" then
 					filter = "HARMFUL"

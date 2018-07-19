@@ -227,18 +227,20 @@ if SanUIButtonOrder["WorldFrame"] then
 	local WSButton = CreateFrame("Frame", "WorldStateToggle", Menu)
 	CreateButton(WSButton, SanUIButtonOrder["WorldFrame"])
 	
-	if WorldStateAlwaysUpFrame:IsShown() then
+	if WorldStateAlwaysUpFrame and WorldStateAlwaysUpFrame:IsShown() then
 		WSButton.title:SetText("Hide World Frame")
 	else
 		WSButton.title:SetText("Show World Frame")
 	end
 	
 	WSButton:SetScript("OnMouseDown", function()
-		if WorldStateAlwaysUpFrame:IsShown() then
+		if WorldStateAlwaysUpFrame and WorldStateAlwaysUpFrame:IsShown() then
 			WorldStateAlwaysUpFrame:Hide()
 			WSButton.title:SetText("Show World Frame")
 		else
-			WorldStateAlwaysUpFrame:Show()
+			if WorldStateAlwaysUpFrame then 
+				WorldStateAlwaysUpFrame:Show()
+			end
 			WSButton.title:SetText("Hide World Frame")
 		end
 	end)

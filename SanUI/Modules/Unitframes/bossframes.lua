@@ -37,7 +37,7 @@ oUF.Tags.Methods["BossBars:ppDetailed"] = function(unit)
 	return ("%s/%s"):format(valShort(UnitPower(unit)), valShort(UnitPowerMax(unit)))
 end
 
-oUF.Tags.Events['BossBars:altpower'] = 'UNIT_POWER'
+oUF.Tags.Events['BossBars:altpower'] = 'UNIT_POWER_UPDATE'
 oUF.Tags.Methods['BossBars:altpower'] = function(unit)
 	local cur = UnitPower(unit, ALTERNATE_POWER_INDEX)
 	local max = UnitPowerMax(unit, ALTERNATE_POWER_INDEX)

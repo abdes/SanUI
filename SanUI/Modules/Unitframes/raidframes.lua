@@ -6,7 +6,7 @@ local oUF = TukuiUnitFrameFramework
 
 local font2 = C["Medias"].UnitFrameFont
 local font1 = C["Medias"].Font
-local normTex = C["Medias"].Normal
+local normTex = C["Medias"].Blank
 local bdcr, bdcg, bdcb = unpack(C["Medias"].BorderColor)
 local backdrop = {
 	bgFile = C["Medias"].blank,
@@ -81,7 +81,7 @@ S.PostUpdateHealthRaid = function(health, unit, min, max)
 	
 end
 
-oUF.Tags.Events['getnamecolor'] = 'UNIT_POWER'
+oUF.Tags.Events['getnamecolor'] = 'UNIT_POWER_UPDATE'
 oUF.Tags.Methods['getnamecolor'] = function(unit)
 	local reaction = UnitReaction(unit, 'player')
 	if (UnitIsPlayer(unit)) then
@@ -296,7 +296,7 @@ local function Shared(self, unit)
 	absb:SetStatusBarTexture(normTex)
 	absb:SetStatusBarColor(0.5, 0.5, 0, 1)
 
-	self.HealPrediction = {
+	self.HealthPrediction = {
 		myBar = mhpb,
 		otherBar = ohpb,
 		absorbBar = absb,
@@ -592,7 +592,7 @@ local function Shared(self, unit)
 	local ta = {}
 	ta.texts = {}
 	for _, spell in ipairs(textbuffs) do
-		local text = self.HealPrediction.absorbBar:CreateFontString(nil, "OVERLAY")
+		local text = self.HealthPrediction.absorbBar:CreateFontString(nil, "OVERLAY")
 		text.spellID = spell[1]
 		-- set the dimensions and positions
 		text:SetFont("Fonts\\FRIZQT__.TTF", spell[3])--, "THINOUTLINE")
@@ -657,6 +657,7 @@ local function Shared(self, unit)
 	end
 		
 	RaidDebuffs.Debuffs = {
+	--[[
 				[SpellName(209858)] = 1, -- Necrotic Mythic+
 				[SpellName(228796)] = 6, -- Ignite Soul (Nightbane)
 				[SpellName(80051)] = 1, -- Grievous Wound Mythic+
@@ -1051,6 +1052,7 @@ local function Shared(self, unit)
 		[SpellName(252729)] = 1, -- Damage on Expiry
 		[SpellName(252634)] = 1, -- Damage on Application, Arcane DoT, Stacks, Raid Wide
 		[SpellName(252616)] = 1, -- Cosmic Smash on Expiry
+		--]]
 	}
 
 	-- S.ReverseTimer = {
@@ -1134,10 +1136,12 @@ oUF:Factory(function(self)
 	oUF:SetActiveStyle("SanUIRaid")
 
 	local raid = oUF:SpawnHeader(GetRaidFrameAttributes())
-	SanUIRaid:ClearAllPoints()
-	SanUIRaid:SetPoint("CENTER",UIParent,0,-195)
+	raid:SetParent(S["Panels"].PetBattleHider)
+	raid:ClearAllPoints()
+	raid:SetPoint("CENTER",UIParent,0,-195)
 
 	local pet = oUF:SpawnHeader(GetPetFrameAttributes())
+	pet:SetParent(S["Panels"].PetBattleHider)
 	pet:Point(pa1, raid, pa2, px, py)
 	
 	hooksecurefunc(S.Panels,"Enable",function()

@@ -12,7 +12,7 @@ S.switchPowerbar = function(profile)
 
 	if profile == "SanBear" or profile == "SahneUnholy" then
 		Power.PostUpdate = function(self,unit, min, max)
-			local quotient = min/max
+			local quotient = max and min/max or 0
 			if quotient >= .6  and quotient < .9 then
 				Power:SetStatusBarColor(1,.49,.04)
 			elseif quotient >= .9 then

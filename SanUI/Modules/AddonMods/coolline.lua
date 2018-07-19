@@ -18,24 +18,25 @@ function S.modCoolLine(event)
 	end
 
 	db.h = C["ActionBars"].NormalButtonSize
-	db.w = (S["Panels"].ActionBar1 and (S["Panels"].ActionBar1:GetWidth()-4)) or 30
+	db.w = C["ActionBars"].NormalButtonSize * 24 + C["ActionBars"].ButtonSpacing * 24
 	db.inactivealpha = 1
 	db.bordercolor.a = 0
 	db.bgcolor.a = 0
 	
+	if not CoolLine.Backdrop then
+		CoolLine:CreateBackdrop()
+	end
+	
 	if S["Panels"].ActionBar1 then
 		hooksecurefunc(CoolLine, "updatelook", function()
 			CoolLine:ClearAllPoints()
-			CoolLine:SetPoint("BOTTOMLEFT",S["Panels"].ActionBar1,"TOPLEFT",S.Scale(2),S.Scale(3))
-			CoolLine:SetPoint("BOTTOMRIGHT",S["Panels"].ActionBar1,"TOPRIGHT",S.Scale(-2),S.Scale(3))
+			CoolLine:Point("BOTTOMLEFT",S["Panels"].ActionBar1,"TOPLEFT",1,3)
+			CoolLine:Point("BOTTOMRIGHT",S["Panels"].ActionBar1,"TOPRIGHT",-1,3)
+			S.placeStanceBar()
 		end)
 	end
 
 	CoolLine.updatelook()	
-
-	if not CoolLine.Backdrop then
-		CoolLine:CreateBackdrop()
-	end
 	
 	if not SanUIdb.stanceBarHasBeenPlaced then
 		if S.placeStanceBar() == 1 then
@@ -50,7 +51,7 @@ end
 function S.placeStanceBar()
 	if TukuiStanceBar and CoolLine.Backdrop then
 		TukuiStanceBar:ClearAllPoints()
-		TukuiStanceBar:Point("BOTTOMLEFT",CoolLine.Backdrop,"TOPLEFT",0,1)
+		TukuiStanceBar:Point("BOTTOMLEFT",CoolLine.Backdrop,"TOPLEFT",0,2.5)
 		return 1
 	else
 		print("No TukuiStanceBar or no CoolLine.Backdrop, can't place it!")

@@ -109,7 +109,7 @@ dealWith40:RegisterEvent("PLAYER_ENTERING_WORLD")
 dealWith40:RegisterEvent("RAID_ROSTER_UPDATE")
 dealWith40:RegisterEvent("GROUP_ROSTER_UPDATE")
 dealWith40:RegisterEvent("PARTY_LEADER_CHANGED")
-dealWith40:RegisterEvent("PARTY_MEMBERS_CHANGED")
+--dealWith40:RegisterEvent("PARTY_MEMBERS_CHANGED")
 dealWith40:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 dealWith40:SetScript("OnEvent", function(self)

@@ -30,8 +30,12 @@ hooksecurefunc(S["ActionBars"],"Enable",function()
 	--       3 and 4 must go, Bar 5 stays at the rigt, 6 & 7 anchor to it
 	
 	TukuiBar1:ClearAllPoints()
-	TukuiBar1:Point("BOTTOM", UIParent, "BOTTOM", 0, 3)
-	TukuiBar1:SetWidth((C["ActionBars"].NormalButtonSize * 24) + (C["ActionBars"].ButtonSpacing * 27))
+	TukuiBar1:HookScript("OnEvent", function(self, event, unit, ...)
+		if event == "PLAYER_ENTERING_WORLD" then
+			self:Width((C["ActionBars"].NormalButtonSize * 24) + (C["ActionBars"].ButtonSpacing * 25))
+			TukuiBar1:Point("BOTTOM", UIParent, "BOTTOM", 0, 3)	
+		end
+	end)
 	RegisterStateDriver(TukuiBar1, "visibility", "[petbattle] hide; show")
 
 	-- Rearrange buttons of bar 2
@@ -42,7 +46,7 @@ hooksecurefunc(S["ActionBars"],"Enable",function()
 		b:ClearAllPoints()
 		
 		if i == 1 then
-			b:SetPoint("LEFT", TukuiBar1, "LEFT",(C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*14), 0)
+			b:SetPoint("LEFT", TukuiBar1, "LEFT",(C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*13), 0)
 		else
 			b:SetPoint("LEFT", b2, "RIGHT", C["ActionBars"].ButtonSpacing, 0)
 		end
@@ -54,17 +58,31 @@ hooksecurefunc(S["ActionBars"],"Enable",function()
 	RegisterStateDriver(TukuiBar3,"visibility","hide")
 	RegisterStateDriver(TukuiBar4,"visibility","hide")
 
-	TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -5, -14)
-        TukuiBar5:SetHeight((C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*14))
- 
-        S["Panels"].BottomLine:ClearAllPoints()
-        S["Panels"].BottomLine:Point("BOTTOMLEFT",UIParent,10,20)
-        S["Panels"].BottomLine:Point("BOTTOMRIGHT",UIParent,-10,20)
+	TukuiBar5:Point("RIGHT", UIParent, "RIGHT", -5, -14)
+	TukuiBar5:Height((C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*13))
 
-        S.Panels["ActionBar" .. 2 .. "ToggleButton"]:Kill()
-        S.Panels["ActionBar" .. 3 .. "ToggleButton"]:Kill()
+	S["Panels"].BottomLine:ClearAllPoints()
+	S["Panels"].BottomLine:Point("BOTTOMLEFT",UIParent,10,20)
+	S["Panels"].BottomLine:Point("BOTTOMRIGHT",UIParent,-10,20)
+	S.Panels["ActionBar" .. 2 .. "ToggleButton"]:Kill()
+	S.Panels["ActionBar" .. 3 .. "ToggleButton"]:Kill()
 end)
 
+hooksecurefunc(S["Panels"],"Enable",function()
+	S["Panels"].LeftChatBG:Hide()
+	S["Panels"].RightChatBG:Hide()
+	S["Panels"].TabsBGLeft:Hide()
+	S["Panels"].TabsBGRight:Hide()
+end)
+
+hooksecurefunc(S["Miscellaneous"].Experience,"Enable",function()
+	S.Miscellaneous.Experience:Disable()
+end)
+
+hooksecurefunc(S["Miscellaneous"].Reputation,"Enable",function()
+	S.Miscellaneous.Reputation:Disable()
+end)
+	
 S["ActionBars"].AddHooks = function(self)
 	hooksecurefunc("ActionButton_Update", self.SkinButton)
 	hooksecurefunc("ActionButton_UpdateFlyout", self.StyleFlyout)
