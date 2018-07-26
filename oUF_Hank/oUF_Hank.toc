@@ -9,6 +9,7 @@
 ## X-RelSite-WoWI: 21474
 ## X-WoWIPortal: hankthetank
 
+oUF_CPoints.lua
 config.default.lua
 config.lua
 tags.lua
