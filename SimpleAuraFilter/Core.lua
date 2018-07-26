@@ -156,7 +156,7 @@ local function UpdateDebuffAnchors(buttonName, index)
 	
 	if border then border:Hide() end
 	
-	local dtype = select(5, UnitDebuff("player",index))      
+	local dtype = select(4, UnitDebuff("player",index))      
 	local color
 	if (dtype ~= nil) then
 		color = DebuffTypeColor[dtype]
