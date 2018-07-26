@@ -240,23 +240,27 @@ sharedStyle = function(self, unit, isSingle)
 		local castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", self)
 		castbar:SetStatusBarTexture(Normal)
 			
-		if (unit == "player" or unit:find("boss")) then
-			if self.ClassIcons then
-				castbar:SetPoint("TOPRIGHT", self.ClassIcons[1]:GetParent(), "BOTTOMRIGHT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
-			else
-				castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-20))
+		castbar.place = function(args)
+			if (unit == "player" or unit:find("boss")) then
+				if self.ClassIcons then
+					castbar:SetPoint("TOPRIGHT", self.ClassIcons[1]:GetParent(), "BOTTOMRIGHT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
+				else
+					castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-20))
+				end
+				castbar:SetHeight(TukuiDB.Scale(15))
+				castbar:SetWidth(TukuiDB.Scale(150))
+			elseif (unit == "target") then
+				castbar:SetHeight(TukuiDB.Scale(15))
+				castbar:SetWidth(TukuiDB.Scale(150))
+				castbar:SetPoint("TOPLEFT",self,"BOTTOMLEFT",10,0)
+			elseif (unit == "focus") then
+				castbar:SetHeight(TukuiDB.Scale(22))
+				castbar:SetWidth(TukuiDB.Scale(200))
+				castbar:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",-TukuiDB.Scale(22),0)
 			end
-			castbar:SetHeight(TukuiDB.Scale(15))
-			castbar:SetWidth(TukuiDB.Scale(150))
-		elseif (unit == "target") then
-			castbar:SetHeight(TukuiDB.Scale(15))
-			castbar:SetWidth(TukuiDB.Scale(150))
-			castbar:SetPoint("TOPLEFT",self,"BOTTOMLEFT",10,0)
-		elseif (unit == "focus") then
-			castbar:SetHeight(TukuiDB.Scale(22))
-			castbar:SetWidth(TukuiDB.Scale(200))
-			castbar:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",-TukuiDB.Scale(22),0)
 		end
+		
+		castbar.place()
 			
 		castbar.CustomTimeText = TukuiDB["UnitFrames"].CustomCastTimeText
 		castbar.CustomDelayText = TukuiDB["UnitFrames"].CustomCastDelayText

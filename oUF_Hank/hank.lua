@@ -823,7 +823,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		local bg = {}
 		local fill = {}
 		self.CPoints = {}
-		for i = 1, MAX_COMBO_POINTS do
+		-- MAX_COMBO_POINTS = 6, everything else should be handled by oUF_CPoints
+		for i = 1, 6 do
 			self.CPoints[i] = CreateFrame("Frame", nil, self)
 			self.CPoints[i]:SetSize(16, 16)
 			if i > 1 then self.CPoints[i]:SetPoint("LEFT", self.CPoints[i - 1], "RIGHT") end
@@ -835,7 +836,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 			fill[i]:SetTexture("Interface\\AddOns\\oUF_Hank\\textures\\combo.blp")
 			fill[i]:SetTexCoord(0.5, 0.75, 0, 1)
 			--fill[i]:SetVertexColor(unpack(cfg.colors.power.ENERGY))
-			fill[i]:SetVertexColor(1-(i-1)/(MAX_COMBO_POINTS-1),(i-1)/(MAX_COMBO_POINTS-1),0)
+			fill[i]:SetVertexColor(1-(i-1)/(6-1),(i-1)/(6-1),0)
 			fill[i]:SetAllPoints(self.CPoints[i])
 		end
 		self.CPoints[1]:SetPoint("TOP", self, "BOTTOM")
