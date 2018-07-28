@@ -124,7 +124,7 @@ local updateThreat = function(self, event, unit)
 	else
 		self.Health.bg:SetColorTexture(.3,.3,.3)
 		self.Health.bg:SetVertexColor(0,0,0,1)
-		self.Health:SetStatusBarColor(.3,.3,.3,1)
+		self.Health:SetStatusBarColor(.2,.2,.2,1)
 
 		local fontName, fontHeight, fontFlags = self.Name:GetFont()
 		self.Name:SetFont(fontName,fontHeight,"")
@@ -191,13 +191,13 @@ local function Shared(self, unit)
     	HighlightTarget:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT",1,- 1)
 	HighlightTarget:SetBackdrop(glowBorder)
 	HighlightTarget:SetFrameLevel(self:GetFrameLevel() + 1)
-	HighlightTarget:SetBackdropBorderColor(0.4,0.4,0.4,1)
+	HighlightTarget:SetBackdropBorderColor(0,0,0,1)
 	
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", function(self,event,unit)
 			if UnitIsUnit("target", self.unit) then
 				self.HighlightTarget:SetBackdropBorderColor(1,1,1)
 			else
-				self.HighlightTarget:SetBackdropBorderColor(0.4,0.4,0.4)
+				self.HighlightTarget:SetBackdropBorderColor(0,0,0)
 			end
 		end)
 		
