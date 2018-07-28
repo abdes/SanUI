@@ -1,8 +1,7 @@
 local S,C,L = unpack(SanUI)
---S["UnitFrames"].Enable = function() return end
 
 -- Minimap
-hooksecurefunc(S["Maps"]["Minimap"],"Enable",function()
+hooksecurefunc(S["Maps"]["Minimap"], "Enable", function()
 	Minimap:ClearAllPoints()
 	Minimap:SetPoint("TOPLEFT",UIParent,"TOPLEFT",5,-5)
 	
@@ -13,13 +12,13 @@ hooksecurefunc(S["Maps"]["Minimap"],"Enable",function()
 	-- This is needed for the tracking menu (left click on zone name), it's anchored to this
 	MinimapBackdrop:ClearAllPoints()
 	MinimapBackdrop:SetPoint("CENTER",Minimap,"BOTTOM")
-
 	
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:Point("BOTTOMRIGHT",Minimap,"BOTTOMRIGHT")
 end)
 
-hooksecurefunc(S["ActionBars"],"Enable",function()
+-- Rearrange action bars
+hooksecurefunc(S["ActionBars"], "Enable", function()
 	local TukuiBar1 = S["Panels"].ActionBar1
 	local TukuiBar2 = S["Panels"].ActionBar2
 	local TukuiBar3 = S["Panels"].ActionBar3
@@ -68,29 +67,95 @@ hooksecurefunc(S["ActionBars"],"Enable",function()
 	S.Panels["ActionBar" .. 3 .. "ToggleButton"]:Kill()
 end)
 
-hooksecurefunc(S["Panels"],"Enable",function()
+
+-- MinimapDataTextLeft
+hooksecurefunc(S["Maps"].Minimap, "Enable", function()
+	local dt_right = S["Panels"].MinimapDataText
+	local backdrop = Minimap.Backdrop
+	
+	dt_right:ClearAllPoints()
+	dt_right:Point("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, 19)
+	dt_right:Width(dt_right:GetWidth()/2)
+	
+	local dt_left = CreateFrame("Frame", "TMP", UIParent)
+	dt_left:Height(dt_right:GetHeight())
+	dt_left:Point("TOPLEFT", backdrop, "BOTTOMLEFT", 0, 19)
+	dt_left:Point("RIGHT", dt_right, "LEFT")
+	dt_left:SetTemplate()
+	dt_left:SetFrameStrata("LOW")
+	
+	S["Panels"].MinimapDataTextLeft = dt_left
+end)
+
+hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
+	local DataTextLeft = S["Panels"].DataTextLeft
+	local Anchor1 = self.Anchors[1]
+	local MinimapDataTextLeft = S["Panels"].MinimapDataTextLeft
+
+	self.NumAnchors = self.NumAnchors + 1
+	
+	local Frame = CreateFrame("Button", nil, UIParent)
+	Frame:Size((DataTextLeft:GetWidth() / 3) - 1, DataTextLeft:GetHeight() - 2)
+	Frame:SetFrameLevel(DataTextLeft:GetFrameLevel() + 1)
+	Frame:SetFrameStrata("HIGH")
+	Frame:EnableMouse(false)
+	Frame.SetData = Anchor1.SetData
+	Frame.RemoveData = Anchor1.RemoveData
+	Frame.Num = self.NumAnchors
+	Frame.Tex = Frame:CreateTexture()
+	Frame.Tex:SetAllPoints()
+	Frame.Tex:SetTexture(0.2, 1, 0.2, 0)
+	
+	Frame:Point("CENTER", MinimapDataTextLeft, 0, 0)
+	Frame:Size(MinimapDataTextLeft:GetWidth() - 2, MinimapDataTextLeft:GetHeight() - 2)
+	
+	self.Anchors[self.NumAnchors] = Frame
+end)
+
+hooksecurefunc(S["DataTexts"], "Register", function()
+	for _, DT in pairs(S["DataTexts"].Texts) do
+		if not DT.modded_GetToolTipAnchor then
+			local _GetTooltipAnchor = DT.GetTooltipAnchor
+			
+			if not _GetTooltipAnchor then
+				print("No DT with function GetTooltipAnchor found!")
+				_GetTooltipAnchor = function() end
+			end
+			
+			local GetTooltipAnchor = function(self)
+				local From, Anchor, X, Y = _GetTooltipAnchor(self)
+
+				if self.Position == 8 then
+					Anchor = "ANCHOR_BOTTOMRIGHT"
+					Y = S.Scale(-5)
+					X = S.Scale(-50)
+					From = S["Panels"].MinimapDataTextLeft
+				end
+				
+				return From, Anchor, X, Y
+			end
+			
+			DT.GetTooltipAnchor = GetTooltipAnchor
+			DT.modded_GetToolTipAnchor = true
+		end
+	end
+end)
+
+-- Hide Panels we don't want
+hooksecurefunc(S["Panels"], "Enable", function()
 	S["Panels"].LeftChatBG:Hide()
 	S["Panels"].RightChatBG:Hide()
 	S["Panels"].TabsBGLeft:Hide()
 	S["Panels"].TabsBGRight:Hide()
 end)
 
-hooksecurefunc(S["Miscellaneous"].Experience,"Enable",function()
+hooksecurefunc(S["Miscellaneous"].Experience, "Enable", function()
 	S.Miscellaneous.Experience:Disable()
 end)
 
-hooksecurefunc(S["Miscellaneous"].Reputation,"Enable",function()
+hooksecurefunc(S["Miscellaneous"].Reputation, "Enable", function()
 	S.Miscellaneous.Reputation:Disable()
 end)
-	
-S["ActionBars"].AddHooks = function(self)
-	hooksecurefunc("ActionButton_Update", self.SkinButton)
-	hooksecurefunc("ActionButton_UpdateFlyout", self.StyleFlyout)
-	hooksecurefunc("SpellButton_OnClick", self.StyleFlyout)
-	hooksecurefunc("ActionButton_UpdateHotkeys", self.UpdateHotKey)
-	hooksecurefunc(ExtraActionButton1.style, "SetTexture", self.DisableExtraButtonTexture)
-	hooksecurefunc("PetActionButton_SetHotkeys", self.UpdateHotKey)
-end
 
 -- Move ChatFrame 4 in favor of space for a damage meter
 local ChangeDefaultChatPosition = function(frame)
@@ -113,6 +178,7 @@ local ChangeDefaultChatPosition = function(frame)
 end
 hooksecurefunc("FCF_RestorePositionAndDimensions", ChangeDefaultChatPosition)
 
+--[[
 -- put a 'c' on cubeleft, since clicking on it opens the chat menu
 hooksecurefunc(S["Panels"],"Enable",function()
 	local cubeleft = S.Panels["CubeLeft"]
@@ -129,3 +195,15 @@ hooksecurefunc(S["Panels"],"Enable",function()
 		cubeleft.text = Text
 	end
 end)
+]]
+	
+--[[
+S["ActionBars"].AddHooks = function(self)
+	hooksecurefunc("ActionButton_Update", self.SkinButton)
+	hooksecurefunc("ActionButton_UpdateFlyout", self.StyleFlyout)
+	hooksecurefunc("SpellButton_OnClick", self.StyleFlyout)
+	hooksecurefunc("ActionButton_UpdateHotkeys", self.UpdateHotKey)
+	hooksecurefunc(ExtraActionButton1.style, "SetTexture", self.DisableExtraButtonTexture)
+	hooksecurefunc("PetActionButton_SetHotkeys", self.UpdateHotKey)
+end
+]]
