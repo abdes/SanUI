@@ -23,7 +23,7 @@ S.switchPowerbar = function(profile)
 		end
 	elseif profile == "SanChicken" then
 		Power.PostUpdate = function(self,unit, min, max)
-			if max > 100 then
+			if max and max > 100 then
 				if min < 40 or min > 100 then
 					Power:SetStatusBarColor(0.69, 0.31, 0.31)
 				--elseif min > 100 then
@@ -44,7 +44,7 @@ S.switchPowerbar = function(profile)
 		end
 	elseif profile == "SanCat" then
 		Power.PostUpdate = function(self,unit, min, max)
-			local quotient = min/max
+			local quotient = max and min/max or 0
 			if quotient >= .3  and quotient < .9 then
 				Power:SetStatusBarColor(1,.49,.04)
 			elseif quotient >= .9 then
