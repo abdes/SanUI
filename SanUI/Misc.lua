@@ -6,6 +6,8 @@
 
 local S,C = unpack(SanUI)
 local f = CreateFrame("frame")
+local sharedMedia = LibStub("LibSharedMedia-3.0")
+sharedMedia:Register(sharedMedia.MediaType.STATUSBAR, "Tukui_Blank_Texture", [[Interface\AddOns\Tukui\Medias\Textures\Others\Blank]])
 
 function S.misc(self,event,arg)
 	if (event == "ACTIVE_TALENT_GROUP_CHANGED" or event == "PLAYER_TALENT_UPDATE") then
