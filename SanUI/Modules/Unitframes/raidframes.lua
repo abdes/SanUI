@@ -304,17 +304,6 @@ local function Shared(self, unit)
 	}
 
 	self.Name:SetParent(absb)
-
-	local vb = CreateFrame("StatusBar", nil, self.Health)
-	vb:SetOrientation("VERTICAL")
-	vb:SetPoint("TOP")
-	vb:Width(66)
-	vb:SetHeight(self.Health:GetHeight())
-	vb:SetStatusBarTexture(normTex)
-	vb:SetStatusBarColor(.6,.5,.5)
-	vb:SetReverseFill(1)
-
-	self.VelhariBar = vb
 	
 	local auras = CreateFrame("Frame", nil, self)
 	auras:Point("TOPLEFT", self.Health, 2, -2)

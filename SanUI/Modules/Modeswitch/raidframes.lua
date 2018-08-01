@@ -69,10 +69,6 @@ S.ModRaidButton = function(button,unit,size,auras)
 	button:Height(size)
 	button.Health:Height(size)
 	button.Health.bg:Height(size)
-	
-	if button.VelhariBar then
-		button.VelhariBar:Height(size)
-	end
 
 	if button.HealPrediction then
 		button.HealPrediction.myBar:Height(size)
