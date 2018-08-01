@@ -211,7 +211,7 @@ do
 		end
 		
 		while true do
-			name, _, texture, count, _, duration, expires, caster, _, _, spellid = UnitAura(unit, index, filter)
+			name, texture, count, _, duration, expires  , caster, _, _, spellid = UnitAura(unit, index, filter)
 			if not name then 
 				if filter == "HELPFUL" then
 					filter = "HARMFUL"
@@ -258,7 +258,6 @@ local function SetupTexts(self)
 		
 		if not name then error("oUF_NotAuraWatch error: no spell with "..tostring(text.spellID).." spell ID exists") end
 		text.name = name
-
 		if text.fromUnits == nil then
 			text.fromUnits = watch.fromUnits or PLAYER_UNITS
 		end
