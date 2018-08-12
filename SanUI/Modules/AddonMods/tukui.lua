@@ -1,5 +1,8 @@
 local S,C,L = unpack(SanUI)
 
+S["ActionBars"].StartButtonHighlight = function() end
+S["ActionBars"].StopButtonHighlight = function() end
+
 -- Minimap
 hooksecurefunc(S["Maps"]["Minimap"], "Enable", function()
 	Minimap:ClearAllPoints()
