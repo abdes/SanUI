@@ -239,12 +239,10 @@ local function Shared(self, unit)
 	end
 	
 	local range = {insideAlpha = 1, outsideAlpha = C["Raid"].RangeAlpha}
-	range.Override = function(self,status)
-			if status == 'outside' or status == 'offline' then 
-				self:SetAlpha(self.Range.outsideAlpha)
-			elseif status == 'inside' then
-				self:SetAlpha(self.Range.insideAlpha)
-			end
+	range.PostUpdate = function(self, object, inRange, checkedRange, connected)
+		if not connected then 
+			object:SetAlpha(self.outsideAlpha)
+		end
 	end
 	
 	self.Range = range
