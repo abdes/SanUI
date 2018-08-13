@@ -1422,6 +1422,12 @@ WeakAuras.pet_behavior_types = {
   assist = L["Assist"]
 }
 
+WeakAuras.pet_spec_types = {
+  [1] = L["Ferocity"],
+  [2] = L["Tenacity"],
+  [3] = L["Cunning"]
+}
+
 WeakAuras.cooldown_progress_behavior_types = {
   showOnCooldown = L["On Cooldown"],
   showOnReady = L["Not on Cooldown"],
@@ -1431,7 +1437,7 @@ WeakAuras.cooldown_progress_behavior_types = {
 WeakAuras.bufftrigger_progress_behavior_types = {
   showOnActive = L["Buffed/Debuffed"],
   showOnMissing = L["Missing"],
-  showActiveOrMissing = L["Always"]
+  showAlways= L["Always"]
 }
 
 WeakAuras.item_slot_types = {
@@ -1477,3 +1483,181 @@ WeakAuras.absorb_modes = {
   OVERLAY_FROM_START = L["Attach to Start"],
   OVERLAY_FROM_END = L["Attach to End"]
 }
+
+WeakAuras.mythic_plus_affixes = {
+  [2] = true,
+  [3] = true,
+  [4] = true,
+  [5] = true,
+  [6] = true,
+  [7] = true,
+  [8] = true,
+  [9] = true,
+  [10] = true,
+  [11] = true,
+  [12] = true,
+  [13] = true,
+  [14] = true,
+  [16] = true,
+}
+
+for k in pairs(WeakAuras.mythic_plus_affixes) do
+  WeakAuras.mythic_plus_affixes[k] = C_ChallengeMode.GetAffixInfo(k);
+end
+
+WeakAuras.update_categories = {
+  {
+    name = "anchor",
+    fields = {
+      "xOffset",
+      "yOffset",
+      "selfPoint",
+      "anchorPoint",
+      "anchorFrameType",
+      "anchorFrameFrame",
+      "frameStrata",
+      "height",
+      "width",
+      "fontSize",
+      "scale",
+    },
+    label = L["Size & Position"],
+  },
+  {
+    name = "name",
+    fields = {"id"},
+    label = L["Aura Names"],
+  },
+  {
+    name = "display",
+    fields = {},
+    label = L["Display"],
+  },
+  {
+    name = "trigger",
+    fields = {
+      "trigger",
+      "untrigger",
+      "disjunctive",
+      "additional_triggers",
+      "activeTriggerMode",
+      "numTriggers",
+      "customTriggerLogic"
+    },
+    label = L["Trigger"],
+  },
+  {
+    name = "conditions",
+    fields = {"conditions"},
+    label = L["Conditions"],
+  },
+  {
+    name = "load",
+    fields = {"load"},
+    label = L["Load Conditions"],
+  },
+  {
+    name = "action",
+    fields = {"actions"},
+    label = L["Actions"],
+  },
+  {
+    name = "animation",
+    fields = {"animation"},
+    label = L["Animations"],
+  },
+  {
+    name = "arrangement",
+    fields = {
+      "grow",
+      "space",
+      "stagger",
+      "sort",
+      "hybridPosition",
+      "radius",
+      "align",
+      "rotation",
+      "constantFactor",
+      "hybridSortMode",
+    },
+    label = L["Group Arrangement"],
+  },
+  {
+    name = "oldchildren",
+    fields = {},
+    label = L["Remove Obsolete Auras"],
+  },
+  {
+    name = "newchildren",
+    fields = {},
+    label = L["Add Missing Auras"],
+  },
+  {
+    name = "metadata",
+    fields = {
+      "url",
+      "desc",
+    },
+    label = L["Meta Data"],
+  },
+}
+
+WeakAuras.internal_fields = {
+  uid = true,
+  controlledChildren = true,
+  parent = true,
+  internalVersion = true,
+  sortHybridTable = true,
+  expanded = true,
+  parent = true,
+  init_started = true,
+}
+
+WeakAuras.data_stub = {
+  -- note: this is the minimal data stub which prevents false positives in WeakAuras.diff upon reimporting an aura.
+  -- pending a refactor of other code which adds unnecessary fields, it is possible to shrink it
+  trigger = {
+    type = "aura",
+    names = {},
+    event = "Health",
+    subeventPrefix = "SPELL",
+    subeventSuffix = "_CAST_START",
+    spellIds = {},
+    unit = "player",
+    debuffType = "HELPFUL",
+  },
+  numTriggers = 1,
+  untrigger = {},
+  load = {
+    size = {
+      multi = {},
+    },
+    spec = {
+      multi = {},
+    },
+    class = {
+      multi = {},
+    },
+  },
+  actions = {
+    init = {},
+    start = {},
+    finish = {},
+  },
+  animation = {
+    start = {
+      type = "none",
+      duration_type = "seconds",
+    },
+    main = {
+      type = "none",
+      duration_type = "seconds",
+    },
+    finish = {
+      type = "none",
+      duration_type = "seconds",
+    },
+  },
+  conditions = {},
+}
+
