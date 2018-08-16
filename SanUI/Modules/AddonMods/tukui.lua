@@ -3,6 +3,10 @@ local S,C,L = unpack(SanUI)
 S["ActionBars"].StartButtonHighlight = function() end
 S["ActionBars"].StopButtonHighlight = function() end
 
+hooksecurefunc(S["UnitFrames"], "Nameplates", function(self)
+	self.Debuffs.disableMouse = true
+	end)
+
 -- Minimap
 hooksecurefunc(S["Maps"]["Minimap"], "Enable", function()
 	Minimap:ClearAllPoints()
