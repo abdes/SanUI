@@ -327,7 +327,7 @@ oUF_Hank.PostUpdateIcon = function(icons, unit, icon, index, offset)
 end
 
 -- Custom filters
-oUF_Hank.customFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
+oUF_Hank.customFilter = function(icons, unit, icon, name, texture, count, dtype, duration, timeLeft, caster)
 	if caster == "vehicle" then caster = "player" end
 	if icons.filter == "HELPFUL" and not UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myBuffs then
 		-- Sticky aura: myBuffs
