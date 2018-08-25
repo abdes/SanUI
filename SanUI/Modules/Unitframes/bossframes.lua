@@ -75,14 +75,15 @@ local function CreateUnitFrame(self, unit)
 	self.Health = hpBar
 	
 	local hpBarBG = CreateFrame("Frame",nil,hpBar)
-	hpBarBG:Point("TOPLEFT",hpBar,"TOPLEFT",-2,2)
-	hpBarBG:Point("BOTTOMRIGHT",hpBar,"BOTTOMRIGHT",2,-2)
+	hpBarBG:Point("TOPLEFT",hpBar,"TOPLEFT",-1,1)
+	hpBarBG:Point("BOTTOMRIGHT",hpBar,"BOTTOMRIGHT",1,-1)
 	hpBarBG:SetTemplate()
 	hpBarBG:SetBackdropColor(0,0,0,1)
 	hpBarBG:SetFrameStrata("MEDIUM")
 	hpBarBG:SetFrameLevel(hpBar:GetFrameLevel()-1)
 	
 	self.Health.bg = hpBarBG
+	
 	
 	local hpText = hpBar:CreateFontString(nil, "Overlay")
 	hpText:SetFont(TEXT_FONT, fontSize)
@@ -102,15 +103,15 @@ local function CreateUnitFrame(self, unit)
 	PowerBar:SetFrameStrata(hpBar:GetFrameStrata())
 	PowerBar:SetFrameLevel(hpBar:GetFrameLevel()+2)
 	PowerBar:SetStatusBarColor(0.3,0.3,0.3,1)
-	PowerBar:SetPoint("CENTER", self.Health, "BOTTOM", 0, -6)
+	PowerBar:Point("CENTER", self.Health, "BOTTOM", 0, -6)
 	
 	PowerBar.frequentUpdates = true
 	PowerBar.colorPower = false
 	self.Power = PowerBar
 	
 	local powerBarBG = CreateFrame("Frame",nil,PowerBar)
-	powerBarBG:Point("TOPLEFT",PowerBar,"TOPLEFT",-2,2)
-	powerBarBG:Point("BOTTOMRIGHT",PowerBar,"BOTTOMRIGHT",2,-2)
+	powerBarBG:Point("TOPLEFT",PowerBar,"TOPLEFT",-1,1)
+	powerBarBG:Point("BOTTOMRIGHT",PowerBar,"BOTTOMRIGHT",1,-1)
 	powerBarBG:SetTemplate()
 	powerBarBG:SetBackdropColor(0,0,0,1)
 	powerBarBG:SetFrameStrata(PowerBar:GetFrameStrata())
@@ -122,8 +123,9 @@ local function CreateUnitFrame(self, unit)
 	powerText:SetFont(TEXT_FONT, fontSize-1)
 	powerText:SetShadowOffset(.8,-.8)
 	powerText:SetTextColor(unpack(fontcolor))
+	powerText:Point("RIGHT", PowerBar, "RIGHT", -4, -1)
 	powerText:SetJustifyH("RIGHT")
-	powerText:SetPoint("RIGHT", PowerBar, "RIGHT", -4, 0)
+	powerText:SetJustifyV("MIDDLE")
 	
 	self:Tag(powerText, "[BossBars:ppDetailed]")
 
@@ -153,8 +155,8 @@ local function CreateUnitFrame(self, unit)
 	self.Castbar = castbar
 	
 	local castBarBG = CreateFrame("Frame",nil,self.Castbar)
-	castBarBG:Point("TOPLEFT",self.Castbar,"TOPLEFT",-2,2)
-	castBarBG:Point("BOTTOMRIGHT",self.Castbar,"BOTTOMRIGHT",2,-2)
+	castBarBG:Point("TOPLEFT",self.Castbar,"TOPLEFT",-1,1)
+	castBarBG:Point("BOTTOMRIGHT",self.Castbar,"BOTTOMRIGHT",1,-1)
 	castBarBG:SetTemplate()
 	castBarBG:SetBackdropColor(0,0,0,1)
 	castBarBG:SetFrameStrata(self.Castbar:GetFrameStrata())
@@ -203,6 +205,13 @@ local function CreateUnitFrame(self, unit)
 	AltPowerBar:SetAllPoints(PowerBar)
 	
 	self.AltPowerBar = AltPowerBar
+	self.AltPowerBar.PostUpdate = function(self, unit, cur, min, max)
+		if max == 0 then
+			self:Hide()
+		else
+			self:Show()
+		end
+	end
 	
 	local altBarBG = CreateFrame("Frame",nil,AltPowerBar)
 	altBarBG:Point("TOPLEFT",AltPowerBar,"TOPLEFT",-2,2)
@@ -222,15 +231,16 @@ local function CreateUnitFrame(self, unit)
 	self:Tag(pbText, "[BossBars:altpower]")
 	
 	self.AltPowerBar.Text = pbText
+	self.AltPowerBar:Hide()
 
 	local RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
 	RaidIcon:Height(16)
 	RaidIcon:Width(16)
 	RaidIcon:SetPoint("CENTER", self, "TOP",0,-1)
-	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\raidicons.blp")
-	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
+	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
+	--RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	
-	self.RaidIcon = RaidIcon
+	self.RaidTargetIndicator = RaidIcon
 	
 	local range = {insideAlpha = 1, outsideAlpha = C["Raid"].RangeAlpha}
 	
@@ -279,6 +289,7 @@ local function CreateUnitFrame(self, unit)
 			icon.overlay:SetTexture()
 		end
 	end
+	auras:SetFrameStrata(self.Health:GetFrameStrata())
 	auras:SetFrameLevel(self.Health:GetFrameLevel()+2)
 
 	local buffs = {
@@ -335,6 +346,7 @@ local function CreateUnitFrame(self, unit)
 	self.NotAuraWatch = auras
 end
 
+--[[
 local function CreateTargetFrame(self, unit)
 	local BarWidth = 175
 	local BarHeight = 11	
@@ -372,6 +384,7 @@ local function CreateTargetFrame(self, unit)
 	
 	self:Tag(Name, "[name]")	
 end
+--]]
 
 ------------------------------------------------------------------------------
 
