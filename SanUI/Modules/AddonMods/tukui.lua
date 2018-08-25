@@ -84,12 +84,12 @@ hooksecurefunc(S["Maps"].Minimap, "Enable", function()
 	dt_right:Point("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, 19)
 	dt_right:Width(dt_right:GetWidth()/2)
 	
-	local dt_left = CreateFrame("Frame", "TMP", UIParent)
+	local dt_left = CreateFrame("Frame", nil, UIParent)
 	dt_left:Height(dt_right:GetHeight())
 	dt_left:Point("TOPLEFT", backdrop, "BOTTOMLEFT", 0, 19)
-	dt_left:Point("RIGHT", dt_right, "LEFT")
+	dt_left:Point("RIGHT", dt_right, "LEFT", 1,0)
 	dt_left:SetTemplate()
-	dt_left:SetFrameStrata("LOW")
+	dt_left:SetFrameStrata("MEDIUM")
 	
 	S["Panels"].MinimapDataTextLeft = dt_left
 end)
