@@ -68,8 +68,8 @@ S.switch2Mode = function(mode)
 	
 	if S["Modes"][mode]["DBM"] and IsAddOnLoaded("DBM-Core") then 
 		DBM:ApplyProfile(S["Modes"][mode]["DBM"])
-	else
-		print("DBM not loaded or no DBM profile for mode "..mode.."! Can't Switch!")
+	--else
+	--	print("DBM not loaded or no DBM profile for mode "..mode.."! Can't Switch!")
 	end
 	
 	SanUIdb["Mode"] = mode
