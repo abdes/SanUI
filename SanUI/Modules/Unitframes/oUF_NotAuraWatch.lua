@@ -116,13 +116,14 @@ local PLAYER_UNITS = {
 	pet = true,
 }
 
---key for swiftmend, will get special treatment
+--[[key for swiftmend, will get special treatment
 local smname, _, smimage = GetSpellInfo(18562)
 local smkey = 18562
 local smicons = {}
 local rjname = GetSpellInfo(774) --rejuvenation
 local rgname = GetSpellInfo(8936) --regrowth
 local germname = GetSpellInfo(155777) --germination (druid lvl 100 talent)
+]]
 
 local SetupGUID
 do 
@@ -248,7 +249,7 @@ do
 		local filter = "HELPFUL"
 		local guid = UnitGUID(unit)
 		if not GUIDs[guid] then SetupGUID(guid) end
-		local swiftmendable = false
+		--local swiftmendable = false
 		
 		for key, icon in pairs(icons) do
 			icon:Hide()
@@ -264,9 +265,9 @@ do
 					break
 				end
 			else
-				if name == rjname or name == rgname or name == germname then
-					swiftmendable = true
-				end
+				--if name == rjname or name == rgname or name == germname then
+				--	swiftmendable = true
+				--end
 				
 				key = spellid
 				icon = icons[key]
@@ -279,11 +280,13 @@ do
 			end
 		end
 		
+		--[[
 		if swiftmendable and icons[smkey] then
 			ResetIcon(watch,smicons[frame],1,3,3) -- values arbitrary, don't show cd frame for swiftmend!
 			GUIDs[guid][smkey] = true
 			found[smkey] = true
 		end
+		]]
 		
 		for key in pairs(GUIDs[guid]) do
 			if icons[key] and not found[key] then

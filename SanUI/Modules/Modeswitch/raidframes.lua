@@ -196,7 +196,7 @@ S.switchRaidFrames = function(profile)
 		
 		dealWith40:GetScript("OnEvent")()	
 
-		S.swiftmend_shown = false
+		--S.swiftmend_shown = false
 	end
 end
 

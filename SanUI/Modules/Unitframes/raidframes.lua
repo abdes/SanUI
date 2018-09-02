@@ -524,9 +524,9 @@ local function Shared(self, unit)
 		end
 		
 		--reju should overwrite sm	
-		if auras.icons[774] and auras.icons[18562] then
-			auras.icons[774]:SetFrameLevel(auras.icons[18562]:GetFrameLevel()+1)
-		end
+		--if auras.icons[774] and auras.icons[18562] then
+		--	auras.icons[774]:SetFrameLevel(auras.icons[18562]:GetFrameLevel()+1)
+		--end
 		
 		--power word shield should overwrite atonement
 		if auras.icons[194384] and auras.icons[17] then
@@ -536,7 +536,7 @@ local function Shared(self, unit)
 	
 	self.NotAuraWatch = auras
 
-	-- depending on S.swiftmend_shown we may sometimes need to reload the
+	--[[ depending on S.swiftmend_shown we may sometimes need to reload the
 	-- mode
 	S. swiftmend_shown = false
 	if auras.icons[18562] then
@@ -563,6 +563,7 @@ local function Shared(self, unit)
 
 		return false
 	end
+	--]]
 	
 	--Text Auras
 	S["UnitFrames"].TextAuras = {}
