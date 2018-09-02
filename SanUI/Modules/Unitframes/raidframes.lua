@@ -387,16 +387,16 @@ local function Shared(self, unit)
 		{207319, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Corpse Shield
 		{194844, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- BoneStorm
 		{145629, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Anti-Magic Zone
-		{194679, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Rune Tap
+		--{194679, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Rune Tap
 	--Demon Hunter
 		{207811, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (DH)
 		{207810, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (Target)
 		{187827, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Metamorphosis
 		{227225, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Soul Barrier
-		{209426, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Darkness
+		--{209426, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Darkness
 		{196555, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Netherwalk
 		{212800, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blur
-		{188499, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blade Dance
+		--{188499, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blade Dance
 		{203819, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Demon Spikes
 	-- Druid
 		{102342, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ironbark
@@ -409,48 +409,48 @@ local function Shared(self, unit)
 		{201939, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack (Allies)
 	--Hunter
 		{186265, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Aspect of the Turtle
-		{53480, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Roar of Sacrifice
-		{202748, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Survival Tactics
+		--{53480, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Roar of Sacrifice
+		--{202748, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Survival Tactics
 	--Mage
 		{45438, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ice Block
 		{113862, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Greater Invisibility
 		{198111, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Temporal Shield
-		{198065, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Prismatic Cloak
-		{11426, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ice Barrier
+		--{198065, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Prismatic Cloak
+		--{11426, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ice Barrier
 	--Monk
 		{122783, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Diffuse Magic
 		{122278, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dampen Harm
 		{125174, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Touch of Karma
 		{201318, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Fortifying Elixir
-		{201325, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Zen Moment
+		--{201325, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Zen Moment
 		{202248, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guided Meditation
 		{120954, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Fortifying Brew
 		{116849, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Life Cocoon
-		{202162, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guard
-		{215479, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ironskin Brew
+		--{202162, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guard
+		--{215479, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ironskin Brew
 	--Paladin
 		{642, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Divine Shield
 		{498, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Divine Protection
 		{205191, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Eye for an Eye
-		{184662, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield of Vengeance
+		--{184662, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield of Vengeance
 		{1022, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Blessing of Protection
 		{6940, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Blessing of Sacrifice
 		{204018, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blessing of Spellwarding
 		{199507, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spreading The Word: Protection
-		{216857, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guarded by the Light
+		--{216857, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guarded by the Light
 		{228049, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of the Forgotten Queen
 		{31850, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ardent Defender
 		{86659, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Guardian of Ancien Kings
 		{212641, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of Ancien Kings (Glyph of the Queen)
-		{209388, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Bulwark of Order
+		--{209388, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Bulwark of Order
 		{204335, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Aegis of Light
-		{152262, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Seraphim
-		{132403, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield of the Righteous
+		--{152262, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Seraphim
+		--{132403, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield of the Righteous
 	--Priest
 		{81782, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Power Word: Barrier
 		{47585, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Dispersion
-		{19236, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Desperate Prayer
-		{213602, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Greater Fade
+		--{19236, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Desperate Prayer
+		--{213602, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Greater Fade
 		{27827, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spirit of Redemption
 		{197268, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ray of Hope
 		{47788, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Guardian Spirit
@@ -458,41 +458,41 @@ local function Shared(self, unit)
 	--Rogue
 		{5277, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Evasion
 		{31224, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Cloak of Shadows
-		{1966, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Feint
+		--{1966, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Feint
 		{199754, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Riposte
-		{45182, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Cheating Death
-		{199027, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Veil of Midnight
+		--{45182, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Cheating Death
+		--{199027, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Veil of Midnight
 	--Shaman
-		{204293, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spirit Link
-		{204288, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Earth Shield
+		--{204293, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spirit Link
+		--{204288, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Earth Shield
 		{210918, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ethereal Form
-		{207654, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Servant of the Queen
+		--{207654, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Servant of the Queen
 		{108271, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Astral Shift
-		{98007, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spirit Link Totem
-		{207498, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ancestral Protection
+		--{98007, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spirit Link Totem
+		--{207498, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ancestral Protection
 	--Warlock
 		{108416, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dark Pact
 		{104773, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Unending Resolve
-		{221715, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Essence Drain
-		{212295, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Ward
+		--{221715, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Essence Drain
+		--{212295, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Ward
 	--Warrior
 		{118038, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Die by the Sword
 		{184364, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Enraged Regeneration
-		{209484, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Tactical Advance
-		{97463, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Commanding Shout
-		{213915, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Mass Spell Reflection
-		{199038, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Leave No Man Behind
-		{223658, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Safeguard
-		{147833, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Intervene
-		{198760, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Intercept
-		{12975, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Last Stand
+		--{209484, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Tactical Advance
+		--{97463, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Commanding Shout
+		--{213915, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Mass Spell Reflection
+		--{199038, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Leave No Man Behind
+		--{223658, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Safeguard
+		--{147833, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Intervene
+		--{198760, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Intercept
+		--{12975, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Last Stand
 		{871, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Shield Wall
-		{23920, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spell Reflection
-		{216890, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spell Reflection (PvPT)
-		{227744, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ravager
-		{203524, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Neltharion's Fury
-		{190456, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ignore Pain
-		{132404, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield Block
+		--{23920, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spell Reflection
+		--{216890, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spell Reflection (PvPT)
+		--{227744, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ravager
+		--{203524, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Neltharion's Fury
+		--{190456, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ignore Pain
+		--{132404, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield Block
 	--Racial
 		{20594 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Stoneform
 	}
