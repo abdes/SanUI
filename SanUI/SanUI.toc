@@ -1,6 +1,6 @@
 ﻿## Interface: 80000
 ## Author: Tavore of EU-Blackmoore
-## Version: 8.0.1.3
+## Version: 8.0.1.4
 ## Title: SanUI
 ## Notes: Druid UI based on Tukui.
 ## SavedVariablesPerCharacter: SanUIdb
