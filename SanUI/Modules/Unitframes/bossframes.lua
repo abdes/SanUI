@@ -238,7 +238,7 @@ local function CreateUnitFrame(self, unit)
 	RaidIcon:Width(16)
 	RaidIcon:SetPoint("CENTER", self, "TOP",0,-1)
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
-	--RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
+	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	
 	self.RaidTargetIndicator = RaidIcon
 	

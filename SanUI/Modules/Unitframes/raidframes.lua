@@ -188,7 +188,7 @@ local function Shared(self, unit)
 	local HighlightTarget = CreateFrame("Frame", nil, self)
 
 	HighlightTarget:Point("TOPLEFT", self, "TOPLEFT",-1, 1)
-    	HighlightTarget:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT",1,- 1)
+    HighlightTarget:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT",1,- 1)
 	HighlightTarget:SetBackdrop(glowBorder)
 	HighlightTarget:SetFrameLevel(self:GetFrameLevel() + 1)
 	HighlightTarget:SetBackdropBorderColor(0,0,0,1)
@@ -209,34 +209,31 @@ local function Shared(self, unit)
 	self:Tag(Dead, "[enhdead]")
 	self.Dead = Dead
 	
-	if C["UnitFrames"].showsymbols == true then
-		local RaidIcon = health:CreateTexture(nil, "OVERLAY")
-		RaidIcon:Height(16)
-		RaidIcon:Width(16)
-		RaidIcon:SetPoint("CENTER", self, "TOP",0,-1)
-		RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\raidicons.blp") -- thx hankthetank for texture
-		RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
-		self.RaidIcon = RaidIcon
-	end
-	
+	local RaidIcon = health:CreateTexture(nil, "OVERLAY")
+	RaidIcon:Height(16)
+	RaidIcon:Width(16)
+	RaidIcon:SetPoint("CENTER", self, "TOP",-12,-1)
+	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
+	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
+	self.RaidTargetIndicator  = RaidIcon
+	RaidIcon:Hide() -- not sure if necessary, seems so from MOTHER's rooms
+
 	local ReadyCheck = self.Health:CreateTexture(nil, "OVERLAY")
 	ReadyCheck:Height(12)
 	ReadyCheck:Width(12)
 	ReadyCheck:SetPoint("CENTER",self.Health,"TOP") 	
-	self.ReadyCheck = ReadyCheck
+	self.ReadyCheckIndicator = ReadyCheck
 	
-	if C.Raid.ShowRessurection then
-		local Resurrect = CreateFrame("Frame", nil, self.Health)
-		Resurrect:SetFrameLevel(self.Health:GetFrameLevel() + 1)
-		Resurrect:Size(15)
-		Resurrect:SetPoint("BOTTOMLEFT")
-		self.Resurrect = Resurrect
+	local Resurrect = CreateFrame("Frame", nil, self.Health)
+	Resurrect:SetFrameLevel(self.Health:GetFrameLevel() + 1)
+	Resurrect:Size(15)
+	Resurrect:SetPoint("BOTTOMLEFT")
+	self.ResurrectIndicator = Resurrect
 
-		local ResurrectIcon = Resurrect:CreateTexture(nil, "OVERLAY")
-		ResurrectIcon:SetAllPoints()
-		ResurrectIcon:SetDrawLayer("OVERLAY", 7)
-		self.ResurrectIcon = ResurrectIcon
-	end
+	local ResurrectIcon = Resurrect:CreateTexture(nil, "OVERLAY")
+	ResurrectIcon:SetAllPoints()
+	ResurrectIcon:SetDrawLayer("OVERLAY", 7)
+	self.ResurrectIcon = ResurrectIcon
 	
 	local range = {insideAlpha = 1, outsideAlpha = C["Raid"].RangeAlpha}
 	range.PostUpdate = function(self, object, inRange, checkedRange, connected)
@@ -253,44 +250,26 @@ local function Shared(self, unit)
 	local gw = self.Health:GetWidth()
 	local gh = self.Health:GetHeight()
 	local mhpb = CreateFrame("StatusBar", nil, self.Health)
-	--if C["UnitFrames"].gridhealthvertical then
-		mhpb:SetOrientation("VERTICAL")
-		mhpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-		mhpb:Width(66)
-		mhpb:Height(28)	
-	--else
-	--	mhpb:SetPoint("TOPLEFT", self.Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-	--	mhpb:SetPoint("BOTTOMLEFT", self.Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-	--	mhpb:Width(66)
-	--end				
+	mhpb:SetOrientation("VERTICAL")
+	mhpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
+	mhpb:Width(66)
+	mhpb:Height(28)				
 	mhpb:SetStatusBarTexture(normTex)
 	mhpb:SetStatusBarColor(0, 0.5, 0.15, 1)
 
 	local ohpb = CreateFrame("StatusBar", nil, self.Health)
-	--if C["UnitFrames"].gridhealthvertical then
-		ohpb:SetOrientation("VERTICAL")
-		ohpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-		ohpb:Width(66)
-		ohpb:Height(28)
-	--else
-	--	ohpb:SetPoint("TOPLEFT", self.Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-	--	ohpb:SetPoint("BOTTOMLEFT", self.Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-	--	ohpb:Width(66)
-	--end
+	ohpb:SetOrientation("VERTICAL")
+	ohpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
+	ohpb:Width(66)
+	ohpb:Height(28)
 	ohpb:SetStatusBarTexture(normTex)
 	ohpb:SetStatusBarColor(0, 0.5, 0, 1)
 	
 	local absb = CreateFrame("StatusBar", nil, self.Health)
-	--if C["UnitFrames"].gridhealthvertical then
-		absb:SetOrientation("VERTICAL")
-		absb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-		absb:Width(66)
-		absb:Height(28)				
-	--else
-	--	absb:SetPoint("TOPLEFT", self.Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-	--	absb:SetPoint("BOTTOMLEFT", self.Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-	--	absb:SetWidth(66)
-	--end
+	absb:SetOrientation("VERTICAL")
+	absb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
+	absb:Width(66)
+	absb:Height(28)				
 	absb:SetStatusBarTexture(normTex)
 	absb:SetStatusBarColor(0.5, 0.5, 0, 1)
 
@@ -665,15 +644,6 @@ local function Shared(self, unit)
 	
 	self.TextAuras = ta
 
-		-- Position and size
-	local RaidIcon = self.Health:CreateTexture(nil, 'OVERLAY')
-	RaidIcon:SetSize(14, 14)
-	RaidIcon:SetPoint('TOP', self,12,5)
-
-	-- Register it with oUF
-	self.RaidIcon = RaidIcon
-	
-	-- Raid Debuffs (big middle icon)
 	local RaidDebuffs = CreateFrame("Frame", nil, self)
 	RaidDebuffs:Height(15)
 	RaidDebuffs:Width(15)
@@ -708,251 +678,255 @@ local function Shared(self, unit)
 		local name = select(1, GetSpellInfo(id))
 		return name	
 	end
+	
+	local function Defaults(priorityOverride)
+		return {["enable"] = true, ["priority"] = priorityOverride or 0, ["stackThreshold"] = 0}
+	end
 		
 	RaidDebuffs.Debuffs = {
 	--BFA Dungeons
 		--Freehold
-		[SpellName(258323)] = 1, -- Infected Wound
-		[SpellName(257775)] = 1, -- Plague Step
-		[SpellName(257908)] = 1, -- Oiled Blade
-		[SpellName(257436)] = 1, -- Poisoning Strike
-		[SpellName(274389)] = 1, -- Rat Traps
-		[SpellName(274555)] = 1, -- Scabrous Bites
-		[SpellName(258875)] = 1, -- Blackout Barrel
-		[SpellName(256363)] = 1, -- Ripper Punch
+		[258323] = Defaults(), -- Infected Wound
+		[257775] = Defaults(), -- Plague Step
+		[257908] = Defaults(), -- Oiled Blade
+		[257436] = Defaults(), -- Poisoning Strike
+		[274389] = Defaults(), -- Rat Traps
+		[274555] = Defaults(), -- Scabrous Bites
+		[258875] = Defaults(), -- Blackout Barrel
+		[256363] = Defaults(), -- Ripper Punch
 		
 		--Shrine of the Storm
-		[SpellName(264560)] = 1, -- Choking Brine
-		[SpellName(268233)] = 1, -- Electrifying Shock
-		[SpellName(268322)] = 1, -- Touch of the Drowned
-		[SpellName(268896)] = 1, -- Mind Rend
-		[SpellName(268104)] = 1, -- Explosive Void
-		[SpellName(267034)] = 1, -- Whispers of Power
-		[SpellName(276268)] = 1, -- Heaving Blow
-		[SpellName(264166)] = 1, -- Undertow
-		[SpellName(264526)] = 1, -- Grasp of the Depths
-		[SpellName(274633)] = 1, -- Sundering Blow
-		[SpellName(268214)] = 1, -- Carving Flesh
-		[SpellName(267818)] = 1, -- Slicing Blast
-		[SpellName(268309)] = 1, -- Unending Darkness
-		[SpellName(268317)] = 1, -- Rip Mind
-		[SpellName(268391)] = 1, -- Mental Assault
-		[SpellName(274720)] = 1, -- Abyssal Strike
+		[264560] = Defaults(), -- Choking Brine
+		[268233] = Defaults(), -- Electrifying Shock
+		[268322] = Defaults(), -- Touch of the Drowned
+		[268896] = Defaults(), -- Mind Rend
+		[268104] = Defaults(), -- Explosive Void
+		[267034] = Defaults(), -- Whispers of Power
+		[276268] = Defaults(), -- Heaving Blow
+		[264166] = Defaults(), -- Undertow
+		[264526] = Defaults(), -- Grasp of the Depths
+		[274633] = Defaults(), -- Sundering Blow
+		[268214] = Defaults(), -- Carving Flesh
+		[267818] = Defaults(), -- Slicing Blast
+		[268309] = Defaults(), -- Unending Darkness
+		[268317] = Defaults(), -- Rip Mind
+		[268391] = Defaults(), -- Mental Assault
+		[274720] = Defaults(), -- Abyssal Strike
 
 		--Siege of Boralus
-		[SpellName(257168)] = 1, -- Cursed Slash
-		[SpellName(272588)] = 1, -- Rotting Wounds
-		[SpellName(272571)] = 1, -- Choking Waters
-		[SpellName(274991)] = 1, -- Putrid Waters
-		[SpellName(275835)] = 1, -- Stinging Venom Coating
-		[SpellName(273930)] = 1, -- Hindering Cut
-		[SpellName(257292)] = 1, -- Heavy Slash
-		[SpellName(261428)] = 1, -- Hangman's Noose
-		[SpellName(256897)] = 1, -- Clamping Jaws
-		[SpellName(272874)] = 1, -- Trample
-		[SpellName(273470)] = 1, -- Gut Shot
-		[SpellName(272834)] = 1, -- Viscous Slobber
-		[SpellName(257169)] = 1, -- Terrifying Roar
-		[SpellName(272713)] = 1, -- Crushing Slam
+		[257168] = Defaults(), -- Cursed Slash
+		[272588] = Defaults(), -- Rotting Wounds
+		[272571] = Defaults(), -- Choking Waters
+		[274991] = Defaults(), -- Putrid Waters
+		[275835] = Defaults(), -- Stinging Venom Coating
+		[273930] = Defaults(), -- Hindering Cut
+		[257292] = Defaults(), -- Heavy Slash
+		[261428] = Defaults(), -- Hangman's Noose
+		[256897] = Defaults(), -- Clamping Jaws
+		[272874] = Defaults(), -- Trample
+		[273470] = Defaults(), -- Gut Shot
+		[272834] = Defaults(), -- Viscous Slobber
+		[257169] = Defaults(), -- Terrifying Roar
+		[272713] = Defaults(), -- Crushing Slam
 		
 		-- Tol Dagor
-		[SpellName(258128)] = 1, -- Debilitating Shout
-		[SpellName(265889)] = 1, -- Torch Strike
-		[SpellName(257791)] = 1, -- Howling Fear
-		[SpellName(258864)] = 1, -- Suppression Fire
-		[SpellName(257028)] = 1, -- Fuselighter
-		[SpellName(258917)] = 1, -- Righteous Flames
-		[SpellName(257777)] = 1, -- Crippling Shiv
-		[SpellName(258079)] = 1, -- Massive Chomp
-		[SpellName(258058)] = 1, -- Squeeze
-		[SpellName(260016)] = 1, -- Itchy Bite
-		[SpellName(257119)] = 1, -- Sand Trap
-		[SpellName(260067)] = 1, -- Vicious Mauling
-		[SpellName(258313)] = 1, -- Handcuff
-		[SpellName(259711)] = 1, -- Lockdown
-		[SpellName(256198)] = 1, -- Azerite Rounds: Incendiary
-		[SpellName(256101)] = 1, -- Explosive Burst
-		[SpellName(256044)] = 1, -- Deadeye
-		[SpellName(256474)] = 1, -- Heartstopper Venom
+		[258128] = Defaults(), -- Debilitating Shout
+		[265889] = Defaults(), -- Torch Strike
+		[257791] = Defaults(), -- Howling Fear
+		[258864] = Defaults(), -- Suppression Fire
+		[257028] = Defaults(), -- Fuselighter
+		[258917] = Defaults(), -- Righteous Flames
+		[257777] = Defaults(), -- Crippling Shiv
+		[258079] = Defaults(), -- Massive Chomp
+		[258058] = Defaults(), -- Squeeze
+		[260016] = Defaults(), -- Itchy Bite
+		[257119] = Defaults(), -- Sand Trap
+		[260067] = Defaults(), -- Vicious Mauling
+		[258313] = Defaults(), -- Handcuff
+		[259711] = Defaults(), -- Lockdown
+		[256198] = Defaults(), -- Azerite Rounds: Incendiary
+		[256101] = Defaults(), -- Explosive Burst
+		[256044] = Defaults(), -- Deadeye
+		[256474] = Defaults(), -- Heartstopper Venom
 		
 		--Waycrest Manor
-		[SpellName(260703)] = 1, -- Unstable Runic Mark
-		[SpellName(263905)] = 1, -- Marking Cleave
-		[SpellName(265880)] = 1, -- Dread Mark
-		[SpellName(265882)] = 1, -- Lingering Dread
-		[SpellName(264105)] = 1, -- Runic Mark
-		[SpellName(264050)] = 1, -- Infected Thorn
-		[SpellName(261440)] = 1, -- Virulent Pathogen
-		[SpellName(263891)] = 1, -- Grasping Thorns
-		[SpellName(264378)] = 1, -- Fragment Soul
-		[SpellName(266035)] = 1, -- Bone Splinter
-		[SpellName(266036)] = 1, -- Drain Essence
-		[SpellName(260907)] = 1, -- Soul Manipulation
-		[SpellName(260741)] = 1, -- Jagged Nettles
-		[SpellName(264556)] = 1, -- Tearing Strike
-		[SpellName(265760)] = 1, -- Thorned Barrage
-		[SpellName(260551)] = 1, -- Soul Thorns
-		[SpellName(263943)] = 1, -- Etch
-		[SpellName(265881)] = 1, -- Decaying Touch
-		[SpellName(261438)] = 1, -- Wasting Strike
-		[SpellName(268202)] = 1, -- Death Lens
+		[260703] = Defaults(), -- Unstable Runic Mark
+		[263905] = Defaults(), -- Marking Cleave
+		[265880] = Defaults(), -- Dread Mark
+		[265882] = Defaults(), -- Lingering Dread
+		[264105] = Defaults(), -- Runic Mark
+		[264050] = Defaults(), -- Infected Thorn
+		[261440] = Defaults(), -- Virulent Pathogen
+		[263891] = Defaults(), -- Grasping Thorns
+		[264378] = Defaults(), -- Fragment Soul
+		[266035] = Defaults(), -- Bone Splinter
+		[266036] = Defaults(), -- Drain Essence
+		[260907] = Defaults(), -- Soul Manipulation
+		[260741] = Defaults(), -- Jagged Nettles
+		[264556] = Defaults(), -- Tearing Strike
+		[265760] = Defaults(), -- Thorned Barrage
+		[260551] = Defaults(), -- Soul Thorns
+		[263943] = Defaults(), -- Etch
+		[265881] = Defaults(), -- Decaying Touch
+		[261438] = Defaults(), -- Wasting Strike
+		[268202] = Defaults(), -- Death Lens
 		
 		-- Atal'Dazar
-		[SpellName(252781)] = 1, -- Unstable Hex
-		[SpellName(250096)] = 1, -- Wracking Pain
-		[SpellName(250371)] = 1, -- Lingering Nausea
-		[SpellName(253562)] = 1, -- Wildfire
-		[SpellName(255582)] = 1, -- Molten Gold
-		[SpellName(255041)] = 1, -- Terrifying Screech
-		[SpellName(255371)] = 1, -- Terrifying Visage
-		[SpellName(252687)] = 1, -- Venomfang Strike
-		[SpellName(254959)] = 1, -- Soulburn
-		[SpellName(255814)] = 1, -- Rending Maul
-		[SpellName(255421)] = 1, -- Devour
-		[SpellName(255434)] = 1, -- Serrated Teeth
-		[SpellName(256577)] = 1, -- Soulfeast
+		[252781] = Defaults(), -- Unstable Hex
+		[250096] = Defaults(), -- Wracking Pain
+		[250371] = Defaults(), -- Lingering Nausea
+		[253562] = Defaults(), -- Wildfire
+		[255582] = Defaults(), -- Molten Gold
+		[255041] = Defaults(), -- Terrifying Screech
+		[255371] = Defaults(), -- Terrifying Visage
+		[252687] = Defaults(), -- Venomfang Strike
+		[254959] = Defaults(), -- Soulburn
+		[255814] = Defaults(), -- Rending Maul
+		[255421] = Defaults(), -- Devour
+		[255434] = Defaults(), -- Serrated Teeth
+		[256577] = Defaults(), -- Soulfeast
 		
 		--King's Rest
-		[SpellName(270492)] = 1, -- Hex
-		[SpellName(267763)] = 1, -- Wretched Discharge
-		[SpellName(276031)] = 1, -- Pit of Despair
-		[SpellName(265773)] = 1, -- Spit Gold
-		[SpellName(270920)] = 1, -- Seduction
-		[SpellName(270865)] = 1, -- Hidden Blade
-		[SpellName(271564)] = 1, -- Embalming Fluid
-		[SpellName(270507)] = 1, -- Poison Barrage
-		[SpellName(267273)] = 1, -- Poison Nova
-		[SpellName(270003)] = 1, -- Suppression Slam
-		[SpellName(270084)] = 1, -- Axe Barrage
-		[SpellName(267618)] = 1, -- Drain Fluids
-		[SpellName(267626)] = 1, -- Dessication
-		[SpellName(270487)] = 1, -- Severing Blade
-		[SpellName(266238)] = 1, -- Shattered Defenses
-		[SpellName(266231)] = 1, -- Severing Axe
-		[SpellName(266191)] = 1, -- Whirling Axes
-		[SpellName(272388)] = 1, -- Shadow Barrage
-		[SpellName(271640)] = 1, -- Dark Revelation
-		[SpellName(268796)] = 1, -- Impaling Spear
+		[270492] = Defaults(), -- Hex
+		[267763] = Defaults(), -- Wretched Discharge
+		[276031] = Defaults(), -- Pit of Despair
+		[265773] = Defaults(), -- Spit Gold
+		[270920] = Defaults(), -- Seduction
+		[270865] = Defaults(), -- Hidden Blade
+		[271564] = Defaults(), -- Embalming Fluid
+		[270507] = Defaults(), -- Poison Barrage
+		[267273] = Defaults(), -- Poison Nova
+		[270003] = Defaults(), -- Suppression Slam
+		[270084] = Defaults(), -- Axe Barrage
+		[267618] = Defaults(), -- Drain Fluids
+		[267626] = Defaults(), -- Dessication
+		[270487] = Defaults(), -- Severing Blade
+		[266238] = Defaults(), -- Shattered Defenses
+		[266231] = Defaults(), -- Severing Axe
+		[266191] = Defaults(), -- Whirling Axes
+		[272388] = Defaults(), -- Shadow Barrage
+		[271640] = Defaults(), -- Dark Revelation
+		[268796] = Defaults(), -- Impaling Spear
 		
 		--Motherlode
-		[SpellName(263074)] = 1, -- Festering Bite
-		[SpellName(280605)] = 1, -- Brain Freeze
-		[SpellName(257337)] = 1, -- Shocking Claw
-		[SpellName(270882)] = 1, -- Blazing Azerite
-		[SpellName(268797)] = 1, -- Transmute: Enemy to Goo
-		[SpellName(259856)] = 1, -- Chemical Burn
-		[SpellName(269302)] = 1, -- Toxic Blades
-		[SpellName(280604)] = 1, -- Iced Spritzer
-		[SpellName(257371)] = 1, -- Tear Gas
-		[SpellName(257544)] = 1, -- Jagged Cut
-		[SpellName(268846)] = 1, -- Echo Blade
-		[SpellName(262794)] = 1, -- Energy Lash
-		[SpellName(262513)] = 1, -- Azerite Heartseeker
-		[SpellName(260829)] = 1, -- Homing Missle (travelling)
-		[SpellName(260838)] = 1, -- Homing Missle (exploded)
-		[SpellName(263637)] = 1, -- Clothesline
+		[263074] = Defaults(), -- Festering Bite
+		[280605] = Defaults(), -- Brain Freeze
+		[257337] = Defaults(), -- Shocking Claw
+		[270882] = Defaults(), -- Blazing Azerite
+		[268797] = Defaults(), -- Transmute: Enemy to Goo
+		[259856] = Defaults(), -- Chemical Burn
+		[269302] = Defaults(), -- Toxic Blades
+		[280604] = Defaults(), -- Iced Spritzer
+		[257371] = Defaults(), -- Tear Gas
+		[257544] = Defaults(), -- Jagged Cut
+		[268846] = Defaults(), -- Echo Blade
+		[262794] = Defaults(), -- Energy Lash
+		[262513] = Defaults(), -- Azerite Heartseeker
+		[260829] = Defaults(), -- Homing Missle (travelling)
+		[260838] = Defaults(), -- Homing Missle (exploded)
+		[263637] = Defaults(), -- Clothesline
 		
 		--Temple of Sethraliss
-		[SpellName(269686)] = 1, -- Plague
-		[SpellName(268013)] = 1, -- Flame Shock
-		[SpellName(268008)] = 1, -- Snake Charm
-		[SpellName(273563)] = 1, -- Neurotoxin
-		[SpellName(272657)] = 1, -- Noxious Breath
-		[SpellName(267027)] = 1, -- Cytotoxin
-		[SpellName(272699)] = 1, -- Venomous Spit
-		[SpellName(263371)] = 1, -- Conduction
-		[SpellName(272655)] = 1, -- Scouring Sand
-		[SpellName(263914)] = 1, -- Blinding Sand
-		[SpellName(263958)] = 1, -- A Knot of Snakes
-		[SpellName(266923)] = 1, -- Galvanize
-		[SpellName(268007)] = 1, -- Heart Attack
+		[269686] = Defaults(), -- Plague
+		[268013] = Defaults(), -- Flame Shock
+		[268008] = Defaults(), -- Snake Charm
+		[273563] = Defaults(), -- Neurotoxin
+		[272657] = Defaults(), -- Noxious Breath
+		[267027] = Defaults(), -- Cytotoxin
+		[272699] = Defaults(), -- Venomous Spit
+		[263371] = Defaults(), -- Conduction
+		[272655] = Defaults(), -- Scouring Sand
+		[263914] = Defaults(), -- Blinding Sand
+		[263958] = Defaults(), -- A Knot of Snakes
+		[266923] = Defaults(), -- Galvanize
+		[268007] = Defaults(), -- Heart Attack
 		
 		--Underrot
-		[SpellName(265468)] = 1, -- Withering Curse
-		[SpellName(278961)] = 1, -- Decaying Mind
-		[SpellName(259714)] = 1, -- Decaying Spores
-		[SpellName(272180)] = 1, -- Death Bolt
-		[SpellName(272609)] = 1, -- Maddening Gaze
-		[SpellName(269301)] = 1, -- Putrid Blood
-		[SpellName(265533)] = 1, -- Blood Maw
-		[SpellName(265019)] = 1, -- Savage Cleave
-		[SpellName(265377)] = 1, -- Hooked Snare
-		[SpellName(265625)] = 1, -- Dark Omen
-		[SpellName(260685)] = 1, -- Taint of G'huun
-		[SpellName(266107)] = 1, -- Thirst for Blood
-		[SpellName(260455)] = 1, -- Serrated Fangs
+		[265468] = Defaults(), -- Withering Curse
+		[278961] = Defaults(), -- Decaying Mind
+		[259714] = Defaults(), -- Decaying Spores
+		[272180] = Defaults(), -- Death Bolt
+		[272609] = Defaults(), -- Maddening Gaze
+		[269301] = Defaults(), -- Putrid Blood
+		[265533] = Defaults(), -- Blood Maw
+		[265019] = Defaults(), -- Savage Cleave
+		[265377] = Defaults(), -- Hooked Snare
+		[265625] = Defaults(), -- Dark Omen
+		[260685] = Defaults(), -- Taint of G'huun
+		[266107] = Defaults(), -- Thirst for Blood
+		[260455] = Defaults(), -- Serrated Fangs
 		
 		------------------------
 		-- Dungeons (Mythic+) --
 		------------------------
 		
-		[SpellName(200227)] = 1, -- Tangled Web
-		[SpellName(209858)] = 1, -- Necrotic
-		[SpellName(226512)] = 1, -- Sanguine
-		[SpellName(240559)] = 1, -- Grievous
-		[SpellName(240443)] = 1, -- Bursting
-		[SpellName(196376)] = 1, -- Grievous Tear
+		[200227] = Defaults(), -- Tangled Web
+		[209858] = Defaults(), -- Necrotic
+		[226512] = Defaults(), -- Sanguine
+		[240559] = Defaults(), -- Grievous
+		[240443] = Defaults(), -- Bursting
+		[196376] = Defaults(), -- Grievous Tear
 
 	-- Uldir
 		-- MOTHER
-		[SpellName(268277)] = 1, -- Purifying Flame
-		[SpellName(268253)] = 1, -- Surgical Beam
-		[SpellName(268095)] = 1, -- Cleansing Purge
-		[SpellName(267787)] = 1, -- Sundering Scalpel
-		[SpellName(268198)] = 1, -- Clinging Corruption
-		[SpellName(267821)] = 1, -- Defense Grid
+		[268277] = Defaults(), -- Purifying Flame
+		[268253] = Defaults(), -- Surgical Beam
+		[268095] = Defaults(), -- Cleansing Purge
+		[267787] = Defaults(), -- Sundering Scalpel
+		[268198] = Defaults(), -- Clinging Corruption
+		[267821] = Defaults(), -- Defense Grid
 
 		-- Vectis
-		[SpellName(265127)] = 1, -- Lingering Infection
-		[SpellName(265178)] = 1, -- Mutagenic Pathogen
-		[SpellName(265206)] = 1, -- Immunosuppression
-		[SpellName(265212)] = 1, -- Gestate
-		[SpellName(265129)] = 1, -- Omega Vector
-		[SpellName(267160)] = 1, -- Omega Vector
-		[SpellName(267161)] = 1, -- Omega Vector
-		[SpellName(267162)] = 1, -- Omega Vector
-		[SpellName(267163)] = 1, -- Omega Vector
-		[SpellName(267164)] = 1, -- Omega Vector
+		--[265127] = Defaults(), -- Lingering Infection
+		[265178] = Defaults(), -- Mutagenic Pathogen
+		[265206] = Defaults(), -- Immunosuppression
+		[265212] = Defaults(), -- Gestate
+		[265129] = Defaults(), -- Omega Vector
+		[267160] = Defaults(), -- Omega Vector
+		[267161] = Defaults(), -- Omega Vector
+		[267162] = Defaults(), -- Omega Vector
+		[267163] = Defaults(), -- Omega Vector
+		[267164] = Defaults(), -- Omega Vector
 
 		-- Mythrax
-		--[SpellName(272146)] = 1, -- Annihilation
-		[SpellName(272536)] = 1, -- Imminent Ruin
-		[SpellName(274693)] = 1, -- Essence Shear
-		[SpellName(272407)] = 1, -- Oblivion Sphere
+		--[272146] = Defaults(), -- Annihilation
+		[272536] = Defaults(), -- Imminent Ruin
+		[274693] = Defaults(), -- Essence Shear
+		[272407] = Defaults(), -- Oblivion Sphere
 
 		-- Fetid Devourer
-		[SpellName(262313)] = 1, -- Malodorous Miasma
-		[SpellName(262292)] = 1, -- Rotting Regurgitation
-		[SpellName(262314)] = 1, -- Deadly Disease
+		[262313] = Defaults(), -- Malodorous Miasma
+		[262292] = Defaults(), -- Rotting Regurgitation
+		[262314] = Defaults(), -- Deadly Disease
 
 		-- Taloc
-		[SpellName(270290)] = 1, -- Blood Storm
-		[SpellName(275270)] = 1, -- Fixate
-		[SpellName(271224)] = 1, -- Plasma Discharge
-		[SpellName(271225)] = 1, -- Plasma Discharge
+		[270290] = Defaults(), -- Blood Storm
+		[275270] = Defaults(), -- Fixate
+		[271224] = Defaults(), -- Plasma Discharge
+		[271225] = Defaults(), -- Plasma Discharge
 
 		-- Zul
-		[SpellName(273365)] = 1, -- Dark Revelation
-		[SpellName(273434)] = 1, -- Pit of Despair
-		[SpellName(274195)] = 1, -- Corrupted Blood
-		[SpellName(272018)] = 1, -- Absorbed in Darkness
+		[273365] = Defaults(), -- Dark Revelation
+		[273434] = Defaults(), -- Pit of Despair
+		[274195] = Defaults(), -- Corrupted Blood
+		[272018] = Defaults(), -- Absorbed in Darkness
 
 		-- Zek'voz, Herald of N'zoth
-		[SpellName(265237)] = 1, -- Shatter
-		[SpellName(265264)] = 1, -- Void Lash
-		[SpellName(265360)] = 1, -- Roiling Deceit
-		[SpellName(265662)] = 1, -- Corruptor's Pact
-		[SpellName(265646)] = 1, -- Will of the Corruptor
+		[265237] = Defaults(), -- Shatter
+		[265264] = Defaults(), -- Void Lash
+		[265360] = Defaults(), -- Roiling Deceit
+		[265662] = Defaults(), -- Corruptor's Pact
+		[265646] = Defaults(), -- Will of the Corruptor
 
 		-- G'huun
-		[SpellName(263436)] = 1, -- Imperfect Physiology
-		[SpellName(263227)] = 1, -- Putrid Blood
-		[SpellName(263372)] = 1, -- Power Matrix
-		[SpellName(272506)] = 1, -- Explosive Corruption
-		[SpellName(267409)] = 1, -- Dark Bargain
-		[SpellName(267430)] = 1, -- Torment
-		[SpellName(263235)] = 1, -- Blood Feast
-		[SpellName(270287)] = 1, -- Blighted Ground
+		[263436] = Defaults(), -- Imperfect Physiology
+		[263227] = Defaults(), -- Putrid Blood
+		[263372] = Defaults(), -- Power Matrix
+		[272506] = Defaults(), -- Explosive Corruption
+		[267409] = Defaults(), -- Dark Bargain
+		[267430] = Defaults(), -- Torment
+		[263235] = Defaults(), -- Blood Feast
+		[270287] = Defaults(), -- Blighted Ground
 	
 	}
 
@@ -962,6 +936,9 @@ local function Shared(self, unit)
 	
 	--ORD:RegisterDebuffs(S["UnitFrames"].DebuffIDs)
 	self.RaidDebuffs = RaidDebuffs
+	
+	local ORD = oUF_RaidDebuffs
+	ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
 
 	return self
 end
@@ -969,12 +946,6 @@ end
 local point = "LEFT"
 local columnAnchorPoint = "TOP"
 local pa1, pa2, px, py = "TOPLEFT", "BOTTOMLEFT", 0, -3
-
--- if C.UnitFrames.gridvertical then
-	-- point = "TOP"
-	-- columnAnchorPoint = "LEFT"
-	-- pa1, pa2, px, py = "TOPLEFT", "TOPRIGHT", 3, 0
--- end
 
 oUF:RegisterStyle("SanUIRaid", Shared)
 
@@ -994,15 +965,15 @@ local function GetRaidFrameAttributes()
 	"showRaid", true,
 	"showPlayer", true,
 	"showSolo", true,
-	"xoffset", S.Scale(3),
-	"yOffset", S.Scale(-3),
+	"xoffset", S.Scale(2),
+	"yOffset", S.Scale(-2),
 	"point", point,
 	"groupFilter", "1,2,3,4,5,6,7,8",
 	"groupingOrder", "1,2,3,4,5,6,7,8",
 	"groupBy", "GROUP",
 	"maxColumns", 8,
 	"unitsPerColumn", 5,
-	"columnSpacing", S.Scale(3),
+	"columnSpacing", S.Scale(2),
 	"columnAnchorPoint", columnAnchorPoint
 end
 S.RaidFrameAttributes = GetAttributes
@@ -1018,10 +989,10 @@ local function GetPetFrameAttributes()
 	"maxColumns", 8,
 	"point", point,
 	"unitsPerColumn", 5,
-	"columnSpacing", S.Scale(3),
+	"columnSpacing", S.Scale(2),
 	"columnAnchorPoint", columnAnchorPoint,
-	"yOffset", S.Scale(-3),
-	"xOffset", S.Scale(3),
+	"yOffset", S.Scale(-2),
+	"xOffset", S.Scale(2),
 	"initial-width", S.Scale(66),
 	"initial-height", S.Scale(28),
 	"oUF-initialConfigFunction", [[
