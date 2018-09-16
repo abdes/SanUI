@@ -55,6 +55,7 @@ function S.misc(self,event,arg)
 		if not SanUIdb.addedWeakAuras and TukuiData[GetRealmName()][UnitName("Player")].InstallDone then
 			S.weakAurasDialog()
 		end
+		
 	end
 		
 	if(event == "ADDON_LOADED") then
@@ -74,7 +75,23 @@ function S.misc(self,event,arg)
 				end
 			end	
 		end	
+		
+		-- Hide the annoying taling head frame, together with the audio and the
+		-- chat lines
+		if addon == "Blizzard_TalkingHeadUI" then
+			hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
+				--Query subzone text when the talkinghead plays
+				zoneName = GetSubZoneText();
+				--If we are not doing withered training, suppress the talkinghead
+				if zoneName ~= "Temple of Fal'adora" and
+				   zoneName ~= "Falanaar Tunnels" and
+				   zoneName ~= "Shattered Locus" then
+					TalkingHeadFrame_CloseImmediately()
+				end
+			end)
+		end
 	end
+	
 end
 
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
