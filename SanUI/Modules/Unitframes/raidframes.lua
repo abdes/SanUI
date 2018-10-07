@@ -919,11 +919,11 @@ local function Shared(self, unit)
 		[265646] = Defaults(), -- Will of the Corruptor
 
 		-- G'huun
-		[263436] = Defaults(), -- Imperfect Physiology
-		[263227] = Defaults(), -- Putrid Blood
-		[263372] = Defaults(), -- Power Matrix
+		--[263436] = Defaults(), -- Imperfect Physiology
+		--[263227] = Defaults(), -- Putrid Blood
+		--[263372] = Defaults(), -- Power Matrix
 		[272506] = Defaults(), -- Explosive Corruption
-		[267409] = Defaults(), -- Dark Bargain
+		--[267409] = Defaults(), -- Dark Bargain
 		[267430] = Defaults(), -- Torment
 		[263235] = Defaults(), -- Blood Feast
 		[270287] = Defaults(), -- Blighted Ground
