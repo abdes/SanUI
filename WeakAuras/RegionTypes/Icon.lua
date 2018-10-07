@@ -60,6 +60,7 @@ local properties = {
     min = 1,
     softMax = screenWidth,
     bigStep = 1,
+    default = 32
   },
   height = {
     display = L["Height"],
@@ -67,7 +68,8 @@ local properties = {
     type = "number",
     min = 1,
     softMax = screenHeight,
-    bigStep = 1
+    bigStep = 1,
+    default = 32
   },
   glow = {
     display = L["Glow"],
@@ -85,7 +87,8 @@ local properties = {
     type = "number",
     min = 6,
     softMax = 72,
-    step = 1
+    step = 1,
+    default = 12
   },
   text2Color = {
     display = L["2. Text Color"],
@@ -98,7 +101,8 @@ local properties = {
     type = "number",
     min = 6,
     softMax = 72,
-    step = 1
+    step = 1,
+    default = 12
   },
   color = {
     display = L["Color"],
@@ -197,7 +201,7 @@ local function create(parent, data)
   region.stacks = stacks;
 
   local text2Frame = CreateFrame("frame", nil, region);
-  local text2 = stacksFrame:CreateFontString(nil, "OVERLAY");
+  local text2 = text2Frame:CreateFontString(nil, "OVERLAY");
   text2Frame:SetFrameLevel(cooldownFrameLevel)
   region.text2 = text2;
 
@@ -257,13 +261,23 @@ local function configureText(fontString, icon, enabled, point, width, height, co
   end
   -- WORKAROUND even more Blizzard stupidity. SetJustifyH doesn't seem to work with the hack from SetTextOnText
   -- So reset here to automatic width
-  fontString:SetWidth(0);
-  fontString:SetJustifyH(h);
-  fontString:SetJustifyV(v);
   local fontPath = SharedMedia:Fetch("font", font);
   fontString:SetFont(fontPath, fontSize, fontFlags == "MONOCHROME" and "OUTLINE, MONOCHROME" or fontFlags);
+  local t = fontString:GetText();
+  fontString:SetText("WORKAROUND Blizzard Bugs");
+  fontString:SetText(t);
+
   fontString:SetTextHeight(fontSize);
   fontString:SetTextColor(textColor[1], textColor[2], textColor[3], textColor[4]);
+
+  fontString:SetJustifyH(h);
+  fontString:SetJustifyV(v);
+
+  fontString:SetWidth(0);
+  local tw = fontString:GetWidth();
+  local w = fontString:GetStringWidth();
+  w = w + max(15, w / 20);
+  fontString:SetWidth(w); -- But that internal text size calculation is wrong, see ticket 1014
 end
 
 local function modify(parent, region, data)
@@ -417,6 +431,7 @@ local function modify(parent, region, data)
       WeakAuras.UnregisterCustomTextUpdates(region);
     end
   else
+    region.values.custom = nil;
     region.UpdateCustomText = nil;
     WeakAuras.UnregisterCustomTextUpdates(region);
   end
@@ -448,13 +463,10 @@ local function modify(parent, region, data)
     UpdateText();
   end
 
-  function region:Scale(scalex, scaley)
-    if region.scalex == scalex and region.scaley == scaley then
-      return
-    end
-    region.scalex = scalex;
-    region.scaley = scaley;
+  function region:UpdateSize()
     local mirror_h, mirror_v, width, height;
+    local scalex = region.scalex;
+    local scaley = region.scaley;
     if(scalex < 0) then
       mirror_h = true;
       scalex = scalex * -1;
@@ -499,18 +511,27 @@ local function modify(parent, region, data)
     end
   end
 
+  function region:Scale(scalex, scaley)
+    if region.scalex == scalex and region.scaley == scaley then
+      return
+    end
+    region.scalex = scalex;
+    region.scaley = scaley;
+    region:UpdateSize();
+  end
+
   function region:SetDesaturated(b)
     icon:SetDesaturated(b);
   end
 
   function region:SetRegionWidth(width)
     region.width = width
-    region:Scale(region.scalex, region.scaley);
+    region:UpdateSize();
   end
 
   function region:SetRegionHeight(height)
     region.height = height
-    region:Scale(region.scalex, region.scaley);
+    region:UpdateSize();
   end
 
   function region:SetText1Color(r, g, b, a)
@@ -538,7 +559,13 @@ local function modify(parent, region, data)
   end
 
   function region:SetGlow(showGlow)
-    if (showGlow) then
+    if MSQ then
+      if (showGlow) then
+        WeakAuras.ShowOverlayGlow(region.button);
+      else
+        WeakAuras.HideOverlayGlow(region.button);
+      end
+    elseif (showGlow) then
       if (not region.__WAGlowFrame) then
         region.__WAGlowFrame = CreateFrame("Frame", nil, region);
         region.__WAGlowFrame:SetAllPoints();
