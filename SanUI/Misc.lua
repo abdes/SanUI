@@ -78,7 +78,7 @@ function S.misc(self,event,arg)
 		
 		-- Hide the annoying taling head frame, together with the audio and the
 		-- chat lines
-		if addon == "Blizzard_TalkingHeadUI" then
+		if name == "Blizzard_TalkingHeadUI" then
 			hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
 				--Query subzone text when the talkinghead plays
 				zoneName = GetSubZoneText();
