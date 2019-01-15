@@ -371,7 +371,7 @@ local function Shared(self, unit)
 		{207811, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (DH)
 		{207810, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (Target)
 		{187827, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Metamorphosis
-		{227225, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Soul Barrier
+		--{227225, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Soul Barrier
 		--{209426, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Darkness
 		{196555, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Netherwalk
 		{212800, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blur
@@ -668,11 +668,7 @@ local function Shared(self, unit)
 	RaidDebuffs.count:SetFont(font2, 9, "THINOUTLINE")
 	RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 0, 2)
 	RaidDebuffs.count:SetTextColor(1, .9, 0)
-	
-	RaidDebuffs.ShowDispelableDebuff = true
-	RaidDebuffs.FilterDispellableDebuff = true
-	RaidDebuffs.MatchBySpellName = true
-	RaidDebuffs.SetDebuffTypeColor = RaidDebuffs.SetBackdropBorderColor
+
 	
 	local function SpellName(id)
 		local name = select(1, GetSpellInfo(id))
@@ -908,8 +904,9 @@ local function Shared(self, unit)
 		-- Zul
 		[273365] = Defaults(), -- Dark Revelation
 		[273434] = Defaults(), -- Pit of Despair
-		[274195] = Defaults(), -- Corrupted Blood
+		--[274195] = Defaults(), -- Corrupted Blood
 		[272018] = Defaults(), -- Absorbed in Darkness
+		[274358]= Defaults(), --Rupturing Blood
 
 		-- Zek'voz, Herald of N'zoth
 		[265237] = Defaults(), -- Shatter
@@ -922,11 +919,12 @@ local function Shared(self, unit)
 		--[263436] = Defaults(), -- Imperfect Physiology
 		--[263227] = Defaults(), -- Putrid Blood
 		--[263372] = Defaults(), -- Power Matrix
-		[272506] = Defaults(), -- Explosive Corruption
+		--[272506] = Defaults(), -- Explosive Corruption
 		--[267409] = Defaults(), -- Dark Bargain
-		[267430] = Defaults(), -- Torment
-		[263235] = Defaults(), -- Blood Feast
-		[270287] = Defaults(), -- Blighted Ground
+		--[267430] = Defaults(), -- Torment
+		--[263235] = Defaults(), -- Blood Feast
+		--[270287] = Defaults(), -- Blighted Ground
+		
 	
 	}
 
@@ -936,8 +934,13 @@ local function Shared(self, unit)
 	
 	--ORD:RegisterDebuffs(S["UnitFrames"].DebuffIDs)
 	self.RaidDebuffs = RaidDebuffs
-	
-	local ORD = oUF_RaidDebuffs
+		
+	local ORD = oUF_RaidDebuffs	
+	ORD.ShowDispelableDebuff = true
+	ORD.FilterDispellableDebuff = true
+	ORD.MatchBySpellName = true
+	ORD.SetDebuffTypeColor = RaidDebuffs.SetBackdropBorderColor
+	ORD:ResetDebuffData()
 	ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
 
 	return self
