@@ -18,10 +18,6 @@ S["profiles"] = {
 	modes = {"PickerEnh" },
 	AddonMenu = {DBM=1, Altoholic=2, WorldFrame=3},
  },
- ["Sandalath"] = { 
-	modes = {"SandWW" },
-	AddonMenu = {DBM=1, Altoholic=2, WorldFrame=3},
- },
  ["Sahnetorture"] = { 
 	modes = {"SahneUnholy"},
 	AddonMenu = {DBM=1, Altoholic=2, WorldFrame=3},
