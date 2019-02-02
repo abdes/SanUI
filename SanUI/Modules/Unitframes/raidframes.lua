@@ -982,6 +982,9 @@ local function Shared(self, unit)
 		--[284676] = Defaults(), -- Seal of Purification
 		--[285178] = Defaults(), -- Serpent's Breath
 		--[285010] = Defaults(), -- Poison Toad Slime
+		[284781] = Defaults(), --Grievous Axe
+		[286779] = Defaults(), -- Focused Demise
+		[288415] = Defaults(), -- Caress of Death
 
 		-- Jadefire Masters
 		[282037] = Defaults(), -- Rising Flames
@@ -993,6 +996,7 @@ local function Shared(self, unit)
 
 		-- Mekkatorque
 		[288806] = Defaults(), -- Gigavolt Blast
+		[283411] = Defaults(), -- Gigavolt Blast
 		--[289023] = Defaults(), -- Enormous
 		[286646] = Defaults(), -- Gigavolt Charge
 		--[288939] = Defaults(), -- Gigavolt Radiation
@@ -1009,7 +1013,7 @@ local function Shared(self, unit)
 		[282209] = Defaults(), -- Mark of Prey
 		[285879] = Defaults(), -- Mind Wipe
 		[282135] = Defaults(), -- Crawling Hex
-		[286060] = Defaults(), -- Cry of the Fallen
+		--[286060] = Defaults(), -- Cry of the Fallen
 		[282447] = Defaults(), -- Kimbul's Wrath
 		[282834] = Defaults(), -- Kimbul's Wrath
 		[286811] = Defaults(), -- Akunda's Wrath
