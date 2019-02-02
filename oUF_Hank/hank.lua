@@ -1205,13 +1205,9 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 
 		self.ClassPower.PostUpdate = function(_, current, max, changed, powerType, event)
 			local hide = false
-			-- TODO(7.0, brendanblackwood)
-			--     May not matter anymore
-			--if event == 'ClassPowerDisable' then
-		--		hide = true
-		--	end
+
 			for i = 1, oUF_Hank.classResources[playerClass].max do
-				if hide or i > max then
+				if hide or max == nil or i > max then
 					self.ClassPower[i]:Hide()
 					self.ClassPower[i].bg:Hide()
 				else
