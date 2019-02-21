@@ -474,7 +474,8 @@ local function Shared(self, unit)
 		--{132404, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield Block
 	--Racial
 		{20594 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Stoneform
-		{284519, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shadow buff Opulence
+		{284556, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true},
+		{284519, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true},
 	}
 	
 	-- some special auras to track that should not get the size of RaidBuffsTracking["ALL"]... otherwise the same
@@ -942,11 +943,14 @@ local function Shared(self, unit)
 		--[285671] = Defaults(), -- Crushed
 		[285875] = Defaults(), -- Rending Bite
 		--[282010] = Defaults(), -- Shaken
+		[286431] = Defaults(), -- Necrotic Core
+		[286433] = Defaults(), -- Necrotic Core
+		[286434] = Defaults(), -- Necrotic Core
 
 		-- Jaina
 		[285253] = Defaults(), -- Ice Shard
-		[287993] = Defaults(), -- Chilling Touch
-		[287365] = Defaults(), -- Searing Pitch
+		--[287993] = Defaults(), -- Chilling Touch
+		--[287365] = Defaults(), -- Searing Pitch
 		[288038] = Defaults(), -- Marked Target
 		--[285254] = Defaults(), -- Avalanche
 		[287626] = Defaults(), -- Grasp of Frost
@@ -963,14 +967,16 @@ local function Shared(self, unit)
 		[285000] = Defaults(), -- Kelp-Wrapped
 
 		-- Opulence
-		[286501] = Defaults(), -- Creeping Blaze
+		[286501] = Defaults(2), -- Creeping Blaze
 		--[283610] = Defaults(), -- Crush
-		[289383] = Defaults(), -- Chaotic Displacement
+		[289383] = Defaults(2), -- Chaotic Displacement
 		--[285479] = Defaults(), -- Flame Jet
-		[283063] = Defaults(), -- Flames of Punishment
-		[283507] = Defaults(), -- Volatile Charge
-		--[284556] = Defaults(), --Shadow-Touched
+		[283063] = Defaults(2), -- Flames of Punishment
+		[283507] = Defaults(2), -- Volatile Charge
+		[284556] = Defaults(), --Shadow-Touched
 		--[284519] = Defaults(), --Quickened Pulse
+		[284519] = Defaults(), -- Shadow buff Opulence
+		[287072] = Defaults(5), -- Liquid Gold
 
 		-- King Rastakhan
 		--[284995] = Defaults(), -- Zombie Dust
@@ -991,7 +997,7 @@ local function Shared(self, unit)
 		--[284374] = Defaults(), -- Magma Trap
 		[285632] = Defaults(), -- Stalking
 		[288151] = Defaults(), -- Tested
-		[284089] = Defaults(), -- Successful Defense
+		--[284089] = Defaults(), -- Successful Defense
 		[286988] = Defaults(), -- Searing Embers
 
 		-- Mekkatorque
