@@ -474,8 +474,7 @@ local function Shared(self, unit)
 		--{132404, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield Block
 	--Racial
 		{20594 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Stoneform
-		{284556, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true},
-		{284519, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true},
+
 	}
 	
 	-- some special auras to track that should not get the size of RaidBuffsTracking["ALL"]... otherwise the same
@@ -580,6 +579,16 @@ local function Shared(self, unit)
 	
 	self.NotAuraWatch = auras
 
+	local ShadowTouched = CreateFrame("Frame", nil, auras)	
+	ShadowTouched:Width(15)
+	ShadowTouched:Height(15)
+	ShadowTouched:SetFrameStrata("MEDIUM")
+	ShadowTouched:SetFrameLevel(self.Health:GetFrameLevel()+5) -- one more than the def buffs
+	ShadowTouched:Point("TOPRIGHT", 2, 2)
+	
+	self.ShadowTouched = ShadowTouched
+		
+		
 	--[[ depending on S.swiftmend_shown we may sometimes need to reload the
 	-- mode
 	S. swiftmend_shown = false

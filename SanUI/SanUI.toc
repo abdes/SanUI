@@ -11,6 +11,7 @@ Config\profiles.lua
 
 Modules\Unitframes\oUF_NotAuraWatch.lua
 Modules\Unitframes\oUF_TextAuras.lua
+Modules\Unitframes\oUF_ShadowTouched.lua
 Modules\Unitframes\raidframes.lua
 Modules\Unitframes\bossframes.lua
 
