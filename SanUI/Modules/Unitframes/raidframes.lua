@@ -982,10 +982,10 @@ local function Shared(self, unit)
 		--[285479] = Defaults(), -- Flame Jet
 		[283063] = Defaults(2), -- Flames of Punishment
 		[283507] = Defaults(2), -- Volatile Charge
-		[284556] = Defaults(), --Shadow-Touched
+		--[284556] = Defaults(), --Shadow-Touched
 		--[284519] = Defaults(), --Quickened Pulse
-		[284519] = Defaults(), -- Shadow buff Opulence
 		[287072] = Defaults(5), -- Liquid Gold
+		[284470] = Defaults(5), -- Hex of Lethargy
 
 		-- King Rastakhan
 		--[284995] = Defaults(), -- Zombie Dust
@@ -1023,8 +1023,8 @@ local function Shared(self, unit)
 
 		-- Conclave of the Chosen
 		[284663] = Defaults(), -- Bwonsamdi's Wrath
-		[282444] = Defaults(), -- Lacerating Claws
-		[282592] = Defaults(), -- Bleeding Wounds
+		--[282444] = Defaults(), -- Lacerating Claws
+		--[282592] = Defaults(), -- Bleeding Wounds
 		[282209] = Defaults(), -- Mark of Prey
 		[285879] = Defaults(), -- Mind Wipe
 		[282135] = Defaults(), -- Crawling Hex
@@ -1032,7 +1032,21 @@ local function Shared(self, unit)
 		[282447] = Defaults(), -- Kimbul's Wrath
 		[282834] = Defaults(), -- Kimbul's Wrath
 		[286811] = Defaults(), -- Akunda's Wrath
-		--[286838] = Defaults(), -- Static Orb	
+		--[286838] = Defaults(), -- Static Orb
+		
+		
+		-- Crucible of Storms
+		
+		-- Cabal
+		[282562] = Defaults(), -- Promises of Power
+		[282432] = Defaults(), -- Crushing Doubt
+		[282561] = Defaults(), -- Dark Herald
+		[282540] = Defaults(), -- Agent of Demise
+		
+		-- Uu'nat
+		[285367] = Defaults(), -- Piercing gaze of nzoth
+		[285562] = Defaults(), -- Unknowable terror
+		[285652] = Defaults(), -- Instiable torment
 	
 	}
 
