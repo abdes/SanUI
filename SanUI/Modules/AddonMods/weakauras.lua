@@ -57,10 +57,12 @@ function S.addWeakAuras()
 	local key,value
 		
 	for key,value in pairs(S.weakAuras.displays) do
-		WeakAurasSaved.displays[key] = value
+		if key:sub(1, #"SanUI_") == "SanUI_" then
+			WeakAurasSaved.displays[key] = value
+		end
 	end
 
-	WeakAuras.frames["Addon Initialization Handler"]:GetScript("OnEvent")("ADDON_LOADED","WeakAuras")
+	--WeakAuras.frames["Addon Initialization Handler"]:GetScript("OnEvent")(WeakAuras.frames["Addon Initialization Handler"],"ADDON_LOADED","WeakAuras")
 end
 	
 -- Adapted from AddonSkins by Azilroka
