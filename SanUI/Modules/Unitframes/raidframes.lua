@@ -974,6 +974,8 @@ local function Shared(self, unit)
 		--[284121] = Defaults(), -- Thunderous Boom
 		[286680] = Defaults(), -- Roiling Tides
 		[285000] = Defaults(), -- Kelp-Wrapped
+		[285350] = Defaults(), --Storm's Wail
+		[284106] = Defaults(), -- Crackling Lightning
 
 		-- Opulence
 		[286501] = Defaults(2), -- Creeping Blaze
