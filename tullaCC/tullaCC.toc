@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 80200
 ## Title: tullaCC
 ## Notes: Adds text to cooldowns
 ## Author: Tuller
