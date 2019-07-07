@@ -179,7 +179,7 @@ local function Shared(self, unit)
 	self.Name = name
 
 	table.insert(self.__elements, updateThreat)
-	self:RegisterEvent("PLAYER_TARGET_CHANGED", updateThreat)
+	self:RegisterEvent("PLAYER_TARGET_CHANGED", updateThreat, true)
 	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", updateThreat)
 	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", updateThreat)
 	

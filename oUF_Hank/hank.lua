@@ -543,7 +543,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	self.colors = cfg.colors
 
 	-- Update dispel table on talent update
-	if unit == "player" then self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", oUF_Hank.UpdateDispel) end
+	if unit == "player" then self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", oUF_Hank.UpdateDispel, true) end
 
 	-- HP%
 	local health = {}

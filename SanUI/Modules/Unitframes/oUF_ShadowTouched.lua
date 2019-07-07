@@ -100,7 +100,7 @@ local function Enable(self)
 		self.ShadowTouched.ForceUpdate = ForceUpdate
 		
 		self:RegisterEvent("UNIT_AURA", Update)
-		self:RegisterEvent("PLAYER_DEAD",Update)
+		self:RegisterEvent("PLAYER_DEAD",Update, true)
 		SetupIcon(self)
 		return true
 	else

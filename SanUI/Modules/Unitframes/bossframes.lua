@@ -260,7 +260,7 @@ local function CreateUnitFrame(self, unit)
 			else
 				self.HighlightTarget:SetBackdropBorderColor(0.6,0.6,0.6)
 			end
-		end)
+		end, true)
 		
 	self.HighlightTarget = HighlightTarget
 
