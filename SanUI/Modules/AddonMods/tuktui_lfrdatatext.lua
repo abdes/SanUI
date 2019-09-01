@@ -80,7 +80,7 @@ local Update = function(self)
 		if (TankReward or HealerReward or DPSReward) then
 			self.Text:SetText(DataText.NameColor..L.DataText.CallToArms..":|r"..DataText.ValueColor..MakeString(TankReward, HealerReward, DPSReward, true).."|r")
 		else
-			self.Text:SetText(DataText.NameColor..LOOKING_FOR_DUNGEON.."|r")
+			self.Text:SetText(DataText.NameColor.."No Call to Arms".."|r")
 		end
 	end
 end
