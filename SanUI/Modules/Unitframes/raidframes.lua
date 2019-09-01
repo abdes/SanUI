@@ -1080,8 +1080,8 @@ local function Shared(self, unit)
 		[296943] = Defaults(), -- Arcing Azerite
 		[296940] = Defaults(), -- Arcing Azerite
 		[296752] = Defaults(), -- Cutting Coral
-		[297333] = Defaults(), -- Briny Bubble
-		[297397] = Defaults(), -- Briny Bubble
+		[297333] = Defaults(2), -- Briny Bubble
+		[297397] = Defaults(2), -- Briny Bubble
 
 		--Abyssal Commander Sivara
 		--[294715] = Defaults(), -- Toxic Brand
@@ -1118,6 +1118,9 @@ local function Shared(self, unit)
 		[298306] = Defaults(), -- Incubation Fluid
 
 		--Blackwater Behemoth
+		[269279] = Defaults(),
+		[186403] = Defaults(), -- Darkest Depths?
+		[298836] = Defaults(), -- Darkest Depths?
 		[292127] = Defaults(), -- Darkest Depths
 		[292138] = Defaults(), -- Radiant Biomass
 		[292167] = Defaults(), -- Toxic Spine
