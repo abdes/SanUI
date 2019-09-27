@@ -383,9 +383,9 @@ local function Shared(self, unit)
 		{210655, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protection of Ashamane
 		{22812, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Barkskin
 		{234081, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Celestial Guardian
-		{202043, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack (it's this one or the other)
-		{201940, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack
-		{201939, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack (Allies)
+		--{202043, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack (it's this one or the other)
+		--{201940, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack
+		--{201939, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack (Allies)
 	--Hunter
 		{186265, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Aspect of the Turtle
 		--{53480, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Roar of Sacrifice
