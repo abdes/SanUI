@@ -8,7 +8,7 @@ local S = unpack(SanUI)
 S["profiles"] = {
  ["Tavore"] = { 
 	modes = {"SanHeal","SanChicken","SanBear", "SanCat" },
-	AddonMenu = {DBM=1, Altoholic=2, WorldFrame=3},
+	AddonMenu = {DBM=1, Altoholic=2, Hack=3},
  },
  ["Jhess"] = {
 	modes = {"JhessDisc","JhessHoly","JhessShadow"},

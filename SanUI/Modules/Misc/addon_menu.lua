@@ -6,7 +6,7 @@
 --order of the buttons to your liking.
 --To disabled a button, set it to 0.
 local S,C = unpack(SanUI)
-local SanUIButtonOrder = {Grid=1, DBM=2, Altoholic=3}
+local SanUIButtonOrder = {Grid=1, DBM=2, Altoholic=3, Hack=4}
 
 if S["profiles"][S.MyName]["AddonMenu"] then
 	SanUIButtonOrder = S["profiles"][S.MyName]["AddonMenu"]
@@ -295,6 +295,23 @@ if SanUIButtonOrder["Altoholic"] then
 		
 		AltoholicButton:SetScript("OnMouseDown", function()
 				Altoholic:ToggleUI()
+				MenuMouseDown()
+		end)
+	end
+end
+-----Hack Button -------
+if SanUIButtonOrder["Hack"] then
+	local HackButton = CreateFrame("Frame", "HackToggle", Menu)
+	CreateButton(HackButton, SanUIButtonOrder["Hack"])
+
+	if not IsAddOnLoaded("REHack") then 
+		HackButton.title:SetTextColor(0.6, 0.6, 0.6)
+		HackButton.title:SetText("Hack Disabled")
+	else
+		HackButton.title:SetText("Hack")
+		
+		HackButton:SetScript("OnMouseDown", function()
+				REHack:Toggle()
 				MenuMouseDown()
 		end)
 	end
