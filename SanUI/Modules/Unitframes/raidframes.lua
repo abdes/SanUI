@@ -1,6 +1,6 @@
 -- File originally written by Tukz of Tukui (see general SanUI credits). Lots of changes
 -- by me, so never bug Tukz about any problem with this, please.
-
+--if true then return end
 local S,C,L = unpack(SanUI) 
 local oUF = TukuiUnitFrameFramework
 
@@ -25,7 +25,7 @@ CompactUnitFrameProfiles:UnregisterAllEvents()
 
 local utf8sub = function(string, i, dots)
 	if not string then return end
-	local bytes = string:len()
+	local bytes = #string
 	if (bytes <= i) then
 		return string
 	else
@@ -83,17 +83,19 @@ end
 
 oUF.Tags.Events['getnamecolor'] = 'UNIT_POWER_UPDATE'
 oUF.Tags.Methods['getnamecolor'] = function(unit)
-	local reaction = UnitReaction(unit, 'player')
 	if (UnitIsPlayer(unit)) then
 		return _TAGS['raidcolor'](unit)
-	elseif (reaction) then
-		local c = S.Colors.reaction[reaction]
-		return string.format('|cff%02x%02x%02x', c[1] * 255, c[2] * 255, c[3] * 255)
 	else
-		r, g, b = .84,.75,.65
-		return string.format('|cff%02x%02x%02x', r * 255, g * 255, b * 255)
-	end
+		local reaction = UnitReaction(unit, 'player')
 	
+		if (reaction) then
+			local c = S.Colors.reaction[reaction]
+			return string.format('|cff%02x%02x%02x', c[1] * 255, c[2] * 255, c[3] * 255)
+		else
+			r, g, b = .84,.75,.65
+			return string.format('|cff%02x%02x%02x', r * 255, g * 255, b * 255)
+		end
+	end
 end
 
 oUF.Tags.Events['nameshort'] = 'UNIT_NAME_UPDATE PARTY_LEADER_CHANGED GROUP_ROSTER_UPDATE'
