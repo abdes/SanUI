@@ -43,21 +43,6 @@ you can specify, as explained below.
 		A function to call when an icon is created to modify it, such as adding
 		a border or repositioning the count fontstring. Leave as nil to ignore.
 		The arguments are: AuraWatch table, icon, auraSpellID, auraName, unitFrame
-	PostResetIcon
-		Default nil
-		A function to call when an icon is reset, that is an aura has been applied
-		or refreshed. This is passed the AuraWatch frame, the icon, aura stack count,
-		duration, and remaining time, as per a UnitAura call.
-	PostExpireIcon
-		Default nil
-		A function to call when an icon is expired, that is an aura has disappeared.
-		This is passed the AuraWatch frame and the icon.
-	OverrideResetIcon
-		Default nil
-		Provide this function to handle the ResetIcon process yourself.
-	OverrideExpireIcon
-		Default nil
-		Provide this function to handle the ExpireIcon process yourself.
 
 Below are options set on a per icon basis. Set these as fields in the icon frames.
 
@@ -116,15 +101,6 @@ local PLAYER_UNITS = {
 	pet = true,
 }
 
---[[key for swiftmend, will get special treatment
-local smname, _, smimage = GetSpellInfo(18562)
-local smkey = 18562
-local smicons = {}
-local rjname = GetSpellInfo(774) --rejuvenation
-local rgname = GetSpellInfo(8936) --regrowth
-local germname = GetSpellInfo(155777) --germination (druid lvl 100 talent)
-]]
-
 local SetupGUID
 do 
 	local cache = setmetatable({}, {__type = "k"})
@@ -151,18 +127,12 @@ do
 	end
 end
 
-local function DefaultResetIcon(watch, icon, count, duration, remaining)
+local function ResetIcon(watch, icon, count, duration, remaining)
 	if not icon.onlyShowMissing then
 		if icon.cd then
 			if duration and duration > 0 then
 				icon.cd:SetCooldown(remaining - duration, duration)
 				icon.cd:Show()
-				
-				-- if icon.hideCooldown then
-					-- -- this was a bitch to find out -.-
-					-- icon.cd:SetDrawEdge(false)
-					-- icon.cd:SetDrawSwipe(false)
-				-- end
 			else
 				icon.cd:Hide()
 			end
@@ -198,22 +168,12 @@ local function DefaultResetIcon(watch, icon, count, duration, remaining)
 				end			
 				
 				icon.groupsStarted = GetTime()
-				icon.extraTex:SetVertexColor(unpack(icon.extraTexColor))
-				
+				icon.extraTex:SetVertexColor(unpack(icon.extraTexColor))	
 		end
-		if watch.PostResetIcon then watch.PostResetIcon(watch, icon) end
 	end
 end
 
-local function ResetIcon(watch, icon, ...)
-	if watch.OverrideResetIcon then
-		watch.OverrideResetIcon(watch, icon, ...)
-	else
-		DefaultResetIcon(watch, icon, ...)
-	end
-end
-
-local function DefaultExpireIcon(watch, icon)
+local function ExpireIcon(watch, icon)
 	if not icon.onlyShowPresent then
 		if icon.cd then 
 			icon.cd:Hide() 
@@ -226,22 +186,14 @@ local function DefaultExpireIcon(watch, icon)
 			icon.overlay:Show()
 		end
 		icon:Show()
-		if watch.PostExpireIcon then watch.PostExpireIcon(watch, icon) end
-	end
-end
-
-local function ExpireIcon(watch, icon, ...)
-	if watch.OverrideExpireIcon then
-		watch.OverrideExpireIcon(watch, icon, ...)
-	else
-		DefaultExpireIcon(watch, icon, ...)
 	end
 end
 
 local Update
 do
-	local found = {}
+	
 	function Update(frame, event, unit)
+		local found = {}
 		if frame.unit ~= unit then return end
 		local watch = frame.NotAuraWatch
 		local index, icons = 1, watch.watched
@@ -249,12 +201,11 @@ do
 		local filter = "HELPFUL"
 		local guid = UnitGUID(unit)
 		if not GUIDs[guid] then SetupGUID(guid) end
-		--local swiftmendable = false
 		
 		for key, icon in pairs(icons) do
 			icon:Hide()
 		end
-		
+
 		while true do
 			name, texture, count, _, duration, remaining, caster, _, _, spellid = UnitAura(unit, index, filter)
 			if not name then 
@@ -264,11 +215,7 @@ do
 				else
 					break
 				end
-			else
-				--if name == rjname or name == rgname or name == germname then
-				--	swiftmendable = true
-				--end
-				
+			else		
 				key = spellid
 				icon = icons[key]
 				if icon and (icon.anyUnit or (caster and icon.fromUnits[caster])) then
@@ -279,20 +226,13 @@ do
 				index = index + 1
 			end
 		end
-		
-		--[[
-		if swiftmendable and icons[smkey] then
-			ResetIcon(watch,smicons[frame],1,3,3) -- values arbitrary, don't show cd frame for swiftmend!
-			GUIDs[guid][smkey] = true
-			found[smkey] = true
-		end
-		]]
-		
+
 		for key in pairs(GUIDs[guid]) do
 			if icons[key] and not found[key] then
 				ExpireIcon(watch, icons[key])
 			end
 		end
+
 		
 		wipe(found)
 	end
