@@ -330,12 +330,12 @@ local function Shared(self, unit)
 	-- textPoint,textJust configure the SetPoint and the SetJustifyH for the cooldown text inside the icon
 	
 	S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
-		{774, {"TOPLEFT",-1,1}, {0.4, 0.8, 0.2},false,nil,{{6,{1,1,0}},{3,{1,0,0}}},true,true}, -- Rejuvenation
-		{155777, {"TOPLEFT",7,1}, {0.4, 0.8, 0.2},false,nil,{{6,{1,1,0}},{3,{1,0,0}}},true,true}, -- Germination
+		{774, {"TOPLEFT",-1,1}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Rejuvenation
+		{155777, {"TOPLEFT",7,1}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Germination
 		--{33763, {"TOPLEFT",1,0}, {0.4, 0.8, 0.2,0},false,{{1,0,0},{1,1,0},{0.4,0.8,0.2}},nil,false,true,true,true,{"TOPLEFT",-1,2},"LEFT"}, -- Lifebloom
 		--{33763, {"TOP",0,0}, {0.4, 0.8, 0.2,0},false,nil,nil,true,true,true,true,{"CENTER",0,0},"CENTER"}, -- Lifebloom
 		{48438, {"TOPRIGHT",0,1}, {0, 1, 1},false,nil,nil,false}, -- Wild Growth
-		{8936, {"TOPLEFT",-1,-7}, {0.4, 0.8, 0.2},false,nil,{{6,{1,1,0}},{3,{1,0,0}}},true,true}, -- Regrowth
+		{8936, {"TOPLEFT",-1,-7}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {3.6,{1,1,0}} },true,true}, -- Regrowth
 		--{18562,{"TOPLEFT",-1,1},{1,1,1},true,nil,nil,true}, -- swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
 	}
 	
@@ -566,6 +566,7 @@ local function Shared(self, unit)
 				icon.count = count
 			end		
 			auras.icons[spell[1]] = icon
+			icon:Hide()
 		end
 		
 		--reju should overwrite sm	
