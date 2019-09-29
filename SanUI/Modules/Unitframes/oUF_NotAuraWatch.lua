@@ -156,19 +156,14 @@ local function ResetIcon(watch, icon, count, duration, remaining)
 		icon:SetAlpha(watch.presentAlpha)
 		icon:Show()
 		
-		if icon.timers and icon.extraTex and (not icon.groupsStarted or abs(icon.groupsStarted - remaining + duration) > 0.2) then
-			-- remaining - duration is the start time of the buff
-			-- abs() > 0.2 means the start time of the timers and the start time of the buff differ by at least 0.2
-			-- which is hopefully more than lag can contribute, so we assume the buff was refreshed
-				
-				for k = 1,#icon.timers do
-					icon.timerGroups[k]:Stop()
-					icon.timerGroups[k].animation:SetDuration(duration-icon.timers[k][1])
-					icon.timerGroups[k]:Play()
-				end			
-				
-				icon.groupsStarted = GetTime()
-				icon.extraTex:SetVertexColor(unpack(icon.extraTexColor))	
+		if icon.timers then
+			local buf_remaining = remaining - GetTime()
+			for k = 1,#icon.timers do
+				if buf_remaining < icon.timers[k][1] then
+					icon.extraTex:SetVertexColor(unpack(icon.timers[k][2]))
+					break
+				end
+			end
 		end
 	end
 end
@@ -191,9 +186,9 @@ end
 
 local Update
 do
-	
+	local found = {}
 	function Update(frame, event, unit)
-		local found = {}
+
 		if frame.unit ~= unit then return end
 		local watch = frame.NotAuraWatch
 		local index, icons = 1, watch.watched
@@ -209,14 +204,9 @@ do
 		while true do
 			name, texture, count, _, duration, remaining, caster, _, _, spellid = UnitAura(unit, index, filter)
 			if not name then 
-				if filter == "HELPFUL" then
-					filter = "HARMFUL"
-					index = 1
-				else
-					break
-				end
+				break
 			else		
-				key = spellid
+				key = name..texture
 				icon = icons[key]
 				if icon and (icon.anyUnit or (caster and icon.fromUnits[caster])) then
 					ResetIcon(watch, icon, count, duration, remaining)
@@ -232,10 +222,10 @@ do
 				ExpireIcon(watch, icons[key])
 			end
 		end
-
 		
 		wipe(found)
 	end
+	
 end
 
 local function SetupIcons(self)
@@ -251,7 +241,7 @@ local function SetupIcons(self)
 		if not name then error("oUF_NotAuraWatch error: no spell with "..tostring(icon.spellID).." spell ID exists") end
 		icon.name = name
 		
-		if icon.spellID == 18562 then smicons[self] = icon end
+		--if icon.spellID == 18562 then smicons[self] = icon end
 
 		if not watch.customIcons then
 			if not icon.cd and not (watch.hideCooldown or icon.hideCooldown) then
@@ -300,27 +290,17 @@ local function SetupIcons(self)
 			icon.anyUnit = watch.anyUnit
 		end
 		
-		if icon.timers and icon.extraTex then
-			icon.timerGroups = {}
-			for k = 1,#icon.timers do
-				icon.timerGroups[k] = icon:CreateAnimationGroup()
-			
-				icon.timerGroups[k].animation = icon.timerGroups[k]:CreateAnimation("Alpha")
-				icon.timerGroups[k].animation:SetToAlpha(1)
-				icon.timerGroups[k].animation:SetFromAlpha(1)
-				icon.timerGroups[k].animation:SetScript("OnFinished",function()
-							icon.extraTex:SetVertexColor(unpack(icon.timers[k][2]))
-						end)
-			end
-		end
-		
-		watch.watched[icon.spellID] = icon
+		watch.watched[name..image] = icon
+		icon:Hide()
 
 		if watch.PostCreateIcon then watch:PostCreateIcon(icon, icon.spellID, name, self) end
 	end
 end
 
 local function ForceUpdate(element)
+	local owner = element.__owner
+	local unit = owner.unit
+	if not UnitExists(unit) then return end
 	return Update(element.__owner, "ForceUpdate", element.__owner.unit)
 end
 
@@ -331,6 +311,7 @@ local function Enable(self)
 		
 		self:RegisterEvent("UNIT_AURA", Update)
 		SetupIcons(self)
+		self.NotAuraWatchTicker = C_Timer.NewTicker(0.2, function() ForceUpdate(self.NotAuraWatch) end)
 		return true
 	else
 		return false
@@ -342,6 +323,9 @@ local function Disable(self)
 		self:UnregisterEvent("UNIT_AURA", Update)
 		for _,icon in pairs(self.NotAuraWatch.icons) do
 			icon:Hide()
+		end
+		if self.NotAuraWatchTicker then
+			self.NotAuraWatchTicker:Cancel()
 		end
 	end
 end
