@@ -240,8 +240,6 @@ local function SetupIcons(self)
 		local name, _, image = GetSpellInfo(icon.spellID)
 		if not name then error("oUF_NotAuraWatch error: no spell with "..tostring(icon.spellID).." spell ID exists") end
 		icon.name = name
-		
-		--if icon.spellID == 18562 then smicons[self] = icon end
 
 		if not watch.customIcons then
 			if not icon.cd and not (watch.hideCooldown or icon.hideCooldown) then
