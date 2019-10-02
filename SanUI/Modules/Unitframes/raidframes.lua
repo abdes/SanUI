@@ -55,21 +55,18 @@ end
 
 oUF.Tags.Events["enhdead"] = "UNIT_HEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 oUF.Tags.Methods["enhdead"] = function(u)
-
 	if(UnitIsDead(u)) then
 		return 'Dead'
 	elseif(UnitIsGhost(u)) then
 		return 'Ghost'
 	elseif(not UnitIsConnected(u)) then
 		return 'Off'
-	end
-		
+	end		
 end
 
 --need to override this function because we don't have self.Health.value for 
 --raid units anymore
 S.PostUpdateHealthRaid = function(health, unit, min, max)
-
 	-- doing this here to force friendly unit (vehicle or pet) very far away from you to update color correcly
 	-- because if vehicle or pet is too far away, unitreaction return nil and color of health bar is white.
 	if not UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and C["UnitFrames"].unicolor ~= true then
@@ -103,7 +100,6 @@ oUF.Tags.Methods['nameshort'] = function(unit)
 	local name = UnitName(unit)
 	
 	if not name then
-		print("No name found in Tag nameshort for unit "..unit.."!")
 		return ""
 	end
 	
@@ -111,7 +107,6 @@ oUF.Tags.Methods['nameshort'] = function(unit)
 end
 
 local updateThreat = function(self, event, unit)
-
 	if (self.unit ~= unit) then return end
 	
 	local threat = UnitThreatSituation(unit)
@@ -150,19 +145,14 @@ local function Shared(self, unit)
 	health:SetStatusBarTexture(normTex)
 	health:SetFrameLevel(8)
 	health:SetStatusBarColor(.3, .3, .3, 1)
+	health:SetOrientation("VERTICAL")
 	self.Health = health
-	
-	--if C["UnitFrames"].gridhealthvertical == true then
-		health:SetOrientation("VERTICAL")
-	--end
-	
+
 	health.bg = health:CreateTexture(nil, "BORDER")
 	health.bg:SetAllPoints()
 	health.bg:SetTexture(normTex)
 	health.bg:SetColorTexture(0.3, 0.3, 0.3)
 	health.bg:SetVertexColor(0,0,0,1)
-	
-	--health.PostUpdate = S.PostUpdateHealthRaid
 	
 	health.frequentUpdates = true
 	health.colorDisconnected = false
@@ -173,6 +163,7 @@ local function Shared(self, unit)
 	health.colorReaction = false
 	health.colorSmooth = false
 	health.colorHealth = false
+	health.Smooth = true
 
 	local name = self.Health:CreateFontString(nil, "OVERLAY")
 	name:SetPoint("CENTER",self.Health,"CENTER")
@@ -238,11 +229,7 @@ local function Shared(self, unit)
 			object:SetAlpha(self.outsideAlpha)
 		end
 	end
-	
 	self.Range = range
-	
-
-	health.Smooth = true
 	
 	local gw = self.Health:GetWidth()
 	local gh = self.Health:GetHeight()
@@ -285,8 +272,7 @@ local function Shared(self, unit)
 	auras.presentAlpha = 1
 	auras.missingAlpha = 0
 	auras.icons = {}
-	auras.PostCreateIcon = function(self, icon)
-		
+	auras.PostCreateIcon = function(self, icon)		
 		if icon.icon and not icon.hideIcon then
 			icon:SetTemplate("Default")
 			icon.icon:Point("TOPLEFT", 1, -1)
@@ -327,52 +313,27 @@ local function Shared(self, unit)
 	S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
 		{774, {"TOPLEFT",-1,1}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Rejuvenation
 		{155777, {"TOPLEFT",7,1}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Germination
-		--{33763, {"TOPLEFT",1,0}, {0.4, 0.8, 0.2,0},false,{{1,0,0},{1,1,0},{0.4,0.8,0.2}},nil,false,true,true,true,{"TOPLEFT",-1,2},"LEFT"}, -- Lifebloom
-		--{33763, {"TOP",0,0}, {0.4, 0.8, 0.2,0},false,nil,nil,true,true,true,true,{"CENTER",0,0},"CENTER"}, -- Lifebloom
 		{48438, {"TOPRIGHT",0,1}, {0, 1, 1},false,nil,nil,false}, -- Wild Growth
 		{8936, {"TOPLEFT",-1,-7}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {3.6,{1,1,0}} },true,true}, -- Regrowth
-		--{18562,{"TOPLEFT",-1,1},{1,1,1},true,nil,nil,true}, -- swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
 	}
 	
-	--[[
-	S["UnitFrames"].RaidBuffsTracking["PRIEST"] = {
-		{41635, "BOTTOMRIGHT", {0.2, 0.7, 0.2}},     -- Prayer of Mending
-		{139, "BOTTOMLEFT", {0.4, 0.7, 0.2}},        -- Renew
-		{17, "TOPLEFT", {1, 1, 1}, false, nil, nil, false},        -- Power Word: Shield
-		{194384, "TOPLEFT", {0.4, 0.8, 0.2}, false, nil, {{6,{1,1,0}},{3,{1,0,0}}}, true},     -- Atonement
-	}
-	
-	S["UnitFrames"].RaidBuffsTracking["PALADIN"] = {
-			{53563, "TOPLEFT", {0.7, 0.3, 0.7}},	 -- Beacon of Light
-			{156910, "TOPLEFT", {0.7, 0.3, 0.7}},	 -- Beacon of Faith
-			--{1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true},	-- Hand of Freedom
-			--{1038, "BOTTOMRIGHT", {0.93, 0.75, 0}, true},	-- Hand of Salvation
-			--{114163, "TOP", {0.4, 0.8, 0.2},false,nil,{{6,{1,1,0}},{3,{1,0,0}}},true}, -- Eternal flame
-			{25771, "TOP", {0.6, 0.4, 0.2}, true, nil, nil, true}
-		}
-		]]
 	
 	S["UnitFrames"].RaidBuffsTracking["ALL"] = {
 	--Death Knight
 		{48707, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Anti-Magic Shell
 		{81256, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Dancing Rune Weapon
 		{55233, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Vampiric Blood
-		--{193320, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Umbilicus Eternus
 		{219809, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Tombstone
 		{48792, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Icebound Fortitude
 		{207319, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Corpse Shield
 		{194844, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- BoneStorm
 		{145629, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Anti-Magic Zone
-		--{194679, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Rune Tap
 	--Demon Hunter
 		{207811, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (DH)
 		{207810, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (Target)
 		{187827, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Metamorphosis
-		--{227225, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Soul Barrier
-		--{209426, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Darkness
 		{196555, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Netherwalk
 		{212800, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blur
-		--{188499, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blade Dance
 		{203819, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Demon Spikes
 	-- Druid
 		{102342, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ironbark
@@ -380,53 +341,36 @@ local function Shared(self, unit)
 		{210655, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protection of Ashamane
 		{22812, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Barkskin
 		{234081, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Celestial Guardian
-		--{202043, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack (it's this one or the other)
-		--{201940, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack
-		--{201939, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protector of the Pack (Allies)
 	--Hunter
 		{186265, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Aspect of the Turtle
-		--{53480, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Roar of Sacrifice
-		--{202748, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Survival Tactics
 	--Mage
 		{45438, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ice Block
 		{113862, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Greater Invisibility
 		{198111, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Temporal Shield
-		--{198065, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Prismatic Cloak
-		--{11426, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ice Barrier
 	--Monk
 		{122783, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Diffuse Magic
 		{122278, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dampen Harm
 		{125174, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Touch of Karma
 		{201318, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Fortifying Elixir
-		--{201325, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Zen Moment
 		{202248, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guided Meditation
 		{120954, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Fortifying Brew
 		{116849, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Life Cocoon
-		--{202162, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guard
-		--{215479, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ironskin Brew
 	--Paladin
 		{642, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Divine Shield
 		{498, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Divine Protection
 		{205191, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Eye for an Eye
-		--{184662, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield of Vengeance
 		{1022, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Blessing of Protection
 		{6940, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Blessing of Sacrifice
 		{204018, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blessing of Spellwarding
 		{199507, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spreading The Word: Protection
-		--{216857, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guarded by the Light
 		{228049, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of the Forgotten Queen
 		{31850, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ardent Defender
 		{86659, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Guardian of Ancien Kings
 		{212641, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of Ancien Kings (Glyph of the Queen)
-		--{209388, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Bulwark of Order
 		{204335, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Aegis of Light
-		--{152262, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Seraphim
-		--{132403, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield of the Righteous
 	--Priest
 		{81782, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Power Word: Barrier
 		{47585, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Dispersion
-		--{19236, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Desperate Prayer
-		--{213602, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Greater Fade
 		{27827, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spirit of Redemption
 		{197268, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ray of Hope
 		{47788, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Guardian Spirit
@@ -434,41 +378,17 @@ local function Shared(self, unit)
 	--Rogue
 		{5277, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Evasion
 		{31224, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Cloak of Shadows
-		--{1966, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Feint
 		{199754, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Riposte
-		--{45182, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Cheating Death
-		--{199027, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Veil of Midnight
 	--Shaman
-		--{204293, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spirit Link
-		--{204288, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Earth Shield
 		{210918, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ethereal Form
-		--{207654, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Servant of the Queen
 		{108271, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Astral Shift
-		--{98007, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spirit Link Totem
-		--{207498, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ancestral Protection
 	--Warlock
 		{108416, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dark Pact
 		{104773, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Unending Resolve
-		--{221715, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Essence Drain
-		--{212295, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Ward
 	--Warrior
 		{118038, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Die by the Sword
 		{184364, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Enraged Regeneration
-		--{209484, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Tactical Advance
-		--{97463, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Commanding Shout
-		--{213915, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Mass Spell Reflection
-		--{199038, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Leave No Man Behind
-		--{223658, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Safeguard
-		--{147833, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Intervene
-		--{198760, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Intercept
-		--{12975, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Last Stand
 		{871, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Shield Wall
-		--{23920, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spell Reflection
-		--{216890, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spell Reflection (PvPT)
-		--{227744, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ravager
-		--{203524, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Neltharion's Fury
-		--{190456, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ignore Pain
-		--{132404, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Shield Block
 	--Racial
 		{20594 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Stoneform
 
@@ -504,24 +424,15 @@ local function Shared(self, unit)
 			
 			icon.spellID = spell[1]
 			icon.anyUnit = spell[4]
-			
 			icon.stackColors = spell[5]
 			icon.timers = spell[6]
 			icon.hideCooldown = spell[7]
 			icon.hideCount = spell[8]
-			icon.onlyShowPresent = true -- could be defined on a per-icon-basis, but not neccessary just yet
-			
+			icon.onlyShowPresent = true -- could be defined on a per-icon-basis, but not neccessary just yet		
 			icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
 			
 			icon:Width(6)
 			icon:Height(6)
-			
-			if icon.hideIcon then
-				icon:Width(6)
-				icon:Height(6)
-			end
-
-			local myspell = nil
 		
 			for _,myspell in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do
 				if icon.spellID == myspell[1] then
@@ -560,15 +471,10 @@ local function Shared(self, unit)
 				end
 				icon.count = count
 			end		
-			--auras.icons[spell[1]] = icon
+			
 			tinsert(auras.icons, icon)
 			icon:Hide()
 		end
-		
-		--reju should overwrite sm	
-		--if auras.icons[774] and auras.icons[18562] then
-		--	auras.icons[774]:SetFrameLevel(auras.icons[18562]:GetFrameLevel()+1)
-		--end
 		
 		--power word shield should overwrite atonement
 		if auras.icons[194384] and auras.icons[17] then
@@ -586,36 +492,6 @@ local function Shared(self, unit)
 	ShadowTouched:Point("TOPRIGHT", 2, 2)
 	
 	self.ShadowTouched = ShadowTouched
-		
-		
-	--[[ depending on S.swiftmend_shown we may sometimes need to reload the
-	-- mode
-	S. swiftmend_shown = false
-	if auras.icons[18562] then
-		S.swiftmend_shown = true
-	end
-
-	S.reload_checks["swiftmend"] = function(event)
-		if event ~= "ACTIVE_TALENT_GROUP_CHANGED" and event ~= "PLAYER_TALENT_UPDATE" then
-			return false
-		elseif S.MyClass ~= "DRUID" then
-			return false
-		end
-
-		local _,_,_,hasRg,_ = GetTalentInfo(7,3,GetActiveSpecGroup())
-		local isResto = (GetSpecialization() == 4)
-
-		local need_swiftmend = isResto and not hasRg
-
-		if S.swiftmend_shown and not need_swiftmend then
-			return true
-		elseif not S.swiftmend_shown and need_swiftmend then
-			return true
-		end
-
-		return false
-	end
-	--]]
 	
 	--Text Auras
 	S["UnitFrames"].TextAuras = {}
@@ -902,7 +778,6 @@ local function Shared(self, unit)
 		[267821] = Defaults(), -- Defense Grid
 
 		-- Vectis
-		--[265127] = Defaults(), -- Lingering Infection
 		[265178] = Defaults(), -- Mutagenic Pathogen
 		[265206] = Defaults(), -- Immunosuppression
 		[265212] = Defaults(), -- Gestate
@@ -952,44 +827,32 @@ local function Shared(self, unit)
 		--[267409] = Defaults(), -- Dark Bargain
 		--[267430] = Defaults(), -- Torment
 		--[263235] = Defaults(), -- Blood Feast
-		--[270287] = Defaults(), -- Blighted Ground
-		
+		--[270287] = Defaults(), -- Blighted Ground	
 		
 		-- Siege of Zuldazar
 		-- Ra'wani Kanae/Frida Ironbellows
 		[283573] = Defaults(), -- Sacred Blade
 		[283617] = Defaults(), -- Wave of Light
-		--[283651] = Defaults(), -- Blinding Faith
-		--[284595] = Defaults(), -- Penance
-		--[283582] = Defaults(), -- Consecration
 
 		-- Grong
-		--[285998] = Defaults(), -- Ferocious Roar
 		[283069] = Defaults(), -- Megatomic Fire
 		[286373] = Defaults(), -- Chill of Death
-		--[285671] = Defaults(), -- Crushed
 		[285875] = Defaults(), -- Rending Bite
-		--[282010] = Defaults(), -- Shaken
 		[286431] = Defaults(), -- Necrotic Core
 		[286433] = Defaults(), -- Necrotic Core
 		[286434] = Defaults(), -- Necrotic Core
 
 		-- Jaina
 		[285253] = Defaults(), -- Ice Shard
-		--[287993] = Defaults(), -- Chilling Touch
-		--[287365] = Defaults(), -- Searing Pitch
 		[288038] = Defaults(), -- Marked Target
-		--[285254] = Defaults(), -- Avalanche
 		[287626] = Defaults(), -- Grasp of Frost
 		[287490] = Defaults(), -- Frozen Solid
 		[287199] = Defaults(), -- Ring of Ice
 		[288392] = Defaults(), -- Vengeful Seas
 
 		-- Stormwall Blockade
-		--[284369] = Defaults(), -- Sea Storm
 		[284410] = Defaults(), -- Tempting Song
 		[284405] = Defaults(), -- Tempting Song
-		--[284121] = Defaults(), -- Thunderous Boom
 		[286680] = Defaults(), -- Roiling Tides
 		[285000] = Defaults(), -- Kelp-Wrapped
 		[285350] = Defaults(), --Storm's Wail
@@ -997,62 +860,42 @@ local function Shared(self, unit)
 
 		-- Opulence
 		[286501] = Defaults(2), -- Creeping Blaze
-		--[283610] = Defaults(), -- Crush
 		[289383] = Defaults(2), -- Chaotic Displacement
-		--[285479] = Defaults(), -- Flame Jet
 		[283063] = Defaults(2), -- Flames of Punishment
 		[283507] = Defaults(2), -- Volatile Charge
-		--[284556] = Defaults(), --Shadow-Touched
-		--[284519] = Defaults(), --Quickened Pulse
 		[287072] = Defaults(5), -- Liquid Gold
 		[284470] = Defaults(5), -- Hex of Lethargy
 
 		-- King Rastakhan
-		--[284995] = Defaults(), -- Zombie Dust
-		--[285349] = Defaults(), -- Plague of Fire
 		[285044] = Defaults(), -- Toad Toxin
 		[284831] = Defaults(), -- Scorching Detonation
 		[289858] = Defaults(), -- Crushed
-		--[284662] = Defaults(), -- Seal of Purification
-		--[284676] = Defaults(), -- Seal of Purification
-		--[285178] = Defaults(), -- Serpent's Breath
-		--[285010] = Defaults(), -- Poison Toad Slime
 		[284781] = Defaults(), --Grievous Axe
 		[286779] = Defaults(), -- Focused Demise
 		[288415] = Defaults(), -- Caress of Death
 
 		-- Jadefire Masters
 		[282037] = Defaults(), -- Rising Flames
-		--[284374] = Defaults(), -- Magma Trap
 		[285632] = Defaults(), -- Stalking
 		[288151] = Defaults(), -- Tested
-		--[284089] = Defaults(), -- Successful Defense
 		[286988] = Defaults(), -- Searing Embers
 
 		-- Mekkatorque
 		[288806] = Defaults(), -- Gigavolt Blast
 		[283411] = Defaults(), -- Gigavolt Blast
-		--[289023] = Defaults(), -- Enormous
 		[286646] = Defaults(), -- Gigavolt Charge
-		--[288939] = Defaults(), -- Gigavolt Radiation
-		--[284168] = Defaults(), -- Shrunk
 		[286516] = Defaults(), -- Anti-Tampering Shock
 		[286480] = Defaults(), -- Anti-Tampering Shock
-		--[284214] = Defaults(), -- Trample
 		[287167] = Defaults(), -- Discombulation
 
 		-- Conclave of the Chosen
 		[284663] = Defaults(), -- Bwonsamdi's Wrath
-		--[282444] = Defaults(), -- Lacerating Claws
-		--[282592] = Defaults(), -- Bleeding Wounds
 		[282209] = Defaults(), -- Mark of Prey
 		[285879] = Defaults(), -- Mind Wipe
 		[282135] = Defaults(), -- Crawling Hex
-		--[286060] = Defaults(), -- Cry of the Fallen
 		[282447] = Defaults(), -- Kimbul's Wrath
 		[282834] = Defaults(), -- Kimbul's Wrath
 		[286811] = Defaults(), -- Akunda's Wrath
-		--[286838] = Defaults(), -- Static Orb
 		
 		
 		-- Crucible of Storms
@@ -1083,8 +926,6 @@ local function Shared(self, unit)
 		[297397] = Defaults(2), -- Briny Bubble
 
 		--Abyssal Commander Sivara
-		--[294715] = Defaults(), -- Toxic Brand
-		--[294711] = Defaults(), -- Frost Mark
 		[300701] = Defaults(), -- Rimefrost
 		[300705] = Defaults(), -- Septic Taint
 		[294847] = Defaults(), -- Unstable Mixture
