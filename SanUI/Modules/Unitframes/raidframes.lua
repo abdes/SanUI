@@ -53,7 +53,7 @@ local utf8sub = function(string, i, dots)
 	end
 end
 
-oUF.Tags.Events["enhdead"] = "UNIT_HEALTH UNIT_CONNECTION"
+oUF.Tags.Events["enhdead"] = "UNIT_HEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 oUF.Tags.Methods["enhdead"] = function(u)
 
 	if(UnitIsDead(u)) then
@@ -225,17 +225,12 @@ local function Shared(self, unit)
 	ReadyCheck:Width(12)
 	ReadyCheck:SetPoint("CENTER",self.Health,"TOP") 	
 	self.ReadyCheckIndicator = ReadyCheck
-	
-	local Resurrect = CreateFrame("Frame", nil, self.Health)
-	Resurrect:SetFrameLevel(self.Health:GetFrameLevel() + 1)
-	Resurrect:Size(15)
-	Resurrect:SetPoint("BOTTOMLEFT")
-	self.ResurrectIndicator = Resurrect
 
-	local ResurrectIcon = Resurrect:CreateTexture(nil, "OVERLAY")
-	ResurrectIcon:SetAllPoints()
+	local ResurrectIcon = self.Health:CreateTexture(nil, "OVERLAY")
+	ResurrectIcon:Size(16)
+	ResurrectIcon:SetPoint("CENTER")
 	ResurrectIcon:SetDrawLayer("OVERLAY", 7)
-	self.ResurrectIcon = ResurrectIcon
+	self.ResurrectIndicator = ResurrectIcon
 	
 	local range = {insideAlpha = 1, outsideAlpha = C["Raid"].RangeAlpha}
 	range.PostUpdate = function(self, object, inRange, checkedRange, connected)
