@@ -157,13 +157,15 @@ local function ResetIcon(watch, icon, count, duration, remaining)
 		icon:Show()
 		
 		if icon.timers then
+			local color = icon.extraTexColor
 			local buf_remaining = remaining - GetTime()
 			for k = 1,#icon.timers do
 				if buf_remaining < icon.timers[k][1] then
-					icon.extraTex:SetVertexColor(unpack(icon.timers[k][2]))
+					color = icon.timers[k][2]
 					break
 				end
 			end
+			icon.extraTex:SetVertexColor(unpack(color))
 		end
 	end
 end
@@ -197,7 +199,7 @@ do
 		local guid = UnitGUID(unit)
 		if not GUIDs[guid] then SetupGUID(guid) end
 		
-		for _, icon in ipairs(icons) do
+		for _, icon in pairs(icons) do
 			icon:Hide()
 		end
 
@@ -206,7 +208,7 @@ do
 			if not name then 
 				break
 			else		
-				key = name..texture
+				key = spellid
 				icon = icons[key]
 				if icon and (icon.anyUnit or (caster and icon.fromUnits[caster])) then
 					ResetIcon(watch, icon, count, duration, remaining)
@@ -288,7 +290,7 @@ local function SetupIcons(self)
 			icon.anyUnit = watch.anyUnit
 		end
 		
-		watch.watched[name..image] = icon
+		watch.watched[icon.spellID] = icon
 		icon:Hide()
 
 		if watch.PostCreateIcon then watch:PostCreateIcon(icon, icon.spellID, name, self) end
