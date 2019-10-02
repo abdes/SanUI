@@ -197,7 +197,7 @@ do
 		local guid = UnitGUID(unit)
 		if not GUIDs[guid] then SetupGUID(guid) end
 		
-		for key, icon in pairs(icons) do
+		for _, icon in ipairs(icons) do
 			icon:Hide()
 		end
 
@@ -235,7 +235,7 @@ local function SetupIcons(self)
 	if not watch.missingAlpha then watch.missingAlpha = 0.75 end
 	if not watch.presentAlpha then watch.presentAlpha = 1 end
 
-	for _,icon in pairs(icons) do
+	for _,icon in ipairs(icons) do
 	
 		local name, _, image = GetSpellInfo(icon.spellID)
 		if not name then error("oUF_NotAuraWatch error: no spell with "..tostring(icon.spellID).." spell ID exists") end
@@ -309,7 +309,7 @@ local function Enable(self)
 		
 		self:RegisterEvent("UNIT_AURA", Update)
 		SetupIcons(self)
-		self.NotAuraWatchTicker = C_Timer.NewTicker(0.2, function() ForceUpdate(self.NotAuraWatch) end)
+		self.NotAuraWatchTicker = C_Timer.NewTicker(1, function() ForceUpdate(self.NotAuraWatch) end)
 		return true
 	else
 		return false

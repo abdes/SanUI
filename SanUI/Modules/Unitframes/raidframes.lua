@@ -565,7 +565,8 @@ local function Shared(self, unit)
 				end
 				icon.count = count
 			end		
-			auras.icons[spell[1]] = icon
+			--auras.icons[spell[1]] = icon
+			tinsert(auras.icons, icon)
 			icon:Hide()
 		end
 		
