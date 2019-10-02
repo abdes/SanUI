@@ -339,6 +339,7 @@ local function CreateUnitFrame(self, unit)
 			icon.extraTex = tex
 			icon.extraTexColor = spell[3]	
 			auras.icons[spell[1]] = icon
+			icon:Hide()
 		end
 		
 	end
