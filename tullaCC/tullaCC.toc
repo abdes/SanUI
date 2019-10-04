@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Title: tullaCC
 ## Notes: Adds text to cooldowns
 ## Author: Tuller

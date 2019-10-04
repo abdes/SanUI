@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Title: SimpleAuraFilter
 ## Notes: Filters unimportant Buffs.
 ## Author: Vaeyl of Nozdormu, Shimmer of EU-Mal'Ganis
