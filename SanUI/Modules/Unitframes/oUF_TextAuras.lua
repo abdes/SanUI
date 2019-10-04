@@ -83,8 +83,7 @@ local Config = {
 	daysFormatUncolored = '%dd' 
 }
 
-Config.expiringDuration = tullaCC.Config.expiringDuration
-
+local expiringDuration
 --local oUF = ns.oUF or _G.oUF
 local oUF = TukuiUnitFrameFramework
 assert(oUF, "oUF_NotAuraWatch cannot find an instance of oUF. If your oUF is embedded into a layout, it may not be embedded properly.")
@@ -109,10 +108,10 @@ local function getTimeTextUncolored(s)
 	--format text as seconds when at 90 seconds or below
 	if s < MINUTEISH then	
 		local seconds = s
-		local formatString = seconds >= Config.expiringDuration and Config.secondsFormatUncolored or Config.expiringFormatUncolored
+		local formatString = seconds >= expiringDuration and Config.secondsFormatUncolored or Config.expiringFormatUncolored
 		seconds = round(s)
-		local nextUpdate = (seconds > Config.expiringDuration and s - (seconds - 0.51)) or 0.01
-		seconds = (seconds > Config.expiringDuration and seconds) or ((round(s*10))/10)
+		local nextUpdate = (seconds > expiringDuration and s - (seconds - 0.51)) or 0.01
+		seconds = (seconds > expiringDuration and seconds) or ((round(s*10))/10)
 		return formatString, seconds, nextUpdate
 	--format text as minutes when below an hour
 	elseif s < HOURISH then
@@ -273,6 +272,12 @@ end
 local function ForceUpdate(element)
 	return Update(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:SetScript("OnEvent", function()
+	expiringDuration = tullaCCDB.expiringDuration
+end)
 
 local function Enable(self)
 	if self.TextAuras then
