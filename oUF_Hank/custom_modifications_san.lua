@@ -15,6 +15,7 @@ local font2 = TukuiCF["Medias"].UnitFrameFont
 local Normal = TukuiCF["Medias"].Blank
 local glowTex = TukuiCF["Medias"].Glow
 local bubbleTex = TukuiCF["Medias"].Bubble
+local playerClass = select(2, UnitClass("player"))
 
 local backdrop = {
 	bgFile = TukuiCF["Medias"].Blank,
@@ -49,6 +50,7 @@ oUF_Hank.digitTexCoords = {
 	["texWidth"] = 512,
 	["texHeight"] = 128
 }
+
 local function valShort(value)
 	if(value >= 1e6) then
 		return ("%.2f"):format(value / 1e6):gsub("%.?0+$", "") .. "m"
@@ -242,8 +244,9 @@ sharedStyle = function(self, unit, isSingle)
 			
 		castbar.place = function(args)
 			if (unit == "player" or unit:find("boss")) then
-				if self.ClassIcons then
-					castbar:SetPoint("TOPRIGHT", self.ClassIcons[1]:GetParent(), "BOTTOMRIGHT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
+				if self.ClassPower then
+					local nr_ClassPower = #oUF_player.ClassPower
+					castbar:SetPoint("TOPRIGHT", self.ClassPower[nr_ClassPower]:GetParent(), "BOTTOMRIGHT", 0, TukuiDB.Scale(-2))
 				else
 					castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-20))
 				end

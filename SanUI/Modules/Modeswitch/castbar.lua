@@ -27,11 +27,11 @@ S.switchCastbar = function(profile)
 			cb.button:SetPoint("RIGHT",cb,"LEFT",-3,0)
 			-- GCD
 			oUF_player.GCD:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", S.Scale(2), S.Scale(-2))
-		elseif profile == "Pally" then
-			cb:ClearAllPoints()
-			cb.button:ClearAllPoints()
-			cb:SetPoint("TOPRIGHT", oUF_player, "BOTTOMRIGHT", -S.Scale(4), S.Scale(-25))
-			cb.button:SetPoint("TOPRIGHT",cb.bg,"TOPLEFT",-S.Scale(2),0)
+		-- elseif profile == "Pally" then
+			-- cb:ClearAllPoints()
+			-- cb.button:ClearAllPoints()
+			-- cb:SetPoint("TOPRIGHT", oUF_player, "BOTTOMRIGHT", -S.Scale(4), S.Scale(-25))
+			-- cb.button:SetPoint("TOPRIGHT",cb.bg,"TOPLEFT",-S.Scale(2),0)
 		elseif profile == "DK" then
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()
@@ -41,9 +41,9 @@ S.switchCastbar = function(profile)
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()
 			cb:Width(150)
-			if oUF_player.ClassIcons then
-				local nr_classicons = #oUF_player.ClassIcons
-				cb:Point("TOPRIGHT", oUF_player.ClassIcons[nr_classicons]:GetParent(), "BOTTOMRIGHT", 2, -2)
+			if oUF_player.ClassPower then
+				local nr_classicons = #oUF_player.ClassPower
+				cb:Point("TOPRIGHT", oUF_player.ClassPower[nr_classicons]:GetParent(), "BOTTOMRIGHT", 0, -2)
 			else
 				cb:Point("TOPLEFT", oUF_player, "BOTTOMLEFT", 2, disp_y)
 			end
