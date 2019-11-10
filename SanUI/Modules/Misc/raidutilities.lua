@@ -14,7 +14,7 @@ Text:SetFont(C.Medias.Font, 10)
 Text:SetText("r")
 Text:SetJustifyH("CENTER")
 Text:SetJustifyV("MIDDLE")
-Text:Point("CENTER",button,1,-1)
+Text:Point("CENTER",button,0,0)
 Text:Show()
 button.text = Text
 
