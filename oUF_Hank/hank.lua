@@ -1162,7 +1162,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 
 			if i == 1 then
 				bg[i]:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", data.offset or -78, 0)
-				bg.hank_placement = { "TOPRIGHT", self, "BOTTOMRIGHT", data.offset or -78, 0 }
+				bg[i].hank_placement = { "TOPRIGHT", self, "BOTTOMRIGHT", data.offset or -78, 0 }
 			else
 				bg[i]:SetPoint(
 					data.inverse and "RIGHT" or "LEFT",
@@ -1171,7 +1171,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 					data.spacing or 0,
 					0
 				)
-				bg.hank_placement = {
+				bg[i].hank_placement = {
 					data.inverse and "RIGHT" or "LEFT",
 					bg[i - 1],
 					data.inverse and "LEFT" or "RIGHT",
