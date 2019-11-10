@@ -50,9 +50,9 @@ S["profiles"] = {
 	modes = {"Simplex"},
 	AddonMenu = {Grid=1,Altoholic=2,DXE=3}
  },
- ["Nelahu"] = {
- 	modes = {"NelaHeal","NelaTank","NelaRet"},
-	AddonMenu = {DBM=1, Altoholic=2, WorldFrame=3},
+ ["Amber"] = {
+ 	modes = {"PHoly","PProt","PRet"},
+	AddonMenu = {DBM=1, Altoholic=2, Hack=3},
  },
  ["DEFAULT"] = {
  	modes = {"Heal","Tank", "Damage" },
@@ -166,6 +166,41 @@ S["Modes"] = {
 		["coolline"] = "SanHeal",
 		["ActionButtons"] = "SanHeal",
 		["DBM"] = "JhessShadow", 
+	},
+	["PHoly"] = {
+		["raidframes"] = "SanHeal",
+		["SimpleAuraFilter"] = "SanHeal",
+		["castbar"] = "SanHeal",
+		["powerbar"] = "Hidden",
+		["Filger"] = "SanHeal",
+		["gcd"] = "SanHeal",
+		["bossbars"] = "SanHeal",
+		["coolline"] = "SanHeal",
+		["ActionButtons"] = "SanHeal",
+		["DBM"] = "SanHeal",
+	},
+	["PProt"] = {
+		["raidframes"] = "SanChicken",
+		["SimpleAuraFilter"] = "SanBear",
+		["castbar"] = "SanBear",
+		["powerbar"] = "SahneUnholy",
+		["gcd"] = "SanBear",
+		["bossbars"] = "SanChicken",
+		["coolline"] = "SanBear",
+		["ActionButtons"] = "SanBear",
+		["DBM"] = "SanBear", 
+	},
+	["PRet"] = {
+		["raidframes"] = "SanChicken",
+		["SimpleAuraFilter"] = "SanBear",
+		["castbar"] = "PRet",
+		["powerbar"] = "SahneUnholy",
+		["gcd"] = "SanBear",
+		["classpower"] = "PRet",
+		["bossbars"] = "SanChicken",
+		["coolline"] = "SanBear",
+		["ActionButtons"] = "PRet",
+		["DBM"] = "SanBear", 
 	},
 }
 
