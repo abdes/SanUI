@@ -46,8 +46,14 @@ S.switch2Mode = function(mode)
 	else
 		print("Either you didn't set the gcd profile for mode "..mode.." or oUF_GCD/oUF_Hank is not loaded. Either way, cannot load GCD profile!")
 	end
-	
-	
+
+	-- Need to call this even if no profile is set
+	--if S["Modes"][mode]["classpower"] and IsAddOnLoaded("oUF_Hank") then
+	if IsAddOnLoaded("oUF_Hank") then
+		S.switchClassPower(S["Modes"][mode]["classpower"])
+	else
+		print("OUF_Hank is not loaded. Cannot load ClassPower profile!")
+	end
 	if S["Modes"][mode]["bossbars"] then
 		S.switchBossBars(S["Modes"][mode]["bossbars"])
 	else

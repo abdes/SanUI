@@ -43,7 +43,21 @@ S.switchActionButtons = function(profile)
 				button:SetPoint("LEFT", previous, "RIGHT", C["ActionBars"].ButtonSpacing, 0)
 			end
 		end
-
+	elseif profile == "PRet" then
+		for i = 1, 12 do
+			button = _G["ActionButton"..i]
+			button:ClearAllPoints()
+			if i == 1 then
+				button:Point("CENTER",UIParent,-89,-185)
+			elseif i == 7 then
+				button:Point("TOPLEFT",ActionButton2,"BOTTOMLEFT",0, -C["ActionBars"].ButtonSpacing)
+			elseif i == 9 then
+				button:Point("BOTTOMLEFT", 9*C["ActionBars"].NormalButtonSize + 3*C["ActionBars"].ButtonSpacing, C["ActionBars"].ButtonSpacing)	
+			else
+				local previous = _G["ActionButton"..i-1]
+				button:SetPoint("LEFT", previous, "RIGHT", C["ActionBars"].ButtonSpacing, 0)
+			end
+		end
 	else
 		for i = 1, 12 do
 			button = _G["ActionButton"..i]

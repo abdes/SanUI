@@ -27,16 +27,18 @@ S.switchCastbar = function(profile)
 			cb.button:SetPoint("RIGHT",cb,"LEFT",-3,0)
 			-- GCD
 			oUF_player.GCD:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", S.Scale(2), S.Scale(-2))
-		-- elseif profile == "Pally" then
-			-- cb:ClearAllPoints()
-			-- cb.button:ClearAllPoints()
-			-- cb:SetPoint("TOPRIGHT", oUF_player, "BOTTOMRIGHT", -S.Scale(4), S.Scale(-25))
-			-- cb.button:SetPoint("TOPRIGHT",cb.bg,"TOPLEFT",-S.Scale(2),0)
 		elseif profile == "DK" then
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()
 			cb:Point("TOPLEFT", oUF_player, "BOTTOMLEFT", 20, -20)
 			cb.button:Point("RIGHT",cb,"LEFT",-4,0)
+		elseif profile == "PRet" then
+			cb:ClearAllPoints()
+			cb.button:ClearAllPoints()
+			cb:Width(150)
+			cb:Point("TOPLEFT", oUF_player, "BOTTOMLEFT", 2, disp_y)
+			cb.button:Point("TOPRIGHT",cb.bg,"TOPLEFT",-2,0)
+			cb.button:Size(28)
 		else
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()

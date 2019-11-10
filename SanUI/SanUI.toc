@@ -31,6 +31,7 @@ Modules\Modeswitch\castbar.lua
 Modules\Modeswitch\coolline.lua
 Modules\Modeswitch\filger.lua
 Modules\Modeswitch\gcd.lua
+Modules\Modeswitch\classpower.lua
 Modules\Modeswitch\powerbar.lua
 Modules\Modeswitch\raidframes.lua
 Modules\Modeswitch\main.lua
