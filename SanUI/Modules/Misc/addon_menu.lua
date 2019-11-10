@@ -127,7 +127,7 @@ local Menu = CreateFrame("Frame", "MinimapMenu", UIParent)
 if AnchorSide == true then
 	--Menu:CreatePanel("", MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3, "TOP", Minimap, "BOTTOM",0, -5 - Offset)
 	Menu:Size(Minimap:GetWidth(),(Btns*(BtnHeight+1))+3)
-	Menu:Point("TOPLEFT", Minimap, "TOPRIGHT", 14,0)
+	Menu:Point("TOPLEFT", Minimap, "TOPRIGHT", 17,0)
 	Menu:SetTemplate()
 else
 	--Menu:CreatePanel("", MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3, "BOTTOM", Minimap, "TOP",0, 5 + Offset)
