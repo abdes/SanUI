@@ -938,11 +938,11 @@ local function Shared(self, unit)
 		--The Queen’s Court
 		[301830] = Defaults(), -- Pashmar's Touch
 		[296851] = Defaults(), -- Fanatical Verdict
-		[297836] = Defaults(), -- Potent Spark
+		--[297836] = Defaults(), -- Potent Spark
 		[297586] = Defaults(), -- Suffering
-		[304410] = Defaults(), -- Repeat Performance
+		--[304410] = Defaults(), -- Repeat Performance
 		[299914] = Defaults(), -- Frenetic Charge
-		[303306] = Defaults(), -- Sphere of Influence
+		[303306] = Defaults(2), -- Sphere of Influence
 		[300545] = Defaults(), -- Mighty Rupture
 
 		--Radiance of Azshara
