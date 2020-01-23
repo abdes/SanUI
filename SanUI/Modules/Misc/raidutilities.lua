@@ -182,7 +182,7 @@ local function Enable()
 -- Additional functions / Raid tools
 ---------------------------------------------------------------
 	-- Button Readycheck
-	CreateBtn("pulltimerbutton", markbarbg, 82, 19, "Start a DBM pull timer", "DBM Pull")
+	CreateBtn("pulltimerbutton", markbarbg, 82.5, 19, "Start a DBM pull timer", "DBM Pull")
 	pulltimerbutton:Point("TOPLEFT", mbbutton05, "BOTTOMLEFT", 0, -2)
 	pulltimerbutton:SetAttribute("macrotext1", "/pull 13")
 
