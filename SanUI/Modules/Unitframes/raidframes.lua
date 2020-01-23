@@ -989,8 +989,98 @@ local function Shared(self, unit)
 		[301078] = Defaults(), -- Charged Spear
 		[298014] = Defaults(), -- Cold Blast
 		[298018] = Defaults(), -- Frozen
+		
+	--- Nyalotha
+	-- Wrathion
+		[306015] = Defaults(1), -- Searing Armor	
+		[306163] = Defaults(1), -- ? Incineration
+		[313959] = Defaults(1), -- Scorching Blister	
+		[309733] = Defaults(1), -- Burning Madness	
+		[314347] = Defaults(1), -- Noxious Choke	
+		-- Maut
+		[307805] = Defaults(1), -- Devour Magic	
+		[307399] = Defaults(1), -- Shadow Wounds	
+		[308158] = Defaults(1), -- Consuming Shadows	
+		[314337] = Defaults(1), -- Ancient Curse	
+		[314992] = Defaults(1), -- Drain Essence	
+		-- Prophet Skitra
+		[306387] = Defaults(1), -- Shadow Shock	
+		[313276] = Defaults(1), -- Shred Psyche	
+		-- Dark Inquisitor Xanesh
+		[306311] = Defaults(1), -- Soul Flay	
+		[312406] = Defaults(1), -- Void Woken	
+		[311551] = Defaults(1), -- Abyssal Strike	
+		[313198] = Defaults(1), -- Void Touched	
+		-- The Hivemind
+		[313461] = Defaults(1), -- Corrosion	
+		[313672] = Defaults(1), -- Acid Pool	
+		[313652] = Defaults(1), -- Mind-Numbing Nova	
+		[313460] = Defaults(1), -- Nullification	
+		[315311] = Defaults(1), -- Ravage	
+		-- Shad'har
+		[312332] = Defaults(1), -- Slimy Residue	
+		[307471] = Defaults(1), -- Crush	
+		[307472] = Defaults(1), -- Dissolve	
+		[307358] = Defaults(1), -- Debilitating Spit	
+		[306928] = Defaults(1), -- Umbral Breath	
+		[312530] = Defaults(1), -- Entropic Breath	
+		[306929] = Defaults(1), -- Bubbling Breath	
+		-- Drest'agath
+		[310406] = Defaults(1), -- Void Glare	
+		[310277] = Defaults(1), -- Volatile Seed	
+		[310309] = Defaults(1), -- Volatile Vulnerability	
+		[308377] = Defaults(1), -- Void Infused Ichor	
+		[310358] = Defaults(1), -- Mutterings of Insanity	
+		[310361] = Defaults(1), -- Unleashed  Insanity	
+		[310552] = Defaults(1), -- Mind Flay	
+		[310478] = Defaults(1), -- Void Miasma	
+		-- Il'gynoth
+		[309961] = Defaults(1), -- Eye of N'zoth	
+		[310322] = Defaults(1), -- Morass of Corruption / Nightmare Corruption	
+		[311401] = Defaults(1), -- Touch of the Corruptor	
+		[314396] = Defaults(1), -- Cursed Blood	
+		[275269] = Defaults(1), -- Fixate	
+		[312486] = Defaults(1), -- Recurring Nightmare	
+		--Vexiona
+		[307317] = Defaults(1), -- Encroaching Shadows	
+		[307359] = Defaults(1), -- Despair	
+		[307421] = Defaults(1), -- Annihilation	
+		[315932] = Defaults(1), -- Brutal Smash	
+		[307218] = Defaults(1), -- Twilight Decimator	
+		--Ra-den
+		[306819] = Defaults(1), -- Nullifying Strike	
+		[306279] = Defaults(1), -- Instability Exposure	
+		[313109] = Defaults(1), -- Unstable Nightmare	
+		[315258] = Defaults(1), -- Dread Inferno	
+		[306257] = Defaults(1), -- Unstable Vita	
+		[306184] = Defaults(1), -- Unleashed Void	
+		[309777] = Defaults(1), -- Void Defilement	
+		[313227] = Defaults(1), -- Decaying Wound	
+		[310019] = Defaults(1), -- Charged Bonds	
+		[316065] = Defaults(1), -- Corrupted Existence	
+		--Crapace of N'zoth
+		[315954] = Defaults(1), -- Black Scar	
+		[306973] = Defaults(1), -- Madness Bomb	
+		[316848] = Defaults(1), -- Adaptive Membrane	
+		[307044] = Defaults(1), -- Nightmare Antibody	
+		[307008] = Defaults(1), -- Breed Madness	
+		[313364] = Defaults(1), -- Mental Decay	
+		[307061] = Defaults(1), -- Mycelial Growth	
+		[306984] = Defaults(1), -- Insanity Bomb	
+		[317627] = Defaults(1), -- Infinite Void	
+		--N'zoth
+		[309991] = Defaults(1), -- Anguish	
+		[318442] = Defaults(1), -- Paranoia	
+		[309702] = Defaults(1), -- Void Lash	
+		[310042] = Defaults(1), -- Tumultuous Burst	
+		[313400] = Defaults(1), -- Corrupted Mind	
+		[313793] = Defaults(1), -- Flames of Insanity	
+		[316711] = Defaults(1), -- Mindwrack	
+		[314889] = Defaults(1), -- Probe Mind	
+		[317112] = Defaults(1), -- Evoke Anguish	
+		[318976] = Defaults(1), -- Stupefying Glare	
 
-	
+		[315176] = Defaults(0), -- Grasping Tendrils, Corruption Debuff
 	}
 
 	-- S.ReverseTimer = {
