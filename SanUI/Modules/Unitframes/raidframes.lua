@@ -1027,9 +1027,9 @@ local function Shared(self, unit)
 		[306929] = Defaults(1), -- Bubbling Breath	
 		-- Drest'agath
 		[310406] = Defaults(1), -- Void Glare	
-		[310277] = Defaults(1), -- Volatile Seed	
+		--[310277] = Defaults(1), -- Volatile Seed	
 		[310309] = Defaults(1), -- Volatile Vulnerability	
-		[308377] = Defaults(1), -- Void Infused Ichor	
+		--[308377] = Defaults(1), -- Void Infused Ichor	
 		[310358] = Defaults(1), -- Mutterings of Insanity	
 		[310361] = Defaults(1), -- Unleashed  Insanity	
 		[310552] = Defaults(1), -- Mind Flay	
@@ -1043,7 +1043,7 @@ local function Shared(self, unit)
 		[312486] = Defaults(1), -- Recurring Nightmare	
 		--Vexiona
 		[307317] = Defaults(1), -- Encroaching Shadows	
-		[307359] = Defaults(1), -- Despair	
+		[307359] = Defaults(3), -- Despair	
 		[307421] = Defaults(1), -- Annihilation	
 		[315932] = Defaults(1), -- Brutal Smash	
 		[307218] = Defaults(1), -- Twilight Decimator	
@@ -1062,10 +1062,10 @@ local function Shared(self, unit)
 		[315954] = Defaults(1), -- Black Scar	
 		[306973] = Defaults(1), -- Madness Bomb	
 		[316848] = Defaults(1), -- Adaptive Membrane	
-		[307044] = Defaults(1), -- Nightmare Antibody	
+		--[307044] = Defaults(1), -- Nightmare Antibody	
 		[307008] = Defaults(1), -- Breed Madness	
-		[313364] = Defaults(1), -- Mental Decay	
-		[307061] = Defaults(1), -- Mycelial Growth	
+		--[313364] = Defaults(1), -- Mental Decay	
+		--[307061] = Defaults(1), -- Mycelial Growth	
 		[306984] = Defaults(1), -- Insanity Bomb	
 		[317627] = Defaults(1), -- Infinite Void	
 		--N'zoth
