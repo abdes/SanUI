@@ -4,7 +4,17 @@ S.switchGCD =  function (profile)
 
 	if profile == "Hidden" then
 		oUF_player.GCD:SetAlpha(0)
+	elseif profile == "SanChicken" then
+		local castbar = oUF_player.Castbar
+		oUF_player.GCD:ClearAllPoints()
+		oUF_player.GCD:SetPoint('BOTTOMLEFT',castbar, 'TOPLEFT', 0, S.Scale(4))
+		oUF_player.GCD:SetPoint('BOTTOMRIGHT',castbar, 'TOPRIGHT', 0, S.Scale(4))
+		oUF_player.GCD:SetAlpha(1)
 	else
+		local castbar = oUF_player.Castbar
+		oUF_player.GCD:ClearAllPoints()
+		oUF_player.GCD:SetPoint('TOPLEFT',castbar, 'BOTTOMLEFT', 0, -S.Scale(4))
+		oUF_player.GCD:SetPoint('TOPRIGHT',castbar, 'BOTTOMRIGHT', 0, -S.Scale(4))
 		oUF_player.GCD:SetAlpha(1)
 	end
 	

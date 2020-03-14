@@ -16,7 +16,7 @@ S.switchCastbar = function(profile)
 			cb.button:ClearAllPoints()
 			cb.button:Size(40)
 			cb:SetPoint("CENTER",UIParent,"CENTER",0,-263)
-			cb.button:SetPoint("BOTTOM",cb,"TOP",0,10)
+			cb.button:SetPoint("TOP",cb,"BOTTOM",0,-10)
 		elseif profile == "Manyak" then
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()
