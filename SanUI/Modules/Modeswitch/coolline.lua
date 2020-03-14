@@ -119,6 +119,18 @@ S.switchCoolLine = function(profile)
 			[GetSpellInfo(6343) or "Thunder Clap"] = true,
 			[GetSpellInfo(2565) or "Shield Block"] = true,
 		}
+	elseif profile == "HedgeBM" then
+		block = {
+			[GetItemInfo(6948) or "Hearthstone"] = true,  -- Hearthstone
+			[GetItemInfo(140192) or "Dalaran Hearthstone"] = true,
+			[GetItemInfo(141605) or "Flight Master's Whistle"] = true,
+			[GetItemInfo(139599) or "Empowered Ring of the Kirin Tor"] = true,
+			[GetItemInfo(147707) or "Repurposed Fel Focuser"] = true,
+			[GetItemInfo(153023) or "Lightforged Augment Rune"] = true,
+			[GetSpellInfo(19574) or "Bestial Wrath"] = true,
+			[GetSpellInfo(217200) or "Barbed Shot"] = true,
+			[GetSpellInfo(34026) or "Kill Command"] = true,
+		}
 	else
 		block = {
 			[GetItemInfo(6948) or "Hearthstone"] = true,  -- Hearthstone

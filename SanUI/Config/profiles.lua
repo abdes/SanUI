@@ -54,6 +54,10 @@ S["profiles"] = {
  	modes = {"PHoly","PProt","PRet"},
 	AddonMenu = {DBM=1, Altoholic=2, Hack=3},
  },
+ ["Hedge"] = { 
+	modes = {"HedgeBM" },
+	AddonMenu = {DBM=1, Altoholic=2, Hack=3, MDT=4},
+ },
  ["DEFAULT"] = {
  	modes = {"Heal","Tank", "Damage" },
 	AddonMenu = {DBM=1, Altoholic=2, WorldFrame=3},
@@ -201,6 +205,18 @@ S["Modes"] = {
 		["coolline"] = "SanBear",
 		["ActionButtons"] = "PRet",
 		["DBM"] = "SanBear", 
+	},
+	["HedgeBM"] = {
+		["raidframes"] = "SanChicken",
+		["SimpleAuraFilter"] = "SanChicken",
+		["castbar"] = "SanHeal",
+		["powerbar"] = "SanChicken",
+		["Filger"] = "SanChicken",
+		["gcd"] = "Hidden",
+		["bossbars"] = "SanChicken",
+		["coolline"] = "HedgeBM",
+		["ActionButtons"] = "SanHeal",
+		["DBM"] = "HedgeBM", 
 	},
 }
 
