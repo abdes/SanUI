@@ -1000,25 +1000,25 @@ local function Shared(self, unit)
 		-- Maut
 		[307805] = Defaults(1), -- Devour Magic	
 		[307399] = Defaults(1), -- Shadow Wounds	
-		[308158] = Defaults(1), -- Consuming Shadows	
+		--[308158] = Defaults(1), -- Consuming Shadows	
 		[314337] = Defaults(1), -- Ancient Curse	
 		[314992] = Defaults(1), -- Drain Essence	
 		-- Prophet Skitra
 		[306387] = Defaults(1), -- Shadow Shock	
 		[313276] = Defaults(1), -- Shred Psyche	
 		-- Dark Inquisitor Xanesh
-		[306311] = Defaults(1), -- Soul Flay	
+		--[306311] = Defaults(1), -- Soul Flay	
 		[312406] = Defaults(1), -- Void Woken	
 		[311551] = Defaults(1), -- Abyssal Strike	
-		[313198] = Defaults(1), -- Void Touched	
+		--[313198] = Defaults(1), -- Void Touched	
 		-- The Hivemind
 		[313461] = Defaults(1), -- Corrosion	
-		[313672] = Defaults(1), -- Acid Pool	
-		[313652] = Defaults(1), -- Mind-Numbing Nova	
+		--[313672] = Defaults(1), -- Acid Pool	
+		--[313652] = Defaults(1), -- Mind-Numbing Nova	
 		[313460] = Defaults(1), -- Nullification	
 		[315311] = Defaults(1), -- Ravage	
 		-- Shad'har
-		[312332] = Defaults(1), -- Slimy Residue	
+		--[312332] = Defaults(1), -- Slimy Residue	
 		[307471] = Defaults(1), -- Crush	
 		[307472] = Defaults(1), -- Dissolve	
 		[307358] = Defaults(1), -- Debilitating Spit	
@@ -1183,7 +1183,7 @@ oUF:Factory(function(self)
 	local ten = "1,2"
 	local twentyfive = "1,2,3,4,5"
 	local forty = "1,2,3,4,5,6,7,8"
-	local twenty = "1,2,3,4"
+	local twenty = "1,2,3,4,5,6"
 
 	local MaxGroup = CreateFrame("Frame", "SanUIRaidMaxGroup")
 	MaxGroup:RegisterEvent("PLAYER_ENTERING_WORLD")
