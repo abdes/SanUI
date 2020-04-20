@@ -1026,14 +1026,15 @@ local function Shared(self, unit)
 		[312530] = Defaults(1), -- Entropic Breath	
 		[306929] = Defaults(1), -- Bubbling Breath	
 		-- Drest'agath
-		[310406] = Defaults(1), -- Void Glare	
+		--[310406] = Defaults(1), -- Void Glare	
 		--[310277] = Defaults(1), -- Volatile Seed	
-		[310309] = Defaults(1), -- Volatile Vulnerability	
+		--[310309] = Defaults(1), -- Volatile Vulnerability	
 		--[308377] = Defaults(1), -- Void Infused Ichor	
 		[310358] = Defaults(1), -- Mutterings of Insanity	
 		[310361] = Defaults(1), -- Unleashed  Insanity	
-		[310552] = Defaults(1), -- Mind Flay	
-		[310478] = Defaults(1), -- Void Miasma	
+		--[310552] = Defaults(1), -- Mind Flay	
+		--[310478] = Defaults(1), -- Void Miasma
+		[310563] = Defaults(1), -- Mutterings of Betrayal
 		-- Il'gynoth
 		[309961] = Defaults(1), -- Eye of N'zoth	
 		[310322] = Defaults(1), -- Morass of Corruption / Nightmare Corruption	
