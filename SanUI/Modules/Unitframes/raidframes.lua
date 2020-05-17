@@ -689,6 +689,7 @@ local function Shared(self, unit)
 		[272388] = Defaults(), -- Shadow Barrage
 		[271640] = Defaults(), -- Dark Revelation
 		[268796] = Defaults(), -- Impaling Spear
+		[268932] = Defaults(), -- Quaking Leap
 		
 		--Motherlode
 		[263074] = Defaults(), -- Festering Bite
@@ -1039,7 +1040,7 @@ local function Shared(self, unit)
 		[309961] = Defaults(1), -- Eye of N'zoth	
 		[310322] = Defaults(1), -- Morass of Corruption / Nightmare Corruption	
 		[311401] = Defaults(1), -- Touch of the Corruptor	
-		[314396] = Defaults(1), -- Cursed Blood	
+		--[314396] = Defaults(1), -- Cursed Blood	
 		[275269] = Defaults(1), -- Fixate	
 		[312486] = Defaults(1), -- Recurring Nightmare	
 		--Vexiona
@@ -1050,9 +1051,9 @@ local function Shared(self, unit)
 		[307218] = Defaults(1), -- Twilight Decimator	
 		--Ra-den
 		[306819] = Defaults(1), -- Nullifying Strike	
-		[306279] = Defaults(1), -- Instability Exposure	
+		--[306279] = Defaults(1), -- Instability Exposure	
 		[313109] = Defaults(1), -- Unstable Nightmare	
-		[315258] = Defaults(1), -- Dread Inferno	
+		--[315258] = Defaults(1), -- Dread Inferno	
 		[306257] = Defaults(1), -- Unstable Vita	
 		[306184] = Defaults(1), -- Unleashed Void	
 		[309777] = Defaults(1), -- Void Defilement	
