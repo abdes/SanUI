@@ -1097,8 +1097,17 @@ local function Shared(self, unit)
 	ORD.FilterDispellableDebuff = true
 	ORD.MatchBySpellName = true
 	ORD.SetDebuffTypeColor = RaidDebuffs.SetBackdropBorderColor
+	
 	ORD:ResetDebuffData()
 	ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
+	
+	if not ORD.RegisteredSanUI then
+		S["UnitFrames"].DebuffsTracking.RaidDebuffs.spells = RaidDebuffs.Debuffs
+		--S["UnitFrames"].UpdateRaidDebuffIndicator()
+		ORD:ResetDebuffData()
+		ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
+		ORD.RegisteredSanUI = true
+	end
 
 	return self
 end
