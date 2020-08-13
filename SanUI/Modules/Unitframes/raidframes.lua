@@ -757,6 +757,7 @@ local function Shared(self, unit)
 		[297283] = Defaults(), -- Cave In
 		[291914] = Defaults(), -- Cutting Beam
 		[302384] = Defaults(), -- Static Discharge
+		[301712] = Defaults(), -- Pounce
 		
 		------------------------
 		-- Dungeons (Mythic+) --
@@ -1066,20 +1067,20 @@ local function Shared(self, unit)
 		[316848] = Defaults(1), -- Adaptive Membrane	
 		--[307044] = Defaults(1), -- Nightmare Antibody	
 		[307008] = Defaults(1), -- Breed Madness	
-		--[313364] = Defaults(1), -- Mental Decay	
+		[313364] = Defaults(1), -- Mental Decay	
 		--[307061] = Defaults(1), -- Mycelial Growth	
 		[306984] = Defaults(1), -- Insanity Bomb	
 		[317627] = Defaults(1), -- Infinite Void	
 		--N'zoth
 		[309991] = Defaults(1), -- Anguish	
-		[318442] = Defaults(1), -- Paranoia	
+		--[318442] = Defaults(1), -- Paranoia	
 		[309702] = Defaults(1), -- Void Lash	
-		[310042] = Defaults(1), -- Tumultuous Burst	
+		--[310042] = Defaults(1), -- Tumultuous Burst	
 		[313400] = Defaults(1), -- Corrupted Mind	
 		[313793] = Defaults(1), -- Flames of Insanity	
-		[316711] = Defaults(1), -- Mindwrack	
+		--[316711] = Defaults(1), -- Mindwrack	
 		[314889] = Defaults(1), -- Probe Mind	
-		[317112] = Defaults(1), -- Evoke Anguish	
+		--[317112] = Defaults(1), -- Evoke Anguish	
 		[318976] = Defaults(1), -- Stupefying Glare	
 
 		[315176] = Defaults(0), -- Grasping Tendrils, Corruption Debuff
