@@ -217,18 +217,18 @@ local function createOptions(id, data)
     }
   end
 
-  for k, v in pairs(WeakAuras.BorderOptions(id, data, nil, nil, 70)) do
+  for k, v in pairs(WeakAuras.commonOptions.BorderOptions(id, data, nil, nil, 70)) do
     options[k] = v
   end
 
   return {
     model = options,
-    position = WeakAuras.PositionOptions(id, data, nil, nil, nil),
+    position = WeakAuras.commonOptions.PositionOptions(id, data, nil, nil, nil),
   };
 end
 
-local function createThumbnail(parent)
-  local borderframe = CreateFrame("FRAME", nil, parent);
+local function createThumbnail()
+  local borderframe = CreateFrame("FRAME", nil, UIParent);
   borderframe:SetWidth(32);
   borderframe:SetHeight(32);
 
@@ -237,16 +237,18 @@ local function createThumbnail(parent)
   border:SetTexture("Interface\\BUTTONS\\UI-Quickslot2.blp");
   border:SetTexCoord(0.2, 0.8, 0.2, 0.8);
 
-  local model = CreateFrame("PlayerModel", nil, WeakAuras.OptionsFrame() or UIParent);
+  local model = CreateFrame("PlayerModel", nil, borderframe);
   borderframe.model = model;
   model:SetFrameStrata("FULLSCREEN");
 
   return borderframe;
 end
 
-local function modifyThumbnail(parent, region, data, fullModify, size)
+local function modifyThumbnail(parent, region, data)
+  region:SetParent(parent)
+
   local model = region.model
-  model:SetParent(region);
+
   model:SetAllPoints(region);
   model:SetFrameStrata(region:GetParent():GetFrameStrata());
   model:SetWidth(region:GetWidth() - 2);
