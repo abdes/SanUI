@@ -274,7 +274,7 @@ local function Shared(self, unit)
 	auras.icons = {}
 	auras.PostCreateIcon = function(self, icon)		
 		if icon.icon and not icon.hideIcon then
-			icon:SetTemplate("Default")
+			icon:CreateBackdrop()
 			icon.icon:Point("TOPLEFT", 1, -1)
 			icon.icon:Point("BOTTOMRIGHT", -1, 1)
 			icon.icon:SetTexCoord(.08, .92, .08, .92)
@@ -537,7 +537,7 @@ local function Shared(self, unit)
 	RaidDebuffs:SetFrameStrata(health:GetFrameStrata())
 	RaidDebuffs:SetFrameLevel(health:GetFrameLevel() + 2)
 	
-	RaidDebuffs:SetTemplate("Default")
+	RaidDebuffs:CreateBackdrop()
 	
 	RaidDebuffs.icon = RaidDebuffs:CreateTexture(nil, "OVERLAY")
 	RaidDebuffs.icon:SetTexCoord(.1,.9,.1,.9)

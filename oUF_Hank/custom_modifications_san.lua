@@ -121,7 +121,7 @@ oUF_Hank_hooks.ButtonStyleTuk = {
 PostCreateIcon = function(icons, icon)
 	
 	if(icons.__owner.unit == "player" or icons.__owner.unit == "target" ) then
-		icon:SetTemplate()
+		icon:CreateBackdrop()
 		
 		icon.remaining = TukuiDB.SetFontString(icon, TukuiCF["Medias"].Font,11, "THINOUTLINE")
 		icon.remaining:SetPoint("CENTER", TukuiDB.Scale(1), 0)
@@ -156,7 +156,7 @@ OnEnterAura = function(self, icon)
 	
 	if(self.unit == "player" or self.unit == "target") then
 		
-		self.HighlightAura:SetTemplate()
+		self.HighlightAura:CreateBackdrop()
 		self.HighlightAura:SetFrameLevel(6) -- cd on icon seems to have frame level 5
 		
 		self.HighlightAura.icon.remaining = TukuiDB.SetFontString(icon, TukuiCF["Medias"].Font, 11, "THINOUTLINE")
@@ -277,7 +277,7 @@ sharedStyle = function(self, unit, isSingle)
 			local castBarBG = CreateFrame("Frame",nil,castbar)
 			castBarBG:Point("TOPLEFT",castbar,"TOPLEFT",-2,2)
 			castBarBG:Point("BOTTOMRIGHT",castbar,"BOTTOMRIGHT",2,-2)
-			castBarBG:SetTemplate()
+			castBarBG:CreateBackdrop()
 			castBarBG:SetFrameStrata(castbar:GetFrameStrata())
 			castbar:SetFrameLevel(6)
 			castBarBG:SetFrameLevel(5)
@@ -341,7 +341,7 @@ sharedStyle = function(self, unit, isSingle)
 				castbar.button:Size(18)
 			end
 			
-			castbar.button:SetTemplate()
+			castbar.button:CreateBackdrop()
 
 			castbar.icon = castbar.button:CreateTexture(nil, "ARTWORK")
 			castbar.icon:SetPoint("TOPLEFT", castbar.button, TukuiDB.Scale(2), TukuiDB.Scale(-2))
@@ -386,7 +386,7 @@ sharedStyle = function(self, unit, isSingle)
 			local gcdcastborder = CreateFrame("Frame", nil, self.GCD)
 			gcdcastborder:Size(1)
 			gcdcastborder:Point("CENTER", health, "CENTER", 0, 0)
-			gcdcastborder:SetTemplate("Transparent")
+			gcdcastborder:CreateBackdrop("Transparent")
 			gcdcastborder:ClearAllPoints()
 			gcdcastborder:SetPoint("TOPLEFT", self.GCD, -TukuiDB.Scale(2), TukuiDB.Scale(2))
 			gcdcastborder:SetPoint("BOTTOMRIGHT", self.GCD, TukuiDB.Scale(2), TukuiDB.Scale(-2))
@@ -553,7 +553,7 @@ oUF_Hank_hooks.customPowerBar = {
 		--powerBG.Multiplier = 0.3
 		
 		local powerPanel = CreateFrame("Frame", "MyPowerPanel", power)
-		powerPanel:SetTemplate()
+		powerPanel:CreateBackdrop()
 		powerPanel:SetFrameStrata("MEDIUM")
 		powerPanel:SetFrameLevel(power:GetFrameLevel()-1)
 		powerPanel:SetPoint("TOPLEFT",TukuiDB.Scale(-2), TukuiDB.Scale(2))

@@ -11,7 +11,7 @@ function S.modDetails(event)
 			local g = CreateFrame("Frame", nil,f)
 			g:Point("TOPLEFT", f, "TOPLEFT",-2,2)
 			g:Point("BOTTOMRIGHT", f , "BOTTOMRIGHT", 2, -2)
-			g:SetTemplate()
+			g:CreateBackdrop()
 			g:SetBackdropColor(0,0,0,0)
 			
 			f.SanUIbg = g

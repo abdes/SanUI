@@ -421,7 +421,7 @@ local function NewCooldown(name, icon, endtime, isplayer)
 		if not f then
 			f = CreateFrame("Frame", nil, CoolLine.border)
 			f:SetBackdrop(iconback)
-			f:SetTemplate()
+			f:CreateBackdrop()
 			f.icon = f:CreateTexture(nil, "ARTWORK")
 			f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 			f.icon:Point("TOPLEFT", 1, -1)

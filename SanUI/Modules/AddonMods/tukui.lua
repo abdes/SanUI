@@ -88,7 +88,7 @@ hooksecurefunc(S["Maps"].Minimap, "Enable", function()
 	dt_left:Height(dt_right:GetHeight())
 	dt_left:Point("TOPLEFT", backdrop, "BOTTOMLEFT", 0, 19)
 	dt_left:Point("RIGHT", dt_right, "LEFT", 1,0)
-	dt_left:SetTemplate()
+	dt_left:CreateBackdrop()
 	dt_left:SetFrameStrata("MEDIUM")
 	
 	S["Panels"].MinimapDataTextLeft = dt_left

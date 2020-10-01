@@ -6,7 +6,7 @@ function S.weakAurasDialog()
 	local main = CreateFrame("Frame", nil, UIParent)
 	main:Point("CENTER")
 	main:Size(500,200)
-	main:SetTemplate()
+	main:CreateBackdrop()
 	main:FontString("Text", C.Medias.Font, 12)
 	main.Text:Point("CENTER")
 	main.Text:SetText("You do not have SanUIs WeakAura displays added to your WeakAuras. Should I do that now?" ..

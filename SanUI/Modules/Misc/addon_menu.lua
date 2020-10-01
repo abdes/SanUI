@@ -102,11 +102,11 @@ local MenuOpen = CreateFrame("Frame", "MenuOpen", UIParent)
 if AnchorSide == true then
 	MenuOpen:Size(10)
 	MenuOpen:Point("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", 3, 0)
-	MenuOpen:SetTemplate()
+	MenuOpen:CreateBackdrop()
 else
 	MenuOpen:Size(Minimap:GetWidth()+4 ,14)
 	MenuOpen:Point("BOTTOM", Minimap, "TOP", 0, 5 + Offset)
-	MenuOpen:SetTemplate()
+	MenuOpen:CreateBackdrop()
 end
 
 local Text = MenuOpen:CreateFontString(nil, "OVERLAY")
@@ -128,12 +128,12 @@ if AnchorSide == true then
 	--Menu:CreatePanel("", MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3, "TOP", Minimap, "BOTTOM",0, -5 - Offset)
 	Menu:Size(Minimap:GetWidth(),(Btns*(BtnHeight+1))+3)
 	Menu:Point("TOPLEFT", Minimap, "TOPRIGHT", 17,0)
-	Menu:SetTemplate()
+	Menu:CreateBackdrop()
 else
 	--Menu:CreatePanel("", MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3, "BOTTOM", Minimap, "TOP",0, 5 + Offset)
 	Menu:Size(MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3)
 	Menu:Point("BOTTOM", Minimap, "TOP",0, 5 + Offset)
-	Menu:SetTemplate()
+	Menu:CreateBackdrop()
 end
 Menu:Hide()
 Menu:SetFrameStrata("HIGH") --BACKGROUND")
@@ -194,7 +194,7 @@ local function CreateButton(f, o) --(Frame,ButtonOrderName)
 		--f:CreatePanel("", Menu:GetWidth()-4, BtnHeight, "BOTTOM", Menu, "TOP", 0, -o*(BtnHeight+1)-1)
 		f:Size(Menu:GetWidth()-4, BtnHeight)
 		f:Point("BOTTOM", Menu, "TOP", 0, -o*(BtnHeight+1)-1)
-		f:SetTemplate()
+		f:CreateBackdrop()
 		
 		f:SetFrameStrata("DIALOG")
 		
@@ -208,7 +208,7 @@ local function CreateButton(f, o) --(Frame,ButtonOrderName)
 		--f:CreatePanel("", Menu:GetWidth()-4, BtnHeight, "TOP", Menu, "BOTTOM", 0, o*(BtnHeight+1)+1)
 		f:Size(Menu:GetWidth()-4, BtnHeight)
 		f:Point("TOP", Menu, "BOTTOM", 0, o*(BtnHeight+1)+1)
-		f:SetTemplate()
+		f:CreateBackdrop()
 		f:SetFrameStrata("DIALOG")
 		
 		f.title = f:CreateFontString()
