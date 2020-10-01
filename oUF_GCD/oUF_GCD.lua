@@ -1,4 +1,4 @@
-local oUF = TukuiUnitFrameFramework
+local oUF = Tukui.oUF --TukuiUnitFrameFramework
 
 -- based on oUF_GCD by Exactly.
 

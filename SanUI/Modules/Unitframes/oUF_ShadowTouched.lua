@@ -1,5 +1,5 @@
 local _, ns = ...
-local oUF = TukuiUnitFrameFramework
+local oUF = SanUI.oUF
 assert(oUF, "oUF_ShadowTouched cannot find an instance of oUF. If your oUF is embedded into a layout, it may not be embedded properly.")
 
 local UnitAura  = UnitAura

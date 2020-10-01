@@ -2,26 +2,25 @@
 -- by me, so never bug Tukz about any problem with this, please.
 --if true then return end
 local S,C,L = unpack(SanUI) 
-local oUF = TukuiUnitFrameFramework
+local oUF = SanUI.oUF
 
 local font2 = C["Medias"].UnitFrameFont
 local font1 = C["Medias"].Font
 local normTex = C["Medias"].Blank
 local bdcr, bdcg, bdcb = unpack(C["Medias"].BorderColor)
-local backdrop = {
-	bgFile = C["Medias"].blank,
-	insets = {top = -S.Mult, left = -S.Mult, bottom = -S.Mult, right = -S.Mult},
-}
+
+local Scale = S.Toolkit.Functions.Scale
 
 -- disable blizzard party and raid frames
 InterfaceOptionsFrameCategoriesButton11:SetScale(0.00001)
 InterfaceOptionsFrameCategoriesButton11:SetAlpha(0)
 
--- raid
+--[[ raid
 hooksecurefunc(S.Panels,"Enable",function()
 	CompactRaidFrameManager:SetParent(S["Panels"].Hider)
 end)
 CompactUnitFrameProfiles:UnregisterAllEvents()
+]]
 
 local utf8sub = function(string, i, dots)
 	if not string then return end
@@ -135,13 +134,13 @@ local function Shared(self, unit)
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 	
-	self:SetBackdrop({bgFile = C["Medias"].blank, insets = {top = -S.Mult, left = -S.Mult, bottom = -S.Mult, right = -S.Mult}})
-	self:SetBackdropColor(0, 0, 0)
+	--self:SetBackdrop({bgFile = C["Medias"].blank, insets = {top = -S.Mult, left = -S.Mult, bottom = -S.Mult, right = -S.Mult}})
+	--self:SetBackdropColor(0, 0, 0)
 	
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetPoint("TOPLEFT")
 	health:SetPoint("TOPRIGHT")
-	health:Height(28)
+	health:SetHeight(Scale(28))
 	health:SetStatusBarTexture(normTex)
 	health:SetFrameLevel(8)
 	health:SetStatusBarColor(.3, .3, .3, 1)
@@ -154,7 +153,7 @@ local function Shared(self, unit)
 	health.bg:SetColorTexture(0.3, 0.3, 0.3)
 	health.bg:SetVertexColor(0,0,0,1)
 	
-	health.frequentUpdates = true
+	--health.frequentUpdates = true
 	health.colorDisconnected = false
 	health.colorClass = false
 	health.colorTapping = false
@@ -177,13 +176,14 @@ local function Shared(self, unit)
 	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", updateThreat)
 	
 	-- highlight
-	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = S.Scale(1)}
-	local HighlightTarget = CreateFrame("Frame", nil, self)
+	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = Scale(1)}
+	local HighlightTarget = CreateFrame("Frame", nil, self, "BackdropTemplate")
 
-	HighlightTarget:Point("TOPLEFT", self, "TOPLEFT",-1, 1)
-    HighlightTarget:Point("BOTTOMRIGHT", self, "BOTTOMRIGHT",1,- 1)
+	HighlightTarget:SetPoint("TOPLEFT", self, "TOPLEFT",-Scale(1), Scale(1))
+    HighlightTarget:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT",Scale(1),- Scale(1))
+	HighlightTarget:SetFrameLevel(self.Health:GetFrameLevel() + 1)
+	HighlightTarget:SetAllPoints()
 	HighlightTarget:SetBackdrop(glowBorder)
-	HighlightTarget:SetFrameLevel(self:GetFrameLevel() + 1)
 	HighlightTarget:SetBackdropBorderColor(0,0,0,1)
 	
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", function(self,event,unit)
@@ -197,28 +197,28 @@ local function Shared(self, unit)
 	self.HighlightTarget = HighlightTarget
 	
 	local Dead = self.Health:CreateFontString(nil, "OVERLAY")
-	Dead:Point("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",-1,0)
+	Dead:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",-Scale(1),0)
 	Dead:SetFont(C["Medias"].Font, 11)
 	self:Tag(Dead, "[enhdead]")
 	self.Dead = Dead
 	
 	local RaidIcon = health:CreateTexture(nil, "OVERLAY")
-	RaidIcon:Height(16)
-	RaidIcon:Width(16)
-	RaidIcon:SetPoint("CENTER", self, "TOP",-12,-1)
+	RaidIcon:SetHeight(Scale(16))
+	RaidIcon:SetWidth(Scale(16))
+	RaidIcon:SetPoint("CENTER", self, "TOP",-Scale(12),-Scale(1))
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
 	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	self.RaidTargetIndicator  = RaidIcon
 	RaidIcon:Hide() -- not sure if necessary, seems so from MOTHER's rooms
 
 	local ReadyCheck = self.Health:CreateTexture(nil, "OVERLAY")
-	ReadyCheck:Height(12)
-	ReadyCheck:Width(12)
+	ReadyCheck:SetHeight(Scale(12))
+	ReadyCheck:SetWidth(Scale(12))
 	ReadyCheck:SetPoint("CENTER",self.Health,"TOP") 	
 	self.ReadyCheckIndicator = ReadyCheck
 
 	local ResurrectIcon = self.Health:CreateTexture(nil, "OVERLAY")
-	ResurrectIcon:Size(16)
+	ResurrectIcon:SetSize(Scale(16), Scale(16))
 	ResurrectIcon:SetPoint("CENTER")
 	ResurrectIcon:SetDrawLayer("OVERLAY", 7)
 	self.ResurrectIndicator = ResurrectIcon
@@ -236,24 +236,24 @@ local function Shared(self, unit)
 	local mhpb = CreateFrame("StatusBar", nil, self.Health)
 	mhpb:SetOrientation("VERTICAL")
 	mhpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-	mhpb:Width(66)
-	mhpb:Height(28)				
+	mhpb:SetWidth(Scale(66))
+	mhpb:SetHeight(Scale(28))				
 	mhpb:SetStatusBarTexture(normTex)
 	mhpb:SetStatusBarColor(0, 0.5, 0.15, 1)
 
 	local ohpb = CreateFrame("StatusBar", nil, self.Health)
 	ohpb:SetOrientation("VERTICAL")
 	ohpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-	ohpb:Width(66)
-	ohpb:Height(28)
+	ohpb:SetWidth(Scale(66))
+	ohpb:SetHeight(Scale(28))
 	ohpb:SetStatusBarTexture(normTex)
 	ohpb:SetStatusBarColor(0, 0.5, 0, 1)
 	
 	local absb = CreateFrame("StatusBar", nil, self.Health)
 	absb:SetOrientation("VERTICAL")
 	absb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-	absb:Width(66)
-	absb:Height(28)				
+	absb:SetWidth(Scale(66))
+	absb:SetHeight(Scale(28))				
 	absb:SetStatusBarTexture(normTex)
 	absb:SetStatusBarColor(0.5, 0.5, 0, 1)
 
@@ -267,16 +267,16 @@ local function Shared(self, unit)
 	self.Name:SetParent(absb)
 	
 	local auras = CreateFrame("Frame", nil, self)
-	auras:Point("TOPLEFT", self.Health, 2, -2)
-	auras:Point("BOTTOMRIGHT", self.Health, -2, 2)
+	auras:SetPoint("TOPLEFT", self.Health, Scale(2), -Scale(2))
+	auras:SetPoint("BOTTOMRIGHT", self.Health, -Scale(2), Scale(2))
 	auras.presentAlpha = 1
 	auras.missingAlpha = 0
 	auras.icons = {}
 	auras.PostCreateIcon = function(self, icon)		
 		if icon.icon and not icon.hideIcon then
 			icon:CreateBackdrop()
-			icon.icon:Point("TOPLEFT", 1, -1)
-			icon.icon:Point("BOTTOMRIGHT", -1, 1)
+			icon.icon:SetPoint("TOPLEFT", Scale(1), -Scale(1))
+			icon.icon:SetPoint("BOTTOMRIGHT", -Scale(1), Scale(1))
 			icon.icon:SetTexCoord(.08, .92, .08, .92)
 			icon.icon:SetDrawLayer("ARTWORK")
 		end
@@ -309,6 +309,22 @@ local function Shared(self, unit)
 	-- forceOCC forces the cooldown count on the cooldown sweep animation
 	-- hideIcon hides the icon, the extra texture and the cooldown sweep (only makes sense if used with forceOCC = true)
 	-- textPoint,textJust configure the SetPoint and the SetJustifyH for the cooldown text inside the icon
+	if not S["UnitFrames"].RaidBuffsTracking then
+		S["UnitFrames"].RaidBuffsTracking = {}
+	end
+	
+	if not S["UnitFrames"].RaidBuffsTrackingPosition then
+		S["UnitFrames"].RaidBuffsTrackingPosition= {
+			TOPLEFT = {6, 1},
+			TOPRIGHT = {-6, 1},
+			BOTTOMLEFT = {6, 1},
+			BOTTOMRIGHT = {-6, 1},
+			LEFT = {6, 1},
+			RIGHT = {-6, 1},
+			TOP = {0, 0},
+			BOTTOM = {0, 0},
+		}
+	end
 	
 	S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
 		{774, {"TOPLEFT",-1,1}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Rejuvenation
@@ -367,7 +383,6 @@ local function Shared(self, unit)
 		{31850, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ardent Defender
 		{86659, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Guardian of Ancien Kings
 		{212641, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of Ancien Kings (Glyph of the Queen)
-		{204335, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Aegis of Light
 	--Priest
 		{81782, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Power Word: Barrier
 		{47585, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Dispersion
@@ -431,22 +446,22 @@ local function Shared(self, unit)
 			icon.onlyShowPresent = true -- could be defined on a per-icon-basis, but not neccessary just yet		
 			icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
 			
-			icon:Width(6)
-			icon:Height(6)
+			icon:SetWidth(Scale(6))
+			icon:SetHeight(Scale(6))
 		
 			for _,myspell in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do
 				if icon.spellID == myspell[1] then
-					icon:Width(15)
-					icon:Height(15)
+					icon:SetWidth(Scale(15))
+					icon:SetHeight(Scale(15))
 					icon:SetFrameStrata("MEDIUM")
 					icon:SetFrameLevel(self.Health:GetFrameLevel()+4)
 				end
 			end
 		
 			if type(spell[2]) == "string" then
-				icon:Point(spell[2], 0, 0)
+				icon:SetPoint(Scale(spell[2]), 0, 0)
 			elseif type(spell[2]) == "table" then
-				icon:Point(unpack(spell[2]))
+				icon:SetPoint(unpack(spell[2]))
 			end
 
 			local tex = icon:CreateTexture(nil, "OVERLAY")
@@ -485,11 +500,11 @@ local function Shared(self, unit)
 	self.NotAuraWatch = auras
 
 	local ShadowTouched = CreateFrame("Frame", nil, auras)	
-	ShadowTouched:Width(15)
-	ShadowTouched:Height(15)
+	ShadowTouched:SetWidth(Scale(15))
+	ShadowTouched:SetHeight(Scale(15))
 	ShadowTouched:SetFrameStrata("MEDIUM")
 	ShadowTouched:SetFrameLevel(self.Health:GetFrameLevel()+5) -- one more than the def buffs
-	ShadowTouched:Point("TOPRIGHT", 2, 2)
+	ShadowTouched:SetPoint("TOPRIGHT", Scale(2), Scale(2))
 	
 	self.ShadowTouched = ShadowTouched
 	
@@ -514,7 +529,7 @@ local function Shared(self, unit)
 		text.spellID = spell[1]
 		-- set the dimensions and positions
 		text:SetFont("Fonts\\FRIZQT__.TTF", spell[3])--, "THINOUTLINE")
-		text:Point(unpack(spell[2]))
+		text:SetPoint(unpack(spell[2]))
 		ta.texts[text.spellID] = text
 	end
 	
@@ -531,9 +546,9 @@ local function Shared(self, unit)
 	self.TextAuras = ta
 
 	local RaidDebuffs = CreateFrame("Frame", nil, self)
-	RaidDebuffs:Height(15)
-	RaidDebuffs:Width(15)
-	RaidDebuffs:Point("BOTTOMLEFT",auras, -2,-2)
+	RaidDebuffs:SetHeight(Scale(15))
+	RaidDebuffs:SetWidth(Scale(15))
+	RaidDebuffs:SetPoint("BOTTOMLEFT",auras, -Scale(2),-Scale(2))
 	RaidDebuffs:SetFrameStrata(health:GetFrameStrata())
 	RaidDebuffs:SetFrameLevel(health:GetFrameLevel() + 2)
 	
@@ -541,18 +556,18 @@ local function Shared(self, unit)
 	
 	RaidDebuffs.icon = RaidDebuffs:CreateTexture(nil, "OVERLAY")
 	RaidDebuffs.icon:SetTexCoord(.1,.9,.1,.9)
-	RaidDebuffs.icon:Point("TOPLEFT", 2, -2)
-	RaidDebuffs.icon:Point("BOTTOMRIGHT", -2, 2)
+	RaidDebuffs.icon:SetPoint("TOPLEFT", Scale(2), -Scale(2))
+	RaidDebuffs.icon:SetPoint("BOTTOMRIGHT", -Scale(2), Scale(2))
 
 	RaidDebuffs.cd = CreateFrame("Cooldown", nil, RaidDebuffs,"CooldownFrameTemplate")
-	RaidDebuffs.cd:Point("TOPLEFT", 2, -2)
-	RaidDebuffs.cd:Point("BOTTOMRIGHT", -2, 2)
+	RaidDebuffs.cd:SetPoint("TOPLEFT", Scale(2), -Scale(2))
+	RaidDebuffs.cd:SetPoint("BOTTOMRIGHT", -Scale(2), Scale(2))
 	RaidDebuffs.cd.noOCC = true -- remove this line if you want cooldown number on it
 	RaidDebuffs.cd.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
 	
 	RaidDebuffs.count = RaidDebuffs:CreateFontString(nil, "OVERLAY")
 	RaidDebuffs.count:SetFont(font2, 9, "THINOUTLINE")
-	RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 0, 2)
+	RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 0, Scale(2))
 	RaidDebuffs.count:SetTextColor(1, .9, 0)
 
 	
@@ -1129,21 +1144,21 @@ local function GetRaidFrameAttributes()
 		self:SetWidth(header:GetAttribute("initial-width"))
 		self:SetHeight(header:GetAttribute("initial-height"))
 	]],
-	"initial-width", S.Scale(66),
-	"initial-height", S.Scale(28),
+	"initial-width", Scale(66),
+	"initial-height", Scale(28),
 	"showParty", true,
 	"showRaid", true,
 	"showPlayer", true,
 	"showSolo", true,
-	"xoffset", S.Scale(2),
-	"yOffset", S.Scale(-2),
+	"xoffset", Scale(2),
+	"yOffset", Scale(-2),
 	"point", point,
 	"groupFilter", "1,2,3,4,5,6,7,8",
 	"groupingOrder", "1,2,3,4,5,6,7,8",
 	"groupBy", "GROUP",
 	"maxColumns", 8,
 	"unitsPerColumn", 5,
-	"columnSpacing", S.Scale(2),
+	"columnSpacing", Scale(2),
 	"columnAnchorPoint", columnAnchorPoint
 end
 S.RaidFrameAttributes = GetAttributes
@@ -1159,12 +1174,12 @@ local function GetPetFrameAttributes()
 	"maxColumns", 8,
 	"point", point,
 	"unitsPerColumn", 5,
-	"columnSpacing", S.Scale(2),
+	"columnSpacing", Scale(2),
 	"columnAnchorPoint", columnAnchorPoint,
-	"yOffset", S.Scale(-2),
-	"xOffset", S.Scale(2),
-	"initial-width", S.Scale(66),
-	"initial-height", S.Scale(28),
+	"yOffset", Scale(-2),
+	"xOffset", Scale(2),
+	"initial-width", Scale(66),
+	"initial-height", Scale(28),
 	"oUF-initialConfigFunction", [[
 		local header = self:GetParent()
 		self:SetWidth(header:GetAttribute("initial-width"))
@@ -1178,18 +1193,13 @@ oUF:Factory(function(self)
 	oUF:SetActiveStyle("SanUIRaid")
 
 	local raid = oUF:SpawnHeader(GetRaidFrameAttributes())
-	raid:SetParent(S["Panels"].PetBattleHider)
+	raid:SetParent(Tukui_PetBattleFrameHider)
 	raid:ClearAllPoints()
 	raid:SetPoint("CENTER",UIParent,0,-195)
 
 	local pet = oUF:SpawnHeader(GetPetFrameAttributes())
-	pet:SetParent(S["Panels"].PetBattleHider)
-	pet:Point(pa1, raid, pa2, px, py)
-	
-	hooksecurefunc(S.Panels,"Enable",function()
-		raid:SetParent(S["Panels"].PetBattleHider)
-		pet:SetParent(S["Panels"].PetBattleHider)
-	end)
+	pet:SetParent(Tukui_PetBattleFrameHider)
+	pet:SetPoint(pa1, raid, pa2, Scale(px), Scale(py))
 	
 	-- Max number of group according to Instance max players
 	local ten = "1,2"

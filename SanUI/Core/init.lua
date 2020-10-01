@@ -21,3 +21,5 @@ SanUI[1].MyName = UnitName("player")
 
 SanUI[1].reload_checks = {} -- values are functions that return true if a mode 
 			    -- reload is neccessary
+				
+SanUI.oUF = Tukui.oUF

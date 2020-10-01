@@ -89,7 +89,7 @@ Here is an example of how to set oUF_AW up:
 
 local _, ns = ...
 --local oUF = ns.oUF or _G.oUF
-local oUF = TukuiUnitFrameFramework
+local oUF = SanUI.oUF
 assert(oUF, "oUF_NotAuraWatch cannot find an instance of oUF. If your oUF is embedded into a layout, it may not be embedded properly.")
 
 local UnitAura, UnitGUID = UnitAura, UnitGUID

@@ -1,4 +1,4 @@
-local oUF = TukuiUnitFrameFramework
+local oUF = Tukui.oUF
 
 oUF_Hank_config_changes = {
 FocusFrameScale = 0.7,

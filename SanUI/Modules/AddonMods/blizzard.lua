@@ -21,7 +21,7 @@ function S.disableBlizzard()
 	InterfaceOptionsFrameCategoriesButton11:SetScale(0.00001)
 	InterfaceOptionsFrameCategoriesButton11:SetAlpha(0)
 
-	CompactRaidFrameManager:SetParent(S["Panels"].Hider)
+	CompactRaidFrameManager:SetParent(S.Hider)
 	CompactUnitFrameProfiles:UnregisterAllEvents()
 
 	for i = 1, MAX_PARTY_MEMBERS do
@@ -32,13 +32,13 @@ function S.disableBlizzard()
 		local PetHealth = _G["PartyMemberFrame" .. i .."PetFrame" .. "HealthBar"]
 
 		PartyMember:UnregisterAllEvents()
-		PartyMember:SetParent(S["Panels"].Hider)
+		PartyMember:SetParent(S.Hider)
 		PartyMember:Hide()
 		Health:UnregisterAllEvents()
 		Power:UnregisterAllEvents()
 
 		Pet:UnregisterAllEvents()
-		Pet:SetParent(S["Panels"].Hider)
+		Pet:SetParent(S.Hider)
 		PetHealth:UnregisterAllEvents()
 
 		HidePartyFrame()

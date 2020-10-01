@@ -8,20 +8,21 @@ local T,C,L = unpack(Tukui)
 
 SimpleAuraFilter = LibStub("AceAddon-3.0"):NewAddon("SimpleAuraFilter", "AceConsole-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("SimpleAuraFilter")
+local Scale = T.Toolkit.Functions.Scale
 
 S = SimpleAuraFilter
 
 SimpleAuraFilter.debug = true
 
 TemporaryEnchantFrame:ClearAllPoints()
-TemporaryEnchantFrame:Point("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
+TemporaryEnchantFrame:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
 
 TempEnchant1:ClearAllPoints()
 TempEnchant2:ClearAllPoints()
 TempEnchant3:ClearAllPoints()
-TempEnchant1:Point("TOPRIGHT", TemporaryEnchantFrame, "TOPRIGHT",0,0)
-TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -4, 0)
-TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -4, 0)
+TempEnchant1:SetPoint("TOPRIGHT", TemporaryEnchantFrame, "TOPRIGHT",0,0)
+TempEnchant2:SetPoint("RIGHT", TempEnchant1, "LEFT", -Scale(4), 0)
+TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -Scale(4), 0)
 
 if WorldStateAlwaysUpFrame then 
 	WorldStateAlwaysUpFrame:SetFrameStrata("BACKGROUND")
@@ -30,17 +31,17 @@ end
 
 for i = 1, 3 do
 	local f = CreateFrame("Frame", nil, _G["TempEnchant"..i])
-	f:Size(30)
+	f:SetSize(Scale(30), Scale(30))
 	f:SetPoint("CENTER",_G["TempEnchant"..i], "CENTER", 0, 0)
 	f:CreateBackdrop("Transparent")
 	_G["TempEnchant"..i.."Border"]:Hide()
 	_G["TempEnchant"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
-	_G["TempEnchant"..i.."Icon"]:Point("TOPLEFT", _G["TempEnchant"..i], 2, -2)
-	_G["TempEnchant"..i.."Icon"]:Point("BOTTOMRIGHT", _G["TempEnchant"..i], -2, 2)
-	_G["TempEnchant"..i]:Height(30)
-	_G["TempEnchant"..i]:Width(30)	
+	_G["TempEnchant"..i.."Icon"]:SetPoint("TOPLEFT", _G["TempEnchant"..i], Scale(2), -Scale(2))
+	_G["TempEnchant"..i.."Icon"]:SetPoint("BOTTOMRIGHT", _G["TempEnchant"..i], -Scale(2), Scale(2))
+	_G["TempEnchant"..i]:SetHeight(Scale(30))
+	_G["TempEnchant"..i]:SetWidth(Scale(30))	
 	_G["TempEnchant"..i.."Duration"]:ClearAllPoints()
-	_G["TempEnchant"..i.."Duration"]:Point("BOTTOM", 0, -13)
+	_G["TempEnchant"..i.."Duration"]:SetPoint("BOTTOM", 0, -Scale(13))
 end
 
 local function MyBuffButton_OnClick (button)
@@ -89,15 +90,15 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 		
 		if not _G["BuffButton"..i.."Panel"] then
 			local panel = CreateFrame("Frame", "BuffButton".. i .."Panel", buff)
-			panel:Size(30)
+			panel:SetSize(Scale(30), Scale(30))
 			panel:SetPoint("CENTER",buff, "CENTER", 0, 0)
 			panel:CreateBackdrop("Transparent")
 			panel:SetFrameLevel(buff:GetFrameLevel() - 1)
 			panel:SetFrameStrata(buff:GetFrameStrata())
 			
 			icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-			icon:Point("TOPLEFT", buff, 2, -2)
-			icon:Point("BOTTOMRIGHT", buff, -2, 2)
+			icon:SetPoint("TOPLEFT", buff, Scale(2), -Scale(2))
+			icon:SetPoint("BOTTOMRIGHT", buff, -Scale(2), Scale(2))
 		end
 			
 		if not buff:IsShown() then
@@ -141,8 +142,8 @@ local function UpdateDebuffAnchors(buttonName, index)
 	
 	if not _G[buttonName..index.."Panel"] then
 		panel = CreateFrame("Frame", buttonName..index.."Panel", debuff)
-		panel:Size(30)
-		panel:Point("CENTER", debuff, "CENTER", 0, 0)
+		panel:SetSize(Scale(30), Scale(30))
+		panel:SetPoint("CENTER", debuff, "CENTER", 0, 0)
 		panel:CreateBackdrop("Transparent")
 		panel:SetFrameLevel(debuff:GetFrameLevel() - 1)
 		panel:SetFrameStrata(debuff:GetFrameStrata())
@@ -167,9 +168,9 @@ local function UpdateDebuffAnchors(buttonName, index)
 	debuff:ClearAllPoints()
 	
 	if index == 1 then
-		debuff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, -buffRows*BUFF_ROW_SPACING - T.Scale(buffRows * 30 + 10) )
+		debuff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, -buffRows*BUFF_ROW_SPACING - Scale(buffRows * 30 + 10) )
 	else
-		debuff:Point("RIGHT", _G[buttonName..(index-1)], "LEFT", -4, 0)
+		debuff:SetPoint("RIGHT", _G[buttonName..(index-1)], "LEFT", -Scale(4), 0)
 	end
 end
 

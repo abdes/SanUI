@@ -3,7 +3,9 @@
 
 local S,C = unpack(SanUI)
 local _, ns = ...
-local oUF = TukuiUnitFrameFramework
+local oUF = SanUI.oUF
+
+local Scale = S.Toolkit.Functions.Scale
 
 ns._Objects = {}
 ns._Headers = {}
@@ -46,7 +48,7 @@ oUF.Tags.Methods['BossBars:altpower'] = function(unit)
 	end
 end
 
-oUF.Tags.Events['BossBars:health'] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_HEALTH_FREQUENT"
+oUF.Tags.Events['BossBars:health'] = "UNIT_HEALTH UNIT_MAXHEALTH"
 oUF.Tags.Methods['BossBars:health'] = function(unit)
 		local m = UnitHealthMax(unit)
 		if(m > 0) then
@@ -63,22 +65,22 @@ local function CreateUnitFrame(self, unit)
 	self:SetSize(BarWidth, BarHeight)
 
 	local hpBar = CreateFrame("StatusBar",nil, self)
-	hpBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+	hpBar:SetPoint("TOPLEFT", self, "TOPLEFT", Scale(1), -Scale(1))
 	hpBar:SetSize(BarWidth - 2, BarHeight - 2)
 	hpBar:SetStatusBarTexture(BAR_TEXTURE)
 	hpBar:GetStatusBarTexture():SetHorizTile(true)
 	hpBar:SetStatusBarColor(0.3,0.3,0.3,1)	
 	hpBar:SetFrameStrata("MEDIUM")
-	hpBar.frequentUpdates = true
+	--hpBar.frequentUpdates = true
 	hpBar.colorHealth = false
 	
 	self.Health = hpBar
 	
-	local hpBarBG = CreateFrame("Frame",nil,hpBar)
-	hpBarBG:Point("TOPLEFT",hpBar,"TOPLEFT",-1,1)
-	hpBarBG:Point("BOTTOMRIGHT",hpBar,"BOTTOMRIGHT",1,-1)
+	local hpBarBG = CreateFrame("Frame",nil,hpBar, "BackdropTemplate")
+	hpBarBG:SetPoint("TOPLEFT",hpBar,"TOPLEFT",-Scale(1),Scale(1))
+	hpBarBG:SetPoint("BOTTOMRIGHT",hpBar,"BOTTOMRIGHT",Scale(1),-Scale(1))
 	hpBarBG:CreateBackdrop()
-	hpBarBG:SetBackdropColor(0,0,0,1)
+	hpBarBG.Backdrop:SetBackdropColor(0,0,0,1)
 	hpBarBG:SetFrameStrata("MEDIUM")
 	hpBarBG:SetFrameLevel(hpBar:GetFrameLevel()-1)
 	
@@ -103,17 +105,17 @@ local function CreateUnitFrame(self, unit)
 	PowerBar:SetFrameStrata(hpBar:GetFrameStrata())
 	PowerBar:SetFrameLevel(hpBar:GetFrameLevel()+2)
 	PowerBar:SetStatusBarColor(0.3,0.3,0.3,1)
-	PowerBar:Point("CENTER", self.Health, "BOTTOM", 0, -6)
+	PowerBar:SetPoint("CENTER", self.Health, "BOTTOM", 0, -Scale(6))
 	
-	PowerBar.frequentUpdates = true
+	--PowerBar.frequentUpdates = true
 	PowerBar.colorPower = false
 	self.Power = PowerBar
 	
 	local powerBarBG = CreateFrame("Frame",nil,PowerBar)
-	powerBarBG:Point("TOPLEFT",PowerBar,"TOPLEFT",-1,1)
-	powerBarBG:Point("BOTTOMRIGHT",PowerBar,"BOTTOMRIGHT",1,-1)
+	powerBarBG:SetPoint("TOPLEFT",PowerBar,"TOPLEFT",-Scale(1),Scale(1))
+	powerBarBG:SetPoint("BOTTOMRIGHT",PowerBar,"BOTTOMRIGHT",Scale(1),-Scale(1))
 	powerBarBG:CreateBackdrop()
-	powerBarBG:SetBackdropColor(0,0,0,1)
+	powerBarBG.Backdrop:SetBackdropColor(0,0,0,1)
 	powerBarBG:SetFrameStrata(PowerBar:GetFrameStrata())
 	powerBarBG:SetFrameLevel(PowerBar:GetFrameLevel()-1)
 	
@@ -123,7 +125,7 @@ local function CreateUnitFrame(self, unit)
 	powerText:SetFont(TEXT_FONT, fontSize-1)
 	powerText:SetShadowOffset(.8,-.8)
 	powerText:SetTextColor(unpack(fontcolor))
-	powerText:Point("RIGHT", PowerBar, "RIGHT", -4, -1)
+	powerText:SetPoint("RIGHT", PowerBar, "RIGHT", -Scale(4), -Scale(1))
 	powerText:SetJustifyH("RIGHT")
 	powerText:SetJustifyV("MIDDLE")
 	
@@ -141,7 +143,7 @@ local function CreateUnitFrame(self, unit)
 	
 	local castbar = CreateFrame('StatusBar', nil, self)
 	castbar:SetFrameStrata("HIGH")
-	castbar:Point("TOP",self.Power,"BOTTOM",0,2)
+	castbar:SetPoint("TOP",self.Power,"BOTTOM",0,Scale(2))
 	castbar:SetWidth(BarWidth - 2 )
 	castbar:SetHeight(BarHeight - 2)
 	castbar:SetStatusBarTexture(BAR_TEXTURE)	
@@ -155,10 +157,10 @@ local function CreateUnitFrame(self, unit)
 	self.Castbar = castbar
 	
 	local castBarBG = CreateFrame("Frame",nil,self.Castbar)
-	castBarBG:Point("TOPLEFT",self.Castbar,"TOPLEFT",-1,1)
-	castBarBG:Point("BOTTOMRIGHT",self.Castbar,"BOTTOMRIGHT",1,-1)
+	castBarBG:SetPoint("TOPLEFT",self.Castbar,"TOPLEFT",-Scale(1),Scale(1))
+	castBarBG:SetPoint("BOTTOMRIGHT",self.Castbar,"BOTTOMRIGHT",Scale(1),-Scale(1))
 	castBarBG:CreateBackdrop()
-	castBarBG:SetBackdropColor(0,0,0,1)
+	castBarBG.Backdrop:SetBackdropColor(0,0,0,1)
 	castBarBG:SetFrameStrata(self.Castbar:GetFrameStrata())
 	castBarBG:SetFrameLevel(self.Castbar:GetFrameLevel()-1)
 	
@@ -214,8 +216,8 @@ local function CreateUnitFrame(self, unit)
 	end
 	
 	local altBarBG = CreateFrame("Frame",nil,AltPowerBar)
-	altBarBG:Point("TOPLEFT",AltPowerBar,"TOPLEFT",-2,2)
-	altBarBG:Point("BOTTOMRIGHT",AltPowerBar,"BOTTOMRIGHT",2,-1)
+	altBarBG:SetPoint("TOPLEFT",AltPowerBar,"TOPLEFT",-Scale(2),Scale(2))
+	altBarBG:SetPoint("BOTTOMRIGHT",AltPowerBar,"BOTTOMRIGHT",Scale(2),-Scale(1))
 	altBarBG:CreateBackdrop()
 	altBarBG:SetFrameStrata(AltPowerBar:GetFrameStrata())
 	altBarBG:SetFrameLevel(AltPowerBar:GetFrameLevel()-1)
@@ -234,9 +236,9 @@ local function CreateUnitFrame(self, unit)
 	self.AltPowerBar:Hide()
 
 	local RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
-	RaidIcon:Height(16)
-	RaidIcon:Width(16)
-	RaidIcon:SetPoint("CENTER", self, "TOP",0,-1)
+	RaidIcon:SetHeight(Scale(16))
+	RaidIcon:SetWidth(Scale(16))
+	RaidIcon:SetPoint("CENTER", self, "TOP",0,-Scale(1))
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
 	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	
@@ -247,8 +249,8 @@ local function CreateUnitFrame(self, unit)
 	self.Range = range
 
 	-- highlight
-	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = S.Scale(1)}
-	local HighlightTarget = CreateFrame("Frame", nil, self)
+	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = Scale(1)}
+	local HighlightTarget = CreateFrame("Frame", nil, self, "BackdropTemplate")
 	HighlightTarget:SetAllPoints(self.Health.bg)
 	HighlightTarget:SetBackdrop(glowBorder)
 	HighlightTarget:SetFrameLevel(self:GetFrameLevel() + 1)
@@ -265,7 +267,7 @@ local function CreateUnitFrame(self, unit)
 	self.HighlightTarget = HighlightTarget
 
 	local auras = CreateFrame("Frame", nil, self)
-	auras:Point("RIGHT", self.Health,-33, 0)
+	auras:SetPoint("RIGHT", self.Health,-Scale(33), 0)
 	auras:SetSize(16, BarHeight - 4) --2 auras, size 6, dist 4
 	Name:SetPoint("RIGHT",auras,"LEFT")
 	auras.presentAlpha = 1
@@ -275,8 +277,8 @@ local function CreateUnitFrame(self, unit)
 	auras.PostCreateIcon = function(self, icon)
 		if icon.icon and not icon.hideIcon then
 			icon:CreateBackdrop()
-			icon.icon:Point("TOPLEFT", 1, -1)
-			icon.icon:Point("BOTTOMRIGHT", -1, 1)
+			icon.icon:SetPoint("TOPLEFT", Scale(1), -Scale(1))
+			icon.icon:SetPoint("BOTTOMRIGHT", -Scale(1), Scale(1))
 			icon.icon:SetTexCoord(.08, .92, .08, .92)
 			icon.icon:SetDrawLayer("ARTWORK")
 		end
@@ -313,18 +315,13 @@ local function CreateUnitFrame(self, unit)
 			icon.hideCount = spell[8]
 			icon.onlyShowPresent = true -- could be defined on a per-icon-basis, but not neccessary just yet
 			
-			icon:Width(6)
-			icon:Height(6)
-			
-			if icon.hideIcon then
-				icon:Width(6)
-				icon:Height(6)
-			end
+			icon:SetWidth(Scale(6))
+			icon:SetHeight(Scale(6))
 
 			if type(spell[2]) == "string" then
-				icon:Point(spell[2], 0, 0)
+				icon:SetPoint(spell[2], 0, 0)
 			elseif type(spell[2]) == "table" then
-				icon:Point(unpack(spell[2]))
+				icon:SetPoint(unpack(spell[2]))
 			end
 
 			local tex = icon:CreateTexture(nil, "OVERLAY")

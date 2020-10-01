@@ -7,6 +7,7 @@
 --To disabled a button, set it to 0.
 local S,C = unpack(SanUI)
 local SanUIButtonOrder = {Grid=1, DBM=2, Altoholic=3, Hack=4}
+local Scale = S.Toolkit.Functions.Scale
 
 if S["profiles"][S.MyName]["AddonMenu"] then
 	SanUIButtonOrder = S["profiles"][S.MyName]["AddonMenu"]
@@ -99,14 +100,13 @@ end
 -------------------------------------------------------------------
 -- Open/Close Button
 local MenuOpen = CreateFrame("Frame", "MenuOpen", UIParent)
+MenuOpen:CreateBackdrop()
 if AnchorSide == true then
-	MenuOpen:Size(10)
-	MenuOpen:Point("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", 3, 0)
-	MenuOpen:CreateBackdrop()
+	MenuOpen:SetSize(Scale(10), Scale(10))
+	MenuOpen:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), 0)
 else
-	MenuOpen:Size(Minimap:GetWidth()+4 ,14)
-	MenuOpen:Point("BOTTOM", Minimap, "TOP", 0, 5 + Offset)
-	MenuOpen:CreateBackdrop()
+	MenuOpen:SetSize(Minimap:GetWidth()+Scale(4) , Scale(14))
+	MenuOpen:SetPoint("BOTTOM", Minimap, "TOP", 0, Scale(5 + Offset))
 end
 
 local Text = MenuOpen:CreateFontString(nil, "OVERLAY")
@@ -114,7 +114,7 @@ Text:SetFont(C.Medias.Font, 10)
 Text:SetText("a")
 Text:SetJustifyH("CENTER")
 Text:SetJustifyV("MIDDLE")
-Text:Point("CENTER",MenuOpen)
+Text:SetPoint("CENTER", MenuOpen)
 Text:Show()
 
 MenuOpen.text = Text
@@ -126,47 +126,29 @@ MenuOpen:SetFrameStrata("MEDIUM")
 local Menu = CreateFrame("Frame", "MinimapMenu", UIParent)
 if AnchorSide == true then
 	--Menu:CreatePanel("", MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3, "TOP", Minimap, "BOTTOM",0, -5 - Offset)
-	Menu:Size(Minimap:GetWidth(),(Btns*(BtnHeight+1))+3)
-	Menu:Point("TOPLEFT", Minimap, "TOPRIGHT", 17,0)
+	Menu:SetSize(Scale(Minimap:GetWidth()), Scale((Btns*(BtnHeight+1))+3))
+	Menu:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", Scale(17),0)
 	Menu:CreateBackdrop()
 else
 	--Menu:CreatePanel("", MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3, "BOTTOM", Minimap, "TOP",0, 5 + Offset)
-	Menu:Size(MenuOpen:GetWidth(),(Btns*(BtnHeight+1))+3)
-	Menu:Point("BOTTOM", Minimap, "TOP",0, 5 + Offset)
+	Menu:SetSize(Scale(MenuOpen:GetWidth()),Scale((Btns*(BtnHeight+1))+3))
+	Menu:SetPoint("BOTTOM", Minimap, "TOP",0, Scale(5 + Offset))
 	Menu:CreateBackdrop()
 end
 Menu:Hide()
 Menu:SetFrameStrata("HIGH") --BACKGROUND")
 Menu:EnableMouse(true)
 
-hooksecurefunc(S.Panels,"Enable",function()
-	MenuOpen:SetParent(S["Panels"].PetBattleHider)
-	Menu:SetParent(S["Panels"].PetBattleHider)
-end)
-
---Change border when mouse is inside the button
-local function ButtonEnter(self)
-	local color = RAID_CLASS_COLORS[S.MyClass]
-	self:SetBackdropBorderColor(color.r, color.g, color.b)
-end
-
---Change border back to normal when mouse leaves button
-local function ButtonLeave(self)
-	self:SetBackdropBorderColor(unpack(C["Medias"].BorderColor))
-end
-
--- Mouseover Effect
-MenuOpen:SetScript("OnEnter", ButtonEnter)
-MenuOpen:SetScript("OnLeave", ButtonLeave)
+MenuOpen:SkinButton()
 
 local function MenuMouseDown()
 	if Menu:IsShown() then
 		MenuOpen:SetFrameStrata("MEDIUM")
 		Menu:Hide()
 		RaidUtilitiesButton:Show()
-		MenuOpen:Size(10)
+		MenuOpen:SetSize(Scale(10), Scale(10))
 		MenuOpen:ClearAllPoints()
-		MenuOpen:Point("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", 3, 0)
+		MenuOpen:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), 0)
 		Text:SetFont(C.Medias.Font, 10)
 		MenuOpen.text:SetText("a")
 		MenuOpen:Show()
@@ -174,9 +156,9 @@ local function MenuMouseDown()
 		MenuOpen:SetFrameStrata("HIGH")
 		Menu:Show()
 		RaidUtilitiesButton:Hide()
-		MenuOpen:Size(Minimap:GetWidth(),BtnHeight)
+		MenuOpen:SetSize(Scale(Minimap:GetWidth()), Scale(BtnHeight))
 		MenuOpen:ClearAllPoints()
-		MenuOpen:SetPoint("TOP", Menu, "BOTTOM", 0, -3)
+		MenuOpen:SetPoint("TOP", Menu, "BOTTOM", 0, -Scale(3))
 		Text:SetFont(C.Medias.Font, fontsize)
 		MenuOpen.text:SetText(CLOSE)
 	end
@@ -192,27 +174,27 @@ MenuOpen:SetScript("OnMouseDown", MenuMouseDown)
 local function CreateButton(f, o) --(Frame,ButtonOrderName)
 	if AnchorSide == true then
 		--f:CreatePanel("", Menu:GetWidth()-4, BtnHeight, "BOTTOM", Menu, "TOP", 0, -o*(BtnHeight+1)-1)
-		f:Size(Menu:GetWidth()-4, BtnHeight)
-		f:Point("BOTTOM", Menu, "TOP", 0, -o*(BtnHeight+1)-1)
+		f:SetSize(Scale(Menu:GetWidth()-4), Scale(BtnHeight))
+		f:SetPoint("BOTTOM", Menu, "TOP", 0, -Scale(o*(BtnHeight+1)-1))
 		f:CreateBackdrop()
 		
 		f:SetFrameStrata("DIALOG")
 		
 		f.title = f:CreateFontString()
-		f.title:SetPoint("CENTER", f, "CENTER", 0, 1)
+		f.title:SetPoint("CENTER", f, "CENTER", 0, Scale(1))
 		f.title:SetFont(font, fontsize, "OUTLINE") --14
 		f.title:SetTextColor(1, 1, 1)
 
 		f:EnableMouse(true)
 	else
 		--f:CreatePanel("", Menu:GetWidth()-4, BtnHeight, "TOP", Menu, "BOTTOM", 0, o*(BtnHeight+1)+1)
-		f:Size(Menu:GetWidth()-4, BtnHeight)
-		f:Point("TOP", Menu, "BOTTOM", 0, o*(BtnHeight+1)+1)
+		f:SetSize(Scale(Menu:GetWidth()-4), Scale(BtnHeight))
+		f:SetPoint("TOP", Menu, "BOTTOM", 0, Scale(o*(BtnHeight+1)+1))
 		f:CreateBackdrop()
 		f:SetFrameStrata("DIALOG")
 		
 		f.title = f:CreateFontString()
-		f.title:SetPoint("CENTER", f, "CENTER", 0, 1)
+		f.title:SetPoint("CENTER", f, "CENTER", 0, Scale(1))
 		f.title:SetFont(font, fontsize, "OUTLINE") --14
 		f.title:SetTextColor(1, 1, 1)
 

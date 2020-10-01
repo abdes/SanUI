@@ -1,23 +1,22 @@
 if not IsAddOnLoaded("BugSack") then return end
 
 local S,C = unpack(SanUI)
+local Scale = S.Toolkit.Functions.Scale
 
 local button  = CreateFrame("Frame", nil, UIParent)
-button:Size(10)
-button:Point("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", 3, 14)
+button:SetSize(Scale(10), Scale(10))
+button:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), Scale(14))
 button:CreateBackdrop()
 button:SetFrameStrata("MEDIUM")
---button:SetParent("TukuiPetBattleHider")
-hooksecurefunc(S.Panels,"Enable",function()
-	button:SetParent(S["Panels"].PetBattleHider)
-end)
+button:SetParent(Tukui_PetBattleFrameHider)
+
 
 local Text = button:CreateFontString(nil, "OVERLAY")
 Text:SetFont(C.Medias.Font, 10)
 Text:SetText("b")
 Text:SetJustifyH("CENTER")
 Text:SetJustifyV("MIDDLE")
-Text:Point("CENTER",button,1,-1)
+Text:SetPoint("CENTER",button,Scale(1),-Scale(1))
 Text:Show()
 button.text = Text
 
@@ -37,17 +36,4 @@ button:SetScript("OnMouseDown", function(self,clicked)
 	end
 end)
 
---Change border when mouse is inside the button
-local function ButtonEnter(self)
-	local color = RAID_CLASS_COLORS[S.MyClass]
-	self:SetBackdropBorderColor(color.r, color.g, color.b)
-end
-
---Change border back to normal when mouse leaves button
-local function ButtonLeave(self)
-	self:SetBackdropBorderColor(unpack(C["Medias"].BorderColor))
-end
-
--- Mouseover Effect
-button:SetScript("OnEnter", ButtonEnter)
-button:SetScript("OnLeave", ButtonLeave)
+button:SkinButton()

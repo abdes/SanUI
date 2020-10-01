@@ -1,5 +1,6 @@
 local S,C = unpack(SanUI)
 
+local Scale = Tukui[1].Toolkit.Functions.Scale
 
 -- executed  PLAYER_ENTERING_WORLD in Misc.lua
 --Putting it above the middle action bar
@@ -27,11 +28,11 @@ function S.modCoolLine(event)
 		CoolLine:CreateBackdrop()
 	end
 	
-	if S["Panels"].ActionBar1 then
+	if S["ActionBars"].Bars.Bar1 then
 		hooksecurefunc(CoolLine, "updatelook", function()
 			CoolLine:ClearAllPoints()
-			CoolLine:Point("BOTTOMLEFT",S["Panels"].ActionBar1,"TOPLEFT",1,3)
-			CoolLine:Point("BOTTOMRIGHT",S["Panels"].ActionBar1,"TOPRIGHT",-1,3)
+			CoolLine:SetPoint("BOTTOMLEFT",S["ActionBars"].Bars.Bar1,"TOPLEFT",Scale(1),Scale(3))
+			CoolLine:SetPoint("BOTTOMRIGHT",S["ActionBars"].Bars.Bar1,"TOPRIGHT",-Scale(1),Scale(3))
 			S.placeStanceBar()
 		end)
 	end
@@ -44,14 +45,14 @@ function S.modCoolLine(event)
 		end
 	end
 	
-	CoolLine:SetParent(S["Panels"].PetBattleHider)	
+	CoolLine:SetParent(Tukui_PetBattleFrameHider)
 
 end
 
 function S.placeStanceBar()
 	if TukuiStanceBar and CoolLine.Backdrop then
 		TukuiStanceBar:ClearAllPoints()
-		TukuiStanceBar:Point("BOTTOMLEFT",CoolLine.Backdrop,"TOPLEFT",0,2.5)
+		TukuiStanceBar:SetPoint("BOTTOMLEFT",CoolLine.Backdrop,"TOPLEFT",0,Scale(2.5))
 		return 1
 	else
 		print("No TukuiStanceBar or no CoolLine.Backdrop, can't place it!")

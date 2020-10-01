@@ -33,13 +33,13 @@ S.switchBossBars = function(profile)
         boss.Power:SetStatusBarColor(.1,.1,.1, 1)
         boss.Power.bg:SetAlpha(1)
         boss.Power.bg:CreateBackdrop()
-        boss.Power.bg:SetBackdropColor(.2,.2,.2)
+        boss.Power.bg.Backdrop:SetBackdropColor(.2,.2,.2)
 
         boss.Castbar.bg:CreateBackdrop()
 
         boss.AltPowerBar.bg:SetAlpha(1)
         boss.AltPowerBar.bg:CreateBackdrop()
-        boss.AltPowerBar.bg:SetBackdropColor(.1,.1,.1)
+        boss.AltPowerBar.bg.Backdrop:SetBackdropColor(.1,.1,.1)
         boss.AltPowerBar:SetStatusBarColor(0.1,0.1,0.1,1)
       end
     end

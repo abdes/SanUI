@@ -1,4 +1,4 @@
-local oUF = TukuiUnitFrameFramework
+local oUF = Tukui.oUF
 
 oUF_Hank_config = {
 
@@ -103,7 +103,7 @@ colors = setmetatable({
 -- If you use fontain (http://www.wowace.com/addons/fontain/), please change "UFFonts" under "Single font overrides"
 
 -- Target name
-FontStyleBig = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 28, "THICKOUTLINE"},
+FontStyleBig = {[[Interface\AddOns\oUF_Hank\fonts\din1451e.ttf]], 28, "THICKOUTLINE"},
 -- Power, absolute health
 FontStyleMedium = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 16},
 -- ToT, TToT, pet

@@ -1,5 +1,7 @@
 local S = unpack(SanUI)
 
+local Scale = Tukui[1].Toolkit.Functions.Scale
+
 S.switchCastbar = function(profile)
 
 	local cb = oUF_player.Castbar
@@ -14,7 +16,7 @@ S.switchCastbar = function(profile)
 			cb:ClearAllPoints()
 			cb:SetWidth(288)
 			cb.button:ClearAllPoints()
-			cb.button:Size(40)
+			cb.button:SetSize(Scale(40), Scale(40))
 			cb:SetPoint("CENTER",UIParent,"CENTER",0,-263)
 			cb.button:SetPoint("TOP",cb,"BOTTOM",0,-10)
 		elseif profile == "Manyak" then
@@ -30,28 +32,28 @@ S.switchCastbar = function(profile)
 		elseif profile == "DK" then
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()
-			cb:Point("TOPLEFT", oUF_player, "BOTTOMLEFT", 20, -20)
-			cb.button:Point("RIGHT",cb,"LEFT",-4,0)
+			cb:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", Scale(20), -Scale(20))
+			cb.button:SetPoint("RIGHT",cb,"LEFT",-Scale(4),0)
 		elseif profile == "PRet" then
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()
-			cb:Width(150)
-			cb:Point("TOPLEFT", oUF_player, "BOTTOMLEFT", 2, disp_y)
-			cb.button:Point("TOPRIGHT",cb.bg,"TOPLEFT",-2,0)
-			cb.button:Size(28)
+			cb:SetWidth(Scale(150))
+			cb:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", Scale(2), disp_y)
+			cb.button:SetPoint("TOPRIGHT",cb.bg,"TOPLEFT",-Scale(2),0)
+			cb.button:SetSize(Scale(28), Scale(28))
 		else
 			cb:ClearAllPoints()
 			cb.button:ClearAllPoints()
-			cb:Width(150)
+			cb:SetWidth(Scale(150))
 			if oUF_player.ClassPower then
 				local nr_classicons = #oUF_player.ClassPower
-				cb:Point("TOPRIGHT", oUF_player.ClassPower[nr_classicons]:GetParent(), "BOTTOMRIGHT", 0, -2)
+				cb:SetPoint("TOPRIGHT", oUF_player.ClassPower[nr_classicons]:GetParent(), "BOTTOMRIGHT", 0, -Scale(2))
 			else
-				cb:Point("TOPLEFT", oUF_player, "BOTTOMLEFT", 2, disp_y)
+				cb:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", Scale(2), Scale(disp_y))
 			end
 			
-			cb.button:Point("TOPRIGHT",cb.bg,"TOPLEFT",-2,0)
-			cb.button:Size(28)
+			cb.button:SetPoint("TOPRIGHT",cb.bg,"TOPLEFT",-Scale(2),0)
+			cb.button:SetSize(Scale(28), Scale(28))
 		end
 		cb.Text:SetWidth(cb:GetWidth()*0.68)
 		cb.Text:SetHeight(cb:GetHeight()*0.9)

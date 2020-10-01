@@ -2,6 +2,8 @@ local S,C = unpack(SanUI)
 
 local RaidButtonSize = 28
 
+local Scale = Tukui[1].Toolkit.Functions.Scale
+
 local function changeAuras(frame,auras)
 	if not frame.NotAuraWatch then
 		print("Frame "..frame:GetName().." not watched by NotAuraWatch, can't change Auras!")
@@ -66,14 +68,14 @@ local function showRaidPets(show)
 end
 
 S.ModRaidButton = function(button,unit,size,auras)
-	button:Height(size)
-	button.Health:Height(size)
-	button.Health.bg:Height(size)
+	button:SetHeight(Scale(size))
+	button.Health:SetHeight(Scale(size))
+	button.Health.bg:SetHeight(Scale(size))
 
 	if button.HealPrediction then
-		button.HealPrediction.myBar:Height(size)
-		button.HealPrediction.otherBar:Height(size)
-		button.HealPrediction.absorbBar:Height(size)
+		button.HealPrediction.myBar:SetHeight(Scale(size))
+		button.HealPrediction.otherBar:SetHeight(Scale(size))
+		button.HealPrediction.absorbBar:SetHeight(Scale(size))
 	end
 	
 	changeAuras(button,auras)
@@ -147,7 +149,7 @@ S.switchRaidFrames = function(profile)
 		SetAttributeByProxy(frame,"point","LEFT")
 		
 		SetAttributeByProxy(pets,"columnAnchorPoint","TOP")
-		pets:SetPoint("TOPLEFT",frame,"BOTTOMLEFT",0,-S.Scale(4))
+		pets:SetPoint("TOPLEFT",frame,"BOTTOMLEFT",0,-Scale(4))
 		pets:SetAttribute("maxColumns", 8)
 		SetAttributeByProxy(pets,"unitsPerColumn", 5)
 		SetAttributeByProxy(pets,"point","LEFT")

@@ -3,6 +3,8 @@ local S,C,L = unpack(SanUI)
 S["ActionBars"].StartButtonHighlight = function() end
 S["ActionBars"].StopButtonHighlight = function() end
 
+local Scale = S.Toolkit.Functions.Scale
+
 hooksecurefunc(S["UnitFrames"], "Nameplates", function(self)
 	self.Debuffs.disableMouse = true
 	end)
@@ -14,23 +16,23 @@ hooksecurefunc(S["Maps"]["Minimap"], "Enable", function()
 	
 	local Mail = MiniMapMailFrame
 	Mail:ClearAllPoints()
-	Mail:Point("TOPRIGHT", 0, 0)
+	Mail:SetPoint("TOPRIGHT", 0, 0)
 	
 	-- This is needed for the tracking menu (left click on zone name), it's anchored to this
 	MinimapBackdrop:ClearAllPoints()
 	MinimapBackdrop:SetPoint("CENTER",Minimap,"BOTTOM")
 	
 	QueueStatusMinimapButton:ClearAllPoints()
-	QueueStatusMinimapButton:Point("BOTTOMRIGHT",Minimap,"BOTTOMRIGHT")
+	QueueStatusMinimapButton:SetPoint("BOTTOMRIGHT",Minimap,"BOTTOMRIGHT")
 end)
 
 -- Rearrange action bars
 hooksecurefunc(S["ActionBars"], "Enable", function()
-	local TukuiBar1 = S["Panels"].ActionBar1
-	local TukuiBar2 = S["Panels"].ActionBar2
-	local TukuiBar3 = S["Panels"].ActionBar3
-	local TukuiBar4 = S["Panels"].ActionBar4
-	local TukuiBar5 = S["Panels"].ActionBar5
+	local TukuiBar1 = S["ActionBars"].Bars.Bar1
+	local TukuiBar2 = S["ActionBars"].Bars.Bar2
+	local TukuiBar3 = S["ActionBars"].Bars.Bar3
+	local TukuiBar4 = S["ActionBars"].Bars.Bar4
+	local TukuiBar5 = S["ActionBars"].Bars.Bar5
 
 	-- Bars: Bar 1 will contain all main Buttons, Bar 2 is just moved on top of it, background made invisible,
 	--       3 and 4 must go, Bar 5 stays at the rigt, 6 & 7 anchor to it
@@ -38,17 +40,28 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	TukuiBar1:ClearAllPoints()
 	TukuiBar1:HookScript("OnEvent", function(self, event, unit, ...)
 		if event == "PLAYER_ENTERING_WORLD" then
-			self:Width((C["ActionBars"].NormalButtonSize * 24) + (C["ActionBars"].ButtonSpacing * 25))
-			TukuiBar1:Point("BOTTOM", UIParent, "BOTTOM", 0, 3)	
+			self:SetWidth(Scale((C["ActionBars"].NormalButtonSize * 24) + (C["ActionBars"].ButtonSpacing * 25)))
+			TukuiBar1:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, Scale(3))	
 		end
 	end)
 	RegisterStateDriver(TukuiBar1, "visibility", "[petbattle] hide; show")
+
+	local Size = C.ActionBars.NormalButtonSize
+	local Spacing = C.ActionBars.ButtonSpacing
+	TukuiBar1:SetHeight(Scale(Size + (Spacing * 2)))
+	
+	local script = TukuiBar1:GetScript("OnEvent")
+	TukuiBar1:SetScript("OnEvent", function(self, event, unit, ...)
+		script(self, event, unit, ...)
+		_G["ActionButton7"]:ClearAllPoints()
+		_G["ActionButton7"]:SetPoint("LEFT", _G["ActionButton6"], "RIGHT", C["ActionBars"].ButtonSpacing, 0)
+	end)
 
 	-- Rearrange buttons of bar 2
 	for i=1, 12 do
 		local b = _G["MultiBarBottomLeftButton"..i]
 		local b2 = _G["MultiBarBottomLeftButton"..i-1]
-		b:Size(C["ActionBars"].NormalButtonSize, C["ActionBars"].NormalButtonSize)
+		b:SetSize(Scale(C["ActionBars"].NormalButtonSize), Scale(C["ActionBars"].NormalButtonSize))
 		b:ClearAllPoints()
 		
 		if i == 1 then
@@ -64,45 +77,47 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	RegisterStateDriver(TukuiBar3,"visibility","hide")
 	RegisterStateDriver(TukuiBar4,"visibility","hide")
 
-	TukuiBar5:Point("RIGHT", UIParent, "RIGHT", -5, -14)
-	TukuiBar5:Height((C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*13))
-
+	TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -Scale(5), -Scale(14))
+	TukuiBar5:SetHeight(Scale((C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*13)))
+	--[[
 	S["Panels"].BottomLine:ClearAllPoints()
-	S["Panels"].BottomLine:Point("BOTTOMLEFT",UIParent,10,20)
-	S["Panels"].BottomLine:Point("BOTTOMRIGHT",UIParent,-10,20)
+	S["Panels"].BottomLine:SetPoint("BOTTOMLEFT",UIParent,10,20)
+	S["Panels"].BottomLine:SetPoint("BOTTOMRIGHT",UIParent,-10,20)
 	S.Panels["ActionBar" .. 2 .. "ToggleButton"]:Kill()
 	S.Panels["ActionBar" .. 3 .. "ToggleButton"]:Kill()
+	]]
 end)
 
 
 -- MinimapDataTextLeft
 hooksecurefunc(S["Maps"].Minimap, "Enable", function()
-	local dt_right = S["Panels"].MinimapDataText
+	local dt_right = S.DataTexts.Panels.Minimap
 	local backdrop = Minimap.Backdrop
 	
 	dt_right:ClearAllPoints()
-	dt_right:Point("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, 19)
-	dt_right:Width(dt_right:GetWidth()/2)
+	dt_right:SetPoint("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, Scale(19))
+	dt_right:SetWidth(dt_right:GetWidth()/2)
 	
 	local dt_left = CreateFrame("Frame", nil, UIParent)
-	dt_left:Height(dt_right:GetHeight())
-	dt_left:Point("TOPLEFT", backdrop, "BOTTOMLEFT", 0, 19)
-	dt_left:Point("RIGHT", dt_right, "LEFT", 1,0)
+	dt_left:SetHeight(dt_right:GetHeight())
+	dt_left:SetPoint("TOPLEFT", backdrop, "BOTTOMLEFT", 0, Scale(19))
+	dt_left:SetPoint("RIGHT", dt_right, "LEFT", Scale(1),0)
 	dt_left:CreateBackdrop()
 	dt_left:SetFrameStrata("MEDIUM")
-	
-	S["Panels"].MinimapDataTextLeft = dt_left
+	--dt_left:CreateShadow()
+	dt_right.Shadow:Hide()
+	S.DataTexts.Panels.MinimapDataTextLeft = dt_left
 end)
 
 hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
-	local DataTextLeft = S["Panels"].DataTextLeft
+	local DataTextLeft = S.DataTexts.Panels.Left
 	local Anchor1 = self.Anchors[1]
-	local MinimapDataTextLeft = S["Panels"].MinimapDataTextLeft
+	local MinimapDataTextLeft = S.DataTexts.Panels.MinimapDataTextLeft
 
 	self.NumAnchors = self.NumAnchors + 1
 	
 	local Frame = CreateFrame("Button", nil, UIParent)
-	Frame:Size((DataTextLeft:GetWidth() / 3) - 1, DataTextLeft:GetHeight() - 2)
+	Frame:SetSize((DataTextLeft:GetWidth() / 3) - Scale(1), DataTextLeft:GetHeight() - Scale(2))
 	Frame:SetFrameLevel(DataTextLeft:GetFrameLevel() + 1)
 	Frame:SetFrameStrata("HIGH")
 	Frame:EnableMouse(false)
@@ -113,12 +128,13 @@ hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
 	Frame.Tex:SetAllPoints()
 	Frame.Tex:SetTexture(0.2, 1, 0.2, 0)
 	
-	Frame:Point("CENTER", MinimapDataTextLeft, 0, 0)
-	Frame:Size(MinimapDataTextLeft:GetWidth() - 2, MinimapDataTextLeft:GetHeight() - 2)
+	Frame:SetPoint("CENTER", MinimapDataTextLeft, 0, 0)
+	Frame:SetSize(MinimapDataTextLeft:GetWidth() - Scale(2), MinimapDataTextLeft:GetHeight() - Scale(2))
 	
 	self.Anchors[self.NumAnchors] = Frame
 end)
 
+--[[
 hooksecurefunc(S["DataTexts"], "Register", function()
 	for _, DT in pairs(S["DataTexts"].Texts) do
 		if not DT.modded_GetToolTipAnchor then
@@ -147,14 +163,16 @@ hooksecurefunc(S["DataTexts"], "Register", function()
 		end
 	end
 end)
+]]
 
--- Hide Panels we don't want
+--[[ Hide Panels we don't want
 hooksecurefunc(S["Panels"], "Enable", function()
 	S["Panels"].LeftChatBG:Hide()
 	S["Panels"].RightChatBG:Hide()
 	S["Panels"].TabsBGLeft:Hide()
 	S["Panels"].TabsBGRight:Hide()
 end)
+]]
 
 hooksecurefunc(S["Miscellaneous"].Experience, "Enable", function()
 	S.Miscellaneous.Experience:Disable()
@@ -162,6 +180,10 @@ end)
 
 hooksecurefunc(S["Miscellaneous"].Reputation, "Enable", function()
 	S.Miscellaneous.Reputation:Disable()
+end)
+
+hooksecurefunc(S["UnitFrames"], "Enable", function()
+	RegisterStateDriver(Tukui_PetBattleFrameHider, "visibility", "[petbattle] hide;show")
 end)
 
 -- Move ChatFrame 4 in favor of space for a damage meter

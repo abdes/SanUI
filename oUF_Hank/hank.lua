@@ -1,7 +1,9 @@
 local oUF_Hank = {}
 local cfg = oUF_Hank_config
 
-local oUF = TukuiUnitFrameFramework
+local oUF = Tukui.oUF
+
+local Scale = Tukui[1].Toolkit.Functions.Scale
 
 -- GLOBALS: oUF_player, oUF_pet, oUF_target, oUF_focus
 -- GLOBALS: _G, MIRRORTIMER_NUMTIMERS, SPELL_POWER_HOLY_POWER, MAX_TOTEMS, MAX_COMBO_POINTS, DebuffTypeColor, SPEC_WARLOCK_DEMONOLOGY
@@ -71,7 +73,8 @@ oUF_Hank.classResources = {
 }
 
 local fntBig = CreateFont("UFFontBig")
-fntBig:SetFont(unpack(cfg.FontStyleBig))
+--fntBig:SetFont(unpack(cfg.FontStyleBig))
+fntBig:SetFont("Interface\AddOns\oUF_Hank\fonts\din1451e.ttf", 28, "OUTLINE")
 local fntMedium = CreateFont("UFFontMedium")
 fntMedium:SetFont(unpack(cfg.FontStyleMedium))
 fntMedium:SetTextColor(unpack(cfg.colors.text))
@@ -214,9 +217,9 @@ oUF_Hank.UpdateHealth = function(self)
 			end
 
 			if self == oUF_player then
-				self.power:SetPoint("BOTTOMRIGHT", self.health[5 - len], "BOTTOMLEFT", -5, 0)
+				self.power:SetPoint("BOTTOMRIGHT", self.health[5 - len], "BOTTOMLEFT", -Scale(5), 0)
 			elseif self == oUF_target or self == oUF_focus then
-				self.power:SetPoint("BOTTOMLEFT", self.health[5 - len], "BOTTOMRIGHT", 5, 0)
+				self.power:SetPoint("BOTTOMLEFT", self.health[5 - len], "BOTTOMRIGHT", Scale(5), 0)
 			end
 		end
 	else
@@ -236,9 +239,9 @@ oUF_Hank.UpdateHealth = function(self)
 			self.health[4]:Show()
 
 			if self == oUF_player then
-				self.power:SetPoint("BOTTOMRIGHT", self.health[4], "BOTTOMLEFT", -5, 0)
+				self.power:SetPoint("BOTTOMRIGHT", self.health[4], "BOTTOMLEFT", -Scale(5), 0)
 			elseif self == oUF_target or self == oUF_focus then
-				self.power:SetPoint("BOTTOMLEFT", self.health[4], "BOTTOMRIGHT", 5, 0)
+				self.power:SetPoint("BOTTOMLEFT", self.health[4], "BOTTOMRIGHT", Scale(5), 0)
 			end
 		end
 	end
@@ -282,9 +285,9 @@ oUF_Hank.PostUpdateName = function(self)
 	if (self.name) then
 		-- Reanchor raid icon to the largest string (either name or power)
 		if self.name:GetWidth() >= self.power:GetWidth() then
-			self.RaidTargetIndicator:SetPoint("LEFT", self.name, "RIGHT", 10, 0)
+			self.RaidTargetIndicator:SetPoint("LEFT", self.name, "RIGHT", Scale(10), 0)
 		else
-			self.RaidTargetIndicator:SetPoint("LEFT", self.power, "RIGHT", 10, 0)
+			self.RaidTargetIndicator:SetPoint("LEFT", self.power, "RIGHT", Scale(10), 0)
 		end
 	end
 end
@@ -613,7 +616,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	-- Power, threat
 	if unit == "player" or unit == "target" or unit == "focus" or unit:find("boss") then
 		power = self:CreateFontString(nil, "OVERLAY")
-		power:SetFontObject("UFFontMedium")
+		--power:SetFontObject("UFFontMedium")
+		power:SetFontObject("TukuiFontOutline")
 
 		if unit == "player" then power:SetPoint("BOTTOMRIGHT", health[4], "BOTTOMLEFT", -5, 0)
 		elseif unit == "target" or unit == "focus" then power:SetPoint("BOTTOMLEFT", health[4], "BOTTOMRIGHT", 5, 0)
@@ -629,7 +633,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	-- Name
 	if unit == "target" or unit == "focus" then
 		name = self:CreateFontString(nil, "OVERLAY")
-		name:SetFontObject("UFFontBig")
+		--name:SetFontObject("UFFontBig")
+		name:SetFontObject("TukuiFontOutline")
 		name:SetPoint("BOTTOMLEFT", power, "TOPLEFT")
 		self:Tag(name, "[statusName]")
 	elseif unit:find("boss") then
@@ -644,7 +649,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		self:Tag(name, "[petName] @[perhp]%")
 	elseif unit == "targettarget" or  unit == "targettargettarget" or unit == "focustarget" then
 		name = self:CreateFontString(nil, "OVERLAY")
-		name:SetFontObject("UFFontSmall")
+		--name:SetFontObject("UFFontSmall")
+		name:SetFontObject("TukuiFontOutline")
 		name:SetPoint("LEFT")
 		if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "\226\128\186  [smartName] @[perhp]%")
 		elseif unit == "targettargettarget" then self:Tag(name, "\194\187 [smartName] @[perhp]%") end
@@ -717,7 +723,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	-- XP, reputation
 	if unit == "player" and cfg.ShowXP then
 		local xprep = self:CreateFontString(nil, "OVERLAY")
-		xprep:SetFontObject("UFFontMedium")
+		--xprep:SetFontObject("UFFontMedium")
+		xprep:SetFontObject("TukuiFontOutline")
 		xprep:SetPoint("RIGHT", power, "RIGHT")
 		xprep:SetAlpha(0)
 		self:Tag(xprep, "[xpRep]")
@@ -725,12 +732,14 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 
 		-- Some animation dummies
 		local xprepDummy = self:CreateFontString(nil, "OVERLAY")
-		xprepDummy:SetFontObject("UFFontMedium")
+		--xprepDummy:SetFontObject("UFFontMedium")
+		xprepDummy:SetFontObject("TukuiFontOutline")
 		xprepDummy:SetAllPoints(xprep)
 		xprepDummy:SetAlpha(0)
 		xprepDummy:Hide()
 		local powerDummy = self:CreateFontString(nil, "OVERLAY")
-		powerDummy:SetFontObject("UFFontMedium")
+		--powerDummy:SetFontObject("UFFontMedium")
+		powerDummy:SetFontObject("TukuiFontOutline")
 		powerDummy:SetAllPoints(power)
 		powerDummy:Hide()
 		local raidIconDummy = self:CreateTexture(nil, "OVERLAY")
@@ -1275,8 +1284,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		-- Buff magnification effect on mouseover
 		self.HighlightAura = CreateFrame("Frame", nil, self)
 		self.HighlightAura:SetFrameLevel(5) -- Above auras (level 3) and their cooldown overlay (4)
-		self.HighlightAura:SetBackdrop({bgFile = cfg.AuraBorder})
-		self.HighlightAura:SetBackdropColor(0, 0, 0, 1)
+		--self.HighlightAura:SetBackdrop()--{bgFile = cfg.AuraBorder})
+		--self.HighlightAura:SetBackdropColor(0, 0, 0, 1)
 		self.HighlightAura.icon = self.HighlightAura:CreateTexture(nil, "ARTWORK")
 		self.HighlightAura.icon:SetPoint("CENTER")
 		self.HighlightAura.border = self.HighlightAura:CreateTexture(nil, "OVERLAY")

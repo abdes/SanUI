@@ -1,7 +1,7 @@
 ﻿local cfg = oUF_Hank_config
 local oUF_Hank = {}
 oUF_Hank_hooks = {}
-local oUF = TukuiUnitFrameFramework
+local oUF = Tukui.oUF
 
 local _, ns = ...
 
@@ -17,10 +17,12 @@ local glowTex = TukuiCF["Medias"].Glow
 local bubbleTex = TukuiCF["Medias"].Bubble
 local playerClass = select(2, UnitClass("player"))
 
-local backdrop = {
-	bgFile = TukuiCF["Medias"].Blank,
-	insets = {top = -TukuiDB.Mult, left = -TukuiDB.Mult, bottom = -TukuiDB.Mult, right = -TukuiDB.Mult},
-}
+local Scale = TukuiDB.Toolkit.Functions.Scale
+
+-- local backdrop = {
+	-- bgFile = TukuiCF["Medias"].Blank,
+	-- insets = {top = -TukuiDB.Mult, left = -TukuiDB.Mult, bottom = -TukuiDB.Mult, right = -TukuiDB.Mult},
+-- }
 TukuiDB.SetFontString = function(parent, fontName, fontHeight, fontStyle)
 	local fs = parent:CreateFontString(nil, "OVERLAY")
 	fs:SetFont(fontName, fontHeight, fontStyle)
@@ -61,7 +63,7 @@ local function valShort(value)
 	end
 end
 
-oUF.Tags.Events["mergedPower"] = "UNIT_POWER"
+oUF.Tags.Events["mergedPower"] = "UNIT_POWER_UPDATE"
 oUF.Tags.Methods["mergedPower"] = function(unit)
    if not UnitIsDeadOrGhost(unit) then
       local curAlt = UnitPower(unit, ALTERNATE_POWER_INDEX)
@@ -123,19 +125,19 @@ PostCreateIcon = function(icons, icon)
 	if(icons.__owner.unit == "player" or icons.__owner.unit == "target" ) then
 		icon:CreateBackdrop()
 		
-		icon.remaining = TukuiDB.SetFontString(icon, TukuiCF["Medias"].Font,11, "THINOUTLINE")
-		icon.remaining:SetPoint("CENTER", TukuiDB.Scale(1), 0)
+		icon.remaining = TukuiDB.SetFontString(icon, font1,11, "THINOUTLINE")
+		icon.remaining:SetPoint("CENTER", Scale(1), 0)
 		
 		icon.cd.noOCC = true		 	-- hide OmniCC CDs
 		icon.cd.noCooldownCount = true	-- hide CDC CDs
 		
 		icon.cd:SetReverse()
-		icon.icon:SetPoint("TOPLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
-		icon.icon:SetPoint("BOTTOMRIGHT", TukuiDB.Scale(-2), TukuiDB.Scale(2))
+		icon.icon:SetPoint("TOPLEFT", Scale(2), Scale(-2))
+		icon.icon:SetPoint("BOTTOMRIGHT", Scale(-2), Scale(2))
 		icon.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		icon.icon:SetDrawLayer('ARTWORK')
 		
-		icon.count:SetPoint("BOTTOMRIGHT", TukuiDB.Scale(3), 0) --TukuiDB.Scale(1.5))
+		icon.count:SetPoint("BOTTOMRIGHT", Scale(3), 0) --Scale(1.5))
 		icon.count:SetJustifyH("RIGHT")
 		icon.count:SetFont(TukuiCF["Medias"].Font, 9, "THICKOUTLINE")
 		icon.count:SetTextColor(0.84, 0.75, 0.65)
@@ -143,8 +145,8 @@ PostCreateIcon = function(icons, icon)
 		icon.overlayFrame = CreateFrame("frame", nil, icon, nil)
 		icon.cd:SetFrameLevel(icon:GetFrameLevel() + 1)
 		icon.cd:ClearAllPoints()
-		icon.cd:SetPoint("TOPLEFT", icon, "TOPLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
-		icon.cd:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", TukuiDB.Scale(-2), TukuiDB.Scale(2))
+		icon.cd:SetPoint("TOPLEFT", icon, "TOPLEFT", Scale(2), Scale(-2))
+		icon.cd:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", Scale(-2), Scale(2))
 		icon.overlayFrame:SetFrameLevel(icon.cd:GetFrameLevel() + 1)	   
 		icon.overlay:SetParent(icon.overlayFrame)
 		icon.count:SetParent(icon.overlayFrame)
@@ -160,17 +162,17 @@ OnEnterAura = function(self, icon)
 		self.HighlightAura:SetFrameLevel(6) -- cd on icon seems to have frame level 5
 		
 		self.HighlightAura.icon.remaining = TukuiDB.SetFontString(icon, TukuiCF["Medias"].Font, 11, "THINOUTLINE")
-		self.HighlightAura.icon.remaining:SetPoint("CENTER", TukuiDB.Scale(1), 0)
+		self.HighlightAura.icon.remaining:SetPoint("CENTER", Scale(1), 0)
 		
-		self.HighlightAura.icon:SetPoint("TOPLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-2))
-		self.HighlightAura.icon:SetPoint("BOTTOMRIGHT", TukuiDB.Scale(-2), TukuiDB.Scale(2))
+		self.HighlightAura.icon:SetPoint("TOPLEFT", Scale(2), Scale(-2))
+		self.HighlightAura.icon:SetPoint("BOTTOMRIGHT", Scale(-2), Scale(2))
 		self.HighlightAura.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		self.HighlightAura.icon:SetDrawLayer('ARTWORK')
 		self.HighlightAura.icon.overlayFrame = CreateFrame("frame", nil, icon, nil)
 		self.HighlightAura.icon.remaining:SetParent(icon.overlayFrame)
 		self.HighlightAura.oldicon = icon
 		
-		icon.count:SetPoint("BOTTOMRIGHT", self.HighlightAura, TukuiDB.Scale(3), 0) --TukuiDB.Scale(1.5))
+		icon.count:SetPoint("BOTTOMRIGHT", self.HighlightAura, Scale(3), 0) --Scale(1.5))
 		icon.count:SetJustifyH("RIGHT")
 		icon.count:SetFont(TukuiCF["Medias"].Font, 9*cfg.AuraMagnification, "THICKOUTLINE")
 	end
@@ -178,7 +180,7 @@ end,
 
 OnLeaveAura = function(self)
 	if self.HighlightAura.oldicon then
-		self.HighlightAura.oldicon.count:SetPoint("BOTTOMRIGHT",self.HighlightAura.oldicon, TukuiDB.Scale(3), 0) --TukuiDB.Scale(1.5))
+		self.HighlightAura.oldicon.count:SetPoint("BOTTOMRIGHT",self.HighlightAura.oldicon, Scale(3), 0) --Scale(1.5))
 		self.HighlightAura.oldicon.count:SetJustifyH("RIGHT")
 		self.HighlightAura.oldicon.count:SetFont(TukuiCF["Medias"].Font, 9, "THICKOUTLINE")
 	end
@@ -227,9 +229,7 @@ oUF_Hank_hooks.HealthColored = {
 
 oUF_Hank_hooks.PetBattleHide = {
 	sharedStyle = function(self,unit,isSingle)
-		hooksecurefunc(TukuiDB.Panels,"Enable",function()
-			self:SetParent(TukuiDB["Panels"].PetBattleHider)
-		end)
+		self:SetParent(Tukui_PetBattleFrameHider)
 	end
 }
 
@@ -246,20 +246,20 @@ sharedStyle = function(self, unit, isSingle)
 			if (unit == "player" or unit:find("boss")) then
 				if self.ClassPower then
 					local nr_ClassPower = #oUF_player.ClassPower
-					castbar:SetPoint("TOPRIGHT", self.ClassPower[nr_ClassPower]:GetParent(), "BOTTOMRIGHT", 0, TukuiDB.Scale(-2))
+					castbar:SetPoint("TOPRIGHT", self.ClassPower[nr_ClassPower]:GetParent(), "BOTTOMRIGHT", 0, Scale(-2))
 				else
-					castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", TukuiDB.Scale(2), TukuiDB.Scale(-20))
+					castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", Scale(2), Scale(-20))
 				end
-				castbar:SetHeight(TukuiDB.Scale(15))
-				castbar:SetWidth(TukuiDB.Scale(150))
+				castbar:SetHeight(Scale(15))
+				castbar:SetWidth(Scale(150))
 			elseif (unit == "target") then
-				castbar:SetHeight(TukuiDB.Scale(15))
-				castbar:SetWidth(TukuiDB.Scale(150))
+				castbar:SetHeight(Scale(15))
+				castbar:SetWidth(Scale(150))
 				castbar:SetPoint("TOPLEFT",self,"BOTTOMLEFT",10,0)
 			elseif (unit == "focus") then
-				castbar:SetHeight(TukuiDB.Scale(22))
-				castbar:SetWidth(TukuiDB.Scale(200))
-				castbar:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",-TukuiDB.Scale(22),0)
+				castbar:SetHeight(Scale(22))
+				castbar:SetWidth(Scale(200))
+				castbar:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",-Scale(22),0)
 			end
 		end
 		
@@ -275,8 +275,8 @@ sharedStyle = function(self, unit, isSingle)
 		-- Castbar background
 		if (unit == "player" or unit == "target") then
 			local castBarBG = CreateFrame("Frame",nil,castbar)
-			castBarBG:Point("TOPLEFT",castbar,"TOPLEFT",-2,2)
-			castBarBG:Point("BOTTOMRIGHT",castbar,"BOTTOMRIGHT",2,-2)
+			castBarBG:SetPoint("TOPLEFT",castbar,"TOPLEFT",-Scale(2),Scale(2))
+			castBarBG:SetPoint("BOTTOMRIGHT",castbar,"BOTTOMRIGHT",Scale(2),-Scale(2))
 			castBarBG:CreateBackdrop()
 			castBarBG:SetFrameStrata(castbar:GetFrameStrata())
 			castbar:SetFrameLevel(6)
@@ -285,10 +285,10 @@ sharedStyle = function(self, unit, isSingle)
 		elseif (unit == "focus") then	
 			local castBarBG = CreateFrame("Frame",nil,castbar)
 			castBarBG:SetAllPoints(castbar)
-			castBarBG:SetBackdrop({
-					  bgFile = TukuiCF.Medias.Normal 
-					  })
-			castBarBG:SetBackdropColor(.1,.1,.1)
+			--castBarBG:SetBackdrop({
+			--		  bgFile = TukuiCF.Medias.Normal 
+			--		  })
+			--castBarBG:SetBackdropColor(.1,.1,.1)
 			castBarBG:SetFrameStrata(castbar:GetFrameStrata())
 			castbar:SetFrameLevel(6)
 			castBarBG:SetFrameLevel(5)	
@@ -309,7 +309,7 @@ sharedStyle = function(self, unit, isSingle)
 		else
 			castbar.time = TukuiDB.SetFontString(castbar, font2, 16, "OUTLINE")
 		end
-		castbar.time:SetPoint("RIGHT", castbar, "RIGHT", TukuiDB.Scale(-4), 0)
+		castbar.time:SetPoint("RIGHT", castbar, "RIGHT", Scale(-4), 0)
 		castbar.time:SetTextColor(0.84, 0.75, 0.65)
 		castbar.time:SetShadowOffset(0.8,-0.8) 
 		castbar.time:SetJustifyH("RIGHT")
@@ -324,7 +324,7 @@ sharedStyle = function(self, unit, isSingle)
 		end
 		castbar.Text:SetJustifyV("MIDDLE")
 		castbar.Text:SetShadowOffset(.8,-.8)
-		castbar.Text:SetPoint("LEFT", castbar, "LEFT", TukuiDB.Scale(4), 0)
+		castbar.Text:SetPoint("LEFT", castbar, "LEFT", Scale(4), 0)
 		castbar.Text:SetTextColor(0.84, 0.75, 0.65)
 		castbar.Text:SetWidth(castbar:GetWidth()*0.68)
 		castbar.Text:SetHeight(castbar:GetHeight()*0.9)
@@ -334,24 +334,24 @@ sharedStyle = function(self, unit, isSingle)
 			castbar.button = CreateFrame("Frame", nil, castbar)
 				
 			if (unit == "player") then
-				castbar.button:Size(28)
+				castbar.button:SetSize(Scale(28), Scale(28))
 			elseif (unit == "target") then
-				castbar.button:Size(19)
+				castbar.button:SetSize(Scale(19), Scale(19))
 			else
-				castbar.button:Size(18)
+				castbar.button:SetSize(Scale(18), Scale(18))
 			end
 			
 			castbar.button:CreateBackdrop()
 
 			castbar.icon = castbar.button:CreateTexture(nil, "ARTWORK")
-			castbar.icon:SetPoint("TOPLEFT", castbar.button, TukuiDB.Scale(2), TukuiDB.Scale(-2))
-			castbar.icon:SetPoint("BOTTOMRIGHT", castbar.button, TukuiDB.Scale(-2), TukuiDB.Scale(2))
+			castbar.icon:SetPoint("TOPLEFT", castbar.button, Scale(2), Scale(-2))
+			castbar.icon:SetPoint("BOTTOMRIGHT", castbar.button, Scale(-2), Scale(2))
 			castbar.icon:SetTexCoord(0.08, 0.92, 0.08, .92)
 			
 			if unit == "player" or unit:find("boss") then
-				castbar.button:SetPoint("TOPRIGHT",self.Castbar.bg,"TOPLEFT",-TukuiDB.Scale(2),0)
+				castbar.button:SetPoint("TOPRIGHT",self.Castbar.bg,"TOPLEFT",-Scale(2),0)
 			elseif unit == "target" then
-				castbar.button:SetPoint("LEFT",self.Castbar.bg,"RIGHT",TukuiDB.Scale(2),0)
+				castbar.button:SetPoint("LEFT",self.Castbar.bg,"RIGHT",Scale(2),0)
 			end					
 			
 			self.Castbar.Icon = castbar.icon
@@ -376,20 +376,20 @@ sharedStyle = function(self, unit, isSingle)
 		if (unit == "player") then
 					
 			self.GCD = CreateFrame("StatusBar", self:GetName().."_GCD", self)
-			self.GCD:SetHeight(TukuiDB.Scale(5))
-			self.GCD:SetWidth(TukuiDB.Scale(150))
-			self.GCD:SetPoint('TOPLEFT',castbar, 'BOTTOMLEFT', 0, -TukuiDB.Scale(4))
-			self.GCD:SetPoint('TOPRIGHT',castbar, 'BOTTOMRIGHT', 0, -TukuiDB.Scale(4))
+			self.GCD:SetHeight(Scale(5))
+			self.GCD:SetWidth(Scale(150))
+			self.GCD:SetPoint('TOPLEFT',castbar, 'BOTTOMLEFT', 0, -Scale(4))
+			self.GCD:SetPoint('TOPRIGHT',castbar, 'BOTTOMRIGHT', 0, -Scale(4))
 			self.GCD:SetStatusBarTexture(Normal)
 			self.GCD:SetStatusBarColor(0.8,0.8,0.8)
 			
 			local gcdcastborder = CreateFrame("Frame", nil, self.GCD)
-			gcdcastborder:Size(1)
-			gcdcastborder:Point("CENTER", health, "CENTER", 0, 0)
+			gcdcastborder:SetSize(Scale(1), Scale(1))
+			gcdcastborder:SetPoint("CENTER", health, "CENTER", 0, 0)
 			gcdcastborder:CreateBackdrop("Transparent")
 			gcdcastborder:ClearAllPoints()
-			gcdcastborder:SetPoint("TOPLEFT", self.GCD, -TukuiDB.Scale(2), TukuiDB.Scale(2))
-			gcdcastborder:SetPoint("BOTTOMRIGHT", self.GCD, TukuiDB.Scale(2), TukuiDB.Scale(-2))
+			gcdcastborder:SetPoint("TOPLEFT", self.GCD, -Scale(2), Scale(2))
+			gcdcastborder:SetPoint("BOTTOMRIGHT", self.GCD, Scale(2), Scale(-2))
 			gcdcastborder:SetFrameStrata(self.GCD:GetFrameStrata())
 			gcdcastborder:SetFrameLevel(self.GCD:GetFrameLevel()-1)	
 			
@@ -397,14 +397,14 @@ sharedStyle = function(self, unit, isSingle)
 		end
 		
 		if (unit == "focus") then
-			self.Buffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -TukuiDB.Scale(25))
+			self.Buffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -Scale(25))
 		elseif (unit == "target") then 
-			self.Buffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 10, -TukuiDB.Scale(25))
+			self.Buffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 10, -Scale(25))
 		end
 		
 		-- if unit == "target" and (select(2, UnitClass("player")) == "ROGUE" or select(2, UnitClass("player")) == "DRUID") then
 			-- self.CPoints[1]:ClearAllPoints()
-			-- self.CPoints[1]:SetPoint("BOTTOMRIGHT", self, "BOTTOMLEFT",0,TukuiDB.Scale(5))
+			-- self.CPoints[1]:SetPoint("BOTTOMRIGHT", self, "BOTTOMLEFT",0,Scale(5))
 			
 			-- for i = 2, MAX_COMBO_POINTS do
 				-- self.CPoints[i]:ClearAllPoints()
@@ -516,7 +516,7 @@ UpdateHealth = function(self)
 end,
 }
 
-oUF.Tags.Events["myclassicpower"] = "UNIT_MAXPOWER UNIT_POWER"
+oUF.Tags.Events["myclassicpower"] = "UNIT_MAXPOWER UNIT_POWER_FREQUENT"
 oUF.Tags.Methods["myclassicpower"] = function(unit)
 	local mini = UnitPower(unit)
 	local maxi = UnitPowerMax(unit)
@@ -544,7 +544,7 @@ oUF_Hank_hooks.customPowerBar = {
 		power:SetFrameLevel(13)
 		power:SetStatusBarTexture(Normal)
 		power:SetMinMaxValues(0,UnitPowerMax(unit))
-		power.frequentUpdates = true
+		--power.frequentUpdates = true
 		
 		--local powerBG = power:CreateTexture(nil, 'BORDER')
 		--powerBG:SetAllPoints(power)
@@ -556,15 +556,15 @@ oUF_Hank_hooks.customPowerBar = {
 		powerPanel:CreateBackdrop()
 		powerPanel:SetFrameStrata("MEDIUM")
 		powerPanel:SetFrameLevel(power:GetFrameLevel()-1)
-		powerPanel:SetPoint("TOPLEFT",TukuiDB.Scale(-2), TukuiDB.Scale(2))
-		powerPanel:SetPoint("BOTTOMRIGHT",TukuiDB.Scale(2), -TukuiDB.Scale(2))
+		powerPanel:SetPoint("TOPLEFT",Scale(-2), Scale(2))
+		powerPanel:SetPoint("BOTTOMRIGHT",Scale(2), -Scale(2))
 	
 		local powerValue = power:CreateFontString(nil, "OVERLAY")
 		powerValue:SetFont(font2,13,"OUTLINE")
 		powerValue:SetPoint("RIGHT", power, "RIGHT", -4, -1)
 		powerValue:SetJustifyH("CENTER")
 		powerValue:SetTextColor(1, 1, 1)
-		powerValue.frequentUpdates = 0.1
+		--powerValue.frequentUpdates = 0.1
 		self.powerValue = powerValue
 		self:Tag(powerValue, '[myclassicpower]')
 		power.value = powerValue
