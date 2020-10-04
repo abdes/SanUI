@@ -176,12 +176,10 @@ local function Shared(self, unit)
 	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", updateThreat)
 	
 	-- highlight
-	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = Scale(1)}
-	local HighlightTarget = CreateFrame("Frame", nil, self, "BackdropTemplate")
+	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = 1}
+	local HighlightTarget = CreateFrame("Frame", nil, self.Health, "BackdropTemplate")
 
-	HighlightTarget:SetPoint("TOPLEFT", self, "TOPLEFT",-Scale(1), Scale(1))
-    HighlightTarget:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT",Scale(1),- Scale(1))
-	HighlightTarget:SetFrameLevel(self.Health:GetFrameLevel() + 1)
+	HighlightTarget:SetFrameLevel(self.Health:GetFrameLevel() + 3)
 	HighlightTarget:SetAllPoints()
 	HighlightTarget:SetBackdrop(glowBorder)
 	HighlightTarget:SetBackdropBorderColor(0,0,0,1)
@@ -274,9 +272,6 @@ local function Shared(self, unit)
 	auras.icons = {}
 	auras.PostCreateIcon = function(self, icon)		
 		if icon.icon and not icon.hideIcon then
-			icon:CreateBackdrop()
-			icon.icon:SetPoint("TOPLEFT", Scale(1), -Scale(1))
-			icon.icon:SetPoint("BOTTOMRIGHT", -Scale(1), Scale(1))
 			icon.icon:SetTexCoord(.08, .92, .08, .92)
 			icon.icon:SetDrawLayer("ARTWORK")
 		end
@@ -327,85 +322,85 @@ local function Shared(self, unit)
 	end
 	
 	S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
-		{774, {"TOPLEFT",-1,1}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Rejuvenation
-		{155777, {"TOPLEFT",7,1}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Germination
-		{48438, {"TOPRIGHT",0,1}, {0, 1, 1},false,nil,nil,false}, -- Wild Growth
-		{8936, {"TOPLEFT",-1,-7}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {3.6,{1,1,0}} },true,true}, -- Regrowth
+		{774, {"TOPLEFT",0,0}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Rejuvenation
+		{155777, {"TOPLEFT",Scale(7),0}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {4.5,{1,1,0}} },true,true}, -- Germination
+		{48438, {"TOPRIGHT",0,0}, {0, 1, 1},false,nil,nil,false}, -- Wild Growth
+		{8936, {"TOPLEFT",0,-Scale(7)}, {0.4, 0.8, 0.2},false,nil,{ {2,{1,0,0}}, {3.6,{1,1,0}} },true,true}, -- Regrowth
 	}
 	
 	
 	S["UnitFrames"].RaidBuffsTracking["ALL"] = {
 	--Death Knight
-		{48707, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Anti-Magic Shell
-		{81256, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Dancing Rune Weapon
-		{55233, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Vampiric Blood
-		{219809, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Tombstone
-		{48792, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Icebound Fortitude
-		{207319, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Corpse Shield
-		{194844, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- BoneStorm
-		{145629, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Anti-Magic Zone
+		{48707, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Anti-Magic Shell
+		{81256, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Dancing Rune Weapon
+		{55233, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Vampiric Blood
+		{219809, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Tombstone
+		{48792, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Icebound Fortitude
+		{207319, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Corpse Shield
+		{194844, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- BoneStorm
+		{145629, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Anti-Magic Zone
 	--Demon Hunter
-		{207811, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (DH)
-		{207810, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Nether Bond (Target)
-		{187827, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Metamorphosis
-		{196555, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Netherwalk
-		{212800, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blur
-		{203819, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Demon Spikes
+		{207811, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Nether Bond (DH)
+		{207810, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Nether Bond (Target)
+		{187827, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Metamorphosis
+		{196555, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Netherwalk
+		{212800, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Blur
+		{203819, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Demon Spikes
 	-- Druid
-		{102342, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ironbark
-		{61336, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Survival Instincts
-		{210655, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Protection of Ashamane
-		{22812, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Barkskin
-		{234081, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Celestial Guardian
+		{102342, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Ironbark
+		{61336, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Survival Instincts
+		{210655, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Protection of Ashamane
+		{22812, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Barkskin
+		{234081, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Celestial Guardian
 	--Hunter
-		{186265, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Aspect of the Turtle
+		{186265, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Aspect of the Turtle
 	--Mage
-		{45438, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ice Block
-		{113862, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Greater Invisibility
-		{198111, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Temporal Shield
+		{45438, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Ice Block
+		{113862, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Greater Invisibility
+		{198111, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Temporal Shield
 	--Monk
-		{122783, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Diffuse Magic
-		{122278, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dampen Harm
-		{125174, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Touch of Karma
-		{201318, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Fortifying Elixir
-		{202248, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guided Meditation
-		{120954, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Fortifying Brew
-		{116849, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Life Cocoon
+		{122783, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Diffuse Magic
+		{122278, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Dampen Harm
+		{125174, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Touch of Karma
+		{201318, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Fortifying Elixir
+		{202248, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Guided Meditation
+		{120954, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Fortifying Brew
+		{116849, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Life Cocoon
 	--Paladin
-		{642, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Divine Shield
-		{498, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Divine Protection
-		{205191, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Eye for an Eye
-		{1022, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Blessing of Protection
-		{6940, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Blessing of Sacrifice
-		{204018, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Blessing of Spellwarding
-		{199507, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Spreading The Word: Protection
-		{228049, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of the Forgotten Queen
-		{31850, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Ardent Defender
-		{86659, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Guardian of Ancien Kings
-		{212641, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Guardian of Ancien Kings (Glyph of the Queen)
+		{642, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}   , -- Divine Shield
+		{498, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}   , -- Divine Protection
+		{205191, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Eye for an Eye
+		{1022, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}  , -- Blessing of Protection
+		{6940, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}  , -- Blessing of Sacrifice
+		{204018, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Blessing of Spellwarding
+		{199507, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Spreading The Word: Protection
+		{228049, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Guardian of the Forgotten Queen
+		{31850, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Ardent Defender
+		{86659, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Guardian of Ancien Kings
+		{212641, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Guardian of Ancien Kings (Glyph of the Queen)
 	--Priest
-		{81782, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Power Word: Barrier
-		{47585, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Dispersion
-		{27827, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Spirit of Redemption
-		{197268, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ray of Hope
-		{47788, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Guardian Spirit
-		{33206, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Pain Suppression
+		{81782, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Power Word: Barrier
+		{47585, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Dispersion
+		{27827, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Spirit of Redemption
+		{197268, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Ray of Hope
+		{47788, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Guardian Spirit
+		{33206, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Pain Suppression
 	--Rogue
-		{5277, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}  , -- Evasion
-		{31224, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true} , -- Cloak of Shadows
-		{199754, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Riposte
+		{5277, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}  , -- Evasion
+		{31224, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true} , -- Cloak of Shadows
+		{199754, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Riposte
 	--Shaman
-		{210918, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Ethereal Form
-		{108271, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Astral Shift
+		{210918, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Ethereal Form
+		{108271, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Astral Shift
 	--Warlock
-		{108416, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Dark Pact
-		{104773, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Unending Resolve
+		{108416, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Dark Pact
+		{104773, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Unending Resolve
 	--Warrior
-		{118038, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Die by the Sword
-		{184364, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Enraged Regeneration
-		{871, {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}   , -- Shield Wall
+		{118038, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Die by the Sword
+		{184364, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Enraged Regeneration
+		{871, {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}   , -- Shield Wall
 	--Racial
-		{20594 , {"TOPRIGHT", 2, 2}, {1, 1, 1, 0}, true}, -- Stoneform
+		{20594 , {"TOPRIGHT", Scale(2), Scale(2)}, {1, 1, 1, 0}, true}, -- Stoneform
 
 	}
 	
@@ -459,7 +454,7 @@ local function Shared(self, unit)
 			end
 		
 			if type(spell[2]) == "string" then
-				icon:SetPoint(Scale(spell[2]), 0, 0)
+				icon:SetPoint(spell[2], 0, 0)
 			elseif type(spell[2]) == "table" then
 				icon:SetPoint(unpack(spell[2]))
 			end
@@ -470,7 +465,8 @@ local function Shared(self, unit)
 			if (spell[3]) then
 				tex:SetVertexColor(unpack(spell[3]))
 			else
-				tex:SetVertexColor(0.8, 0.8, 0.8)
+				--tex:SetVertexColor(0.8, 0.8, 0.8)
+				tex:SetVertexColor(1,0,0)
 			end
 			
 			icon.extraTex = tex
