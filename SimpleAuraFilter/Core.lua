@@ -7,7 +7,7 @@ local BUFFS_PER_ROW = 10;
 local T,C,L = unpack(Tukui)
 
 SimpleAuraFilter = LibStub("AceAddon-3.0"):NewAddon("SimpleAuraFilter", "AceConsole-3.0")
-local L = LibStub("AceLocale-3.0"):GetLocale("SimpleAuraFilter")
+--local L = LibStub("AceLocale-3.0"):GetLocale("SimpleAuraFilter")
 local Scale = T.Toolkit.Functions.Scale
 
 S = SimpleAuraFilter
