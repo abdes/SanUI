@@ -6,6 +6,8 @@ CoolLine:SetScript("OnEvent", function(this, event, ...)
 	this[event](this, ...)
 end)
 
+local Scale = Tukui[1].Toolkit.Functions.Scale
+
 local IS_WOW_8 = GetBuildInfo():match("^9")
 local IS_WOW_CLASSIC = GetBuildInfo():match("^1")
 
@@ -34,19 +36,19 @@ CoolLine.NO_RELOCATE = NO_RELOCATE
 local SetValue, updatelook, createfs, ShowOptions, RuneCheck
 
 local function SetValueH(this, v, just)
-	this:SetPoint(just or "CENTER", CoolLine, "LEFT", v, 0)
+	this:SetPoint(just or "CENTER", CoolLine, "LEFT", Scale(v), 0)
 end
 
 local function SetValueHR(this, v, just)
-	this:SetPoint(just or "CENTER", CoolLine, "LEFT", db.w - v, 0)
+	this:SetPoint(just or "CENTER", CoolLine, "LEFT", Scale(db.w - v), 0)
 end
 
 local function SetValueV(this, v, just)
-	this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, v)
+	this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, Scale(v))
 end
 
 local function SetValueVR(this, v, just)
-	this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, db.h - v)
+	this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, Scale(db.h - v))
 end
 
 --------------------------------
@@ -459,8 +461,8 @@ local function NewCooldown(name, icon, endtime, isplayer)
 			f:SetBackdrop(iconback)
 			f.icon = f:CreateTexture(nil, "ARTWORK")
 			f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-			f.icon:SetPoint("TOPLEFT", 1, -1)
-			f.icon:SetPoint("BOTTOMRIGHT", -1, 1)
+			f.icon:SetPoint("TOPLEFT", Scale(1), -Scale(1))
+			f.icon:SetPoint("BOTTOMRIGHT", -Scale(1), Scale(1))
 		end
 		tinsert(cooldowns, f)
 	end
@@ -783,7 +785,7 @@ function CoolLine:UNIT_SPELLCAST_FAILED(unit, spell, id8)
 		if frame.name == spell then
 			if frame.endtime - GetTime() > 1 then
 				if not failborder then
-					failborder = CreateFrame("Frame", nil, CoolLine.border)
+					failborder = CreateFrame("Frame", nil, CoolLine.border, "BackdropTemplate")
 					failborder:SetBackdrop(iconback)
 					failborder:SetBackdropColor(1, 0, 0, 0.9)
 					failborder:Hide()
