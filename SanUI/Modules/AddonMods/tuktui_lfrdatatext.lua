@@ -89,7 +89,7 @@ local OnEnter = function(self)
 	self:Update()
 	GameTooltip:SetOwner(self:GetTooltipAnchor())
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(L.DataText.CallToArms)
+	GameTooltip:AddLine("Call to Arms")
 	GameTooltip:AddLine(" ")
 
 	local AllUnavailable = true
@@ -157,9 +157,9 @@ local OnEnter = function(self)
 	end
 
 	if AllUnavailable then
-		GameTooltip:AddLine(L.DataText.ArmError)
+		GameTooltip:AddLine("Could not get Call To Arms information.")
 	elseif (NumCTA == 0) then
-		GameTooltip:AddLine(L.DataText.NoDungeonArm)
+		GameTooltip:AddLine("No dungeons are currently offering a Call To Arms.")
 	end
 
 	GameTooltip:Show()

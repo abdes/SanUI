@@ -79,13 +79,6 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 
 	TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -Scale(5), -Scale(14))
 	TukuiBar5:SetHeight(Scale((C["ActionBars"].NormalButtonSize*12)+(C["ActionBars"].ButtonSpacing*13)))
-	--[[
-	S["Panels"].BottomLine:ClearAllPoints()
-	S["Panels"].BottomLine:SetPoint("BOTTOMLEFT",UIParent,10,20)
-	S["Panels"].BottomLine:SetPoint("BOTTOMRIGHT",UIParent,-10,20)
-	S.Panels["ActionBar" .. 2 .. "ToggleButton"]:Kill()
-	S.Panels["ActionBar" .. 3 .. "ToggleButton"]:Kill()
-	]]
 end)
 
 
@@ -134,9 +127,8 @@ hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
 	self.Anchors[self.NumAnchors] = Frame
 end)
 
---[[
 hooksecurefunc(S["DataTexts"], "Register", function()
-	for _, DT in pairs(S["DataTexts"].Texts) do
+	for _, DT in pairs(S["DataTexts"].DataTexts) do
 		if not DT.modded_GetToolTipAnchor then
 			local _GetTooltipAnchor = DT.GetTooltipAnchor
 			
@@ -150,9 +142,9 @@ hooksecurefunc(S["DataTexts"], "Register", function()
 
 				if self.Position == 8 then
 					Anchor = "ANCHOR_BOTTOMRIGHT"
-					Y = S.Scale(-5)
-					X = S.Scale(-50)
-					From = S["Panels"].MinimapDataTextLeft
+					Y = Scale(-5)
+					X = Scale(-50)
+					From = S.DataTexts.Panels.MinimapDataTextLeft
 				end
 				
 				return From, Anchor, X, Y
@@ -163,16 +155,19 @@ hooksecurefunc(S["DataTexts"], "Register", function()
 		end
 	end
 end)
-]]
 
---[[ Hide Panels we don't want
-hooksecurefunc(S["Panels"], "Enable", function()
-	S["Panels"].LeftChatBG:Hide()
-	S["Panels"].RightChatBG:Hide()
-	S["Panels"].TabsBGLeft:Hide()
-	S["Panels"].TabsBGRight:Hide()
+-- Hide Panels we don't want
+hooksecurefunc(S["Chat"], "Enable", function()
+	S["Chat"].Panels.LeftChat:Hide()
+	S["Chat"].Panels.RightChat:Hide()
+	S["Chat"].Panels.LeftChatTabs:Hide()
+	S["Chat"].Panels.RightChatTabs:Hide()
+	
+	TukuiLeftDataTextBox:ClearAllPoints()
+	TukuiRightDataTextBox:ClearAllPoints()
+	TukuiLeftDataTextBox:SetPoint("BOTTOMLEFT",UIParent,10,Scale(3))
+	TukuiRightDataTextBox:SetPoint("BOTTOMRIGHT",UIParent,-10,Scale(3))
 end)
-]]
 
 hooksecurefunc(S["Miscellaneous"].Experience, "Enable", function()
 	S.Miscellaneous.Experience:Disable()
@@ -198,7 +193,7 @@ local ChangeDefaultChatPosition = function(frame)
 			if not frame.isDocked then
 				if frame.isLocked then FCF_SetLocked(frame, 0) else print("NOT LOCKED") end
 				frame:ClearAllPoints()
-				frame:Point("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", 0, 6)
+				frame:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", 0, 6)
 				frame:SetJustifyH("LEFT")
 				FCF_DockFrame(ChatFrame4) 
 			end
