@@ -10,8 +10,6 @@ CastbarTexture = "Interface\\AddOns\\oUF_Hank_v3\\textures\\flat.blp",
 CastbarBorderTexture = "Interface\\AddOns\\oUF_Hank_v3\\textures\\2px_glow.blp",
 CastbarBackdropTexture = "Interface\\AddOns\\oUF_Hank_v3\\textures\\flat.blp",
 
-FontStyleMedium = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 16, "OUTLINE"},
-
 AuraBorder = false,
 AuraStickyColor = {1, 1, 1},
 

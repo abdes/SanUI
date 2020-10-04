@@ -37,7 +37,7 @@ colors = setmetatable({
 	-- Color for: General text and highlighted auras
 	text = {1, 0.65, 0.16},
 	-- Shadow color for small and medium sized text
-	textShadow = {0.25, 0.25, 0.25, 0.75},
+	textShadow = {0.1, 0.1, 0.1, 1}, --{0.25, 0.25, 0.25, 0.75},
 	-- Power types
 	power = setmetatable({
 		AMMOSLOT = {0.8, 0.6, 0},
@@ -103,17 +103,17 @@ colors = setmetatable({
 -- If you use fontain (http://www.wowace.com/addons/fontain/), please change "UFFonts" under "Single font overrides"
 
 -- Target name
-FontStyleBig = {[[Interface\AddOns\oUF_Hank\fonts\din1451e.ttf]], 28, "THICKOUTLINE"},
+FontStyleBig = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 26, "OUTLINE"},
 -- Power, absolute health
-FontStyleMedium = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 16},
+FontStyleMedium = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 14, "OUTLINE"},
 -- ToT, TToT, pet
-FontStyleSmall = {"Interface\\AddOns\\oUF_Hank\\fonts\\din1451e.ttf", 14},
+FontStyleSmall = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 14},
 -- Castbar: Time text, focus spell name
-CastBarBig = {"Interface\\AddOns\\oUF_Hank\\fonts\\tahoma.ttf", 15},
+CastBarBig = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 15},
 -- Castbar: Spell name (player, target)
-CastBarMedium = {"Interface\\AddOns\\oUF_Hank\\fonts\\tahoma.ttf", 9},
+CastBarMedium = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 9},
 -- Castbar: Latency
-CastBarSmall = {"Interface\\AddOns\\oUF_Hank\\fonts\\tahoma.ttf", 8},
+CastBarSmall = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 8},
 
 ---------------------- Castbar ------------------------------
 -------------------------------------------------------------

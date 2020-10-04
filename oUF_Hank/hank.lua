@@ -73,18 +73,19 @@ oUF_Hank.classResources = {
 }
 
 local fntBig = CreateFont("UFFontBig")
---fntBig:SetFont(unpack(cfg.FontStyleBig))
-fntBig:SetFont("Interface\AddOns\oUF_Hank\fonts\din1451e.ttf", 28, "OUTLINE")
+fntBig:SetFont(unpack(cfg.FontStyleBig))
+fntBig:SetShadowColor(unpack(cfg.colors.text))
+fntBig:SetShadowOffset(Scale(1), -Scale(1))
 local fntMedium = CreateFont("UFFontMedium")
 fntMedium:SetFont(unpack(cfg.FontStyleMedium))
 fntMedium:SetTextColor(unpack(cfg.colors.text))
 fntMedium:SetShadowColor(unpack(cfg.colors.textShadow))
-fntMedium:SetShadowOffset(1, -1)
+fntMedium:SetShadowOffset(Scale(1), -Scale(1))
 local fntSmall = CreateFont("UFFontSmall")
 fntSmall:SetFont(unpack(cfg.FontStyleSmall))
 fntSmall:SetTextColor(unpack(cfg.colors.text))
 fntSmall:SetShadowColor(unpack(cfg.colors.textShadow))
-fntSmall:SetShadowOffset(1, -1)
+fntSmall:SetShadowOffset(Scale(1), -Scale(1))
 
 local canDispel = {}
 
@@ -616,8 +617,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	-- Power, threat
 	if unit == "player" or unit == "target" or unit == "focus" or unit:find("boss") then
 		power = self:CreateFontString(nil, "OVERLAY")
-		--power:SetFontObject("UFFontMedium")
-		power:SetFontObject("TukuiFontOutline")
+		power:SetFontObject("UFFontMedium")
 
 		if unit == "player" then power:SetPoint("BOTTOMRIGHT", health[4], "BOTTOMLEFT", -5, 0)
 		elseif unit == "target" or unit == "focus" then power:SetPoint("BOTTOMLEFT", health[4], "BOTTOMRIGHT", 5, 0)
@@ -633,8 +633,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	-- Name
 	if unit == "target" or unit == "focus" then
 		name = self:CreateFontString(nil, "OVERLAY")
-		--name:SetFontObject("UFFontBig")
-		name:SetFontObject("TukuiFontOutline")
+		name:SetFontObject("UFFontBig")
 		name:SetPoint("BOTTOMLEFT", power, "TOPLEFT")
 		self:Tag(name, "[statusName]")
 	elseif unit:find("boss") then
@@ -649,8 +648,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		self:Tag(name, "[petName] @[perhp]%")
 	elseif unit == "targettarget" or  unit == "targettargettarget" or unit == "focustarget" then
 		name = self:CreateFontString(nil, "OVERLAY")
-		--name:SetFontObject("UFFontSmall")
-		name:SetFontObject("TukuiFontOutline")
+		name:SetFontObject("UFFontSmall")
 		name:SetPoint("LEFT")
 		if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "\226\128\186  [smartName] @[perhp]%")
 		elseif unit == "targettargettarget" then self:Tag(name, "\194\187 [smartName] @[perhp]%") end
@@ -723,8 +721,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	-- XP, reputation
 	if unit == "player" and cfg.ShowXP then
 		local xprep = self:CreateFontString(nil, "OVERLAY")
-		--xprep:SetFontObject("UFFontMedium")
-		xprep:SetFontObject("TukuiFontOutline")
+		xprep:SetFontObject("UFFontMedium")
 		xprep:SetPoint("RIGHT", power, "RIGHT")
 		xprep:SetAlpha(0)
 		self:Tag(xprep, "[xpRep]")
@@ -732,14 +729,12 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 
 		-- Some animation dummies
 		local xprepDummy = self:CreateFontString(nil, "OVERLAY")
-		--xprepDummy:SetFontObject("UFFontMedium")
-		xprepDummy:SetFontObject("TukuiFontOutline")
+		xprepDummy:SetFontObject("UFFontMedium")
 		xprepDummy:SetAllPoints(xprep)
 		xprepDummy:SetAlpha(0)
 		xprepDummy:Hide()
 		local powerDummy = self:CreateFontString(nil, "OVERLAY")
-		--powerDummy:SetFontObject("UFFontMedium")
-		powerDummy:SetFontObject("TukuiFontOutline")
+		powerDummy:SetFontObject("UFFontMedium")
 		powerDummy:SetAllPoints(power)
 		powerDummy:Hide()
 		local raidIconDummy = self:CreateTexture(nil, "OVERLAY")
