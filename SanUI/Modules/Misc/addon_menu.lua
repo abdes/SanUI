@@ -200,10 +200,8 @@ local function CreateButton(f, o) --(Frame,ButtonOrderName)
 
 		f:EnableMouse(true)
 	end
-	
-	f:SetScript("OnEnter", ButtonEnter)
-	f:SetScript("OnLeave", ButtonLeave)
-	
+
+  f:SkinButton()
 end
 
 -----World State Button-----

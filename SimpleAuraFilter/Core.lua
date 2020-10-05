@@ -115,7 +115,7 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 			buff:ClearAllPoints();
 			if ( (inde > 1) and (mod(inde, BUFFS_PER_ROW) == 1) ) then -- New row
 				buffRows = buffRows + 1
-				buff:Point("TOP", aboveBuff, "BOTTOM", 0, -BUFF_ROW_SPACING)
+				buff:SetPoint("TOP", aboveBuff, "BOTTOM", 0, -Scale(BUFF_ROW_SPACING))
 				aboveBuff = buff
 			elseif ( inde == 1 ) then
 				buffRows = 1
@@ -123,9 +123,9 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 				aboveBuff = buff;
 			else
 				if ( numBuffs == 1 ) then
-					buff:Point("TOPRIGHT", "TemporaryEnchantFrame", "TOPLEFT", -4, 0)
+					buff:SetPoint("TOPRIGHT", "TemporaryEnchantFrame", "TOPLEFT", -Scale(4), 0)
 				else
-					buff:SetPoint("RIGHT", previousBuff, "LEFT", -4, 0)
+					buff:SetPoint("RIGHT", previousBuff, "LEFT", -Scale(4), 0)
 				end
 			end
 			previousBuff = buff;
@@ -149,8 +149,8 @@ local function UpdateDebuffAnchors(buttonName, index)
 		panel:SetFrameStrata(debuff:GetFrameStrata())
 		
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-		icon:Point("TOPLEFT", debuff, 2, -2)
-		icon:Point("BOTTOMRIGHT", debuff, -2, 2)
+		icon:SetPoint("TOPLEFT", debuff, Scale(2), -Scale(2))
+		icon:SetPoint("BOTTOMRIGHT", debuff, -Scale(2), Scale(2))
 	else
 		panel = _G[buttonName..index.."Panel"]
 	end
