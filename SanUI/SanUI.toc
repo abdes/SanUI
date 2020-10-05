@@ -5,7 +5,7 @@
 ## Notes: Druid UI based on Tukui.
 ## SavedVariablesPerCharacter: SanUIdb
 ## RequiredDeps: Tukui, tullaCC
-## OptionalDeps: CoolLine, BugSack, oUF_Hank, WeakAuras, Details, DBM-Core
+## OptionalDeps: CoolLine, BugSack, oUF_Hank, WeakAuras, Details, DBM-Core, REHack
 Core\init.lua
 Config\profiles.lua
 
