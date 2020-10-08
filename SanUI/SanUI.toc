@@ -14,12 +14,14 @@ Libs\oUF_TextAuras.lua
 Libs\oUF_ShadowTouched.lua
 Libs\oUF_GCD\oUF_GCD.lua
 
+
 Modules\Unitframes\raidframes.lua
 Modules\Unitframes\bossframes.lua
 
 Modules\AddonMods\blizzard.lua
 Modules\AddonMods\tukui.lua
 Modules\AddonMods\tuktui_lfrdatatext.lua
+Modules\AddonMods\tukui_lootspecdatatext.lua
 Modules\AddonMods\coolline.lua
 Modules\AddonMods\bugsack.lua
 Modules\AddonMods\energized.lua
