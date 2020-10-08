@@ -255,13 +255,13 @@ function CoolLine:ADDON_LOADED(a1)
 		iconsize = ((db.vertical and db.w) or db.h) + (db.iconplus or 4)
 		SetValue = (db.vertical and (db.reverse and SetValueVR or SetValueV)) or (db.reverse and SetValueHR or SetValueH)
 
-		tick0 = createfs(tick0, "0", 0, "LEFT")
+		tick0 = createfs(tick0, "0", 3, "LEFT")
 		tick1 = createfs(tick1, "1", section)
 		tick3 = createfs(tick3, "3", section * 2)
 		tick10 = createfs(tick10, "10", section * 3)
 		tick30 = createfs(tick30, "30", section * 4)
 		tick120 = createfs(tick120, "2m", section * 5)
-		tick300 = createfs(tick300, "6m", section * 6, "RIGHT")
+		tick300 = createfs(tick300, "6m", section * 6 -3, "RIGHT")
 
 		if not self.cb and (not smed:IsValid("font", db.font) or not smed:IsValid("border", db.border) or not smed:IsValid("statusbar", db.statusbar)) then
 			smed.RegisterCallback(self, "LibSharedMedia_Registered", updatelook)

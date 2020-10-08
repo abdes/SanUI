@@ -11,7 +11,7 @@
 ## SavedVariablesPerCharacter: CoolLineCharDB
 
 ## OptionalDeps: LibSharedMedia-3.0
-## RequiredDeps: Tukui
+## RequiredDeps: Tukui, SanUI
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
