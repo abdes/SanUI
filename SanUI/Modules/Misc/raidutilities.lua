@@ -92,19 +92,21 @@ local function Enable()
 			GameTooltip:AddLine(tt_txt, 1, 1, 1, 1, 1, 1)
 			GameTooltip:Show()
 		btext:SetTextColor(1, 1, 1)
-		b:SetBackdropBorderColor(0.336, 0.357, 0.357)
+		b.Backdrop:SetBackdropBorderColor(0.336, 0.357, 0.357)
 		end)
 		
 		b:SetScript("OnLeave", function(self)
 			GameTooltip:Hide()
 		btext:SetTextColor(1, 1, 1)
-		b:SetBackdropBorderColor()
+		b.Backdrop:SetBackdropBorderColor()
 		end)
 		
 		b:SetAttribute("type1", "macro")
 		b.icon = mbbutton01:CreateTexture(nil, "OVERLAY")
 		b.icon:SetSize(Scale(17), Scale(17))
 		b.icon:SetPoint("CENTER", b, "CENTER", 0, 0)
+
+    b:SkinButton()
 
 	end
 	
