@@ -556,8 +556,8 @@ oUF_Hank_hooks.customPowerBar = {
 		powerPanel:CreateBackdrop()
 		powerPanel:SetFrameStrata("MEDIUM")
 		powerPanel:SetFrameLevel(power:GetFrameLevel()-1)
-		powerPanel:SetPoint("TOPLEFT",Scale(-1), Scale(1))
-		powerPanel:SetPoint("BOTTOMRIGHT",Scale(1), -Scale(1))
+		powerPanel:SetPoint("TOPLEFT",Scale(-2), Scale(2))
+		powerPanel:SetPoint("BOTTOMRIGHT",Scale(2), -Scale(2))
 	
 		local powerValue = power:CreateFontString(nil, "OVERLAY")
 		powerValue:SetFont(font2,13,"OUTLINE")

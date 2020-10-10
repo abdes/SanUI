@@ -4,7 +4,7 @@
 ## Title: SanUI
 ## Notes: Druid UI based on Tukui.
 ## SavedVariablesPerCharacter: SanUIdb
-## RequiredDeps: Tukui, tullaCC
+## RequiredDeps: Tukui, tullaCC, oUF_Hank
 ## OptionalDeps: CoolLine, BugSack, oUF_Hank, WeakAuras, Details, DBM-Core, REHack
 Core\init.lua
 Config\profiles.lua
@@ -12,8 +12,6 @@ Config\profiles.lua
 Libs\oUF_NotAuraWatch.lua
 Libs\oUF_TextAuras.lua
 Libs\oUF_ShadowTouched.lua
-Libs\oUF_GCD\oUF_GCD.lua
-
 
 Modules\Unitframes\raidframes.lua
 Modules\Unitframes\bossframes.lua
