@@ -3,7 +3,19 @@ local S, C = unpack(SanUI)
 
 S.switchPowerbar = function(profile)
 
+  local wrathname = GetSpellInfo(190984)
+  local starfirename = GetSpellInfo(194153)
+
 	local Power = oUF_player.Power
+  Power.update_surge = function(self, event, unit)
+    self.Power:ForceUpdate(event, unit)
+  end
+
+  oUF_player:RegisterEvent('UNIT_SPELLCAST_START', Power.update_surge)
+  oUF_player:RegisterEvent('UNIT_SPELLCAST_STOP', Power.update_surge)
+  oUF_player:RegisterEvent('UNIT_SPELLCAST_FAILED', Power.update_surge)
+  oUF_player:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED', Power.update_surge)
+  oUF_player:RegisterEvent('UNIT_DISPLAYPOWER', Power.update_surge)
 	
 	if not Power then
 		print("No Power bar on oUF_player found!")
@@ -11,6 +23,7 @@ S.switchPowerbar = function(profile)
 	end
 
 	if profile == "SanBear" or profile == "SahneUnholy" then
+    Power.update_surge = function(self, event, unit) end
 		Power.PostUpdate = function(self,unit, cur, min, max)
 			local quotient = max and cur/max or 0
 			if quotient >= .6  and quotient < .9 then
@@ -23,22 +36,25 @@ S.switchPowerbar = function(profile)
 		end
 	elseif profile == "SanChicken" then
 		Power.PostUpdate = function(self,unit, cur, min, max)
-			if max and max > 100 then
-				if cur < 30 or cur > 100 then
-					Power:SetStatusBarColor(0.69, 0.31, 0.31)
-				else
-					Power:SetStatusBarColor(0.5,1,0)
-		
-				end
-			else
-				if cur < 30 or cur > 80 then
-					Power:SetStatusBarColor(0.69, 0.31, 0.31)
-				else
-					Power:SetStatusBarColor(0.5,1,0)
-				end
-			end
-		end
+      if cur > 80 then
+        Power:SetStatusBarColor(0.69, 0.31, 0.31)
+      elseif cur >= 30 and cur < 80 then
+        Power:SetStatusBarColor(0.5,1,0)
+      else
+        local _, _, _, _, _, _, _, _, spellID = UnitCastingInfo(unit)
+        local spellname = GetSpellInfo(spellID) or ""
+
+        if spellname == wrathname and cur + 6 >= 30 then
+          Power:SetStatusBarColor(0.5,1,0)
+        elseif spellname == starfirename and cur + 8 >= 30 then
+          Power:SetStatusBarColor(0.5,1,0)
+        else
+          Power:SetStatusBarColor(0.69, 0.31, 0.31)
+        end
+      end
+    end
 	elseif profile == "SanCat" then
+    Power.update_surge = function(self, event, unit) end
 		Power.PostUpdate = function(self,unit, cur, min, max)
 			local quotient = max and cur/max or 0
 			if quotient >= .3  and quotient < .9 then
@@ -50,6 +66,7 @@ S.switchPowerbar = function(profile)
 			end
 		end
 	else
+    Power.update_surge = function(self, event, unit) end
 		Power.PostUpdate = nil
 	end
 	
