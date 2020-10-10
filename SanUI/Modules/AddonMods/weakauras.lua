@@ -84,8 +84,10 @@ end
 -- conceived by Elv
 local function skinWaFrame(frame, type)
   frame:CreateBackdrop()
-  frame.Backdrop:SetBackdropColor(0,0,0,0)
-  frame.Backdrop:Show()
+  if type == 'icon' then
+    frame.Backdrop:SetBackdropColor(0,0,0,0)
+  end
+  --frame.Backdrop:Show()
 
 	if type == 'aurabar' or type == 'icon' then
     frame.Backdrop:ClearAllPoints()
