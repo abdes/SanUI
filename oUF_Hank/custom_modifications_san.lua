@@ -521,7 +521,7 @@ oUF.Tags.Methods["myclassicpower"] = function(unit)
 	local mini = UnitPower(unit)
 	local maxi = UnitPowerMax(unit)
 	if(mini == 0 or maxi == 0 or not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit)) then return end
-	color = {1,1,1}
+	local color = {1,1,1}
 	return ("|cFF%.2x%.2x%.2x%s /%s|r"):format(color[1] * 255, color[2] * 255, color[3] * 255, mini, maxi)
 end
 oUF.Tags.Events["ppDetailed"] = oUF.Tags.Events["curpp"] .. " " .. oUF.Tags.Events["maxpp"]
@@ -544,13 +544,6 @@ oUF_Hank_hooks.customPowerBar = {
 		power:SetFrameLevel(13)
 		power:SetStatusBarTexture(Normal)
 		power:SetMinMaxValues(0,UnitPowerMax(unit))
-		--power.frequentUpdates = true
-		
-		--local powerBG = power:CreateTexture(nil, 'BORDER')
-		--powerBG:SetAllPoints(power)
-		--powerBG:SetTexture(Normal)
-		--powerBG:SetVertexColor(.1,.1,.1)
-		--powerBG.Multiplier = 0.3
 		
 		local powerPanel = CreateFrame("Frame", "MyPowerPanel", power)
 		powerPanel:CreateBackdrop()
@@ -564,22 +557,17 @@ oUF_Hank_hooks.customPowerBar = {
 		powerValue:SetPoint("RIGHT", power, "RIGHT", -4, -1)
 		powerValue:SetJustifyH("CENTER")
 		powerValue:SetTextColor(1, 1, 1)
-		--powerValue.frequentUpdates = 0.1
 		self.powerValue = powerValue
 		self:Tag(powerValue, '[myclassicpower]')
 		power.value = powerValue
 		
 		power.colorDisconnected = true
-		
-
 		power.Smooth = true
-		--powerBG.Multiplier = 0.1				
 
 		--no idea why we need this...
 		power:SetFrameLevel(powerPanel:GetFrameLevel()+1)
-		
+
 		self.Power = power
-		--self.Power.bg = powerBG
 
 	end
 	end,
