@@ -47,6 +47,8 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
   TukuiBar1.Shadow:Kill()
 
   TukuiBar1:HookScript("OnEvent", function(self, event, unit, ...)
+    if InCombatLockdown() then return end
+
     for i=1, 12 do
       local b = _G["MultiBarBottomLeftButton"..i]
       local b2 = _G["MultiBarBottomLeftButton"..i-1]
