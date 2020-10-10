@@ -1,6 +1,7 @@
 local S,C = unpack(SanUI)
 
 local GetSpellName = function(id) return select(1,GetSpellInfo(id)) end
+local Scale = S.Toolkit.Functions.Scale
 		
 function S.weakAurasDialog()
 	local main = CreateFrame("Frame", nil, UIParent)
@@ -82,19 +83,15 @@ end
 -- Adapted from AddonSkins by Azilroka
 -- conceived by Elv
 local function skinWaFrame(frame, type)
-	local backdrop = frame.backdrop or frame.Backdrop
-	if not backdrop then
-		frame:CreateBackdrop('Transparent')
-		backdrop = frame.backdrop or frame.Backdrop
-		if type == 'icon' then
-			backdrop:HookScript('OnUpdate', function(self)
-				self:SetAlpha(self:GetParent().icon:GetAlpha())
-			end)
-		end
-	end
+  frame:CreateBackdrop()
+  frame.Backdrop:SetBackdropColor(0,0,0,0)
+  frame.Backdrop:Show()
 
-	if ftype == 'aurabar' then
-		backdrop:Show()
+	if type == 'aurabar' or type == 'icon' then
+    frame.Backdrop:ClearAllPoints()
+    frame.Backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -Scale(1), Scale(1))
+    frame.Backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", Scale(1), -Scale(1))
+		frame.Backdrop:Show()
 	end
 	--frame.icon:SetTexCoord(.1, .9, .1, .9)
 	--frame.icon.SetTexCoord = function() end
