@@ -1,7 +1,7 @@
 local S,C,L = unpack(SanUI)
 
-S["ActionBars"].StartButtonHighlight = function() end
-S["ActionBars"].StopButtonHighlight = function() end
+S["ActionBars"].StartHighlight = function(self) end
+S["ActionBars"].StopHighlight = function(self) end
 
 local Scale = S.Toolkit.Functions.Scale
 

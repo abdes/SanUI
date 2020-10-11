@@ -1,12 +1,12 @@
 local S, C = unpack(SanUI)
 
-
 S.switchPowerbar = function(profile)
 
   local wrathname = GetSpellInfo(190984)
   local starfirename = GetSpellInfo(194153)
-
-	local Power = oUF_player.Power
+	local TukuiBar1 = S["ActionBars"].Bars.Bar1
+	
+  local Power = oUF_player.Power
   Power.update_surge = function(self, event, unit)
     self.Power:ForceUpdate(event, unit)
   end
@@ -79,16 +79,16 @@ S.switchPowerbar = function(profile)
 	elseif profile == "SanBear" then
 		Power:ClearAllPoints()
 		--why are those offsets necessary? look at Bar1.lua from Tukui, this should be without offsets
-		Power:SetPoint("BOTTOMLEFT",S["Panels"].ActionBar1,C["ActionBars"].ButtonSpacing+1, C["ActionBars"].ButtonSpacing+2)
+		Power:SetPoint("BOTTOMLEFT",TukuiBar1,C["ActionBars"].ButtonSpacing+1, C["ActionBars"].ButtonSpacing+2)
 		Power:SetPoint("RIGHT",ActionButton8,"LEFT",-C["ActionBars"].ButtonSpacing-1,0)
 		Power:Height(C["ActionBars"].NormalButtonSize-3)
 		Power:Show()
 	elseif profile == "SahneUnholy" then
 		Power:ClearAllPoints()
 		--why are those offsets necessary? look at Bar1.lua from Tukui, this should be without offsets
-		Power:SetPoint("BOTTOMLEFT",S["Panels"].ActionBar1,C["ActionBars"].ButtonSpacing+2, C["ActionBars"].ButtonSpacing+2)
+		Power:SetPoint("BOTTOMLEFT",TukuiBar1,C["ActionBars"].ButtonSpacing+2, C["ActionBars"].ButtonSpacing+2)
 		Power:SetPoint("RIGHT",ActionButton9,"LEFT",-C["ActionBars"].ButtonSpacing-1,0)
-		Power:Height(C["ActionBars"].NormalButtonSize-3)
+		Power:SetHeight(C["ActionBars"].NormalButtonSize-3)
 		Power:Show()
 	elseif profile == "Rogue" then
 		Power:ClearAllPoints()
