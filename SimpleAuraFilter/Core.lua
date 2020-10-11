@@ -141,9 +141,11 @@ local function UpdateDebuffAnchors(buttonName, index)
 	local panel
 	
 	if not _G[buttonName..index.."Panel"] then
-		panel = CreateFrame("Frame", buttonName..index.."Panel", debuff)
+		panel = CreateFrame("Frame", buttonName..index.."Panel", debuff, "BackdropTemplate")
 		panel:SetSize(Scale(30), Scale(30))
-		panel:SetPoint("CENTER", debuff, "CENTER", 0, 0)
+		--panel:SetPoint("CENTER", debuff, "CENTER", 0, 0)
+		panel:SetPoint("TOPLEFT", -Scale(1), Scale(1))
+		panel:SetPoint("BOTTOMRIGHT", Scale(1), -Scale(1))
 		panel:CreateBackdrop("Transparent")
 		panel:SetFrameLevel(debuff:GetFrameLevel() - 1)
 		panel:SetFrameStrata(debuff:GetFrameStrata())
@@ -164,7 +166,7 @@ local function UpdateDebuffAnchors(buttonName, index)
 	else
 		color = DebuffTypeColor["none"]
 	end
-	panel.Backdrop:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
+	panel:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 	debuff:ClearAllPoints()
 	
 	if index == 1 then
