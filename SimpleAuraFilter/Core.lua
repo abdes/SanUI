@@ -164,7 +164,7 @@ local function UpdateDebuffAnchors(buttonName, index)
 	else
 		color = DebuffTypeColor["none"]
 	end
-	panel:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
+	panel.Backdrop:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 	debuff:ClearAllPoints()
 	
 	if index == 1 then
