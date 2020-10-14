@@ -192,7 +192,7 @@ local function CreateUnitFrame(self, unit)
 	local Spark = self.Castbar:CreateTexture(nil, "OVERLAY")
 	Spark:SetSize(20, 20)
 	Spark:SetBlendMode("ADD")
-  Spark:SetPoint("CENTER", Castbar:GetStatusBarTexture(), "RIGHT", 0, 0)
+    Spark:SetPoint("CENTER", self.Castbar:GetStatusBarTexture(), "RIGHT", 0, 0)
 	
 	self.Castbar.Spark = Spark
 	
