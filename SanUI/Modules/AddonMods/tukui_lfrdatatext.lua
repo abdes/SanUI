@@ -1,5 +1,7 @@
 local S, C, L = unpack(SanUI)
 
+L.DataText.CallToArms = "Call to Arms"
+
 local DataText = S["DataTexts"]
 local format = format
 
