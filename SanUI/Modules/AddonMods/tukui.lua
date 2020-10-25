@@ -33,6 +33,7 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
   local TukuiBar3 = S["ActionBars"].Bars.Bar3
   local TukuiBar4 = S["ActionBars"].Bars.Bar4
   local TukuiBar5 = S["ActionBars"].Bars.Bar5
+  local PetBar = S["ActionBars"].Bars.Pet
 
   -- Bars: Bar 1 will contain all main Buttons, Bar 2 is just moved on top of
   -- it, background made invisible, 3 and 4 must go, Bar 5 stays at the rigt, 6
@@ -75,7 +76,6 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 
   RegisterStateDriver(TukuiBar1, "visibility", "[petbattle] hide; show")
   
-  
   MultiBarBottomLeft:SetParent(TukuiBar1)
 
   RegisterStateDriver(TukuiBar2,"visibility","hide")
@@ -84,6 +84,19 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 
   TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -Scale(5), -Scale(14))
   TukuiBar5:SetHeight(Scale((Size*12)+(Spacing*13)))
+
+  PetBar:ClearAllPoints()
+  PetBar:SetPoint("RIGHT", TukuiBar5, "LEFT", -Scale(5), 0)
+  PetBar:SetWidth(Size + Spacing*2)
+  PetBar:SetHeight(Size*NUM_PET_ACTION_SLOTS + Spacing*(NUM_PET_ACTION_SLOTS + 1))
+
+	for i = 2, NUM_PET_ACTION_SLOTS do
+		local Button = _G["PetActionButton"..i]
+		local PreviousButton = _G["PetActionButton"..i-1]
+		
+    Button:ClearAllPoints()
+    Button:SetPoint("TOP", PreviousButton, "BOTTOM", 0, -Spacing)
+	end
 
   TukuiStanceBar.Shadow:Kill()
 end)
