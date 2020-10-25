@@ -218,6 +218,17 @@ S["Modes"] = {
 		["ActionButtons"] = "SanHeal",
 		["DBM"] = "HedgeBM", 
 	},
+	["SahneUnholy"] = {
+		["raidframes"] = "SanChicken",
+		["SimpleAuraFilter"] = "SanBear",
+		["castbar"] = "DK",
+		["powerbar"] = "SahneUnholy",
+		["gcd"] = "SanBear",
+		["bossbars"] = "SanChicken",
+		["coolline"] = "SanBear",
+		["ActionButtons"] = "SanBear",
+		["DBM"] = "SanBear", 
+	},
 }
 
 if not S["profiles"][S.MyName] then

@@ -856,6 +856,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		self.Runes.growth = "RIGHT"
 		self.Runes.height = 16
 		self.Runes.width = 16
+    self.Runes.colorSpec = true
+    self.colors.runes = oUF.colors.runes
 
 		for i = 1, 6 do
       -- TODO why doesn't UnitPowerMax("player", SPELL_POWER_RUNES) return the 
@@ -943,6 +945,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 			end)
 		end
 
+    --[[
 		self.Runes.PostUpdate = function(self, rune, rid, start, duration, runeReady)
 			if not runeReady then
 				local val = GetTime() - start
@@ -952,6 +955,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 				rune.bg:SetTexCoord(0.25, 0.5, 12 / 16 - 8 * val / 10 / 16, 1)
 			end
 		end
+  ]]
 	end
 
 	local initClassIconAnimation, updateClassIconAnimation
