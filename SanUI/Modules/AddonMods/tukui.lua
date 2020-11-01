@@ -52,9 +52,7 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 
     for i=1, 12 do
       local b = _G["MultiBarBottomLeftButton"..i]
-      local b2 = _G["MultiBarBottomLeftButton"..i-1]
       local c = _G["ActionButton"..13-i]
-      local c2 = _G["ActionButton"..14-i]
       b:ClearAllPoints()
       c:ClearAllPoints()
       b:SetSize(Scale(Size), Scale(Size))
@@ -117,7 +115,6 @@ hooksecurefunc(S["Maps"].Minimap, "Enable", function()
   dt_left:SetPoint("RIGHT", dt_right, "LEFT", Scale(1),0)
   dt_left:CreateBackdrop()
   dt_left:SetFrameStrata("MEDIUM")
-  --dt_left:CreateShadow()
   dt_right.Shadow:Hide()
   S.DataTexts.Panels.MinimapDataTextLeft = dt_left
 end)
