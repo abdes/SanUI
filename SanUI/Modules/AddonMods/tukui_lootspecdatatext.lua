@@ -77,7 +77,9 @@ end
 
 DataText:Register("LootSpec", Enable, Disable, Update)
 
+--[[
 hooksecurefunc(S["DataTexts"],"AddDefaults",function()
 	TukuiData[GetRealmName()][UnitName("Player")].Texts[L.DataText.Power] = {false, 0}
-	TukuiData[GetRealmName()][UnitName("Player")].Texts["LooSpec"] = {true,7}
+	TukuiData[GetRealmName()][UnitName("Player")].Texts["LootSpec"] = {true,7}
 end)
+]]
