@@ -10,6 +10,10 @@ S["profiles"] = {
 	modes = {"SanHeal","SanChicken","SanBear", "SanCat" },
 	AddonMenu = {DBM=1, Altoholic=2, Hack=3, MDT=4},
  },
+  ["Tamdam"] = { 
+	modes = {"SanHeal","SanChicken","SanBear", "SanCat" },
+	AddonMenu = {DBM=1, Altoholic=2, Hack=3, MDT=4},
+ },
  ["Jhess"] = {
 	modes = {"JhessDisc","JhessHoly","JhessShadow"},
 	AddonMenu = {DBM=1,Altoholic=2, WorldFrame=3},
@@ -116,7 +120,7 @@ S["Modes"] = {
 		["raidframes"] = "SanChicken",
 		["SimpleAuraFilter"] = "SanBear",
 		["castbar"] = "SanBear",
-		["powerbar"] = "SahneUnholy",
+		["powerbar"] = "SanBear",
 		["gcd"] = "SanBear",
 		["bossbars"] = "SanChicken",
 		["coolline"] = "SanBear",
