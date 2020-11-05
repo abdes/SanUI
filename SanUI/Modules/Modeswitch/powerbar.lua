@@ -26,7 +26,7 @@ S.switchPowerbar = function(profile)
 	if profile == "SanBear" or profile == "SahneUnholy" then
     Power.update_surge = function(self, event, unit) end
 		Power.PostUpdate = function(self,unit, cur, min, max)
-			local quotient = max and cur/max or 0
+			local quotient = (max and max > 0) and cur/max or 0
 			if quotient >= .6  and quotient < .9 then
 				Power:SetStatusBarColor(1,.49,.04)
 			elseif quotient >= .9 then
