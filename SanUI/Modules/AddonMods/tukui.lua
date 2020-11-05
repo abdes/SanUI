@@ -106,12 +106,12 @@ hooksecurefunc(S["Maps"].Minimap, "Enable", function()
   local backdrop = Minimap.Backdrop
   
   dt_right:ClearAllPoints()
-  dt_right:SetPoint("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, Scale(19))
+  dt_right:SetPoint("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, Scale(1))
   dt_right:SetWidth(dt_right:GetWidth()/2)
   
   local dt_left = CreateFrame("Frame", nil, UIParent)
   dt_left:SetHeight(dt_right:GetHeight())
-  dt_left:SetPoint("TOPLEFT", backdrop, "BOTTOMLEFT", 0, Scale(19))
+  dt_left:SetPoint("TOPLEFT", backdrop, "BOTTOMLEFT", 0, Scale(1))
   dt_left:SetPoint("RIGHT", dt_right, "LEFT", Scale(1),0)
   dt_left:CreateBackdrop()
   dt_left:SetFrameStrata("MEDIUM")
@@ -143,6 +143,16 @@ hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
   
   self.Anchors[self.NumAnchors] = Frame
 end)
+
+S["DataTexts"]:GetDataText("Character"):HookScript("OnUpdate", function(self)
+	local Green, Red
+		Green = L.DataText.Slots[1][3] * 2
+		Red = 1 - Green
+        self.Text:SetText("Durability: " .. floor(L.DataText.Slots[1][3] * 100) .. "%")
+		if Green < 0.3 then
+			self.Text:SetTextColor(Red + 1, Green, 0, 1)
+		end
+    end)
 
 hooksecurefunc(S["DataTexts"], "Register", function()
   for _, DT in pairs(S["DataTexts"].DataTexts) do
