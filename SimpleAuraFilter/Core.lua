@@ -88,17 +88,12 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 		buff = _G["BuffButton"..i];
 		icon = _G["BuffButton"..i.."Icon"]
 		
-		if not _G["BuffButton"..i.."Panel"] then
-			local panel = CreateFrame("Frame", "BuffButton".. i .."Panel", buff)
-			panel:SetSize(Scale(30), Scale(30))
-			panel:SetPoint("CENTER",buff, "CENTER", 0, 0)
-			panel:CreateBackdrop("Transparent")
-			panel:SetFrameLevel(buff:GetFrameLevel() - 1)
-			panel:SetFrameStrata(buff:GetFrameStrata())
-			
+		if not buff.Backdrop then
 			icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 			icon:SetPoint("TOPLEFT", buff, Scale(2), -Scale(2))
 			icon:SetPoint("BOTTOMRIGHT", buff, -Scale(2), Scale(2))
+			
+			buff:CreateBackdrop()
 		end
 			
 		if not buff:IsShown() then
@@ -136,25 +131,16 @@ end
 local function UpdateDebuffAnchors(buttonName, index)
 	local debuff = _G[buttonName..index]
 	local icon = _G[buttonName..index.."Icon"]
-	local border	= _G[buttonName..index.."Border"]
+	local border = _G[buttonName..index.."Border"]
 	
 	local panel
 	
-	if not _G[buttonName..index.."Panel"] then
-		panel = CreateFrame("Frame", buttonName..index.."Panel", debuff, "BackdropTemplate")
-		panel:SetSize(Scale(30), Scale(30))
-		--panel:SetPoint("CENTER", debuff, "CENTER", 0, 0)
-		panel:SetPoint("TOPLEFT", -Scale(1), Scale(1))
-		panel:SetPoint("BOTTOMRIGHT", Scale(1), -Scale(1))
-		panel:CreateBackdrop("Transparent")
-		panel:SetFrameLevel(debuff:GetFrameLevel() - 1)
-		panel:SetFrameStrata(debuff:GetFrameStrata())
-		
+	if not debuff.Backdrop then		
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		icon:SetPoint("TOPLEFT", debuff, Scale(2), -Scale(2))
 		icon:SetPoint("BOTTOMRIGHT", debuff, -Scale(2), Scale(2))
-	else
-		panel = _G[buttonName..index.."Panel"]
+
+		debuff:CreateBackdrop()
 	end
 	
 	if border then border:Hide() end
@@ -166,7 +152,9 @@ local function UpdateDebuffAnchors(buttonName, index)
 	else
 		color = DebuffTypeColor["none"]
 	end
-	panel:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
+	
+	debuff.Backdrop:SetBorderColor(color.r * 0.7, color.g * 0.7, color.b * 0.7)
+
 	debuff:ClearAllPoints()
 	
 	if index == 1 then
