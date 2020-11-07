@@ -244,7 +244,9 @@ local function SetupIcons(self)
 		icon.name = name
 
 		if not watch.customIcons then
-			if not icon.cd and not (watch.hideCooldown or icon.hideCooldown) then
+			local hidecd = icon.hideCooldown or (icon.hideCooldown == nil and watch.hideCooldown)
+			if not icon.cd and not hidecd then
+				
 				local cd = CreateFrame("Cooldown", nil, icon,"CooldownFrameTemplate")
 				cd:SetAllPoints(icon)
 				
