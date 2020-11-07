@@ -5,34 +5,29 @@ local RaidButtonSize = 28
 local Scale = Tukui[1].Toolkit.Functions.Scale
 
 local function changeAuras(frame,auras)
-	if not frame.NotAuraWatch then
-		print("Frame "..frame:GetName().." not watched by NotAuraWatch, can't change Auras!")
+	local nat = frame.NotAuraTrack
+	
+	if not nat then
+		print("Frame "..frame:GetName().." not watched by NotAuraTrack, can't change Auras!")
 		return
 	end
 	
-	if not frame.NotAuraWatch.nonwatched then  frame.NotAuraWatch.nonwatched =  {} end
+	if not nat.nonwatched then  nat.nonwatched =  {} end
 		
 	if not auras then
-		if not frame.NotAuraWatch then
-			print("Frame "..frame:GetName().." not watched by NotAuraWatch, can't restore Auras!")
-			return
-		end
-
-		if not frame.NotAuraWatch.nonwatched then return end
-		
-		for k,v in pairs(frame.NotAuraWatch.nonwatched) do
-			frame.NotAuraWatch.watched[k] = v
-			frame.NotAuraWatch.nonwatched[k] = nil
+		for k,v in pairs(nat.nonwatched) do
+			nat.Icons[k] = v
+			nat.nonwatched[k] = nil
 		end
 
 	else
-		if frame.NotAuraWatch.watched then
+		local icons = nat.Icons
+		if icons then
 			for _,spellID in ipairs(auras) do
-				--local name, _, image = GetSpellInfo(spellID)
-				if frame.NotAuraWatch.watched[spellID] ~= nil then 
-					frame.NotAuraWatch.nonwatched[spellID]=frame.NotAuraWatch.watched[spellID]
-					frame.NotAuraWatch.watched[spellID] = nil
-					frame.NotAuraWatch.nonwatched[spellID]:Hide()
+				if icons[spellID] ~= nil then 
+					nat.nonwatched[spellID] = icons[spellID]
+					icons[spellID] = nil
+					nat.nonwatched[spellID]:Hide()
 				end
 			end
 		end

@@ -261,118 +261,64 @@ local function Shared(self, unit)
 	local auras = CreateFrame("Frame", nil, self)
 	auras:SetPoint("TOPLEFT", self.Health, Scale(2), -Scale(2))
 	auras:SetPoint("BOTTOMRIGHT", self.Health, -Scale(2), Scale(2))
-	auras.presentAlpha = 1
-	auras.missingAlpha = 0
-	auras.icons = {}
-	auras.PostCreateIcon = function(self, icon)		
-		if icon.icon and not icon.hideIcon then
-			icon.icon:SetTexCoord(.08, .92, .08, .92)
-			icon.icon:SetDrawLayer("ARTWORK")
-		end
-		
-		if (icon.cd) then
-			icon.cd:SetReverse()
-		end
-		
-		if icon.overlay then
-			icon.overlay:SetTexture()
-		end
-	end
-	
 	auras:SetFrameLevel(self.Health:GetFrameLevel()+2)
+	auras.Icons = {}
 
-	if (not C["Raid"].AuraWatchTimers) then
-		auras.hideCooldown = true
-	end
-
-	local buffs = {}
+	for _, spell in pairs(S["UnitFrames"].RaidBuffsTracking[S.MyClass]) do
+		local icon = CreateFrame("Frame", nil, auras)
+		icon:SetPoint(unpack(spell.pos))
+		
+		icon.spellID = spell.spellID
+		icon.anyCaster = spell.anyCaster
+		icon.timers = spell.timers
+		icon.cooldownAnim = spell.cooldownAnim	
+		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
+		icon:SetWidth(Scale(6))
+		icon:SetHeight(Scale(6))
 	
-	if not S["UnitFrames"].RaidBuffsTrackingPosition then
-		S["UnitFrames"].RaidBuffsTrackingPosition= {
-			TOPLEFT = {6, 1},
-			TOPRIGHT = {-6, 1},
-			BOTTOMLEFT = {6, 1},
-			BOTTOMRIGHT = {-6, 1},
-			LEFT = {6, 1},
-			RIGHT = {-6, 1},
-			TOP = {0, 0},
-			BOTTOM = {0, 0},
-		}
-	end
-
-	if (S["UnitFrames"].RaidBuffsTracking["ALL"]) then
-		for key, value in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do
-			tinsert(buffs, value)
+		if icon.cooldownAnim then 
+			local cd = CreateFrame("Cooldown", nil, icon,"CooldownFrameTemplate")
+			cd:SetAllPoints(icon)
+			cd.noCooldownCount = icon.noCooldownCount or false -- needed for tullaCC to not show cooldown numbers
+			cd:SetReverse(true)
+			icon.cd = cd
 		end
-	end
-
-	if (S["UnitFrames"].RaidBuffsTracking[S.MyClass]) then
-		for key, value in pairs(S["UnitFrames"].RaidBuffsTracking[S.MyClass]) do
-			tinsert(buffs, value)
-		end
-	end
-
-	-- "Cornerbuffs"
-	if (buffs) then
-		for key, spell in pairs(buffs) do
-			local icon = CreateFrame("Frame", nil, auras)
-			
-			icon.spellID = spell[1]
-			icon.anyUnit = spell[4]
-			icon.stackColors = spell[5]
-			icon.timers = spell[6]
-			icon.hideCooldown = spell[7]
-			icon.hideCount = spell[8]
-			icon.onlyShowPresent = true -- could be defined on a per-icon-basis, but not neccessary just yet		
-			icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
-			
-			icon:SetWidth(Scale(6))
-			icon:SetHeight(Scale(6))
 		
-			for _,myspell in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do
-				if icon.spellID == myspell[1] then
-					icon:SetWidth(Scale(15))
-					icon:SetHeight(Scale(15))
-					icon:SetFrameStrata("MEDIUM")
-					icon:SetFrameLevel(self.Health:GetFrameLevel()+4)
-				end
-			end
+		local tex = icon:CreateTexture(nil, "OVERLAY")
+		tex:SetAllPoints(icon)
+		tex:SetTexture(C.Medias.Blank)
+		tex:SetVertexColor(unpack(spell.color))
 		
-			if type(spell[2]) == "string" then
-				icon:SetPoint(spell[2], 0, 0)
-			elseif type(spell[2]) == "table" then
-				icon:SetPoint(unpack(spell[2]))
-			end
+		icon.tex = tex
+		icon.color = spell.color	
+		
+		auras.Icons[spell.spellID] = icon
+		icon:Hide()
+	end
+	
+	for _, spellID in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do
+		local icon = CreateFrame("Frame", nil, auras)	
+		icon:SetPoint("TOPRIGHT", Scale(2), Scale(2))	
+		
+		icon.spellID = spellID
+		icon.anyCaster = true
+		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
+		icon:SetWidth(Scale(15))
+		icon:SetHeight(Scale(15))
 
-			local tex = icon:CreateTexture(nil, "OVERLAY")
-			tex:SetAllPoints(icon)
-			tex:SetTexture(C.Medias.Blank)
-			if (spell[3]) then
-				tex:SetVertexColor(unpack(spell[3]))
-			else
-				--tex:SetVertexColor(0.8, 0.8, 0.8)
-				tex:SetVertexColor(1,0,0)
-			end
-			
-			icon.extraTex = tex
-			icon.extraTexColor = spell[3]
+		local tex = icon:CreateTexture(nil, "OVERLAY")
+		tex:SetAllPoints(icon)
+		local _, _, image = GetSpellInfo(spellID)
+		tex:SetTexture(image)
+		tex:SetTexCoord(.1,.9,.1,.9)
 
-			if not icon.hideCount then
-				local count = icon:CreateFontString(nil, "OVERLAY")
-				count:SetFont(font2, 8, "THINOUTLINE")
-				if type(spell[2]) == "string" then
-					count:SetPoint("CENTER", unpack(S["UnitFrames"].RaidBuffsTrackingPosition[spell[2]]))
-				elseif type(spell[2]) == "table" then
-					count:SetPoint("CENTER", unpack(S["UnitFrames"].RaidBuffsTrackingPosition[spell[2][1]]))
-				end
-				icon.count = count
-			end		
-			
-			tinsert(auras.icons, icon)
-			icon:Hide()
-		end
-	end	
-	self.NotAuraWatch = auras
+		icon.tex = tex
+		
+		auras.Icons[spellID] = icon
+		icon:Hide()
+	end
+
+	self.NotAuraTrack = auras
 	
 	local ta = { texts = {} }
 	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass]) do
