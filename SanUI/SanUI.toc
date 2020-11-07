@@ -13,6 +13,7 @@ Libs\oUF_NotAuraWatch.lua
 Libs\oUF_TextAuras.lua
 Libs\oUF_ShadowTouched.lua
 
+Modules\Unitframes\tracking.lua
 Modules\Unitframes\raidframes.lua
 Modules\Unitframes\bossframes.lua
 
