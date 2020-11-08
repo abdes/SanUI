@@ -266,7 +266,8 @@ local function CreateUnitFrame(self, unit)
 		end, true)
 		
 	self.HighlightTarget = HighlightTarget
-
+	
+--[=[
 	local auras = CreateFrame("Frame", nil, self)
 	auras:SetPoint("RIGHT", self.Health,-Scale(33), 0)
 	auras:SetSize(16, BarHeight - 4) --2 auras, size 6, dist 4
@@ -294,6 +295,7 @@ local function CreateUnitFrame(self, unit)
 	end
 	auras:SetFrameStrata(self.Health:GetFrameStrata())
 	auras:SetFrameLevel(self.Health:GetFrameLevel()+2)
+
 
 	local buffs = {
 		{164812,{"RIGHT",0,0},{1,1,1},false},	--Moonfire
@@ -343,6 +345,7 @@ local function CreateUnitFrame(self, unit)
 	end
 	
 	self.NotAuraWatch = auras
+	]=]
 end
 
 --[[
