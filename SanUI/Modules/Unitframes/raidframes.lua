@@ -139,14 +139,13 @@ local function Shared(self, unit)
 	health:SetHeight(Scale(28))
 	health:SetStatusBarTexture(normTex)
 	health:SetFrameLevel(8)
-	health:SetStatusBarColor(.3, .3, .3, 1)
+	health:SetStatusBarColor(.2, .2, .2, 1)
 	health:SetOrientation("VERTICAL")
 	self.Health = health
 
 	health.bg = health:CreateTexture(nil, "BORDER")
 	health.bg:SetAllPoints()
 	health.bg:SetTexture(normTex)
-	health.bg:SetColorTexture(0.3, 0.3, 0.3)
 	health.bg:SetVertexColor(0,0,0,1)
 	
 	health.colorDisconnected = false

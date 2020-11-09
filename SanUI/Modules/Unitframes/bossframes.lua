@@ -10,15 +10,15 @@ local Scale = S.Toolkit.Functions.Scale
 ns._Objects = {}
 ns._Headers = {}
 
-local BAR_TEXTURE = S.GetTexture(C["UnitFrames"].HealthTexture)
+local BAR_TEXTURE = C["Medias"].Blank
 local TEXT_FONT = C["Medias"].Font
 
-local fontcolor = {1, 1, 1, 1}
-local hpBarColor = {.1,.1,.1, 1}
-local ppBarColor = {.5,.5,.5, 1}
-local bgBarColor = {44/255, 44/255, 44/255, 1}
-local ppBgColor = {29/255, 63/255, 72/255}
+local fontcolor = {0.9, 0.9, 0.9, 1}
 local fontSize = 12
+
+local bordercolor = {0.3, 0.3, 0.3, 1}
+local barcolor = { 0.1, 0.1, 0.1, 1}
+local barbgcolor = { 29/255, 63/255, 72/255, 1 }
 
 local ALTERNATE_POWER_INDEX = ALTERNATE_POWER_INDEX
 
@@ -64,83 +64,90 @@ local function CreateUnitFrame(self, unit)
 
 	self:SetSize(BarWidth, BarHeight)
 
-	local hpBar = CreateFrame("StatusBar",nil, self)
-	hpBar:SetPoint("TOPLEFT", self, "TOPLEFT", Scale(1), -Scale(1))
-	hpBar:SetSize(BarWidth - 2, BarHeight - 2)
-	hpBar:SetStatusBarTexture(BAR_TEXTURE)
-	hpBar:GetStatusBarTexture():SetHorizTile(true)
-	hpBar:SetStatusBarColor(0.3,0.3,0.3,1)	
-	hpBar:SetFrameStrata("MEDIUM")
-	--hpBar.frequentUpdates = true
-	hpBar.colorHealth = false
+	local health = CreateFrame("StatusBar",nil, self)
+	health:SetPoint("TOPLEFT", self, "TOPLEFT", Scale(1), -Scale(1))
+	health:SetSize(BarWidth - 2, BarHeight - 2)
+	health:SetStatusBarTexture(BAR_TEXTURE)
+	health:SetStatusBarColor(unpack(barcolor))	
+	health:SetFrameStrata("MEDIUM")
+	health.colorHealth = false
+	health.colorDisconnected = false
+	health.colorClass = false
+	health.colorTapping = false
+	health.colorClassNPC = false
+	health.colorClassPet = false
+	health.colorReaction = false
+	health.colorSmooth = false
+	health.colorHealth = false
+	health.Smooth = true
+	self.Health = health
 	
-	self.Health = hpBar
+	self:CreateBackdrop()
+	self.Backdrop:SetBackdropColor(unpack(barbgcolor))
 	
-	local hpBarBG = CreateFrame("Frame",nil,hpBar, "BackdropTemplate")
-	hpBarBG:SetPoint("TOPLEFT",hpBar,"TOPLEFT",-Scale(1),Scale(1))
-	hpBarBG:SetPoint("BOTTOMRIGHT",hpBar,"BOTTOMRIGHT",Scale(1),-Scale(1))
-	hpBarBG:CreateBackdrop()
-	hpBarBG.Backdrop:SetBackdropColor(0,0,0,1)
-	hpBarBG:SetFrameStrata("MEDIUM")
-	hpBarBG:SetFrameLevel(hpBar:GetFrameLevel()-1)
+	-- highlight
+	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = Scale(1)}
+	local HighlightTarget = CreateFrame("Frame", nil, self, "BackdropTemplate")
+	HighlightTarget:SetAllPoints()
+	HighlightTarget:SetBackdrop(glowBorder)
+	HighlightTarget:SetFrameLevel(self:GetFrameLevel() + 1)
+	HighlightTarget:SetBackdropBorderColor(unpack(C.General.BorderColor))
 	
-	self.Health.bg = hpBarBG
+	self:RegisterEvent("PLAYER_TARGET_CHANGED", function(self,event,unit)
+			if UnitIsUnit("target", self.unit) then
+				self.HighlightTarget:SetBackdropBorderColor(1,1,1)
+			else
+				self.HighlightTarget:SetBackdropBorderColor(unpack(bordercolor))
+			end
+		end, true)
+		
+	self.HighlightTarget = HighlightTarget
 	
-	
-	local hpText = hpBar:CreateFontString(nil, "Overlay")
-	hpText:SetFont(TEXT_FONT, fontSize)
-	hpText:SetShadowOffset(.8,-.8)
-	hpText:SetTextColor(unpack(fontcolor))
-	hpText:SetJustifyH("RIGHT")
-	hpText:SetPoint("RIGHT", hpBar, "RIGHT", -2, 0)
-	self.hpText = hpText
-	
-	self:Tag(hpText,"[BossBars:health]%")
-	
-	local PowerBar = CreateFrame("StatusBar", nil, self)
-	PowerBar:SetFrameLevel(self.Health:GetFrameLevel())
-	PowerBar:SetSize(98, 13)
-	PowerBar:SetStatusBarTexture(BAR_TEXTURE)
-	PowerBar:GetStatusBarTexture():SetHorizTile(false)
-	PowerBar:SetFrameStrata(hpBar:GetFrameStrata())
-	PowerBar:SetFrameLevel(hpBar:GetFrameLevel()+2)
-	PowerBar:SetStatusBarColor(0.3,0.3,0.3,1)
-	PowerBar:SetPoint("CENTER", self.Health, "BOTTOM", 0, -Scale(6))
-	
-	--PowerBar.frequentUpdates = true
-	PowerBar.colorPower = false
-	self.Power = PowerBar
-	
-	local powerBarBG = CreateFrame("Frame",nil,PowerBar)
-	powerBarBG:SetPoint("TOPLEFT",PowerBar,"TOPLEFT",-Scale(1),Scale(1))
-	powerBarBG:SetPoint("BOTTOMRIGHT",PowerBar,"BOTTOMRIGHT",Scale(1),-Scale(1))
-	powerBarBG:CreateBackdrop()
-	powerBarBG.Backdrop:SetBackdropColor(0,0,0,1)
-	powerBarBG:SetFrameStrata(PowerBar:GetFrameStrata())
-	powerBarBG:SetFrameLevel(PowerBar:GetFrameLevel()-1)
-	
-	self.Power.bg = powerBarBG
-	
-	local powerText = PowerBar:CreateFontString(nil, "Overlay")
-	powerText:SetFont(TEXT_FONT, fontSize-1)
-	powerText:SetShadowOffset(.8,-.8)
-	powerText:SetTextColor(unpack(fontcolor))
-	powerText:SetPoint("RIGHT", PowerBar, "RIGHT", -Scale(4), -Scale(1))
-	powerText:SetJustifyH("RIGHT")
-	powerText:SetJustifyV("MIDDLE")
-	
-	self:Tag(powerText, "[BossBars:ppDetailed]")
-
-	local Name = hpBar:CreateFontString(nil, "Overlay")
+	local Name = health:CreateFontString(nil, "Overlay")
 	Name:SetFont(TEXT_FONT, fontSize)
 	Name:SetShadowOffset(0,-1)
 	Name:SetTextColor(unpack(fontcolor))
 	Name:SetJustifyH("LEFT")
-	Name:SetPoint("LEFT", hpBar, "LEFT", 2, 0)
+	Name:SetPoint("LEFT", health, "LEFT", 2, 0)
 	Name:SetSize(BarWidth-50, BarHeight - 2)
-	
+	self.name = Name
 	self:Tag(Name, "[name]")
 	
+	local hpText = health:CreateFontString(nil, "Overlay")
+	hpText:SetFont(TEXT_FONT, fontSize)
+	hpText:SetShadowOffset(.8,-.8)
+	hpText:SetTextColor(unpack(fontcolor))
+	hpText:SetJustifyH("RIGHT")
+	hpText:SetPoint("RIGHT", health, "RIGHT", -2, 0)
+	self.hpText = hpText	
+	self:Tag(hpText,"[BossBars:health]%")
+	
+	local power = CreateFrame("StatusBar", nil, self)
+	power:SetFrameLevel(self.Health:GetFrameLevel())
+	power:SetSize(98, 13)
+	power:SetStatusBarTexture(BAR_TEXTURE)
+	power:SetFrameStrata(health:GetFrameStrata())
+	power:SetFrameLevel(health:GetFrameLevel()+2)
+	power:SetStatusBarColor(unpack(barcolor))
+	power:SetPoint("CENTER", self.Health, "BOTTOM", 0, -Scale(6))
+	power:CreateBackdrop()
+	power.Backdrop:SetBackdropColor(unpack(barbgcolor))
+	power.Backdrop:ClearAllPoints()
+	power.Backdrop:SetPoint("TOPLEFT", power, -Scale(1), Scale(1))
+	power.Backdrop:SetPoint("BOTTOMRIGHT", power,  Scale(1), -Scale(1))
+	power.colorPower = false
+	self.Power = power
+	
+	local powerText = power:CreateFontString(nil, "Overlay")
+	powerText:SetFont(TEXT_FONT, fontSize-1)
+	powerText:SetShadowOffset(.8,-.8)
+	powerText:SetTextColor(unpack(fontcolor))
+	powerText:SetPoint("RIGHT", power, "RIGHT", -Scale(4), -Scale(1))
+	powerText:SetJustifyH("RIGHT")
+	powerText:SetJustifyV("MIDDLE")	
+	
+	self:Tag(powerText, "[BossBars:ppDetailed]")
+
 	local castbar = CreateFrame('StatusBar', nil, self)
 	castbar:SetFrameStrata("HIGH")
 	castbar:SetPoint("TOP",self.Power,"BOTTOM",0,Scale(2))
@@ -149,22 +156,13 @@ local function CreateUnitFrame(self, unit)
 	castbar:SetStatusBarTexture(BAR_TEXTURE)	
 	castbar:SetFrameStrata(self.Health:GetFrameStrata())
 	castbar:SetFrameLevel(self.Health:GetFrameLevel())
-	castbar:GetStatusBarTexture():SetHorizTile(true)
-	castbar:SetStatusBarColor(29/255, 63/255, 72/255, 1)
-	castbar.PostCastStart = S.CheckCast
-	castbar.PostChannelStart = S.CheckChannel
+	castbar:SetStatusBarColor(unpack(barcolor))
+	castbar:CreateBackdrop()
+	castbar.Backdrop:SetBackdropColor(unpack(barbgcolor))
+	castbar.Backdrop:SetPoint("TOPLEFT", castbar, -Scale(1), Scale(1))
+	castbar.Backdrop:SetPoint("BOTTOMRIGHT", castbar,  Scale(1), -Scale(1))
 	
 	self.Castbar = castbar
-	
-	local castBarBG = CreateFrame("Frame",nil,self.Castbar)
-	castBarBG:SetPoint("TOPLEFT",self.Castbar,"TOPLEFT",-Scale(1),Scale(1))
-	castBarBG:SetPoint("BOTTOMRIGHT",self.Castbar,"BOTTOMRIGHT",Scale(1),-Scale(1))
-	castBarBG:CreateBackdrop()
-	castBarBG.Backdrop:SetBackdropColor(0,0,0,1)
-	castBarBG:SetFrameStrata(self.Castbar:GetFrameStrata())
-	castBarBG:SetFrameLevel(self.Castbar:GetFrameLevel()-1)
-	
-	self.Castbar.bg = castBarBG
 	
 	local castbarText = self.Castbar:CreateFontString(nil, 'OVERLAY')
 	castbarText:SetPoint('LEFT', self.Castbar, 4, 0)
@@ -197,18 +195,21 @@ local function CreateUnitFrame(self, unit)
 	self.Castbar.Spark = Spark
 	
 	-- alt power bar
-	local AltPowerBar = CreateFrame("StatusBar", nil, self)
-	AltPowerBar:SetFrameLevel(PowerBar:GetFrameLevel() + 2)
-	AltPowerBar:SetSize(98, 13)
-	AltPowerBar:SetStatusBarTexture(BAR_TEXTURE)
-	AltPowerBar:GetStatusBarTexture():SetHorizTile(false)
-	AltPowerBar:SetFrameStrata(PowerBar:GetFrameStrata())
-	AltPowerBar:SetFrameLevel(PowerBar:GetFrameLevel()+2)
-	AltPowerBar:SetStatusBarColor(0.3,0.3,0.3,1)
-	AltPowerBar:SetAllPoints(PowerBar)
-	
-	self.AltPowerBar = AltPowerBar
-	self.AltPowerBar.PostUpdate = function(self, unit, cur, min, max)
+	local Altpower = CreateFrame("StatusBar", nil, self)
+	Altpower:SetFrameLevel(power:GetFrameLevel() + 2)
+	Altpower:SetSize(98, 13)
+	Altpower:SetStatusBarTexture(BAR_TEXTURE)
+	Altpower:SetFrameStrata(power:GetFrameStrata())
+	Altpower:SetFrameLevel(power:GetFrameLevel()+2)
+	Altpower:SetStatusBarColor(unpack(barcolor))
+	Altpower:SetAllPoints(power)
+	Altpower:CreateBackdrop()
+	Altpower.Backdrop:SetBackdropColor(unpack(barbgcolor))
+	Altpower.Backdrop:ClearAllPoints()
+	Altpower.Backdrop:SetPoint("TOPLEFT", Altpower, -Scale(1), Scale(1))
+	Altpower.Backdrop:SetPoint("BOTTOMRIGHT", Altpower,  Scale(1), -Scale(1))
+	self.Altpower = Altpower
+	self.Altpower.PostUpdate = function(self, unit, cur, min, max)
 		if max == 0 then
 			self:Hide()
 		else
@@ -216,25 +217,16 @@ local function CreateUnitFrame(self, unit)
 		end
 	end
 	
-	local altBarBG = CreateFrame("Frame",nil,AltPowerBar)
-	altBarBG:SetPoint("TOPLEFT",AltPowerBar,"TOPLEFT",-Scale(2),Scale(2))
-	altBarBG:SetPoint("BOTTOMRIGHT",AltPowerBar,"BOTTOMRIGHT",Scale(2),-Scale(1))
-	altBarBG:CreateBackdrop()
-	altBarBG:SetFrameStrata(AltPowerBar:GetFrameStrata())
-	altBarBG:SetFrameLevel(AltPowerBar:GetFrameLevel()-1)
-	
-	self.AltPowerBar.bg = altBarBG
-	
-	local pbText = AltPowerBar:CreateFontString(nil, "Overlay")
+	local pbText = Altpower:CreateFontString(nil, "Overlay")
 	pbText:SetFont(TEXT_FONT, fontSize-1)
 	pbText:SetShadowOffset(.8,-.8)
 	pbText:SetTextColor(unpack(fontcolor))
 	pbText:SetJustifyH("RIGHT")
-	pbText:SetPoint("RIGHT", AltPowerBar, "RIGHT", -4, 0)
+	pbText:SetPoint("RIGHT", Altpower, "RIGHT", -4, 0)
 	self:Tag(pbText, "[BossBars:altpower]")
+	self.Altpower.Text = pbText
 	
-	self.AltPowerBar.Text = pbText
-	self.AltPowerBar:Hide()
+	self.Altpower:Hide()
 
 	local RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
 	RaidIcon:SetHeight(Scale(16))
@@ -242,30 +234,11 @@ local function CreateUnitFrame(self, unit)
 	RaidIcon:SetPoint("CENTER", self, "TOP",0,-Scale(1))
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
 	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
-	
 	self.RaidTargetIndicator = RaidIcon
 	
 	local range = {insideAlpha = 1, outsideAlpha = C["Raid"].RangeAlpha}
-	
 	self.Range = range
 
-	-- highlight
-	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = Scale(1)}
-	local HighlightTarget = CreateFrame("Frame", nil, self, "BackdropTemplate")
-	HighlightTarget:SetAllPoints(self.Health.bg)
-	HighlightTarget:SetBackdrop(glowBorder)
-	HighlightTarget:SetFrameLevel(self:GetFrameLevel() + 1)
-	HighlightTarget:SetBackdropBorderColor(0.6,0.6,0.6,1)
-	
-	self:RegisterEvent("PLAYER_TARGET_CHANGED", function(self,event,unit)
-			if UnitIsUnit("target", self.unit) then
-				self.HighlightTarget:SetBackdropBorderColor(1,1,1)
-			else
-				self.HighlightTarget:SetBackdropBorderColor(0.6,0.6,0.6)
-			end
-		end, true)
-		
-	self.HighlightTarget = HighlightTarget
 	
 --[=[
 	local auras = CreateFrame("Frame", nil, self)
@@ -347,46 +320,6 @@ local function CreateUnitFrame(self, unit)
 	self.NotAuraWatch = auras
 	]=]
 end
-
---[[
-local function CreateTargetFrame(self, unit)
-	local BarWidth = 175
-	local BarHeight = 11	
-	
-	self:SetSize(BarWidth, BarHeight)
-	
-	local hpBar = CreateFrame("StatusBar", nil, self)
-	hpBar:SetStatusBarTexture(BAR_TEXTURE)
-	hpBar:GetStatusBarTexture():SetHorizTile(true)	
-	hpBar:SetStatusBarColor(unpack(hpBarColor))
-	hpBar:SetSize(BarWidth - 2, BarHeight - 2)
-	hpBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
-	
-	local hpBG = hpBar:CreateTexture(nil, "BORDER")
-	hpBG:SetAllPoints(hpBar)
-	hpBG:SetSize(BarWidth - 2, BarHeight - 2.1)
-	hpBG:SetTexture(BAR_TEXTURE)
-	hpBG:SetVertexColor(unpack(bgBarColor))
-
-	local hpBorder = hpBar:CreateTexture(nil, "BACKGROUND")
-	hpBorder:SetPoint("TOPLEFT", hpBar, "TOPLEFT", -1, 1)
-	hpBorder:SetSize(BarWidth, BarHeight)
-	hpBorder:SetTexture(0, 0, 0, 1)
-	
-	hpBar.frequentUpdates = true
-	hpBar.colorHealth = false
-	self.Health = hpBar
-	
-	local Name = hpBar:CreateFontString(nil, "Overlay")
-	Name:SetFont(TEXT_FONT, 13)
-	Name:SetShadowOffset(.8,-.8)
-	Name:SetTextColor(unpack(fontcolor))
-	Name:SetJustifyH("LEFT")
-	Name:SetPoint("CENTER", hpBar, "BOTTOM", 0, 2)
-	
-	self:Tag(Name, "[name]")	
-end
---]]
 
 ------------------------------------------------------------------------------
 

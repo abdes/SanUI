@@ -2,7 +2,7 @@ local S = unpack(SanUI)
 
 S.switchBossBars = function(profile)
 
-  --Coloring here
+  --[[Coloring here
   for i = 1,4 do
 
     if profile == "Suran" then
@@ -44,6 +44,7 @@ S.switchBossBars = function(profile)
       end
     end
   end
+  ]]
 
   --Placement here
   for i = 1,4 do
