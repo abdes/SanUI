@@ -11,8 +11,10 @@ assert(oUF, "oUF_NotAuraTrack cannot find an instance of oUF. If your oUF is emb
 		Keys: spellID
 		Values: Tables with the following Keys:
 			.anyCaster If true(thy) show regardless of caster. If false(y), show only when the player is the caster
-			.cd  A cooldown frame, will be updated by NotAuraWatch
-			.timers Array (table indexed by integers) of timers. A timer is a table of the form { time, { r, g, b} }, where the icon texture 
+			.cd  (optional) A cooldown frame, will be updated by NotAuraWatch
+			.tex (Only needed when .color or .timers is set) The texture if the icon that colors get applied to
+			.color (optional) The color of the texture (leave nil for showing images)
+			.timers (optional) Array (table indexed by integers) of timers. A timer is a table of the form { time, { r, g, b} }, where the icon texture 
 		            is colored by SetVertexColor(r, g, b) if the remaining duration of the buff is <time. The first one matching wins.
 				
 	.Texts Table of FontString instances to show
@@ -21,7 +23,7 @@ assert(oUF, "oUF_NotAuraTrack cannot find an instance of oUF. If your oUF is emb
 			.anyCaster If true(thy) show regardless of caster. If false(y), show only when the player is the caster
 			.format The format string when printing the time left, passed as an argument to SetFormattedText
 			.res The maximum time between updates (should be at most half of the lowest digit needed for the format string)
-			.timers Array (table indexed by integers) of timers. A timer is a table of the form { time, format, res}, where whenever the remaining
+			.timers (optional) Array (table indexed by integers) of timers. A timer is a table of the form { time, format, res}, where whenever the remaining
 			       duration of the buff is <time, we use the format string format and a maximum update time of res (see the notes above)
 ]]
 
