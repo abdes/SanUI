@@ -494,7 +494,7 @@ oUF:Factory(function(self)
 			end
 		else
 			SanUIRaid:SetAttribute("groupFilter", "1,2,3,4,5,6,7,8")
-			if C.UnitFrames.showraidpets then
+			if C.UnitFrames.ShowPets then
 				SanUIRaidPets:SetAttribute("groupFilter", "1,2,3,4,5,6,7,8")
 			end
 		end
