@@ -4,20 +4,47 @@ assert(oUF, "oUF_NotAuraTrack cannot find an instance of oUF. If your oUF is emb
 
 --[[
 	By Tavore of EU-Kargath. Heavily modified version of oUF_AuraTrack by Tukz of tukui.org
-	.Icons Table of buff icons to show.
 	
-	  Keys: spellID
-	  Values: Tables with the following Keys:
-	    
-		.anyCaster = bool If true(thy) show regardless of caster. If false(y), show only when the player is the caster
-	    .cd  A cooldown frame, will be updated by NotAuraWatch
-	    .timers Array (table indexed by integers) of timers. A timer is a table of the form { time, { r, g, b} }, where the icon texture 
-		        is colored by SetVertexColor(r, g, b) if the remaining duration of the buff is <time. The first one matching wins.
+	Element frame.NotAuraTrack has the following entries
+	
+	.Icons Table of buff icons to show
+		Keys: spellID
+		Values: Tables with the following Keys:
+			.anyCaster If true(thy) show regardless of caster. If false(y), show only when the player is the caster
+			.cd  A cooldown frame, will be updated by NotAuraWatch
+			.timers Array (table indexed by integers) of timers. A timer is a table of the form { time, { r, g, b} }, where the icon texture 
+		            is colored by SetVertexColor(r, g, b) if the remaining duration of the buff is <time. The first one matching wins.
+				
+	.Texts Table of FontString instances to show
+		Keys: spellID
+		Values: Tables with the following Keys:
+			.anyCaster If true(thy) show regardless of caster. If false(y), show only when the player is the caster
+			.format The format string when printing the time left, passed as an argument to SetFormattedText
+			.res The maximum time between updates (should be at most half of the lowest digit needed for the format string)
+			.timers Array (table indexed by integers) of timers. A timer is a table of the form { time, format, res}, where whenever the remaining
+			       duration of the buff is <time, we use the format string format and a maximum update time of res (see the notes above)
 ]]
 
 local UnitAura = UnitAura
 
-local showing = {}
+local function UpdateText(text, expiration, current_time)
+	local buf_remaining = expiration - current_time
+	
+	local format = text.format
+	local res = text.res
+
+	for _, timer in ipairs(text.timers) do
+		if buf_remaining < timer[1] then
+			format = timer[2]
+			res = timer[3]
+			break
+		end
+	end
+	text:SetFormattedText(format, buf_remaining)
+	C_Timer.After(res, function() if text:IsShown() then UpdateText(text, expiration, GetTime()) end end)
+end
+
+local showing = { icons = {}, texts = {}}
 local Update = function(self, event, unit)
 	if self.unit ~= unit then
 		return
@@ -26,6 +53,7 @@ local Update = function(self, event, unit)
 	local nat = self.NotAuraTrack
 	nat.lastUpdate = GetTime()
 	local icons = nat.Icons
+	local texts = nat.Texts
 	
 	for i = 1, 40 do
 		local name, texture, count, debuffType, duration, expiration, caster, isStealable,
@@ -40,8 +68,8 @@ local Update = function(self, event, unit)
 				icon.cd:SetCooldown(expiration - duration, duration)
 			end
 			
+			local color = icon.color
 			if icon.timers then
-				local color = icon.color
 				local buf_remaining = expiration - nat.lastUpdate
 				for _, timer in ipairs(icon.timers) do
 					if buf_remaining < timer[1] then
@@ -49,19 +77,35 @@ local Update = function(self, event, unit)
 						break
 					end
 				end
-				if color then icon.tex:SetVertexColor(unpack(color)) end
 			end
 			
+			if color then
+				icon.tex:SetVertexColor(unpack(color))
+			end
 			icon:Show()
-			showing[spellID] = true
+			showing.icons[spellID] = true
+		end
+		
+		local text = texts[spellID]
+		if text and (text.anyCaster or caster == "player") then
+			UpdateText(text, expiration, nat.lastUpdate)
+			text:Show()
+			showing.texts[spellID] = true
 		end
 	end
 
-	for _, icon in pairs(icons) do
-		if not showing[icon.spellID] then
+	for spellID, icon in pairs(icons) do
+		if not showing.icons[spellID] then
 			icon:Hide()
 		end
-		showing[icon.spellID] = false
+		showing.icons[spellID] = false
+	end	
+	
+	for spellID, text in pairs(texts) do
+		if not showing.texts[spellID] then
+			text:Hide()
+		end
+		showing.texts[spellID] = false
 	end	
 end
 

@@ -7,7 +7,6 @@ local oUF = SanUI.oUF
 local font2 = C["Medias"].UnitFrameFont
 local font1 = C["Medias"].Font
 local normTex = C["Medias"].Blank
-local bdcr, bdcg, bdcb = unpack(C["Medias"].BorderColor)
 
 local Scale = S.Toolkit.Functions.Scale
 
@@ -263,6 +262,7 @@ local function Shared(self, unit)
 	auras:SetPoint("BOTTOMRIGHT", self.Health, -Scale(2), Scale(2))
 	auras:SetFrameLevel(self.Health:GetFrameLevel()+2)
 	auras.Icons = {}
+	auras.Texts = {}
 
 	for _, spell in pairs(S["UnitFrames"].RaidBuffsTracking[S.MyClass]) do
 		local icon = CreateFrame("Frame", nil, auras)
@@ -300,7 +300,6 @@ local function Shared(self, unit)
 		local icon = CreateFrame("Frame", nil, auras)	
 		icon:SetPoint("TOPRIGHT", Scale(2), Scale(2))	
 		
-		icon.spellID = spellID
 		icon.anyCaster = true
 		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
 		icon:SetWidth(Scale(15))
@@ -317,29 +316,22 @@ local function Shared(self, unit)
 		auras.Icons[spellID] = icon
 		icon:Hide()
 	end
-
-	self.NotAuraTrack = auras
 	
-	local ta = { texts = {} }
 	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass]) do
-		local text = self.Health:CreateFontString(nil, "OVERLAY")
-		text.spellID = spell[1]
-		text:SetFont("Fonts\\FRIZQT__.TTF", spell[3])--, "THINOUTLINE")
-		text:SetPoint(unpack(spell[2]))
-		ta.texts[text.spellID] = text
+		local text = auras:CreateFontString(nil, "OVERLAY")
+		text:SetFont("Fonts\\FRIZQT__.TTF", spell.textsize)--, "THINOUTLINE")
+		text:SetPoint(unpack(spell.pos))
+		
+		text.anyCaster = true
+		text.format = spell.format
+		text.res = 0.3
+		text.timers = spell.timers
+		
+		auras.Texts[spell.spellID] = text
+		text:Hide()
 	end
 	
-	ta.PostResetText = function(watch, text, remain, duration, expires)
-		if remain < 3 then --C["Cooldowns"].expiringDuration then
-			text:SetTextColor(1,0,0)
-		elseif remain <= 0.3 * duration then
-			text:SetTextColor(1,1,0)
-		else
-			text:SetTextColor(0,1,0)
-		end
-	end
-	
-	self.TextAuras = ta
+	self.NotAuraTrack = auras
 
 	local RaidDebuffs = CreateFrame("Frame", nil, self)
 	RaidDebuffs:SetHeight(Scale(15))

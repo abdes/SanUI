@@ -55,7 +55,14 @@ if not S["UnitFrames"].TextAuras then
 end
 
 S["UnitFrames"].TextAuras["DRUID"] = {
-	{33763,{"TOP",0,-1},8}, --Lifebloom
+	--Lifebloom
+	{
+		spellID = 33763,
+		pos = {"TOP",0,-1},
+		textsize = 8, 
+		format = "|cFF00FF00%u|r", 
+		timers = { { 2, "|cFFFF0000%.1f|r", 0.05}, { 4.5, "|cFFFFFF00%u|r", 0.3} },
+	},
 }
 
 -- Defensive cooldowns: Simple list of spellIDs
