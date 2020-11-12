@@ -29,8 +29,8 @@ assert(oUF, "oUF_NotAuraTrack cannot find an instance of oUF. If your oUF is emb
 
 local UnitAura = UnitAura
 
-local function UpdateText(text, expiration, current_time)
-	local buf_remaining = expiration - current_time
+local function UpdateText(text, current_time)
+	local buf_remaining = text.expiration - current_time
 	
 	local format = text.format
 	local res = text.res
@@ -43,7 +43,16 @@ local function UpdateText(text, expiration, current_time)
 		end
 	end
 	text:SetFormattedText(format, buf_remaining)
-	C_Timer.After(res, function() if text:IsShown() then UpdateText(text, expiration, GetTime()) end end)
+	
+	if not text.timer_running then
+		C_Timer.After(res, function()
+			text.timer_running = false
+			if text:IsShown() then 
+				UpdateText(text, GetTime())
+			end
+		end)
+		text.running_timer = true
+	end
 end
 
 local showing = { icons = {}, texts = {}}
@@ -90,7 +99,8 @@ local Update = function(self, event, unit)
 		
 		local text = texts[spellID]
 		if text and (text.anyCaster or caster == "player") then
-			UpdateText(text, expiration, nat.lastUpdate)
+			text.expiration = expiration
+			UpdateText(text, nat.lastUpdate)
 			text:Show()
 			showing.texts[spellID] = true
 		end
