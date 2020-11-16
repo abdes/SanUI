@@ -263,7 +263,7 @@ local function Shared(self, unit)
 	auras.Icons = {}
 	auras.Texts = {}
 
-	for _, spell in pairs(S["UnitFrames"].RaidBuffsTracking[S.MyClass]) do
+	for _, spell in pairs(S["UnitFrames"].RaidBuffsTracking[S.MyClass] or {}) do
 		local icon = CreateFrame("Frame", nil, auras)
 		icon:SetPoint(unpack(spell.pos))
 		
@@ -316,7 +316,7 @@ local function Shared(self, unit)
 		icon:Hide()
 	end
 	
-	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass]) do
+	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass] or {}) do
 		local text = auras:CreateFontString(nil, "OVERLAY")
 		text:SetFont("Fonts\\FRIZQT__.TTF", spell.textsize)--, "THINOUTLINE")
 		text:SetPoint(unpack(spell.pos))
