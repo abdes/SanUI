@@ -14,7 +14,7 @@ function S.weakAurasDialog()
   text1:SetShadowColor(0, 0, 0)
   text1:SetShadowOffset(1, 1)
 	text1:SetPoint("CENTER")
-	text1:SetText("You do not have SanUI'ss WeakAura's added to your WeakAuras. Should I do that now?" ..
+	text1:SetText("You do not have SanUI's WeakAura's added to your WeakAuras. Should I do that now?" ..
 						"\n\n" ..
 						"Note: I'll not ask again. To reopen this dialog, type" ..
 						"\n" ..
@@ -61,8 +61,6 @@ function S.weakAurasDialog()
 	end)
 
 end
-
-S.AddOnCommands["addweakauras"] = S.weakAurasDialog
 
 function S.addWeakAuras()
 

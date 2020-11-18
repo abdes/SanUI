@@ -3,7 +3,7 @@
 -- Glue code that involves more than 1 addon
 -- Modifications of savedvars (event ADDON_LOADED)
 -- Things to execute on PLAYER_ENTERING_WORLD
-
+local addonName, addon = ...
 local S,C = unpack(SanUI)
 local f = CreateFrame("frame")
 local sharedMedia = LibStub("LibSharedMedia-3.0")
@@ -31,6 +31,8 @@ function S.misc(self,event,arg)
 		end
 
 		S.disableBlizzard()
+		
+		addon.saf:hookups()
 	
 		S.modCoolLine(event)
 			
@@ -72,6 +74,16 @@ function S.misc(self,event,arg)
 					SanUIdb["Mode"] = S["profiles"]["DEFAULT"]["modes"][1]
 				end
 			end	
+			
+			if not SanUIGlobaldb then
+				SanUIGlobaldb = {}
+			end
+			if not SanUIGlobaldb.saf then
+				SanUIGlobaldb.saf = {}
+			end
+			
+			-- just start empty, switch2Mode will take care of it
+			addon.saf.filters = { }
 		end	
 		
 		-- Hide the annoying taling head frame, together with the audio and the
@@ -91,6 +103,13 @@ function S.misc(self,event,arg)
 	end
 	
 end
+
+local main = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
+main.name = addonName
+addon.optionspanel = main
+main:Hide()
+InterfaceOptions_AddCategory(main)
+InterfaceOptions_AddCategory(addon.saf.optionspanel)--, addon.optpanels.ABOUT)
 
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("ADDON_LOADED")

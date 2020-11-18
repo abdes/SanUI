@@ -1,9 +1,10 @@
 ﻿## Interface: 90001
-## Author: Tavore of EU-Blackmoore
-## Version: 9.0.0.2
+## Author: Tavore of EU-Kargath
+## Version: 9.0.1.0
 ## Title: SanUI
 ## Notes: Druid UI based on Tukui.
 ## SavedVariablesPerCharacter: SanUIdb
+## SavedVariables: SanUIGlobaldb
 ## RequiredDeps: Tukui, tullaCC, oUF_Hank
 ## OptionalDeps: CoolLine, BugSack, oUF_Hank, WeakAuras, Details, DBM-Core, REHack
 Core\init.lua
@@ -13,6 +14,9 @@ Libs\oUF_NotAuraTrack.lua
 Libs\oUF_NotAuraWatch.lua
 Libs\oUF_TextAuras.lua
 Libs\oUF_ShadowTouched.lua
+
+Modules\Auras\auras.lua
+Modules\Auras\optionspanel.lua
 
 Modules\Unitframes\tracking.lua
 Modules\Unitframes\raidframes.lua
@@ -44,3 +48,4 @@ Modules\Misc\raidutilities.lua
 Modules\Misc\addon_menu.lua
 
 Misc.lua
+Core\commands.lua

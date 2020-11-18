@@ -1,4 +1,5 @@
 local S = unpack(SanUI)
+local addonName, addon = ...
 
 -- Main modeswitch function of SanUI
 -- Checks: * S["Modes"][mode] exists
@@ -16,13 +17,17 @@ S.switch2Mode = function(mode)
 		if not S["Modes"] then print("not S.Modes") end
 		if not S["Modes"][mode] then print("last") end
 	end
-
-	--print("Loading SanUI mode "..mode..".")
 	
-	if S["Modes"][mode]["SimpleAuraFilter"] and IsAddOnLoaded("SimpleAuraFilter") then
-		SimpleAuraFilter.db:SetProfile(S["Modes"][mode]["SimpleAuraFilter"])
+	local safprofile = S["Modes"][mode].SimpleAuraFilter
+	if safprofile then
+		SanUIGlobaldb.saf = SanUIGlobaldb.saf or {}
+		SanUIGlobaldb.saf[safprofile] = SanUIGlobaldb.saf[safprofile] or { }
+		SanUIGlobaldb.saf[safprofile].filters = SanUIGlobaldb.saf[safprofile].filters or { }
+
+		addon.saf.filters = SanUIGlobaldb.saf[safprofile].filters or {}
+		addon.saf.profile = safprofile
 	else
-		print("Either you didn't set the SimpleAuraFilter profile for mode "..mode.." or SimpleAuraFilter is not loaded. Either way, cannot load SimpleAuraFilter profile!")
+		print("No SimpleAuraFilter profile found for mode "..mode.."!")
 	end
 	
 	if S["Modes"][mode]["castbar"] and IsAddOnLoaded("oUF_Hank") then

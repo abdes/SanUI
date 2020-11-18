@@ -1,18 +1,15 @@
 -- BUFFS_PER_ROW = 8;
 -- BUFF_ACTUAL_DISPLAY = 0;
 -- BUFF_ROW_SPACING = 0;
-
+local addonName, addon = ...
 local BUFFS_PER_ROW = 10;
 
 local T,C,L = unpack(Tukui)
-
-SimpleAuraFilter = LibStub("AceAddon-3.0"):NewAddon("SimpleAuraFilter", "AceConsole-3.0")
---local L = LibStub("AceLocale-3.0"):GetLocale("SimpleAuraFilter")
 local Scale = T.Toolkit.Functions.Scale
 
-S = SimpleAuraFilter
-
-SimpleAuraFilter.debug = true
+local saf = {}
+addon.saf = saf
+saf.filters = {}
 
 TemporaryEnchantFrame:ClearAllPoints()
 TemporaryEnchantFrame:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
@@ -48,7 +45,7 @@ local function MyBuffButton_OnClick (button)
 	if IsShiftKeyDown() then
 		name = UnitAura("player", button:GetID(), button.filter)
 		if name then
-			SimpleAuraFilter.db.profile.filters[name] = 1
+			saf.filters[name] = true
 			BuffFrame_UpdateAllBuffAnchors()
 		end
 	end
@@ -62,7 +59,7 @@ local function HideBadBuff(buttonName, indexi, filter)
 	local buff = _G[buffName]
 
 	if ( name ) then
-		if SimpleAuraFilter:IsBadBuff(name) then
+		if saf:IsBadBuff(name) then
 			buff.bad = true
 			buff:Hide()
 			buff.duration:Hide()
@@ -171,100 +168,27 @@ local function UpdateAllDebuffAnchors()
 	
 end
 
-function SimpleAuraFilter:OnEnable()
-    self.db = LibStub("AceDB-3.0"):New("SimpleAuraFilterDB")
-    if not self.db.profile.filters then self.db.profile.filters = {} end	
-	
-	local options = {
-		name = "SimpleAuraFilter",
-		handler = SimpleAuraFilter,
-		type = 'group',
-		args = {
-			menu = {
-				type = 'execute',
-				name = 'Buff Filter Menu',
-				desc = 'Shows filter list',
-				func = 'OpenMenu',
-			},
-			
-		toggle = {
-				type = 'execute',
-				name = 'Toggle Filter',
-				desc = 'toggles buffs',
-				func = 'ToggleAllBuffs',
-			},
-		},
-	}
-	
-	self.db.RegisterCallback( self, "OnNewProfile", "HandleProfileChanges" )
-	self.db.RegisterCallback( self, "OnProfileReset", "HandleProfileChanges" )
-	self.db.RegisterCallback( self, "OnProfileChanged", "HandleProfileChanges" )
-	self.db.RegisterCallback( self, "OnProfileCopied", "HandleProfileChanges" )
-	
-	options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Simple Aura Filter", options)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Simple Aura Filter")
-	
-	self.buffs = {}
-    
-	hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
-	hooksecurefunc("AuraButton_Update", HideBadBuff)
-	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
-	hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuffAnchors)
-	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",UpdateAllDebuffAnchors)
-	
-	-- Chat Command
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("SimpleAuraFilter", options, {"saf"})
-end
-
-function SimpleAuraFilter:HandleProfileChanges()
-	local self = SimpleAuraFilter
-	BuffFrame_UpdateAllBuffAnchors()
-
-end
-
-function SimpleAuraFilter:IsBadBuff(name)
+function saf:IsBadBuff(name)
 	if self.allbuffs then return false end
-	if not self.db.profile.filters then return false end
-	return self.db.profile.filters[name]
+	if not saf.filters then return false end
+	return saf.filters[name]
 end
 
-function SimpleAuraFilter:AllBuffs()
+function saf:AllBuffs()
 	return self.allbuffs
 end
 
-function SimpleAuraFilter:ToggleAllBuffs()
+function saf:ToggleAllBuffs()
 	self.allbuffs = not self.allbuffs
 	if self.allbuffs then self:Print("Filter off") else self:Print("Filter on") end
 	BuffFrame_Update()
 	BuffFrame_UpdateAllBuffAnchors()
 end
 
-function SimpleAuraFilter:OpenMenu()
-    local d = LibStub("AceGUI-3.0"):Create("Frame")
-	d:SetTitle("Filters")
-    d:SetWidth(400)
-    d:SetHeight(225)
-	d:SetLayout("Fill")
-	local s = LibStub("AceGUI-3.0"):Create("ScrollFrame")
-	--s:SetLayout("Float")
-	d:AddChild(s)
-	
-	for name,_ in pairs(self.db.profile.filters) do
-		local temp = LibStub("AceGUI-3.0"):Create("Button")				
-		temp:SetText(name)
-		temp:SetCallback("OnClick", function (self, event)
-						SimpleAuraFilter.db.profile.filters[name] = nil
-						d:Hide()	
-						BuffFrame_Update()
-						SimpleAuraFilter:OpenMenu()
-						end)
-		s:AddChild(temp)
-	end
-    d:Show()
-end
-
--- ********* Helpers
-function SimpleAuraFilter:Debug(...)
-    if self.debug then self:Print(...) end
+function saf:hookups()
+	hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
+	hooksecurefunc("AuraButton_Update", HideBadBuff)
+	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
+	hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuffAnchors)
+	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",UpdateAllDebuffAnchors)
 end

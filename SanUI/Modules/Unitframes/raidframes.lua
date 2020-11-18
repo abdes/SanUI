@@ -316,7 +316,7 @@ local function Shared(self, unit)
 		icon:Hide()
 	end
 	
-	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass] or {}) do
+	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass]) do
 		local text = auras:CreateFontString(nil, "OVERLAY")
 		text:SetFont("Fonts\\FRIZQT__.TTF", spell.textsize)--, "THINOUTLINE")
 		text:SetPoint(unpack(spell.pos))
