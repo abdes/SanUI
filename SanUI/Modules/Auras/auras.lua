@@ -27,18 +27,23 @@ if WorldStateAlwaysUpFrame then
 end
 
 for i = 1, 3 do
-	local f = CreateFrame("Frame", nil, _G["TempEnchant"..i])
-	f:SetSize(Scale(30), Scale(30))
-	f:SetPoint("CENTER",_G["TempEnchant"..i], "CENTER", 0, 0)
-	f:CreateBackdrop("Transparent")
-	_G["TempEnchant"..i.."Border"]:Hide()
-	_G["TempEnchant"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
-	_G["TempEnchant"..i.."Icon"]:SetPoint("TOPLEFT", _G["TempEnchant"..i], Scale(2), -Scale(2))
-	_G["TempEnchant"..i.."Icon"]:SetPoint("BOTTOMRIGHT", _G["TempEnchant"..i], -Scale(2), Scale(2))
-	_G["TempEnchant"..i]:SetHeight(Scale(30))
-	_G["TempEnchant"..i]:SetWidth(Scale(30))	
-	_G["TempEnchant"..i.."Duration"]:ClearAllPoints()
-	_G["TempEnchant"..i.."Duration"]:SetPoint("BOTTOM", 0, -Scale(13))
+	local button = _G["TempEnchant"..i]
+	local icon = _G["TempEnchant"..i.."Icon"]
+	local duration = _G["TempEnchant"..i.."Duration"]
+	local border = _G["TempEnchant"..i.."Border"]
+	if border then border:Hide() end
+	
+	button:SetSize(Scale(30), Scale(30))
+	button:CreateBackdrop("Transparent")
+	local level = button:GetFrameLevel()
+	button:SetFrameLevel(level+1)
+	button.Backdrop:SetFrameLevel(level)
+	
+	icon:SetTexCoord(.08, .92, .08, .92)
+	icon:SetPoint("TOPLEFT", _G["TempEnchant"..i], Scale(2), -Scale(2))
+	icon:SetPoint("BOTTOMRIGHT", _G["TempEnchant"..i], -Scale(2), Scale(2))
+	duration:ClearAllPoints()
+	duration:SetPoint("BOTTOM", 0, -Scale(13))
 end
 
 local function MyBuffButton_OnClick (button)
@@ -59,7 +64,7 @@ local function HideBadBuff(buttonName, indexi, filter)
 	local buff = _G[buffName]
 
 	if ( name ) then
-		if saf:IsBadBuff(name) then
+		if (saf.filters[name] and not saf.allbuffs) then
 			buff.bad = true
 			buff:Hide()
 			buff.duration:Hide()
@@ -90,7 +95,10 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 			icon:SetPoint("TOPLEFT", buff, Scale(2), -Scale(2))
 			icon:SetPoint("BOTTOMRIGHT", buff, -Scale(2), Scale(2))
 			
-			buff:CreateBackdrop()
+			buff:CreateBackdrop("Transparent")	
+			local level = buff:GetFrameLevel()
+			buff:SetFrameLevel(level+1)
+			buff.Backdrop:SetFrameLevel(level)
 		end
 			
 		if not buff:IsShown() then
@@ -129,8 +137,7 @@ local function UpdateDebuffAnchors(buttonName, index)
 	local debuff = _G[buttonName..index]
 	local icon = _G[buttonName..index.."Icon"]
 	local border = _G[buttonName..index.."Border"]
-	
-	local panel
+	if border then border:Hide() end
 	
 	if not debuff.Backdrop then		
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
@@ -138,9 +145,10 @@ local function UpdateDebuffAnchors(buttonName, index)
 		icon:SetPoint("BOTTOMRIGHT", debuff, -Scale(2), Scale(2))
 
 		debuff:CreateBackdrop()
+		local level = debuff:GetFrameLevel()
+		debuff:SetFrameLevel(level+1)
+		debuff.Backdrop:SetFrameLevel(level)	
 	end
-	
-	if border then border:Hide() end
 	
 	local dtype = select(4, UnitDebuff("player",index))      
 	local color
@@ -149,11 +157,9 @@ local function UpdateDebuffAnchors(buttonName, index)
 	else
 		color = DebuffTypeColor["none"]
 	end
-	
 	debuff.Backdrop:SetBorderColor(color.r * 0.7, color.g * 0.7, color.b * 0.7)
-
-	debuff:ClearAllPoints()
 	
+	debuff:ClearAllPoints()
 	if index == 1 then
 		debuff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, -buffRows*BUFF_ROW_SPACING - Scale(buffRows * 30 + 10) )
 	else
@@ -166,23 +172,6 @@ local function UpdateAllDebuffAnchors()
 		UpdateDebuffAnchors("DebuffButton",i)
 	end
 	
-end
-
-function saf:IsBadBuff(name)
-	if self.allbuffs then return false end
-	if not saf.filters then return false end
-	return saf.filters[name]
-end
-
-function saf:AllBuffs()
-	return self.allbuffs
-end
-
-function saf:ToggleAllBuffs()
-	self.allbuffs = not self.allbuffs
-	if self.allbuffs then self:Print("Filter off") else self:Print("Filter on") end
-	BuffFrame_Update()
-	BuffFrame_UpdateAllBuffAnchors()
 end
 
 function saf:hookups()
