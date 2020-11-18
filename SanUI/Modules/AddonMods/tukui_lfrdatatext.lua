@@ -1,4 +1,5 @@
-local S, C, L = unpack(SanUI)
+local addonName, addon = ...
+local S, C, L = unpack(addon)
 
 L.DataText.CallToArms = "Call to Arms"
 

@@ -1,4 +1,5 @@
-local S,C = unpack(SanUI)
+local addonName, addon = ...
+local S,C = unpack(addon)
 
 S.hookActionBar1 = function() end
 local Size = C.ActionBars.NormalButtonSize

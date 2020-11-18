@@ -1,4 +1,5 @@
-local S = unpack(SanUI)
+local addonName, addon = ...
+local S = unpack(addon)
 
 local function pack(...)
 	return arg

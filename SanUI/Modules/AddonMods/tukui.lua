@@ -1,9 +1,10 @@
-local S,C,L = unpack(SanUI)
+local addonName, addon = ...
+local S,C,L = unpack(addon)
+
+local Scale = S.Toolkit.Functions.Scale
 
 S["ActionBars"].StartHighlight = function(self) end
 S["ActionBars"].StopHighlight = function(self) end
-
-local Scale = S.Toolkit.Functions.Scale
 
 hooksecurefunc(S["UnitFrames"], "Nameplates", function(self)
   self.Debuffs.disableMouse = true

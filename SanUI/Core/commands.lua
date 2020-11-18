@@ -1,7 +1,5 @@
-local S, C, L = unpack(SanUI)
-local _, addon = ...
-
-
+local addonName, addon = ...
+local S, C, L = unpack(addon)
 
 S.SanSlashHandler = function(arg)
 	if arg == "addweakauras" then

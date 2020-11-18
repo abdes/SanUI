@@ -1,5 +1,5 @@
-local S = unpack(SanUI)
-
+local addonName, addon = ...
+local S = unpack(addon)
 
 -- This is the list of profiles you can choose from the menu
 -- If there's only 1, it's loaded automatically and you dont get anything in the menu
@@ -88,9 +88,6 @@ S["Modes"] = {
 		["powerbar"] = "Hidden",		--Hidden hides it, SanCat shows it in cat form right in the middle of the screen below the char (only works for druids),
 							--Rogue is the same as SanFeral just without shapeshift magic
 							--SanBear/SahneUnholy put it where the first 7/8 action buttons are usually, see ["ActionButtons"] below
-		["Filger"] = "SanHeal",			--SanHeal for druid healers, SanFeral for Ferals, SanChicken for moonkins... others need to be defined in Tukui_Filger/Tukui_Filger_San.lua
-							--you can always use default_CLASS (i.e. default_MAGE)
-							--look at the Modes below to see what else has been preconfigured other then default_CLASS (e.g. default_PRIEST etc.)
 		["gcd"] = "SanHeal",			--Hidden hides it, everything else puts is below the castbar
 		["bossbars"] = "SanHeal",		--SanHeal has greyish colors and tukui borders, Suran has red color and black borders
 							--SanChicken has SanHeals colors, but puts them stacked above target frame (useful for multidot)
@@ -99,7 +96,7 @@ S["Modes"] = {
 							--Simplex for Enhancement Shaman, hides all the rotational stuff
 		["ActionButtons"] = "SanHeal",		--Positioning of ActionButtons, SanHeal is just the standard, SanBear arranges the first 7
 							--visibly below the char... and positions the buff timer bar for savage defense appropriately
-							--i.e. => you should just use SanBear for bears, in combination with the SanBear Filger profile
+							--i.e. => you should just use SanBear for bears
 							--and use ActionButton7 for SavageDefense
 							--SahneUnholy is the same as SanBear, just for the 8 first buttons instead of 7
 		["DBM"] = "SanHeal", --DBM profile to use, if you choose one that deosn't exist, one with that name will be created
@@ -109,7 +106,6 @@ S["Modes"] = {
 		["SimpleAuraFilter"] = "SanChicken",
 		["castbar"] = "SanChicken",
 		["powerbar"] = "SanChicken",
-		["Filger"] = "SanChicken",
 		["gcd"] = "SanChicken",
 		["bossbars"] = "SanChicken",
 		["coolline"] = "SanHeal",
@@ -132,7 +128,6 @@ S["Modes"] = {
 		["SimpleAuraFilter"] = "SanCat",
 		["castbar"] = "SanCat",
 		["powerbar"] = "SanCat",
-		["Filger"] = "SanCat",
 		["gcd"] = "SanCat",
 		["bossbars"] = "SanHeal",
 		["coolline"] = "SanCat",
@@ -144,7 +139,6 @@ S["Modes"] = {
 		["SimpleAuraFilter"] = "SanChicken",
 		["castbar"] = "SanHeal",
 		["powerbar"] = "Hidden",
-		["Filger"] = "SanChicken",
 		["gcd"] = "SanChicken",
 		["bossbars"] = "SanChicken",
 		["coolline"] = "SanHeal",
@@ -156,7 +150,6 @@ S["Modes"] = {
 		["SimpleAuraFilter"] = "SanChicken",
 		["castbar"] = "SanChicken",
 		["powerbar"] = "Hidden",
-		["Filger"] = "SanChicken",
 		["gcd"] = "SanChicken",
 		["bossbars"] = "SanHeal",
 		["coolline"] = "SanHeal",
@@ -168,7 +161,6 @@ S["Modes"] = {
 		["SimpleAuraFilter"] = "SanChicken",
 		["castbar"] = "SanChicken",
 		["powerbar"] = "Hidden",
-		["Filger"] = "SanChicken",
 		["gcd"] = "SanChicken",
 		["bossbars"] = "SanChicken",
 		["coolline"] = "SanHeal",
@@ -180,7 +172,6 @@ S["Modes"] = {
 		["SimpleAuraFilter"] = "SanHeal",
 		["castbar"] = "SanHeal",
 		["powerbar"] = "Hidden",
-		["Filger"] = "SanHeal",
 		["gcd"] = "SanHeal",
 		["bossbars"] = "SanHeal",
 		["coolline"] = "SanHeal",
@@ -215,7 +206,6 @@ S["Modes"] = {
 		["SimpleAuraFilter"] = "SanChicken",
 		["castbar"] = "SanHeal",
 		["powerbar"] = "SanChicken",
-		["Filger"] = "SanChicken",
 		["gcd"] = "Hidden",
 		["bossbars"] = "SanChicken",
 		["coolline"] = "HedgeBM",

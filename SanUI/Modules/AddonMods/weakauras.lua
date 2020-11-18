@@ -1,7 +1,9 @@
-local S,C = unpack(SanUI)
+local addonName, addon = ...
+local S,C = unpack(addon)
+
+local Scale = S.Toolkit.Functions.Scale
 
 local GetSpellName = function(id) return select(1,GetSpellInfo(id)) end
-local Scale = S.Toolkit.Functions.Scale
 		
 function S.weakAurasDialog()
 	local main = CreateFrame("Frame", nil, UIParent)

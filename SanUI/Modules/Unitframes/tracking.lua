@@ -1,5 +1,7 @@
-local S,C,L = unpack(SanUI) 
-local oUF = SanUI.oUF
+local addonName, addon = ...
+local S,C,L = unpack(addon) 
+local oUF = addon.oUF
+
 local Scale = S.Toolkit.Functions.Scale
 
 if not S["UnitFrames"].RaidBuffsTracking then

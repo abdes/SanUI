@@ -1,6 +1,7 @@
-local S = unpack(SanUI)
+local addonName, addon = ...
+local S = unpack(addon)
 
-local Scale = Tukui[1].Toolkit.Functions.Scale
+local Scale = S.Toolkit.Functions.Scale
 
 S.switchGCD =  function (profile)
 

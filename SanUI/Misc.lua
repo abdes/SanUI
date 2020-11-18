@@ -4,18 +4,13 @@
 -- Modifications of savedvars (event ADDON_LOADED)
 -- Things to execute on PLAYER_ENTERING_WORLD
 local addonName, addon = ...
-local S,C = unpack(SanUI)
+local S,C = unpack(addon)
+
 local f = CreateFrame("frame")
 local sharedMedia = LibStub("LibSharedMedia-3.0")
 sharedMedia:Register(sharedMedia.MediaType.STATUSBAR, "Tukui_Blank_Texture", [[Interface\AddOns\Tukui\Medias\Textures\Others\Blank]])
 
 function S.misc(self,event,arg)
-	if (event == "ACTIVE_TALENT_GROUP_CHANGED" or event == "PLAYER_TALENT_UPDATE") then
-		if S.reload_needed(event) then
-			S.switch2Mode(SanUIdb["Mode"])
-		end
-	end
-	
 	if (event == "PLAYER_ENTERING_WORLD") then
 		BuffFrame:ClearAllPoints()
 		BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)

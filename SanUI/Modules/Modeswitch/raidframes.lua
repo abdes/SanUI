@@ -1,8 +1,9 @@
-local S,C = unpack(SanUI)
+local addonName, addon = ...
+local S,C = unpack(addon)
+
+local Scale = S.Toolkit.Functions.Scale
 
 local RaidButtonSize = 28
-
-local Scale = Tukui[1].Toolkit.Functions.Scale
 
 local function changeAuras(frame,auras)
 	local nat = frame.NotAuraTrack

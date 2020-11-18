@@ -1,4 +1,5 @@
-local S,C = unpack(SanUI)
+local addonName, addon = ...
+local S,C = unpack(addon)
 
 -- only executed for certain chars (see SanUI\Misc.lua)
 function S.modDetails(event)

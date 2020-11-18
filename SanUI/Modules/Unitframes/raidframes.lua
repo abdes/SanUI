@@ -1,25 +1,19 @@
 -- File originally written by Tukz of Tukui (see general SanUI credits). Lots of changes
 -- by me, so never bug Tukz about any problem with this, please.
 --if true then return end
-local S,C,L = unpack(SanUI) 
-local oUF = SanUI.oUF
+local addonName, addon = ...
+local S,C,L = unpack(addon) 
+local oUF = addon.oUF
+
+local Scale = S.Toolkit.Functions.Scale
 
 local font2 = C["Medias"].UnitFrameFont
 local font1 = C["Medias"].Font
 local normTex = C["Medias"].Blank
 
-local Scale = S.Toolkit.Functions.Scale
-
 -- disable blizzard party and raid frames
 InterfaceOptionsFrameCategoriesButton11:SetScale(0.00001)
 InterfaceOptionsFrameCategoriesButton11:SetAlpha(0)
-
---[[ raid
-hooksecurefunc(S.Panels,"Enable",function()
-	CompactRaidFrameManager:SetParent(S["Panels"].Hider)
-end)
-CompactUnitFrameProfiles:UnregisterAllEvents()
-]]
 
 local utf8sub = function(string, i, dots)
 	if not string then return end

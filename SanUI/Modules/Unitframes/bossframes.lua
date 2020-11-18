@@ -1,26 +1,20 @@
 -- originally by kameelyan@wowinterface
--- heavily modified for SanUI by Shimmer of EU-Mal'Ganis
+-- heavily modified for SanUI by Tavore of EU-Kargath
 
-local S,C = unpack(SanUI)
-local _, ns = ...
-local oUF = SanUI.oUF
+local addonName, addon = ...
+local S,C = unpack(addon)
+local oUF = addon.oUF
 
 local Scale = S.Toolkit.Functions.Scale
-
-ns._Objects = {}
-ns._Headers = {}
+local ALTERNATE_POWER_INDEX = ALTERNATE_POWER_INDEX
 
 local BAR_TEXTURE = C["Medias"].Blank
 local TEXT_FONT = C["Medias"].Font
-
 local fontcolor = {0.9, 0.9, 0.9, 1}
 local fontSize = 12
-
 local bordercolor = {0.3, 0.3, 0.3, 1}
 local barcolor = { 0.1, 0.1, 0.1, 1}
 local barbgcolor = { 29/255, 63/255, 72/255, 1 }
-
-local ALTERNATE_POWER_INDEX = ALTERNATE_POWER_INDEX
 
 local function valShort(value)
 	if(value >= 1e6) then

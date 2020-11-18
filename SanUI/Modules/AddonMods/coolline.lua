@@ -1,6 +1,7 @@
-local S,C = unpack(SanUI)
+local addonName, addon = ...
+local S,C = unpack(addon)
 
-local Scale = Tukui[1].Toolkit.Functions.Scale
+local Scale = S.Toolkit.Functions.Scale
 
 -- executed  PLAYER_ENTERING_WORLD in Misc.lua
 --Putting it above the middle action bar

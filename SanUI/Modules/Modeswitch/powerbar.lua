@@ -1,4 +1,6 @@
-local S, C = unpack(SanUI)
+local addonName, addon = ...
+local S, C = unpack(addon)
+
 local Scale = S.Toolkit.Functions.Scale
 
 S.switchPowerbar = function(profile)

@@ -5,9 +5,12 @@
 --Change the numbers below to change the
 --order of the buttons to your liking.
 --To disabled a button, set it to 0.
-local S,C = unpack(SanUI)
-local SanUIButtonOrder = {Grid=1, DBM=2, Altoholic=3, Hack=4}
+local addonName, addon = ...
+local S,C = unpack(addon)
+
 local Scale = S.Toolkit.Functions.Scale
+
+local SanUIButtonOrder = {Grid=1, DBM=2, Altoholic=3, Hack=4}
 
 if S["profiles"][S.MyName]["AddonMenu"] then
 	SanUIButtonOrder = S["profiles"][S.MyName]["AddonMenu"]

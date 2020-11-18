@@ -1,6 +1,8 @@
 if not IsAddOnLoaded("BugSack") then return end
 
-local S,C = unpack(SanUI)
+local addonName, addon = ...
+local S,C = unpack(addon)
+
 local Scale = S.Toolkit.Functions.Scale
 
 local button  = CreateFrame("Frame", nil, UIParent)

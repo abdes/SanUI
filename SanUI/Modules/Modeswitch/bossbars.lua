@@ -1,52 +1,8 @@
-local S = unpack(SanUI)
+local addonName, addon = ...
+local S = unpack(addon)
 
 S.switchBossBars = function(profile)
 
-  --[[Coloring here
-  for i = 1,4 do
-
-    if profile == "Suran" then
-      local boss = _G["oUF_Boss"..i]
-
-      if boss then
-        boss.Health:SetStatusBarColor(178/255, 34/255, 34/255, 1)
-        boss.Health.bg:SetBackdropBorderColor(.1,.1,.1,0)
-
-        boss.Power:SetStatusBarColor(165/255, 73/255, 23/255, 1)
-        boss.Power.bg:SetBackdropBorderColor(.1,.1,.1,0)
-
-        boss.Castbar.bg:SetBackdropBorderColor(.1,.1,.1,0)
-
-        boss.AltPowerBar.bg:SetBackdropBorderColor(.1,.1,.1,0)
-        boss.AltPowerBar:SetStatusBarColor(178/255, 34/255, 34/255, 1)
-      end
-
-    elseif profile == "SanHeal" or profile == "SanChicken" then
-      local boss = _G["oUF_Boss"..i]
-
-      if boss then 
-        boss.Health:SetStatusBarColor(.1,.1,.1,1)
-        boss.Health.bg:SetAlpha(1)
-        boss.Health.bg:CreateBackdrop()
-        boss.Health.bg:SetBackdropColor(.2,.2,.2)
-
-        boss.Power:SetStatusBarColor(.1,.1,.1, 1)
-        boss.Power.bg:SetAlpha(1)
-        boss.Power.bg:CreateBackdrop()
-        boss.Power.bg.Backdrop:SetBackdropColor(.2,.2,.2)
-
-        boss.Castbar.bg:CreateBackdrop()
-
-        boss.AltPowerBar.bg:SetAlpha(1)
-        boss.AltPowerBar.bg:CreateBackdrop()
-        boss.AltPowerBar.bg.Backdrop:SetBackdropColor(.1,.1,.1)
-        boss.AltPowerBar:SetStatusBarColor(0.1,0.1,0.1,1)
-      end
-    end
-  end
-  ]]
-
-  --Placement here
   for i = 1,4 do
     local boss = _G["oUF_Boss"..i]
     boss:ClearAllPoints()

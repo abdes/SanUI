@@ -63,8 +63,9 @@ Here is an example of how to set oUF_AW up:
 	end
 -----------------------------------------------------------------------------------------------------------]]
 
-local _, ns = ...
-local S, C = unpack(SanUI)
+local addonName, addon = ...
+local S, C = unpack(addon)
+local oUF = addon.oUF
 
 local Config = {
 	--format for timers that are soon to expire
@@ -84,8 +85,6 @@ local Config = {
 }
 
 local expiringDuration
---local oUF = ns.oUF or _G.oUF
-local oUF = SanUI.oUF
 assert(oUF, "oUF_NotAuraWatch cannot find an instance of oUF. If your oUF is embedded into a layout, it may not be embedded properly.")
 
 local UnitAura, UnitGUID = UnitAura, UnitGUID

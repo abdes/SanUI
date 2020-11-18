@@ -1,5 +1,5 @@
-local S = unpack(SanUI)
 local addonName, addon = ...
+local S = unpack(addon)
 
 -- Main modeswitch function of SanUI
 -- Checks: * S["Modes"][mode] exists
@@ -75,19 +75,7 @@ S.switch2Mode = function(mode)
 	
 	if S["Modes"][mode]["DBM"] and IsAddOnLoaded("DBM-Core") then 
 		DBM:ApplyProfile(S["Modes"][mode]["DBM"])
-	--else
-	--	print("DBM not loaded or no DBM profile for mode "..mode.."! Can't Switch!")
 	end
 	
 	SanUIdb["Mode"] = mode
-end
-
-S.reload_needed = function(event)	
-	for k, f in pairs(S.reload_checks) do
-		if f(event) then
-			return true
-		end
-	end
-
-	return false
 end

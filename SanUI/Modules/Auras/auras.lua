@@ -4,7 +4,7 @@
 local addonName, addon = ...
 local BUFFS_PER_ROW = 10;
 
-local T,C,L = unpack(Tukui)
+local T,C,L = unpack(addon)
 local Scale = T.Toolkit.Functions.Scale
 
 local saf = {}
