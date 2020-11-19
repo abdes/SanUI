@@ -9,6 +9,9 @@ local S,C = unpack(addon)
 local sanui_version = GetAddOnMetadata(addonName, "Version")
 
 local f = CreateFrame("frame")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:RegisterEvent("ADDON_LOADED")
+
 local sharedMedia = LibStub("LibSharedMedia-3.0")
 sharedMedia:Register(sharedMedia.MediaType.STATUSBAR, "Tukui_Blank_Texture", [[Interface\AddOns\Tukui\Medias\Textures\Others\Blank]])
 
@@ -106,13 +109,30 @@ function S.misc(self,event,arg)
 	
 end
 
+f:SetScript("OnEvent",S.misc)
+
 local main = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 main.name = addonName
-addon.optionspanel = main
+
 main:Hide()
+
+function main.OnShow(self)
+    local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	title:SetPoint("TOPLEFT", 16, -16)
+	title:SetText(addonName)
+
+	local v = self:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+	v:SetWidth(75)
+	v:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -6)
+	v:SetJustifyH("LEFT")
+	v:SetText(sanui_version)
+
+	self:SetScript("OnShow", nil)
+end
+
+main:SetScript("OnShow", main.OnShow)
+
+addon.optionspanel = main
+
 InterfaceOptions_AddCategory(main)
 InterfaceOptions_AddCategory(addon.saf.optionspanel)--, addon.optpanels.ABOUT)
-
-f:RegisterEvent("PLAYER_ENTERING_WORLD")
-f:RegisterEvent("ADDON_LOADED")
-f:SetScript("OnEvent",S.misc)
