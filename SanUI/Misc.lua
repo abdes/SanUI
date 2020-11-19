@@ -6,6 +6,8 @@
 local addonName, addon = ...
 local S,C = unpack(addon)
 
+local sanui_version = GetAddOnMetadata(addonName, "Version")
+
 local f = CreateFrame("frame")
 local sharedMedia = LibStub("LibSharedMedia-3.0")
 sharedMedia:Register(sharedMedia.MediaType.STATUSBAR, "Tukui_Blank_Texture", [[Interface\AddOns\Tukui\Medias\Textures\Others\Blank]])
@@ -47,8 +49,13 @@ function S.misc(self,event,arg)
 		end
 		
 		--this should be last, it might induce a reloadui
-		if not SanUIdb.addedWeakAuras and TukuiData[GetRealmName()][UnitName("Player")].InstallDone then
-			S.weakAurasDialog()
+		local tukui_installed = TukuiData[S.MyRealm][S.MyName].Installation.Done
+		SanUIdb.addedWeakAuras = (type(SanUIdb.addedWeakAuras) == "string" and SanUIdb.addedWeakAuras) or "None"
+		--local wa_installed = SanUIdb.addedWeakAuras and SanUIdb.addedWeakAuras == sanui_version
+		local wa_asked = SanUIdb.askedWeakAuras and SanUIdb.askedWeakAuras == sanui_version
+
+		if tukui_installed and not wa_asked then
+			S.weakAurasDialog(sanui_version, SanUIdb.addedWeakAuras)
 		end
 		
 	end

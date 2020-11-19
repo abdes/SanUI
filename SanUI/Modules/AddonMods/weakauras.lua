@@ -5,7 +5,7 @@ local Scale = S.Toolkit.Functions.Scale
 
 local GetSpellName = function(id) return select(1,GetSpellInfo(id)) end
 		
-function S.weakAurasDialog()
+function S.weakAurasDialog(new_version, old_version)
 	local main = CreateFrame("Frame", nil, UIParent)
 	main:SetPoint("CENTER")
 	main:SetSize(500,200)
@@ -16,14 +16,16 @@ function S.weakAurasDialog()
   text1:SetShadowColor(0, 0, 0)
   text1:SetShadowOffset(1, 1)
 	text1:SetPoint("CENTER")
-	text1:SetText("You do not have SanUI's WeakAura's added to your WeakAuras. Should I do that now?" ..
-						"\n\n" ..
-						"Note: I'll not ask again. To reopen this dialog, type" ..
-						"\n" ..
-						"--> /tukui addweakauras <-- "..
-						"\n" ..
-						"into your chat (leave out the arrows and don't put a space before the /." )
-	text1:SetJustifyH("MIDDLE")
+	text1:SetText("SanUI's weakauras installed: version "..(old_version or "None") ..
+	              "\n\n"..
+				  "SanUI's weakauras available: version "..(new_version or "None")..
+				  "\n\nShould we add SanUI's weakauras to yours? "..
+				  "\n\n\n"..
+				  "Note: I'll not ask again. To reopen this dialog, type" ..
+				  "\n" ..
+				  "              /sanui addweakauras "..
+				  "\n" ..
+				  "into your chat (don't put a space before the /)." )
 
 	main.LeftButton = CreateFrame("Button", nil, main)
 	main.LeftButton:SetPoint("TOPRIGHT", main, "BOTTOMRIGHT", 0, -6)
@@ -40,7 +42,8 @@ function S.weakAurasDialog()
 	text2:SetText("Add and reload")
 	main.LeftButton:SetScript("OnClick", function()
 		S.addWeakAuras()
-		SanUIdb.addedWeakAuras = true
+		SanUIdb.addedWeakAuras = new_version
+		SanUIdb.askedWeakAuras = new_version
 		ReloadUI()
 	end)
 	
@@ -56,10 +59,12 @@ function S.weakAurasDialog()
   text3:SetShadowOffset(1, 1)
 	text3:SetPoint("CENTER")
 	text3:SetPoint("CENTER")
-	text3:SetText("Just reload")
+	text3:SetText("Do nothing")
 	main.RightButton:SetScript("OnClick", function() 
-		SanUIdb.addedWeakAuras = true
-		ReloadUI()
+		SanUIdb.askedWeakAuras = new_version
+		main.RightButton:Kill()
+		main.LeftButton:Kill()
+		main:Kill()
 	end)
 
 end
