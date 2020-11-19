@@ -61,20 +61,22 @@ local MINIMUM_COOLDOWN_DURATION                             = 2499
 
 local SetValue, updatelook, createfs, ShowOptions, RuneCheck
 
+local Scale = Tukui[1].Toolkit.Functions.Scale
+
 local function SetValueH(this, v, just)
-    this:SetPoint(just or "CENTER", CoolLine, "LEFT", v, 0)
+    this:SetPoint(just or "CENTER", CoolLine, "LEFT", Scale(v), 0)
 end
 
 local function SetValueHR(this, v, just)
-    this:SetPoint(just or "CENTER", CoolLine, "LEFT", db.w - v, 0)
+    this:SetPoint(just or "CENTER", CoolLine, "LEFT", Scale(db.w - v), 0)
 end
 
 local function SetValueV(this, v, just)
-    this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, v)
+    this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, Scale(v))
 end
 
 local function SetValueVR(this, v, just)
-    this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, db.h - v)
+    this:SetPoint(just or "CENTER", CoolLine, "BOTTOM", 0, Scale(db.h - v))
 end
 
 --------------------------------
@@ -278,13 +280,13 @@ function CoolLine:ADDON_LOADED(a1)
         iconsize = ((db.vertical and db.w) or db.h) + (db.iconplus or 4)
         SetValue = (db.vertical and (db.reverse and SetValueVR or SetValueV)) or (db.reverse and SetValueHR or SetValueH)
 
-        tick0    = createfs(tick0, "0", 0, "LEFT")
+        tick0    = createfs(tick0, "0", 3, "LEFT")
         tick1    = createfs(tick1, "1", section)
         tick3    = createfs(tick3, "3", section * 2)
         tick10   = createfs(tick10, "10", section * 3)
         tick30   = createfs(tick30, "30", section * 4)
         tick120  = createfs(tick120, "2m", section * 5)
-        tick300  = createfs(tick300, "6m", section * 6, "RIGHT")
+        tick300  = createfs(tick300, "6m", section * 6 -3 , "RIGHT")
 
         if not self.cb and (not smed:IsValid("font", db.font) or not smed:IsValid("border", db.border) or not smed:IsValid("statusbar", db.statusbar)) then
             smed.RegisterCallback(self, "LibSharedMedia_Registered", updatelook)
@@ -434,9 +436,13 @@ local function OnUpdate(this, a1, ctime, dofl)
                 frame:SetWidth(size)
                 frame:SetHeight(size)
                 SetupIcon(frame, section * remain, 0, true, dofl)
+				frame:ClearAllPoints()
+				frame:SetPoint("CENTER",UIParent,"CENTER",-Scale(150),0)
+				frame:SetAlpha(1-2*remain)
             elseif remain > -1 then
                 SetupIcon(frame, 0, 0, true, dofl)
-                frame:SetAlpha(1 + remain)  -- fades
+                frame:SetAlpha(1 + remain/2)  -- fades
+				frame:SetPoint("CENTER",UIParent,"CENTER",-Scale(150),0)
             else
                 throt    = (throt < 0.2 and throt) or 0.2
                 isactive = true
@@ -479,8 +485,8 @@ local function NewCooldown(name, icon, endtime, isplayer)
             f:SetBackdrop(iconback)
             f.icon = f:CreateTexture(nil, "ARTWORK")
             f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-            f.icon:SetPoint("TOPLEFT", 1, -1)
-            f.icon:SetPoint("BOTTOMRIGHT", -1, 1)
+            f.icon:SetPoint("TOPLEFT", Scale(1), -Scale(1))
+            f.icon:SetPoint("BOTTOMRIGHT", -Scale(1), Scale(1))
         end
         tinsert(cooldowns, f)
     end
