@@ -1,20 +1,24 @@
-## Interface: 90001
-## Version: 8.0.001
+## Interface: 90000
+## Version: 9.0.000
 
-## Title: CoolLine
-## Notes: Shows cooldowns on a single bar.
-## Author: TotalPackage, Phanx
-## X-Curse-Project-ID: 20148
-## X-WoWI-ID: 12467
+## Title: |cFF22B14CCoolLine v9.0.000
+
+## Notes: Shows cooldowns on a single bar. |cff00b3ff v9.0.000|r modifications by |cff00ffdaLoneWanderer-GH
+
+
+## Author: TotalPackage, Phanx, |cff00ffdaLoneWanderer-GH|r with contributions from |cFF22B14Ccapoferro
+
+## X-Curse-Project-ID: 356973
 
 ## SavedVariables: CoolLineDB
 ## SavedVariablesPerCharacter: CoolLineCharDB
 
 ## OptionalDeps: LibSharedMedia-3.0
-## RequiredDeps: Tukui, SanUI
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
+
+# packaged on 20201021191452
 
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
