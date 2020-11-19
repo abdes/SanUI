@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Title: oUF_GCD
 ## Notes: Hungtar's oUF Global Cooldown Bar
 ## Author: Hungtar
