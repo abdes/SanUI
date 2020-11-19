@@ -8,50 +8,70 @@ local function createOptions(id, data)
     __title = L["Progress Texture Settings"],
     __order = 1,
     foregroundTexture = {
-      width = WeakAuras.normalWidth,
+      width = WeakAuras.normalWidth - 0.15,
       type = "input",
       name = L["Foreground Texture"],
       order = 1
     },
+    chooseForegroundTexture = {
+      type = "execute",
+      name = L["Choose"],
+      width = 0.15,
+      order = 2,
+      func = function()
+        OptionsPrivate.OpenTexturePicker(data, {}, {
+          texture = "foregroundTexture",
+          color = "foregroundColor",
+          rotation = "rotation",
+          mirror = "mirror",
+          blendMode = "blendMode"
+        }, OptionsPrivate.Private.texture_types);
+      end,
+      imageWidth = 24,
+      imageHeight = 24,
+      control = "WeakAurasIcon",
+      image = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\browse",
+    },
     backgroundTexture = {
       type = "input",
-      width = WeakAuras.normalWidth,
+      width = WeakAuras.normalWidth - 0.15,
       name = L["Background Texture"],
       order = 5,
       disabled = function() return data.sameTexture; end,
       get = function() return data.sameTexture and data.foregroundTexture or data.backgroundTexture; end
     },
+    chooseBackgroundTexture = {
+      type = "execute",
+      name = L["Choose"],
+      width = 0.15,
+      order = 6,
+      func = function()
+        OptionsPrivate.OpenTexturePicker(data, {}, {
+          texture = "backgroundTexture",
+          color = "backgroundColor",
+          rotation = "rotation",
+          mirror = "mirror",
+          blendMode = "blendMode"
+        }, OptionsPrivate.Private.texture_types);
+      end,
+      disabled = function() return data.sameTexture; end,
+      imageWidth = 24,
+      imageHeight = 24,
+      control = "WeakAurasIcon",
+      image = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\browse",
+    },
     mirror = {
       type = "toggle",
-      width = WeakAuras.halfWidth,
+      width = WeakAuras.normalWidth,
       name = L["Mirror"],
       order = 10,
       disabled = function() return data.orientation == "CLOCKWISE" or data.orientation == "ANTICLOCKWISE"; end
     },
-    chooseForegroundTexture = {
-      type = "execute",
-      name = L["Choose"],
-      width = WeakAuras.halfWidth,
-      order = 12,
-      func = function()
-        OptionsPrivate.OpenTexturePicker(data, data, "foregroundTexture", OptionsPrivate.Private.texture_types);
-      end
-    },
     sameTexture = {
       type = "toggle",
       name = L["Same"],
-      width = WeakAuras.halfWidth,
+      width = WeakAuras.normalWidth,
       order = 15
-    },
-    chooseBackgroundTexture = {
-      type = "execute",
-      name = L["Choose"],
-      width = WeakAuras.halfWidth,
-      order = 17,
-      func = function()
-        OptionsPrivate.OpenTexturePicker(data, data, "backgroundTexture", OptionsPrivate.Private.texture_types);
-      end,
-      disabled = function() return data.sameTexture; end
     },
     desaturateForeground = {
       type = "toggle",
@@ -473,7 +493,7 @@ local function modifyThumbnail(parent, borderframe, data, fullModify, size)
   background:SetVertexColor(data.backgroundColor[1], data.backgroundColor[2], data.backgroundColor[3], data.backgroundColor[4]);
   background:SetBlendMode(data.blendMode);
 
-  backgroundSpinner:SetTexture(data.sameTexture and data.foregroundTexture or data.backgroundTexture);
+  backgroundSpinner:SetTextureOrAtlas(data.sameTexture and data.foregroundTexture or data.backgroundTexture);
   backgroundSpinner:SetDesaturated(data.desaturateBackground)
   backgroundSpinner:Color(data.backgroundColor[1], data.backgroundColor[2], data.backgroundColor[3], data.backgroundColor[4]);
   backgroundSpinner:SetBlendMode(data.blendMode);
@@ -482,7 +502,7 @@ local function modifyThumbnail(parent, borderframe, data, fullModify, size)
   foreground:SetVertexColor(data.foregroundColor[1], data.foregroundColor[2], data.foregroundColor[3], data.foregroundColor[4]);
   foreground:SetBlendMode(data.blendMode);
 
-  foregroundSpinner:SetTexture(data.foregroundTexture);
+  foregroundSpinner:SetTextureOrAtlas(data.foregroundTexture);
   foregroundSpinner:SetDesaturated(data.desaturateForeground);
   foregroundSpinner:Color(data.foregroundColor[1], data.foregroundColor[2], data.foregroundColor[3], data.foregroundColor[4])
   foregroundSpinner:SetBlendMode(data.blendMode);

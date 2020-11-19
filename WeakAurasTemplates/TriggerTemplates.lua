@@ -129,7 +129,11 @@ local checks = {
   uninterruptible = {
     variable = "interruptible",
     value = 0,
-  };
+  },
+  enchantMissing = {
+    variable = "enchanted",
+    value = 0
+  }
 }
 
 local function buildCondition(trigger, check, properties)
@@ -204,6 +208,10 @@ local function totemActiveGlow(conditions, trigger, regionType)
   GenericGlow(conditions, trigger, regionType, checks.totem)
 end
 
+local function isMissingEnchantGlow(conditions, trigger, regionType)
+  tinsert(conditions, buildCondition(trigger, checks.enchantMissing, {changes("glow", regionType)}));
+end
+
 local function overlayGlow(conditions, trigger, regionType)
   if regionType == "icon" or regionType == "aurabar" then
     tinsert(conditions, buildCondition(trigger, checks.overlayGlow, {changes("glow", regionType)}));
@@ -229,16 +237,36 @@ local function createBuffTrigger(triggers, position, item, buffShowOn, isBuff)
     trigger = {
       unit = item.unit or isBuff and "player" or "target",
       type = "aura2",
-      useName = true,
-      auranames = {
-        tostring(item.buffId or item.spell)
-      },
       matchesShowOn = buffShowOn,
       debuffType = isBuff and "HELPFUL" or "HARMFUL",
       ownOnly = not item.forceOwnOnly and true or item.ownOnly,
       unitExists = false,
     }
   };
+
+  if item.spellIds then
+    if item.exactSpellId then
+      triggers[position].trigger.useExactSpellId = true
+      triggers[position].trigger.auraspellids = {}
+      for index, spell in ipairs(item.spellIds) do
+        triggers[position].trigger.auraspellids[index] = tostring(spell)
+      end
+    else
+      triggers[position].trigger.useName = true
+      triggers[position].trigger.auranames = {}
+      for index, spell in ipairs(item.spellIds) do
+        triggers[position].trigger.auranames[index] = tostring(spell)
+      end
+    end
+  else
+    if item.exactSpellId then
+      triggers[position].trigger.useExactSpellId = true
+      triggers[position].trigger.auraspellids = { tostring(item.buffId or item.spell) }
+    else
+      triggers[position].trigger.useName = true
+      triggers[position].trigger.auranames = { tostring(item.buffId or item.spell) }
+    end
+  end
 
   if triggers[position].trigger.unit == "multi" and buffShowOn == "showOnActive"  then
     local trigger = triggers[position].trigger
@@ -247,17 +275,6 @@ local function createBuffTrigger(triggers, position, item, buffShowOn, isBuff)
     trigger.group_count = "1"
   end
 
-  if (item.spellIds) then
-    triggers[position].trigger.auranames = {}
-    for index, spell in ipairs(item.spellIds) do
-      triggers[position].trigger.auranames[index] = tostring(spell)
-    end
-  end
-  if (item.fullscan) then
-    triggers[position].trigger.use_spellId = true;
-    triggers[position].trigger.fullscan = true;
-    triggers[position].trigger.spellId = tostring(item.buffId or item.spell);
-  end
   if (item.unit == "group") then
     triggers[position].trigger.name_info = "players";
   end
@@ -378,6 +395,20 @@ local function createOverlayGlowTrigger(triggers, position, item)
       spellName = item.spell,
     }
   };
+end
+
+
+local function createWeaponEnchantTrigger(triggers, position, item, showOn)
+  triggers[position] = {
+    trigger = {
+      type = "status",
+      event = "Weapon Enchant",
+      use_enchant = true,
+      enchant = tostring(item.enchant),
+      weapon = item.weapon,
+      showOn = showOn
+    }
+  }
 end
 
 local function createAbilityAndDurationTrigger(triggers, item)
@@ -1060,6 +1091,38 @@ local function subTypesFor(item, regionType)
       end,
       data = data,
     });
+  elseif (item.type == "weaponenchant") then
+    data.inverse = false
+    tinsert(types, {
+      icon = icon.cd,
+      title = L["Show Only if Enchanted"],
+      description = L["Only shows if the weapon is enchanted."],
+      createTriggers = function(triggers, item)
+        createWeaponEnchantTrigger(triggers, 1, item, "showOnActive");
+      end,
+      data = data,
+    });
+    tinsert(types, {
+      icon = icon.cd,
+      title = L["Show if Enchant Missing"],
+      description = L["Only shows if the weapon is not enchanted."],
+      createTriggers = function(triggers, item)
+        createWeaponEnchantTrigger(triggers, 1, item, "showOnMissing");
+      end,
+      data = data,
+    });
+    tinsert(types, {
+      icon = icon.glow,
+      title = L["Show Always, Glow on Missing"],
+      description = L["Always shows highlights if enchant missing."],
+      createTriggers = function(triggers, item)
+        createWeaponEnchantTrigger(triggers, 1, item, "showAlways");
+      end,
+      createConditions = function(conditions, item, regionType)
+        isMissingEnchantGlow(conditions, 1, regionType);
+      end,
+      data = dataGlow,
+    });
   end
 
   -- filter when createConditions return nothing for this regionType
@@ -1516,7 +1579,7 @@ function WeakAuras.CreateTemplateView(frame)
     replaceButton:SetFullWidth(true);
     replaceButton:SetClick(function()
       replaceTriggers(newView.data, newView.chosenItem, newView.chosenSubType);
-      for _,v in pairs({"class","spec","talent","pvptalent","race"}) do
+      for _,v in pairs({"class", "spec", "talent", "pvptalent", "race", "covenant"}) do
         newView.data.load[v] = nil;
         newView.data.load["use_"..v] = nil;
       end
@@ -1604,25 +1667,6 @@ function WeakAuras.CreateTemplateView(frame)
       newViewScroll:AddChild(classHeader);
 
       createTriggerButton(WeakAuras.triggerTemplates.general, selectedItem);
-
-      -- Items
-      if not WeakAuras.IsClassic() then
-        local itemHeader = AceGUI:Create("Heading");
-        itemHeader:SetFullWidth(true);
-        newViewScroll:AddChild(itemHeader);
-        local itemTypes = {};
-        for _, section in pairs(WeakAuras.triggerTemplates.items) do
-          tinsert(itemTypes, section.title);
-        end
-        newView.item = newView.item or 1;
-        local itemSelector = createDropdown("item", itemTypes);
-        newViewScroll:AddChild(itemSelector);
-        newViewScroll:AddChild(createSpacer());
-        if (WeakAuras.triggerTemplates.items[newView.item]) then
-          local group = createTriggerFlyout(WeakAuras.triggerTemplates.items[newView.item].args, true);
-          newViewScroll:AddChild(group);
-        end
-      end
 
       -- Race
       local raceHeader = AceGUI:Create("Heading");

@@ -4,6 +4,48 @@ local AddonName, OptionsPrivate = ...
 local L = WeakAuras.L
 local regionOptions = WeakAuras.regionOptions
 
+local commonOptionsCache = {}
+OptionsPrivate.commonOptionsCache = commonOptionsCache
+commonOptionsCache.data = {}
+
+commonOptionsCache.GetOrCreateData = function(self, info)
+  local base = self.data
+  for i, key in ipairs(info) do
+    base[key] = base[key] or {}
+    base = base[key]
+  end
+  return base
+end
+
+commonOptionsCache.GetData = function(self, info)
+  local base = self.data
+  for i, key in ipairs(info) do
+    if base[key] and type(base[key]) == "table" then
+      base = base[key]
+    else
+      return nil
+    end
+  end
+  return base
+end
+
+commonOptionsCache.SetSameAll = function(self, info, value)
+  local base = self:GetOrCreateData(info)
+  base.sameAll = value
+end
+
+commonOptionsCache.GetSameAll = function(self, info)
+  local base = self:GetData(info)
+  if base then
+    return base.sameAll
+  end
+end
+
+commonOptionsCache.Clear = function(self)
+  self.data = {}
+end
+
+
 local parsePrefix = function(input, data, create)
   local subRegionIndex, property = string.match(input, "^sub%.(%d+)%..-%.(.+)")
   subRegionIndex = tonumber(subRegionIndex)
@@ -387,6 +429,7 @@ local function disabledOrHiddenChild(childOptionTable, info)
   return hiddenChild(childOptionTable, info) or disabledChild(childOptionTable, info);
 end
 
+
 local function replaceNameDescFuncs(intable, data, subOption)
   local function compareTables(tableA, tableB)
     if(#tableA == #tableB) then
@@ -461,6 +504,11 @@ local function replaceNameDescFuncs(intable, data, subOption)
   end
 
   local function sameAll(info)
+    local cached = commonOptionsCache:GetSameAll(info)
+    if (cached ~= nil) then
+      return cached
+    end
+
     local combinedValues = {};
     local first = true;
     local combinedKeys = combineKeys(info);
@@ -490,6 +538,7 @@ local function replaceNameDescFuncs(intable, data, subOption)
               combinedValues[key] = values;
             else
               if (not compareTables(combinedValues[key], values)) then
+                commonOptionsCache:SetSameAll(info, false)
                 return nil;
               end
             end
@@ -508,6 +557,7 @@ local function replaceNameDescFuncs(intable, data, subOption)
             first = false;
           else
             if (not compareTables(combinedValues, values)) then
+              commonOptionsCache:SetSameAll(info, false)
               return nil;
             end
           end
@@ -515,6 +565,7 @@ local function replaceNameDescFuncs(intable, data, subOption)
       end
     end
 
+    commonOptionsCache:SetSameAll(info, true)
     return true;
   end
 
@@ -554,7 +605,6 @@ local function replaceNameDescFuncs(intable, data, subOption)
         end
       end
     end
-
     return combinedName;
   end
 
@@ -825,10 +875,14 @@ local getHelper = {
   Get = function(self)
     return self.combinedValues
   end,
+  GetSame = function(self)
+    return self.same
+  end,
   HasValue = function(self)
     return not self.first
   end
 }
+
 
 local function CreateGetAll(subOption)
   return function(data, info, ...)
@@ -855,7 +909,7 @@ local function CreateGetAll(subOption)
           childOptionTable[i] = childOption;
         end
 
-        if (childOption and not disabledOrHiddenChild(childOptionTable, info)) then
+        if (childOption) then
           for i=#childOptionTable,0,-1 do
             if(childOptionTable[i].get) then
               local values = {childOptionTable[i].get(info, ...)};
@@ -863,10 +917,12 @@ local function CreateGetAll(subOption)
                 values[1] = false
               end
 
-              local sameAllChildren = allChildren:Set(values)
-              local sameEnabledChildren = enabledChildren:Set(values)
+              allChildren:Set(values)
+              if not disabledOrHiddenChild(childOptionTable, info) then
+                 enabledChildren:Set(values)
+              end
 
-              if not sameAllChildren and not sameEnabledChildren then
+              if not allChildren:GetSame() and not enabledChildren:GetSame() then
                 return nil;
               end
               break;
@@ -951,7 +1007,7 @@ local function CreateExecuteAll(subOption)
   end
 end
 
-local function PositionOptions(id, data, _, hideWidthHeight, disableSelfPoint)
+local function PositionOptions(id, data, _, hideWidthHeight, disableSelfPoint, group)
   local metaOrder = 99
   local function IsParentDynamicGroup()
     if data.parent then
@@ -971,6 +1027,7 @@ local function PositionOptions(id, data, _, hideWidthHeight, disableSelfPoint)
       order = 60,
       min = 1,
       softMax = screenWidth,
+      max = 4 * screenWidth,
       bigStep = 1,
       hidden = hideWidthHeight,
     },
@@ -981,6 +1038,7 @@ local function PositionOptions(id, data, _, hideWidthHeight, disableSelfPoint)
       order = 61,
       min = 1,
       softMax = screenHeight,
+      max = 4 * screenHeight,
       bigStep = 1,
       hidden = hideWidthHeight,
     },
@@ -990,7 +1048,9 @@ local function PositionOptions(id, data, _, hideWidthHeight, disableSelfPoint)
       name = L["X Offset"],
       order = 62,
       softMin = (-1 * screenWidth),
+      min = (-4 * screenWidth),
       softMax = screenWidth,
+      max = 4 * screenWidth,
       bigStep = 10,
       get = function() return data.xOffset end,
       set = function(info, v)
@@ -1012,7 +1072,9 @@ local function PositionOptions(id, data, _, hideWidthHeight, disableSelfPoint)
       name = L["Y Offset"],
       order = 63,
       softMin = (-1 * screenHeight),
+      min = (-4 * screenHeight),
       softMax = screenHeight,
+      max = 4 * screenHeight,
       bigStep = 10,
       get = function() return data.yOffset end,
       set = function(info, v)
@@ -1148,8 +1210,9 @@ local function PositionOptions(id, data, _, hideWidthHeight, disableSelfPoint)
       end
     },
   };
+
   OptionsPrivate.commonOptions.AddCodeOption(positionOptions, data, L["Custom Anchor"], "custom_anchor", "https://github.com/WeakAuras/WeakAuras2/wiki/Custom-Code-Blocks#custom-anchor-function",
-                          72.1, function() return not(data.anchorFrameType == "CUSTOM" and not IsParentDynamicGroup()) end, {"customAnchor"}, nil, nil, nil, nil, nil, true)
+                          72.1, function() return not(data.anchorFrameType == "CUSTOM" and not IsParentDynamicGroup()) end, {"customAnchor"}, false, { setOnParent = group })
   return positionOptions;
 end
 
@@ -1258,6 +1321,9 @@ local function BorderOptions(id, data, showBackDropOptions, hiddenFunc, order)
   return borderOptions;
 end
 
+local function noop()
+end
+
 local function GetCustomCode(data, path)
   for _, key in ipairs(path) do
     if (not data or not data[key]) then
@@ -1268,15 +1334,13 @@ local function GetCustomCode(data, path)
   return data;
 end
 
--- TODO: find a paradigm which doesn't have five million flags for AddCodeOption so that calls to it don't always go off the screen
--- a table of settings is the obvious option to pack the flags.
--- alternatively, we could create a "code" type option which then gets processed before sending to AceConfig
-local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, path, encloseInFunction, multipath, extraSetFunction, extraFunctions, reloadOptions, setOnParent)
-  extraFunctions = extraFunctions or {};
-  tinsert(extraFunctions, 1, {
+local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, path, encloseInFunction, options)
+  options = options and CopyTable(options) or {}
+  options.extraFunctions = options.extraFunctions or {};
+  tinsert(options.extraFunctions, 1, {
     buttonLabel = L["Expand"],
     func = function(info)
-      OptionsPrivate.OpenTextEditor(OptionsPrivate.GetPickedDisplay(), path, encloseInFunction, multipath, reloadOptions, setOnParent, url)
+      OptionsPrivate.OpenTextEditor(OptionsPrivate.GetPickedDisplay(), path, encloseInFunction, options.multipath, options.reloadOptions, options.setOnParent, url, options.validator)
     end
   });
 
@@ -1289,7 +1353,7 @@ local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, p
     hidden = hiddenFunc,
     control = "WeakAurasMultiLineEditBox",
     arg = {
-      extraFunctions = extraFunctions,
+      extraFunctions = options.extraFunctions,
     },
     set = function(info, v)
       local subdata = data;
@@ -1301,10 +1365,10 @@ local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, p
 
       subdata[path[#path]] = v;
       WeakAuras.Add(data);
-      if (extraSetFunction) then
-        extraSetFunction();
+      if (options.extraSetFunction) then
+        options.extraSetFunction();
       end
-      if (reloadOptions) then
+      if (options.reloadOptions) then
         OptionsPrivate.ClearOptions(data.id)
       end
     end,
@@ -1322,7 +1386,7 @@ local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, p
 
       local code = GetCustomCode(data, path);
 
-      if (not code) then
+      if (not code or code:trim() == "") then
         return ""
       end
 
@@ -1332,7 +1396,16 @@ local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, p
 
       code = "return " .. code;
 
-      local _, errorString = loadstring(code);
+      local loadedFunction, errorString = loadstring(code);
+
+      if not errorString then
+        if options.validator then
+          local ok, validate = xpcall(loadedFunction, function(err) errorString = err end)
+          if ok then
+            errorString = options.validator(validate)
+          end
+        end
+      end
       return errorString and "|cFFFF0000"..errorString or "";
     end,
     width = WeakAuras.doubleWidth,
@@ -1343,7 +1416,7 @@ local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, p
       end
 
       local code = GetCustomCode(data, path);
-      if (not code) then
+      if (not code or code:trim() == "") then
         return true;
       end
 
@@ -1357,6 +1430,13 @@ local function AddCodeOption(args, data, name, prefix, url, order, hiddenFunc, p
       if(errorString and not loadedFunction) then
         return false;
       else
+        if options.validator then
+          local ok, validate = xpcall(loadedFunction, noop)
+          if ok then
+            return options.validator(validate)
+          end
+          return false
+        end
         return true;
       end
     end

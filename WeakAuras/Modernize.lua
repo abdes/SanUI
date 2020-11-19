@@ -978,5 +978,69 @@ function Private.Modernize(data)
     data.ignoreOptionsEventErrors = true
   end
 
+  if data.internalVersion < 37 then
+    for triggerId, triggerData in ipairs(data.triggers) do
+      if triggerData.trigger.type == "aura2" then
+        local group_role = triggerData.trigger.group_role
+        if group_role then
+          triggerData.trigger.group_role = {}
+          triggerData.trigger.group_role[group_role] = true
+        end
+      end
+    end
+  end
+
+  if data.internalVersion < 38 then
+    for triggerId, triggerData in ipairs(data.triggers) do
+      if triggerData.trigger.type == "status" then
+        if triggerData.trigger.event == "Item Type Equipped" then
+          if triggerData.trigger.itemTypeName then
+            if triggerData.trigger.itemTypeName.single then
+              triggerData.trigger.itemTypeName.single = triggerData.trigger.itemTypeName.single + 2 * 256
+            end
+            if triggerData.trigger.itemTypeName.multi then
+              local converted = {}
+              for v in pairs(triggerData.trigger.itemTypeName.multi) do
+                converted[v + 512] = true
+              end
+              triggerData.trigger.itemTypeName.multi = converted
+            end
+          end
+        end
+      end
+    end
+    if data.load.itemtypeequipped then
+      if data.load.itemtypeequipped.single then
+        data.load.itemtypeequipped.single = data.load.itemtypeequipped.single + 2 * 256
+      end
+      if data.load.itemtypeequipped.multi then
+        local converted = {}
+        for v in pairs(data.load.itemtypeequipped.multi) do
+          converted[v + 512] = true
+        end
+        data.load.itemtypeequipped.multi = converted
+      end
+    end
+  end
+
+  if data.internalVersion < 39 then
+    if data.regionType == 'icon' or data.regionType == 'aurabar' then
+      if data.auto then
+        data.iconSource = -1
+      else
+        data.iconSource = 0
+      end
+    end
+  end
+
+  if data.internalVersion < 40 then
+    data.information = data.information or {}
+    if data.regionType == 'group' then
+      data.information.groupOffset = true
+    end
+    data.information.ignoreOptionsEventErrors = data.ignoreOptionsEventErrors
+    data.ignoreOptionsEventErrors = nil
+  end
+
   data.internalVersion = max(data.internalVersion or 0, WeakAuras.InternalVersion());
 end

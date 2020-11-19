@@ -772,7 +772,7 @@ local methods = {
         end
       end
 
-        OptionsPrivate.Private.ResumeAllDynamicGroups();
+      OptionsPrivate.Private.ResumeAllDynamicGroups();
     end
 
     function self.callbacks.ViewTest()
@@ -821,7 +821,6 @@ local methods = {
       local oldid = data.id;
       if not(newid == oldid) then
         WeakAuras.Rename(data, newid);
-        OptionsPrivate.HandleRename(data, oldid, newid)
       end
     end
 
