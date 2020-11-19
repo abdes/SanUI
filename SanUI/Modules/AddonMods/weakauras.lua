@@ -10,11 +10,12 @@ function S.weakAurasDialog(new_version, old_version)
 	main:SetPoint("CENTER")
 	main:SetSize(500,200)
 	main:CreateBackdrop()
-  local text1 = main:CreateFontString(nil, "OVERLAY")
-  text1:SetFont(C.Medias.Font, 12)
-  text1:SetJustifyH("LEFT")
-  text1:SetShadowColor(0, 0, 0)
-  text1:SetShadowOffset(1, 1)
+	
+	local text1 = main:CreateFontString(nil, "OVERLAY")
+	text1:SetFont(C.Medias.Font, 12)
+	text1:SetJustifyH("LEFT")
+	text1:SetShadowColor(0, 0, 0)
+	text1:SetShadowOffset(1, 1)
 	text1:SetPoint("CENTER")
 	text1:SetText("SanUI's weakauras installed: version "..(old_version or "None") ..
 	              "\n\n"..
@@ -32,14 +33,16 @@ function S.weakAurasDialog(new_version, old_version)
 	main.LeftButton:SetSize(128, 25)
 	main.LeftButton:SkinButton()
 	main.LeftButton:CreateShadow()
-  local text2 = main.LeftButton:CreateFontString(nil, "OVERLAY")
-  text2:SetFont(C.Medias.Font, 12)
-  text2:SetJustifyH("LEFT")
-  text2:SetShadowColor(0, 0, 0)
-  text2:SetShadowOffset(1, 1)
+	
+	local text2 = main.LeftButton:CreateFontString(nil, "OVERLAY")
+	text2:SetFont(C.Medias.Font, 12)
+	text2:SetJustifyH("LEFT")
+	text2:SetShadowColor(0, 0, 0)
+	text2:SetShadowOffset(1, 1)
 	text2:SetPoint("CENTER")
 	text2:SetPoint("CENTER")
 	text2:SetText("Add and reload")
+	
 	main.LeftButton:SetScript("OnClick", function()
 		S.addWeakAuras()
 		SanUIdb.addedWeakAuras = new_version
@@ -52,14 +55,16 @@ function S.weakAurasDialog(new_version, old_version)
 	main.RightButton:SetSize(128, 25)
 	main.RightButton:SkinButton()
 	main.RightButton:CreateShadow()
-  local text3 = main.RightButton:CreateFontString(nil, "OVERLAY")
-  text3:SetFont(C.Medias.Font, 12)
-  text3:SetJustifyH("LEFT")
-  text3:SetShadowColor(0, 0, 0)
-  text3:SetShadowOffset(1, 1)
+	
+	local text3 = main.RightButton:CreateFontString(nil, "OVERLAY")
+	text3:SetFont(C.Medias.Font, 12)
+	text3:SetJustifyH("LEFT")
+	text3:SetShadowColor(0, 0, 0)
+	text3:SetShadowOffset(1, 1)
 	text3:SetPoint("CENTER")
 	text3:SetPoint("CENTER")
 	text3:SetText("Do nothing")
+	
 	main.RightButton:SetScript("OnClick", function() 
 		SanUIdb.askedWeakAuras = new_version
 		main.RightButton:Kill()
@@ -74,34 +79,33 @@ function S.addWeakAuras()
 	if not IsAddOnLoaded("WeakAuras") then print("WeakAuras not loaded!") return end
 	if not WeakAurasSaved then print("WeakAurasSaved not loaded!") return end
 
-	local key,value
+	for key, _ in pairs(WeakAurasSaved.displays) do
+		if key:sub(1, #"SanUI_") == "SanUI_" then
+			WeakAurasSaved.displays[key] = nil
+		end
+	end
 		
-	for key,value in pairs(S.weakAuras.displays) do
+	for key, value in pairs(S.weakAuras.displays) do
 		if key:sub(1, #"SanUI_") == "SanUI_" then
 			WeakAurasSaved.displays[key] = value
 		end
 	end
-
-	--WeakAuras.frames["Addon Initialization Handler"]:GetScript("OnEvent")(WeakAuras.frames["Addon Initialization Handler"],"ADDON_LOADED","WeakAuras")
 end
 	
 -- Adapted from AddonSkins by Azilroka
 -- conceived by Elv
 local function skinWaFrame(frame, type)
-  frame:CreateBackdrop()
-  if type == 'icon' then
-    frame.Backdrop:SetBackdropColor(0,0,0,0)
-  end
-  --frame.Backdrop:Show()
+	frame:CreateBackdrop()
+	if type == 'icon' then
+	frame.Backdrop:SetBackdropColor(0,0,0,0)
+	end
 
 	if type == 'aurabar' or type == 'icon' then
-    frame.Backdrop:ClearAllPoints()
-    frame.Backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -Scale(1), Scale(1))
-    frame.Backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", Scale(1), -Scale(1))
+	frame.Backdrop:ClearAllPoints()
+	frame.Backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -Scale(1), Scale(1))
+	frame.Backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", Scale(1), -Scale(1))
 		frame.Backdrop:Show()
 	end
-	--frame.icon:SetTexCoord(.1, .9, .1, .9)
-	--frame.icon.SetTexCoord = function() end
 end
 
 local function Create_Icon(parent, data)
