@@ -102,8 +102,8 @@ local function skinWaFrame(frame, type)
 
 	if type == 'aurabar' or type == 'icon' then
 	frame.Backdrop:ClearAllPoints()
-	frame.Backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -Scale(1), Scale(1))
-	frame.Backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", Scale(1), -Scale(1))
+	frame.Backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -S.scale1, S.scale1)
+	frame.Backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", S.scale1, -S.scale1)
 		frame.Backdrop:Show()
 	end
 end

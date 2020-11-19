@@ -107,13 +107,13 @@ hooksecurefunc(S["Maps"].Minimap, "Enable", function()
   local backdrop = Minimap.Backdrop
   
   dt_right:ClearAllPoints()
-  dt_right:SetPoint("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, Scale(1))
+  dt_right:SetPoint("TOPRIGHT", backdrop, "BOTTOMRIGHT", 0, S.scale1)
   dt_right:SetWidth(dt_right:GetWidth()/2)
   
   local dt_left = CreateFrame("Frame", nil, UIParent)
   dt_left:SetHeight(dt_right:GetHeight())
-  dt_left:SetPoint("TOPLEFT", backdrop, "BOTTOMLEFT", 0, Scale(1))
-  dt_left:SetPoint("RIGHT", dt_right, "LEFT", Scale(1),0)
+  dt_left:SetPoint("TOPLEFT", backdrop, "BOTTOMLEFT", 0, S.scale1)
+  dt_left:SetPoint("RIGHT", dt_right, "LEFT", S.scale1,0)
   dt_left:CreateBackdrop()
   dt_left:SetFrameStrata("MEDIUM")
   dt_right.Shadow:Hide()
@@ -128,7 +128,7 @@ hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
   self.NumAnchors = self.NumAnchors + 1
   
   local Frame = CreateFrame("Button", nil, UIParent)
-  Frame:SetSize((DataTextLeft:GetWidth() / 3) - Scale(1), DataTextLeft:GetHeight() - Scale(2))
+  Frame:SetSize((DataTextLeft:GetWidth() / 3) - S.scale1, DataTextLeft:GetHeight() - S.scale2)
   Frame:SetFrameLevel(DataTextLeft:GetFrameLevel() + 1)
   Frame:SetFrameStrata("HIGH")
   Frame:EnableMouse(false)
@@ -140,7 +140,7 @@ hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
   Frame.Tex:SetTexture(0.2, 1, 0.2, 0)
   
   Frame:SetPoint("CENTER", MinimapDataTextLeft, 0, 0)
-  Frame:SetSize(MinimapDataTextLeft:GetWidth() - Scale(2), MinimapDataTextLeft:GetHeight() - Scale(2))
+  Frame:SetSize(MinimapDataTextLeft:GetWidth() - S.scale2, MinimapDataTextLeft:GetHeight() - S.scale2)
   
   self.Anchors[self.NumAnchors] = Frame
 end)

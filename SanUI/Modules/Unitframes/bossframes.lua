@@ -59,7 +59,7 @@ local function CreateUnitFrame(self, unit)
 	self:SetSize(BarWidth, BarHeight)
 
 	local health = CreateFrame("StatusBar",nil, self)
-	health:SetPoint("TOPLEFT", self, "TOPLEFT", Scale(1), -Scale(1))
+	health:SetPoint("TOPLEFT", self, "TOPLEFT", S.scale1, -S.scale1)
 	health:SetSize(BarWidth - 2, BarHeight - 2)
 	health:SetStatusBarTexture(BAR_TEXTURE)
 	health:SetStatusBarColor(unpack(barcolor))	
@@ -80,7 +80,7 @@ local function CreateUnitFrame(self, unit)
 	self.Backdrop:SetBackdropColor(unpack(barbgcolor))
 	
 	-- highlight
-	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = Scale(1)}
+	local glowBorder = {edgeFile = C["Medias"].Blank, edgeSize = S.scale1}
 	local HighlightTarget = CreateFrame("Frame", nil, self, "BackdropTemplate")
 	HighlightTarget:SetAllPoints()
 	HighlightTarget:SetBackdrop(glowBorder)
@@ -123,12 +123,12 @@ local function CreateUnitFrame(self, unit)
 	power:SetFrameStrata(health:GetFrameStrata())
 	power:SetFrameLevel(health:GetFrameLevel()+2)
 	power:SetStatusBarColor(unpack(barcolor))
-	power:SetPoint("CENTER", self.Health, "BOTTOM", 0, -Scale(6))
+	power:SetPoint("CENTER", self.Health, "BOTTOM", 0, -S.scale6)
 	power:CreateBackdrop()
 	power.Backdrop:SetBackdropColor(unpack(barbgcolor))
 	power.Backdrop:ClearAllPoints()
-	power.Backdrop:SetPoint("TOPLEFT", power, -Scale(1), Scale(1))
-	power.Backdrop:SetPoint("BOTTOMRIGHT", power,  Scale(1), -Scale(1))
+	power.Backdrop:SetPoint("TOPLEFT", power, -S.scale1, S.scale1)
+	power.Backdrop:SetPoint("BOTTOMRIGHT", power,  S.scale1, -S.scale1)
 	power.colorPower = false
 	self.Power = power
 	
@@ -136,7 +136,7 @@ local function CreateUnitFrame(self, unit)
 	powerText:SetFont(TEXT_FONT, fontSize-1)
 	powerText:SetShadowOffset(.8,-.8)
 	powerText:SetTextColor(unpack(fontcolor))
-	powerText:SetPoint("RIGHT", power, "RIGHT", -Scale(4), -Scale(1))
+	powerText:SetPoint("RIGHT", power, "RIGHT", -S.scale4, -S.scale1)
 	powerText:SetJustifyH("RIGHT")
 	powerText:SetJustifyV("MIDDLE")	
 	
@@ -144,7 +144,7 @@ local function CreateUnitFrame(self, unit)
 
 	local castbar = CreateFrame('StatusBar', nil, self)
 	castbar:SetFrameStrata("HIGH")
-	castbar:SetPoint("TOP",self.Power,"BOTTOM",0,Scale(2))
+	castbar:SetPoint("TOP",self.Power,"BOTTOM",0,S.scale2)
 	castbar:SetWidth(BarWidth - 2 )
 	castbar:SetHeight(BarHeight - 2)
 	castbar:SetStatusBarTexture(BAR_TEXTURE)	
@@ -153,8 +153,8 @@ local function CreateUnitFrame(self, unit)
 	castbar:SetStatusBarColor(unpack(barcolor))
 	castbar:CreateBackdrop()
 	castbar.Backdrop:SetBackdropColor(unpack(barbgcolor))
-	castbar.Backdrop:SetPoint("TOPLEFT", castbar, -Scale(1), Scale(1))
-	castbar.Backdrop:SetPoint("BOTTOMRIGHT", castbar,  Scale(1), -Scale(1))
+	castbar.Backdrop:SetPoint("TOPLEFT", castbar, -S.scale1, S.scale1)
+	castbar.Backdrop:SetPoint("BOTTOMRIGHT", castbar,  S.scale1, -S.scale1)
 	
 	self.Castbar = castbar
 	
@@ -200,8 +200,8 @@ local function CreateUnitFrame(self, unit)
 	Altpower:CreateBackdrop()
 	Altpower.Backdrop:SetBackdropColor(unpack(barbgcolor))
 	Altpower.Backdrop:ClearAllPoints()
-	Altpower.Backdrop:SetPoint("TOPLEFT", Altpower, -Scale(1), Scale(1))
-	Altpower.Backdrop:SetPoint("BOTTOMRIGHT", Altpower,  Scale(1), -Scale(1))
+	Altpower.Backdrop:SetPoint("TOPLEFT", Altpower, -S.scale1, S.scale1)
+	Altpower.Backdrop:SetPoint("BOTTOMRIGHT", Altpower,  S.scale1, -S.scale1)
 	self.Altpower = Altpower
 	self.Altpower.PostUpdate = function(self, unit, cur, min, max)
 		if max == 0 then
@@ -225,7 +225,7 @@ local function CreateUnitFrame(self, unit)
 	local RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
 	RaidIcon:SetHeight(Scale(16))
 	RaidIcon:SetWidth(Scale(16))
-	RaidIcon:SetPoint("CENTER", self, "TOP",0,-Scale(1))
+	RaidIcon:SetPoint("CENTER", self, "TOP",0,-S.scale1)
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
 	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	self.RaidTargetIndicator = RaidIcon
@@ -246,8 +246,8 @@ local function CreateUnitFrame(self, unit)
 	auras.PostCreateIcon = function(self, icon)
 		if icon.icon and not icon.hideIcon then
 			icon:CreateBackdrop()
-			icon.icon:SetPoint("TOPLEFT", Scale(1), -Scale(1))
-			icon.icon:SetPoint("BOTTOMRIGHT", -Scale(1), Scale(1))
+			icon.icon:SetPoint("TOPLEFT", S.scale1, -S.scale1)
+			icon.icon:SetPoint("BOTTOMRIGHT", -S.scale1, S.scale1)
 			icon.icon:SetTexCoord(.08, .92, .08, .92)
 			icon.icon:SetDrawLayer("ARTWORK")
 		end
@@ -285,8 +285,8 @@ local function CreateUnitFrame(self, unit)
 			icon.hideCount = spell[8]
 			icon.onlyShowPresent = true -- could be defined on a per-icon-basis, but not neccessary just yet
 			
-			icon:SetWidth(Scale(6))
-			icon:SetHeight(Scale(6))
+			icon:SetWidth(S.scale6)
+			icon:SetHeight(S.scale6)
 
 			if type(spell[2]) == "string" then
 				icon:SetPoint(spell[2], 0, 0)

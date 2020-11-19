@@ -12,3 +12,10 @@ addon[1].MyName = UnitName("player")
 addon.oUF = Tukui.oUF
 
 SanUI = addon -- Allow other addons to use SanUI
+
+local Scale = addon[1].Toolkit.Functions.Scale
+addon[1].scale1 = Scale(1)
+addon[1].scale2 = Scale(2)
+addon[1].scale4 = Scale(4)
+addon[1].scale6 = Scale(6)
+addon[1].scale10 = Scale(10)

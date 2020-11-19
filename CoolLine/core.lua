@@ -62,6 +62,7 @@ local MINIMUM_COOLDOWN_DURATION                             = 2499
 local SetValue, updatelook, createfs, ShowOptions, RuneCheck
 
 local Scale = Tukui[1].Toolkit.Functions.Scale
+local scale1 = Scale(1)
 
 local function SetValueH(this, v, just)
     this:SetPoint(just or "CENTER", CoolLine, "LEFT", Scale(v), 0)
@@ -485,8 +486,8 @@ local function NewCooldown(name, icon, endtime, isplayer)
             f:SetBackdrop(iconback)
             f.icon = f:CreateTexture(nil, "ARTWORK")
             f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-            f.icon:SetPoint("TOPLEFT", Scale(1), -Scale(1))
-            f.icon:SetPoint("BOTTOMRIGHT", -Scale(1), Scale(1))
+            f.icon:SetPoint("TOPLEFT", scale1, -scale1)
+            f.icon:SetPoint("BOTTOMRIGHT", -scale1, scale1)
         end
         tinsert(cooldowns, f)
     end

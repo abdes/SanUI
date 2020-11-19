@@ -105,10 +105,10 @@ end
 local MenuOpen = CreateFrame("Frame", "MenuOpen", UIParent)
 MenuOpen:CreateBackdrop()
 if AnchorSide == true then
-	MenuOpen:SetSize(Scale(10), Scale(10))
+	MenuOpen:SetSize(S.scale10, S.scale10)
 	MenuOpen:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), 0)
 else
-	MenuOpen:SetSize(Minimap:GetWidth()+Scale(4) , Scale(14))
+	MenuOpen:SetSize(Minimap:GetWidth()+S.scale4 , Scale(14))
 	MenuOpen:SetPoint("BOTTOM", Minimap, "TOP", 0, Scale(5 + Offset))
 end
 
@@ -149,7 +149,7 @@ local function MenuMouseDown()
 		MenuOpen:SetFrameStrata("MEDIUM")
 		Menu:Hide()
 		RaidUtilitiesButton:Show()
-		MenuOpen:SetSize(Scale(10), Scale(10))
+		MenuOpen:SetSize(S.scale10, S.scale10)
 		MenuOpen:ClearAllPoints()
 		MenuOpen:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), 0)
 		Text:SetFont(C.Medias.Font, 10)
@@ -184,7 +184,7 @@ local function CreateButton(f, o) --(Frame,ButtonOrderName)
 		f:SetFrameStrata("DIALOG")
 		
 		f.title = f:CreateFontString()
-		f.title:SetPoint("CENTER", f, "CENTER", 0, Scale(1))
+		f.title:SetPoint("CENTER", f, "CENTER", 0, S.scale1)
 		f.title:SetFont(font, fontsize, "OUTLINE") --14
 		f.title:SetTextColor(1, 1, 1)
 
@@ -197,7 +197,7 @@ local function CreateButton(f, o) --(Frame,ButtonOrderName)
 		f:SetFrameStrata("DIALOG")
 		
 		f.title = f:CreateFontString()
-		f.title:SetPoint("CENTER", f, "CENTER", 0, Scale(1))
+		f.title:SetPoint("CENTER", f, "CENTER", 0, S.scale1)
 		f.title:SetFont(font, fontsize, "OUTLINE") --14
 		f.title:SetTextColor(1, 1, 1)
 

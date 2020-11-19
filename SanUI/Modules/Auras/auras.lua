@@ -4,8 +4,8 @@
 local addonName, addon = ...
 local BUFFS_PER_ROW = 10;
 
-local T,C,L = unpack(addon)
-local Scale = T.Toolkit.Functions.Scale
+local S,C,L = unpack(addon)
+local Scale = S.Toolkit.Functions.Scale
 
 local saf = {}
 addon.saf = saf
@@ -18,8 +18,8 @@ TempEnchant1:ClearAllPoints()
 TempEnchant2:ClearAllPoints()
 TempEnchant3:ClearAllPoints()
 TempEnchant1:SetPoint("TOPRIGHT", TemporaryEnchantFrame, "TOPRIGHT",0,0)
-TempEnchant2:SetPoint("RIGHT", TempEnchant1, "LEFT", -Scale(4), 0)
-TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -Scale(4), 0)
+TempEnchant2:SetPoint("RIGHT", TempEnchant1, "LEFT", -S.scale4, 0)
+TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -S.scale4, 0)
 
 if WorldStateAlwaysUpFrame then 
 	WorldStateAlwaysUpFrame:SetFrameStrata("BACKGROUND")
@@ -40,8 +40,8 @@ for i = 1, 3 do
 	button.Backdrop:SetFrameLevel(level)
 	
 	icon:SetTexCoord(.08, .92, .08, .92)
-	icon:SetPoint("TOPLEFT", _G["TempEnchant"..i], Scale(2), -Scale(2))
-	icon:SetPoint("BOTTOMRIGHT", _G["TempEnchant"..i], -Scale(2), Scale(2))
+	icon:SetPoint("TOPLEFT", _G["TempEnchant"..i], S.scale2, -S.scale2)
+	icon:SetPoint("BOTTOMRIGHT", _G["TempEnchant"..i], -S.scale2, S.scale2)
 	duration:ClearAllPoints()
 	duration:SetPoint("BOTTOM", 0, -Scale(13))
 end
@@ -92,8 +92,8 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 		
 		if not buff.Backdrop then
 			icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-			icon:SetPoint("TOPLEFT", buff, Scale(2), -Scale(2))
-			icon:SetPoint("BOTTOMRIGHT", buff, -Scale(2), Scale(2))
+			icon:SetPoint("TOPLEFT", buff, S.scale2, -S.scale2)
+			icon:SetPoint("BOTTOMRIGHT", buff, -S.scale2, S.scale2)
 			
 			buff:CreateBackdrop("Transparent")	
 			local level = buff:GetFrameLevel()
@@ -123,9 +123,9 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 				aboveBuff = buff;
 			else
 				if ( numBuffs == 1 ) then
-					buff:SetPoint("TOPRIGHT", "TemporaryEnchantFrame", "TOPLEFT", -Scale(4), 0)
+					buff:SetPoint("TOPRIGHT", "TemporaryEnchantFrame", "TOPLEFT", -S.scale4, 0)
 				else
-					buff:SetPoint("RIGHT", previousBuff, "LEFT", -Scale(4), 0)
+					buff:SetPoint("RIGHT", previousBuff, "LEFT", -S.scale4, 0)
 				end
 			end
 			previousBuff = buff;
@@ -141,8 +141,8 @@ local function UpdateDebuffAnchors(buttonName, index)
 	
 	if not debuff.Backdrop then		
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-		icon:SetPoint("TOPLEFT", debuff, Scale(2), -Scale(2))
-		icon:SetPoint("BOTTOMRIGHT", debuff, -Scale(2), Scale(2))
+		icon:SetPoint("TOPLEFT", debuff, S.scale2, -S.scale2)
+		icon:SetPoint("BOTTOMRIGHT", debuff, -S.scale2, S.scale2)
 
 		debuff:CreateBackdrop()
 		local level = debuff:GetFrameLevel()
@@ -163,7 +163,7 @@ local function UpdateDebuffAnchors(buttonName, index)
 	if index == 1 then
 		debuff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, -buffRows*BUFF_ROW_SPACING - Scale(buffRows * 30 + 10) )
 	else
-		debuff:SetPoint("RIGHT", _G[buttonName..(index-1)], "LEFT", -Scale(4), 0)
+		debuff:SetPoint("RIGHT", _G[buttonName..(index-1)], "LEFT", -S.scale4, 0)
 	end
 end
 

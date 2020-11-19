@@ -6,7 +6,7 @@ local S,C = unpack(addon)
 local Scale = S.Toolkit.Functions.Scale
 
 local button  = CreateFrame("Frame", nil, UIParent)
-button:SetSize(Scale(10), Scale(10))
+button:SetSize(S.scale10, S.scale10)
 button:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), Scale(14))
 button:CreateBackdrop()
 button:SetFrameStrata("MEDIUM")
@@ -18,7 +18,7 @@ Text:SetFont(C.Medias.Font, 10)
 Text:SetText("b")
 Text:SetJustifyH("CENTER")
 Text:SetJustifyV("MIDDLE")
-Text:SetPoint("CENTER",button,Scale(1),-Scale(1))
+Text:SetPoint("CENTER",button,S.scale1,-S.scale1)
 Text:Show()
 button.text = Text
 

@@ -183,7 +183,7 @@ local function Shared(self, unit)
 	self.HighlightTarget = HighlightTarget
 	
 	local Dead = self.Health:CreateFontString(nil, "OVERLAY")
-	Dead:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",-Scale(1),0)
+	Dead:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",-S.scale1,0)
 	Dead:SetFont(C["Medias"].Font, 11)
 	self:Tag(Dead, "[enhdead]")
 	self.Dead = Dead
@@ -191,7 +191,7 @@ local function Shared(self, unit)
 	local RaidIcon = health:CreateTexture(nil, "OVERLAY")
 	RaidIcon:SetHeight(Scale(16))
 	RaidIcon:SetWidth(Scale(16))
-	RaidIcon:SetPoint("CENTER", self, "TOP",-Scale(12),-Scale(1))
+	RaidIcon:SetPoint("CENTER", self, "TOP",-Scale(12),-S.scale1)
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
 	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	self.RaidTargetIndicator  = RaidIcon
@@ -251,8 +251,8 @@ local function Shared(self, unit)
 	self.Name:SetParent(absb)
 	
 	local auras = CreateFrame("Frame", nil, self)
-	auras:SetPoint("TOPLEFT", self.Health, Scale(2), -Scale(2))
-	auras:SetPoint("BOTTOMRIGHT", self.Health, -Scale(2), Scale(2))
+	auras:SetPoint("TOPLEFT", self.Health, S.scale2, -S.scale2)
+	auras:SetPoint("BOTTOMRIGHT", self.Health, -S.scale2, S.scale2)
 	auras:SetFrameLevel(self.Health:GetFrameLevel()+2)
 	auras.Icons = {}
 	auras.Texts = {}
@@ -266,8 +266,8 @@ local function Shared(self, unit)
 		icon.timers = spell.timers
 		icon.cooldownAnim = spell.cooldownAnim	
 		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
-		icon:SetWidth(Scale(6))
-		icon:SetHeight(Scale(6))
+		icon:SetWidth(S.scale6)
+		icon:SetHeight(S.scale6)
 	
 		if icon.cooldownAnim then 
 			local cd = CreateFrame("Cooldown", nil, icon,"CooldownFrameTemplate")
@@ -291,7 +291,7 @@ local function Shared(self, unit)
 	
 	for _, spellID in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do
 		local icon = CreateFrame("Frame", nil, auras)	
-		icon:SetPoint("TOPRIGHT", Scale(2), Scale(2))	
+		icon:SetPoint("TOPRIGHT", S.scale2, S.scale2)	
 		
 		icon.anyCaster = true
 		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
@@ -329,7 +329,7 @@ local function Shared(self, unit)
 	local RaidDebuffs = CreateFrame("Frame", nil, self)
 	RaidDebuffs:SetHeight(Scale(15))
 	RaidDebuffs:SetWidth(Scale(15))
-	RaidDebuffs:SetPoint("BOTTOMLEFT",auras, -Scale(2),-Scale(2))
+	RaidDebuffs:SetPoint("BOTTOMLEFT",auras, -S.scale2,-S.scale2)
 	RaidDebuffs:SetFrameStrata(health:GetFrameStrata())
 	RaidDebuffs:SetFrameLevel(health:GetFrameLevel() + 2)
 	
@@ -337,18 +337,18 @@ local function Shared(self, unit)
 	
 	RaidDebuffs.icon = RaidDebuffs:CreateTexture(nil, "OVERLAY")
 	RaidDebuffs.icon:SetTexCoord(.1,.9,.1,.9)
-	RaidDebuffs.icon:SetPoint("TOPLEFT", Scale(2), -Scale(2))
-	RaidDebuffs.icon:SetPoint("BOTTOMRIGHT", -Scale(2), Scale(2))
+	RaidDebuffs.icon:SetPoint("TOPLEFT", S.scale2, -S.scale2)
+	RaidDebuffs.icon:SetPoint("BOTTOMRIGHT", -S.scale2, S.scale2)
 
 	RaidDebuffs.cd = CreateFrame("Cooldown", nil, RaidDebuffs,"CooldownFrameTemplate")
-	RaidDebuffs.cd:SetPoint("TOPLEFT", Scale(2), -Scale(2))
-	RaidDebuffs.cd:SetPoint("BOTTOMRIGHT", -Scale(2), Scale(2))
+	RaidDebuffs.cd:SetPoint("TOPLEFT", S.scale2, -S.scale2)
+	RaidDebuffs.cd:SetPoint("BOTTOMRIGHT", -S.scale2, S.scale2)
 	RaidDebuffs.cd.noOCC = true -- remove this line if you want cooldown number on it
 	RaidDebuffs.cd.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
 	
 	RaidDebuffs.count = RaidDebuffs:CreateFontString(nil, "OVERLAY")
 	RaidDebuffs.count:SetFont(font2, 9, "THINOUTLINE")
-	RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 0, Scale(2))
+	RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 0, S.scale2)
 	RaidDebuffs.count:SetTextColor(1, .9, 0)	
 
 	RaidDebuffs.Debuffs = S["UnitFrames"].RaidDebuffs
@@ -396,7 +396,7 @@ local function GetRaidFrameAttributes()
 	"showRaid", true,
 	"showPlayer", true,
 	"showSolo", true,
-	"xoffset", Scale(2),
+	"xoffset", S.scale2,
 	"yOffset", Scale(-2),
 	"point", point,
 	"groupFilter", "1,2,3,4,5,6,7,8",
@@ -404,7 +404,7 @@ local function GetRaidFrameAttributes()
 	"groupBy", "GROUP",
 	"maxColumns", 8,
 	"unitsPerColumn", 5,
-	"columnSpacing", Scale(2),
+	"columnSpacing", S.scale2,
 	"columnAnchorPoint", columnAnchorPoint
 end
 S.RaidFrameAttributes = GetAttributes
@@ -420,10 +420,10 @@ local function GetPetFrameAttributes()
 	"maxColumns", 8,
 	"point", point,
 	"unitsPerColumn", 5,
-	"columnSpacing", Scale(2),
+	"columnSpacing", S.scale2,
 	"columnAnchorPoint", columnAnchorPoint,
 	"yOffset", Scale(-2),
-	"xOffset", Scale(2),
+	"xOffset", S.scale2,
 	"initial-width", Scale(66),
 	"initial-height", Scale(28),
 	"oUF-initialConfigFunction", [[

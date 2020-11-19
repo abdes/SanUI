@@ -145,7 +145,7 @@ S.switchRaidFrames = function(profile)
 		SetAttributeByProxy(frame,"point","LEFT")
 		
 		SetAttributeByProxy(pets,"columnAnchorPoint","TOP")
-		pets:SetPoint("TOPLEFT",frame,"BOTTOMLEFT",0,-Scale(4))
+		pets:SetPoint("TOPLEFT",frame,"BOTTOMLEFT",0,-S.scale4)
 		pets:SetAttribute("maxColumns", 8)
 		SetAttributeByProxy(pets,"unitsPerColumn", 5)
 		SetAttributeByProxy(pets,"point","LEFT")
