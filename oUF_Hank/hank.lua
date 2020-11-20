@@ -7,7 +7,37 @@ local Scale = Tukui[1].Toolkit.Functions.Scale
 
 -- GLOBALS: oUF_player, oUF_pet, oUF_target, oUF_focus
 -- GLOBALS: _G, MIRRORTIMER_NUMTIMERS, SPELL_POWER_HOLY_POWER, MAX_TOTEMS, MAX_COMBO_POINTS, DebuffTypeColor, SPEC_WARLOCK_DEMONOLOGY
--- GLOBALS: ToggleDropDownMenu, UnitIsUnit, GetTime, AnimateTexCoords, MirrorTimerColors, GetSpecialization, UnitHasVehicleUI, UnitHealth, UnitHealthMax, UnitPower, UnitIsDead, UnitIsGhost, UnitIsConnected, UnitAffectingCombat, GetLootMethod, UnitIsGroupLeader, UnitIsPVPFreeForAll, UnitIsPVP, UnitInRaid, IsResting, UnitAura, UnitCanAttack, UnitIsGroupAssistant, GetRuneCooldown, UnitClass, CancelUnitBuff, CreateFrame, IsAddOnLoaded, UnitFrame_OnEnter, UnitFrame_OnLeave
+
+local ToggleDropDownMenu = ToggleDropDownMenu
+local UnitIsUnit = UnitIsUnit
+local GetTime = GetTime
+local AnimateTexCoords = AnimateTexCoords
+local MirrorTimerColors = MirrorTimerColors
+local GetSpecialization = GetSpecialization
+local UnitHasVehicleUI = UnitHasVehicleUI
+local UnitHealth = UnitHealth
+local UnitHealthMax = UnitHealthMax
+local UnitPower = UnitPower
+local UnitIsDead = UnitIsDead
+local UnitIsGhost = UnitIsGhost
+local UnitIsConnected = UnitIsConnected
+local UnitAffectingCombat = UnitAffectingCombat
+local GetLootMethod = GetLootMethod
+local UnitIsGroupLeader = UnitIsGroupLeader
+local UnitIsPVPFreeForAll = UnitIsPVPFreeForAll
+local UnitIsPVP = UnitIsPVP
+local UnitInRaid = UnitInRaid
+local IsResting = IsResting
+local UnitAura = UnitAura
+local UnitCanAttack = UnitCanAttack
+local UnitIsGroupAssistant = UnitIsGroupAssistant
+local GetRuneCooldown = GetRuneCooldown
+local UnitClass = UnitClass
+local CancelUnitBuff = CancelUnitBuff
+local CreateFrame = CreateFrame
+local IsAddOnLoaded = IsAddOnLoaded
+local UnitFrame = UnitFrame_OnEnter
+local UnitFrame = UnitFrame_OnLeave
 local unpack = unpack
 local pairs = pairs
 local ipairs = ipairs
@@ -250,8 +280,29 @@ end
 
 -- Manual status icons update
 oUF_Hank.UpdateStatus = function(self)
+	local referenceElement
+	-- TODO find a better way to do this
+	hasAdditionalPower = {
+		["DEMONHUNTER"] = false,
+		["DEATHKNIGHT"] = false,
+		["DRUID"] = (GetSpecialization() ~= 4),
+		["HUNTER"] = false,
+		["MAGE"] = false,
+		["MONK"] = false,
+		["PALADIN"] = false,
+		["PRIEST"] = (GetSpecialization() == 3),
+		["ROGUE"] = false,
+		["SHAMAN"] = (GetSpecialization() == 1 or GetSpecialization() == 2),
+		["WARLOCK"] = false,
+		["WARRIOR"] = false,
+	}
+	if cfg.AdditionalPower and self.additionalPower and hasAdditionalPower[select(2, UnitClass("player"))] then
+		referenceElement = self.additionalPower
+	else
+		referenceElement = self.power
+	end
 	-- Attach the first icon to the right border of self.power
-	local lastElement = {"BOTTOMRIGHT", self.power, "TOPRIGHT"}
+	local lastElement = {"BOTTOMRIGHT", referenceElement, "TOPRIGHT"}
 
 	-- Status icon texture names and conditions
 	local icons = {
@@ -298,7 +349,7 @@ oUF_Hank.PostUpdateIcon = function(icons, unit, icon, index, offset)
 	-- We want the border, not the color for the type indication
 	icon.overlay:SetVertexColor(1, 1, 1)
 
-	local _, _, _, _, dtype, _, caster, _, _, _ = UnitAura(unit, index, icon.filter)
+	local _, _, _, dtype, _, _, caster, _, _, _ = UnitAura(unit, index, icon.filter)
 	if caster == "vehicle" then caster = "player" end
 
 	if icon.filter == "HELPFUL" and not UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myBuffs then
@@ -945,6 +996,21 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 			end)
 		end
 
+	self.Runes.PostUpdate = function(self, runemap)
+			for index, runeID in next, runemap do
+				rune = self[index]
+				if(not rune) then break end
+
+				start, duration, runeReady = GetRuneCooldown(runeID)
+				if not runeReady then
+					local val = GetTime() - start
+					-- Dot distance from top & bottom of texture: 4px
+					rune.bg:SetSize(16, 4 + 8 * val / 10)
+					-- Show at least the empty 4 bottom pixels + val% of the 8 pixels of the actual dot = 12px max
+					rune.bg:SetTexCoord(0.25, 0.5, 12 / 16 - 8 * val / 10 / 16, 1)
+				end
+			end
+		end
     --[[
 		self.Runes.PostUpdate = function(self, rune, rid, start, duration, runeReady)
 			if not runeReady then
@@ -1104,9 +1170,9 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	end
 
 	-- StatusBarIcons: Totems / Soul Shards / Burning Embers / Demonic Fury
-	if unit == "player" and (showTotemBar or showWarlockBar) then
+	if unit == "player" and showTotemBar  then
 		local data = oUF_Hank.classResources[playerClass]
-		local displayType = showTotemBar and "TotemBar" or "WarlockSpecBars"
+		local displayType = "TotemBar"
 
 		if initClassPower then
 			initClassPower(self)
@@ -1232,6 +1298,26 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 			end
 			if updateClassIconAnimation then
 				updateClassIconAnimation(self, current, max)
+			end
+		end
+	end
+
+	if unit == "player" and cfg.AdditionalPower and (playerClass == "DRUID" or playerClass == 'PRIEST' or playerClass == "SHAMAN") then
+		local additionalPower = self:CreateFontString(nil, "OVERLAY")
+		additionalPower:SetFontObject("UFFontMedium")
+		additionalPower:SetPoint("TOPRIGHT", power, "TOPRIGHT", 0, 15)
+		self:Tag(additionalPower, "[apDetailed]")
+		self.additionalPower = additionalPower
+
+		-- Register it with oUF
+		local dummyBar = CreateFrame("StatusBar", nil, self)
+		self.AdditionalPower = dummyBar
+
+		self.AdditionalPower.PostUpdate = function(_, unit, current, max)
+			if select(2, UnitPowerType(unit)) ~= ADDITIONAL_POWER_BAR_NAME then
+				additionalPower:Show()
+			else
+				additionalPower:Hide()
 			end
 		end
 	end
