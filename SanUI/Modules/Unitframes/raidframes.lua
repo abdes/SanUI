@@ -292,7 +292,6 @@ local function Shared(self, unit)
 	
 	local turtle_icon = CreateFrame("Frame", nil, auras)	
 	turtle_icon:SetPoint("TOPRIGHT", S.scale2, S.scale2)	
-	
 	turtle_icon.anyCaster = true
 	turtle_icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
 	turtle_icon:SetWidth(Scale(15))
@@ -302,8 +301,14 @@ local function Shared(self, unit)
 	local tex = turtle_icon:CreateTexture(nil, "OVERLAY")
 	tex:SetAllPoints(turtle_icon)
 	tex:SetTexCoord(.1,.9,.1,.9)
-
 	turtle_icon.tex = tex
+	
+	local cd = CreateFrame("Cooldown", nil, turtle_icon,"CooldownFrameTemplate")
+	cd:SetAllPoints(turtle_icon)
+	cd.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
+	cd:SetReverse(true)
+	turtle_icon.cd = cd
+	
 	turtle_icon:Hide()
 	
 	for _, spellID in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do	
