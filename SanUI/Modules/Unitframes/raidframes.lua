@@ -289,25 +289,25 @@ local function Shared(self, unit)
 		icon:Hide()
 	end
 	
-	for _, spellID in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do
-		local icon = CreateFrame("Frame", nil, auras)	
-		icon:SetPoint("TOPRIGHT", S.scale2, S.scale2)	
-		
-		icon.anyCaster = true
-		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
-		icon:SetWidth(Scale(15))
-		icon:SetHeight(Scale(15))
+	
+	local turtle_icon = CreateFrame("Frame", nil, auras)	
+	turtle_icon:SetPoint("TOPRIGHT", S.scale2, S.scale2)	
+	
+	turtle_icon.anyCaster = true
+	turtle_icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
+	turtle_icon:SetWidth(Scale(15))
+	turtle_icon:SetHeight(Scale(15))
+	turtle_icon.setTex = true
 
-		local tex = icon:CreateTexture(nil, "OVERLAY")
-		tex:SetAllPoints(icon)
-		local _, _, image = GetSpellInfo(spellID)
-		tex:SetTexture(image)
-		tex:SetTexCoord(.1,.9,.1,.9)
+	local tex = turtle_icon:CreateTexture(nil, "OVERLAY")
+	tex:SetAllPoints(turtle_icon)
+	tex:SetTexCoord(.1,.9,.1,.9)
 
-		icon.tex = tex
-		
-		auras.Icons[spellID] = icon
-		icon:Hide()
+	turtle_icon.tex = tex
+	turtle_icon:Hide()
+	
+	for _, spellID in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do	
+		auras.Icons[spellID] = turtle_icon
 	end
 	
 	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass]) do

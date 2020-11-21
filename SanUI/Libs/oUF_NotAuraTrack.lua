@@ -12,7 +12,9 @@ assert(oUF, "oUF_NotAuraTrack cannot find an instance of oUF. If your oUF is emb
 		Values: Tables with the following Keys:
 			.anyCaster If true(thy) show regardless of caster. If false(y), show only when the player is the caster
 			.cd  (optional) A cooldown frame, will be updated by NotAuraWatch
-			.tex (Only needed when .color or .timers is set) The texture if the icon that colors get applied to
+			.setTex (optional) If true(thy), set the texture to the one belonging to the spellID (usefull when using
+			                   several spellIDs on the same buff icon)
+			.tex (Only needed when .color or .timers or .setTex is set) The texture of the icon that color/texture gets applied to
 			.color (optional) The color of the texture (leave nil for showing images)
 			.timers (optional) Array (table indexed by integers) of timers. A timer is a table of the form { time, { r, g, b} }, where the icon texture 
 		            is colored by SetVertexColor(r, g, b) if the remaining duration of the buff is <time. The first one matching wins.
@@ -55,16 +57,17 @@ local function UpdateText(text, current_time)
 	end
 end
 
-local showing = { icons = {}, texts = {}}
+
 local Update = function(self, event, unit)
 	if self.unit ~= unit then
 		return
 	end
-	
+
 	local nat = self.NotAuraTrack
 	nat.lastUpdate = GetTime()
 	local icons = nat.Icons
 	local texts = nat.Texts
+	local showing = { icons = {}, texts = {} }
 	
 	for i = 1, 40 do
 		local name, texture, count, debuffType, duration, expiration, caster, isStealable,
@@ -75,6 +78,10 @@ local Update = function(self, event, unit)
 		
 		local icon = icons[spellID]
 		if  icon and (icon.anyCaster or caster == "player") then	
+			if icon.setTex then
+				icon.tex:SetTexture(texture)
+			end
+
 			if icon.cd then
 				icon.cd:SetCooldown(expiration - duration, duration)
 			end
@@ -94,7 +101,7 @@ local Update = function(self, event, unit)
 				icon.tex:SetVertexColor(unpack(color))
 			end
 			icon:Show()
-			showing.icons[spellID] = true
+			showing.icons[icon] = true
 		end
 		
 		local text = texts[spellID]
@@ -105,19 +112,18 @@ local Update = function(self, event, unit)
 			showing.texts[spellID] = true
 		end
 	end
+	
 
 	for spellID, icon in pairs(icons) do
-		if not showing.icons[spellID] then
+		if not showing.icons[icon] then
 			icon:Hide()
 		end
-		showing.icons[spellID] = false
 	end	
 	
 	for spellID, text in pairs(texts) do
 		if not showing.texts[spellID] then
 			text:Hide()
 		end
-		showing.texts[spellID] = false
 	end	
 end
 
@@ -130,7 +136,7 @@ local function Enable(self)
 	
 	if (nat) then
 		nat.__owner = self
-		nat.ForceUpdate = ForceUpdate			
+		nat.ForceUpdate = ForceUpdate	
 		self:RegisterEvent("UNIT_AURA", Update)
 		nat.lastUpdate = GetTime() - 0.6
 		nat.Ticker = C_Timer.NewTicker(0.6, function() if GetTime() - nat.lastUpdate > 0.5 then ForceUpdate(nat) end end)
