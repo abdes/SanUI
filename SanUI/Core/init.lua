@@ -1,5 +1,11 @@
 --we just import the full Tukui, and modify it to our hearts desire
 local addonName, addon = ...
+
+if not Tukui then
+  print("Tukui not installed! If you want to use SanUI, install a recent Tukui!")
+  return
+end
+
 addon[1] = Tukui[1] -- S, functions, constants, variables
 addon[2] = Tukui[2] -- C, config
 addon[3] = Tukui[3] -- L, localization
