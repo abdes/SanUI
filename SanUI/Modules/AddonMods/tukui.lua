@@ -116,7 +116,6 @@ hooksecurefunc(S["Maps"].Minimap, "Enable", function()
   dt_left:SetPoint("RIGHT", dt_right, "LEFT", S.scale1,0)
   dt_left:CreateBackdrop()
   dt_left:SetFrameStrata("MEDIUM")
-  dt_right.Shadow:Hide()
   S.DataTexts.Panels.MinimapDataTextLeft = dt_left
 end)
 
