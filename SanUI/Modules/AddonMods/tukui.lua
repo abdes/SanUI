@@ -200,10 +200,6 @@ hooksecurefunc(S["Miscellaneous"].Experience, "Enable", function()
   S.Miscellaneous.Experience:Disable()
 end)
 
-hooksecurefunc(S["Miscellaneous"].Reputation, "Enable", function()
-  S.Miscellaneous.Reputation:Disable()
-end)
-
 hooksecurefunc(S["UnitFrames"], "Enable", function()
   RegisterStateDriver(Tukui_PetBattleFrameHider, "visibility", "[petbattle] hide;show")
 end)
