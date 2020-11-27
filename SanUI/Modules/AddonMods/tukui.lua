@@ -225,6 +225,17 @@ local ChangeDefaultChatPosition = function(frame)
 end
 hooksecurefunc("FCF_RestorePositionAndDimensions", ChangeDefaultChatPosition)
 
+hooksecurefunc(S["Tooltips"], "SetTooltipDefaultAnchor", function(self, parent)
+	local f = _G["DetailsBaseFrame1"]
+	
+	if (f and f:IsShown()) then
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 0)  
+	else
+	self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", TukuiRightDataTextBox)
+	end
+end)
 --[[
 -- put a 'c' on cubeleft, since clicking on it opens the chat menu
 hooksecurefunc(S["Panels"],"Enable",function()
