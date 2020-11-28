@@ -230,10 +230,10 @@ hooksecurefunc(S["Tooltips"], "SetTooltipDefaultAnchor", function(self, parent)
 	
 	if (f and f:IsShown()) then
 		self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 0)  
+		self:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 2)  
 	else
-	self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", TukuiRightDataTextBox)
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", TukuiRightDataTextBox, 0, 2)
 	end
 end)
 --[[
