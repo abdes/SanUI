@@ -144,15 +144,22 @@ hooksecurefunc(S["DataTexts"], "CreateAnchors", function(self)
   self.Anchors[self.NumAnchors] = Frame
 end)
 
-S["DataTexts"]:GetDataText("Character"):HookScript("OnUpdate", function(self)
+local function char_dt(self)
 	local Green, Red
-		Green = L.DataText.Slots[1][3] * 2
-		Red = 1 - Green
-        self.Text:SetText("Durability: " .. floor(L.DataText.Slots[1][3] * 100) .. "%")
-		if Green < 0.3 then
-			self.Text:SetTextColor(Red + 1, Green, 0, 1)
-		end
-    end)
+	Green = L.DataText.Slots[1][3] * 2
+	Red = 1 - Green
+	self.Text:SetText("Durability: " .. floor(L.DataText.Slots[1][3] * 100) .. "%")
+	if Green < 0.3 then
+		self.Text:SetTextColor(Red + 1, Green, 0, 1)
+	end
+end
+
+S["DataTexts"]:GetDataText("Character"):HookScript("OnEvent", char_dt)
+S["DataTexts"]:GetDataText("Character"):HookScript("OnUpdate", char_dt)
+
+S.DataTexts.StatusColors[0] = "|cffFFFFFF"
+
+
 
 hooksecurefunc(S["DataTexts"], "Register", function()
   for _, DT in pairs(S["DataTexts"].DataTexts) do
@@ -194,6 +201,14 @@ hooksecurefunc(S["Chat"], "Enable", function()
   TukuiRightDataTextBox:ClearAllPoints()
   TukuiLeftDataTextBox:SetPoint("BOTTOMLEFT",UIParent,10,Scale(3))
   TukuiRightDataTextBox:SetPoint("BOTTOMRIGHT",UIParent,-10,Scale(3))
+end)
+
+hooksecurefunc(S["Chat"], "SetChatFramePosition", function(self)
+	local ID = self:GetID()
+	if ID == 1 then
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMLEFT", S.DataTexts.Panels.Left, "TOPLEFT", 0, 4)
+	end
 end)
 
 hooksecurefunc(S["Miscellaneous"].Experience, "Enable", function()
