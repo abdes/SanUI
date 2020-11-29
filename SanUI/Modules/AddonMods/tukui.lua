@@ -157,7 +157,7 @@ end
 S["DataTexts"]:GetDataText("Character"):HookScript("OnEvent", char_dt)
 S["DataTexts"]:GetDataText("Character"):HookScript("OnUpdate", char_dt)
 
-S.DataTexts.StatusColors[0] = "|cffFFFFFF"
+S.DataTexts.StatusColors[1] = "|cffFFFFFF"
 
 
 
