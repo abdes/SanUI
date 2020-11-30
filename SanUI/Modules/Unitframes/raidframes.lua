@@ -334,22 +334,23 @@ local function Shared(self, unit)
 	local RaidDebuffs = CreateFrame("Frame", nil, self)
 	RaidDebuffs:SetHeight(Scale(15))
 	RaidDebuffs:SetWidth(Scale(15))
-	RaidDebuffs:SetPoint("BOTTOMLEFT",auras, -S.scale2,-S.scale2)
+	RaidDebuffs:SetPoint("BOTTOMLEFT",self, 1, 1)---S.scale2,-S.scale2)
 	RaidDebuffs:SetFrameStrata(health:GetFrameStrata())
-	RaidDebuffs:SetFrameLevel(health:GetFrameLevel() + 2)
+	--HighlightTarget has + 3, we want to be above that
+	RaidDebuffs:SetFrameLevel(health:GetFrameLevel() + 4)
 	
 	RaidDebuffs:CreateBackdrop()
 	
 	RaidDebuffs.icon = RaidDebuffs:CreateTexture(nil, "OVERLAY")
 	RaidDebuffs.icon:SetTexCoord(.1,.9,.1,.9)
-	RaidDebuffs.icon:SetPoint("TOPLEFT", S.scale2, -S.scale2)
-	RaidDebuffs.icon:SetPoint("BOTTOMRIGHT", -S.scale2, S.scale2)
+	RaidDebuffs.icon:SetPoint("CENTER")
+	RaidDebuffs.icon:SetSize(Scale(14), Scale(14))
 
 	RaidDebuffs.cd = CreateFrame("Cooldown", nil, RaidDebuffs,"CooldownFrameTemplate")
-	RaidDebuffs.cd:SetPoint("TOPLEFT", S.scale2, -S.scale2)
-	RaidDebuffs.cd:SetPoint("BOTTOMRIGHT", -S.scale2, S.scale2)
+	RaidDebuffs.cd:SetAllPoints(RaidDebuffs.icon)
 	RaidDebuffs.cd.noOCC = true -- remove this line if you want cooldown number on it
 	RaidDebuffs.cd.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
+	RaidDebuffs.cd:SetReverse(true)
 	
 	RaidDebuffs.count = RaidDebuffs:CreateFontString(nil, "OVERLAY")
 	RaidDebuffs.count:SetFont(font2, 9, "THINOUTLINE")
