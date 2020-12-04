@@ -244,10 +244,14 @@ hooksecurefunc("FCF_RestorePositionAndDimensions", ChangeDefaultChatPosition)
 
 hooksecurefunc(S["Tooltips"], "SetTooltipDefaultAnchor", function(self, parent)
 	local f = _G["DetailsBaseFrame1"]
+	local f2 = _G["ChatFrame4"]
 	
 	if (f and f:IsShown()) then
 		self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 2)  
+		self:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 2)
+	elseif (f2 and f2:IsShown()) then
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMRIGHT", f2, "TOPRIGHT", 0, 2)
 	else
 		self:ClearAllPoints()
 		self:SetPoint("BOTTOMRIGHT", TukuiRightDataTextBox, 0, 2)
