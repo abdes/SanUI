@@ -29,75 +29,77 @@ end)
 
 -- Rearrange action bars
 hooksecurefunc(S["ActionBars"], "Enable", function()
-  local TukuiBar1 = S["ActionBars"].Bars.Bar1
-  local TukuiBar2 = S["ActionBars"].Bars.Bar2
-  local TukuiBar3 = S["ActionBars"].Bars.Bar3
-  local TukuiBar4 = S["ActionBars"].Bars.Bar4
-  local TukuiBar5 = S["ActionBars"].Bars.Bar5
-  local PetBar = S["ActionBars"].Bars.Pet
+	local TukuiBar1 = S["ActionBars"].Bars.Bar1
+	local TukuiBar2 = S["ActionBars"].Bars.Bar2
+	local TukuiBar3 = S["ActionBars"].Bars.Bar3
+	local TukuiBar4 = S["ActionBars"].Bars.Bar4
+	local TukuiBar5 = S["ActionBars"].Bars.Bar5
+	local PetBar = S["ActionBars"].Bars.Pet
 
-  -- Bars: Bar 1 will contain all main Buttons, Bar 2 is just moved on top of
-  -- it, background made invisible, 3 and 4 must go, Bar 5 stays at the rigt, 6
-  -- & 7 anchor to it
-  
-  local Size = C.ActionBars.NormalButtonSize
-  local Spacing = C.ActionBars.ButtonSpacing
+	-- Bars: Bar 1 will contain all main Buttons, Bar 2 is just moved on top of
+	-- it, background made invisible, 3 and 4 must go, Bar 5 stays at the rigt, 6
+	-- & 7 anchor to it
 
-  TukuiBar1:SetHeight(Size + (Spacing * 2))
-  TukuiBar1:SetWidth((Size * 24) + (Spacing * 25))
-  TukuiBar1:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 3)
-  TukuiBar1.Shadow:Kill()
+	local Size = C.ActionBars.NormalButtonSize
+	local Spacing = C.ActionBars.ButtonSpacing
 
-  TukuiBar1:HookScript("OnEvent", function(self, event, unit, ...)
-    if InCombatLockdown() then return end
+	TukuiBar1:SetHeight(Size + (Spacing * 2))
+	TukuiBar1:SetWidth((Size * 24) + (Spacing * 25))
+	TukuiBar1:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 3)
+	TukuiBar1.Shadow:Kill()
 
-    for i=1, 12 do
-      local b = _G["MultiBarBottomLeftButton"..i]
-      local c = _G["ActionButton"..13-i]
-      b:ClearAllPoints()
-      c:ClearAllPoints()
-      b:SetSize(Scale(Size), Scale(Size))
-      c:SetSize(Scale(Size), Scale(Size))
+	TukuiBar1:HookScript("OnEvent", function(self, event, unit, ...)
+	if InCombatLockdown() then return end
 
-      -- Seems contrieved, but was the only way I really could align the buttons
-      -- and ActionBar1 properly
-      if i == 1 then
-        b:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", Spacing/2, 3 + Spacing)
-        c:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", -Spacing/2, 3 + Spacing)
-      else
-        local xoff = (i-1)*Size + (i-1)* Spacing + Spacing/2
-        b:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", xoff, 3 + Spacing)
-        c:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", xoff, 3 + Spacing)
-      end
-    end
+	for i=1, 12 do
+	  local b = _G["MultiBarBottomLeftButton"..i]
+	  local c = _G["ActionButton"..13-i]
+	  b:ClearAllPoints()
+	  c:ClearAllPoints()
+	  b:SetSize(Scale(Size), Scale(Size))
+	  c:SetSize(Scale(Size), Scale(Size))
 
-  end)
+	  -- Seems contrieved, but was the only way I really could align the buttons
+	  -- and ActionBar1 properly
+	  if i == 1 then
+		b:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", Spacing/2, 3 + Spacing)
+		c:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", -Spacing/2, 3 + Spacing)
+	  else
+		local xoff = (i-1)*Size + (i-1)* Spacing + Spacing/2
+		b:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", xoff, 3 + Spacing)
+		c:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", xoff, 3 + Spacing)
+	  end
+	end
 
-  RegisterStateDriver(TukuiBar1, "visibility", "[petbattle] hide; show")
-  
-  MultiBarBottomLeft:SetParent(TukuiBar1)
+	end)
 
-  RegisterStateDriver(TukuiBar2,"visibility","hide")
-  RegisterStateDriver(TukuiBar3,"visibility","hide")
-  RegisterStateDriver(TukuiBar4,"visibility","hide")
+	RegisterStateDriver(TukuiBar1, "visibility", "[petbattle] hide; show")
 
-  TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -Scale(5), -Scale(14))
-  TukuiBar5:SetHeight(Scale((Size*12)+(Spacing*13)))
+	MultiBarBottomLeft:SetParent(TukuiBar1)
 
-  PetBar:ClearAllPoints()
-  PetBar:SetPoint("RIGHT", TukuiBar5, "LEFT", -Scale(5), 0)
-  PetBar:SetWidth(Size + Spacing*2)
-  PetBar:SetHeight(Size*NUM_PET_ACTION_SLOTS + Spacing*(NUM_PET_ACTION_SLOTS + 1))
+	if TukuiBar2 then
+		TukuiBar2:Kill()
+	end
+	
+	if TukuiBar5 then
+		TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -Scale(5), -Scale(14))
+		TukuiBar5:SetHeight(Scale((Size*12)+(Spacing*13)))
+	end
+
+	PetBar:ClearAllPoints()
+	PetBar:SetPoint("RIGHT", TukuiBar5, "LEFT", -Scale(5), 0)
+	PetBar:SetWidth(Size + Spacing*2)
+	PetBar:SetHeight(Size*NUM_PET_ACTION_SLOTS + Spacing*(NUM_PET_ACTION_SLOTS + 1))
 
 	for i = 2, NUM_PET_ACTION_SLOTS do
 		local Button = _G["PetActionButton"..i]
 		local PreviousButton = _G["PetActionButton"..i-1]
 		
-    Button:ClearAllPoints()
-    Button:SetPoint("TOP", PreviousButton, "BOTTOM", 0, -Spacing)
+	Button:ClearAllPoints()
+	Button:SetPoint("TOP", PreviousButton, "BOTTOM", 0, -Spacing)
 	end
 
-  TukuiStanceBar.Shadow:Kill()
+	TukuiStanceBar.Shadow:Kill()
 end)
 
 
