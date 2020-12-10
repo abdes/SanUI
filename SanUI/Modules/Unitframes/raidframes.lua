@@ -320,7 +320,7 @@ local function Shared(self, unit)
 		text:SetFont("Fonts\\FRIZQT__.TTF", spell.textsize)--, "THINOUTLINE")
 		text:SetPoint(unpack(spell.pos))
 		
-		text.anyCaster = true
+		text.anyCaster = spell.anyCaster
 		text.format = spell.format
 		text.res = 0.3
 		text.timers = spell.timers
