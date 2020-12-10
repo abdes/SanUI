@@ -82,7 +82,7 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	end
 	
 	if TukuiBar5 then
-		TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -Scale(5), -Scale(14))
+		TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -5, -54)
 		TukuiBar5:SetHeight(Scale((Size*12)+(Spacing*13)))
 	end
 
@@ -243,15 +243,11 @@ end
 hooksecurefunc("FCF_RestorePositionAndDimensions", ChangeDefaultChatPosition)
 
 hooksecurefunc(S["Tooltips"], "SetTooltipDefaultAnchor", function(self, parent)
-	local f = _G["DetailsBaseFrame1"]
-	local f2 = _G["ChatFrame4"]
+	local f = TukuiActionBar5
 	
 	if (f and f:IsShown()) then
 		self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 2)
-	elseif (f2 and f2:IsShown()) then
-		self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", f2, "TOPRIGHT", 0, 2)
+		self:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", -2, 0)
 	else
 		self:ClearAllPoints()
 		self:SetPoint("BOTTOMRIGHT", TukuiRightDataTextBox, 0, 2)
