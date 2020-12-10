@@ -64,6 +64,7 @@ S["UnitFrames"].TextAuras["DRUID"] = {
 		textsize = 8, 
 		format = "|cFF00FF00%u|r", 
 		timers = { { 2, "|cFFFF0000%.1f|r", 0.05}, { 4.5, "|cFFFFFF00%u|r", 0.3} },
+		anyCaster = false,
 	},
 }
 
@@ -101,8 +102,8 @@ S["UnitFrames"].RaidBuffsTracking["ALL"] = {
 	113862, -- Greater Invisibility
 	198111, -- Temporal Shield
 	198065, -- Prismatic Cloak
-	11426, -- Ice Barrier
-	235313, -- Blazing Barrier
+	--11426, -- Ice Barrier
+	--235313, -- Blazing Barrier
   --Monk
 	122783, -- Diffuse Magic
 	122278, -- Dampen Harm
@@ -491,6 +492,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[330713] = Defaults(), -- Reverberating Pain
 		[329370] = Defaults(), -- Deadly Descent
 		[336494] = Defaults(), -- Echo Screech
+		[341489] = Defaults(), -- Bloodlight
 		-- Huntsman Altimor
 		[335304] = Defaults(), -- Sinseeker
 		[334971] = Defaults(), -- Jagged Claws
@@ -498,25 +500,44 @@ S["UnitFrames"].RaidDebuffs = {
 		[335112] = Defaults(), -- Huntsman's Mark 2
 		[335113] = Defaults(), -- Huntsman's Mark 3
 		[334945] = Defaults(), -- Bloody Thrash
+		[334708] = Defaults(), -- Deathly Roar
+		[334852] = Defaults(), -- Petrifying Howl
 		-- Hungering Destroyer
-		[334228] = Defaults(), -- Volatile Ejection
+		--[334228] = Defaults(), -- Volatile Ejection
 		[329298] = Defaults(), -- Gluttonous Miasma
+		[334755] = Defaults(), -- Essence Sap
 		-- Lady Inerva Darkvein
 		[325936] = Defaults(), -- Shared Cognition
 		[335396] = Defaults(), -- Hidden Desire
 		[324983] = Defaults(), -- Shared Suffering
 		[324982] = Defaults(), -- Shared Suffering (Partner)
 		[332664] = Defaults(), -- Concentrate Anima
+		[342320] = Defaults(), -- Lightly concentrated anima
+		[342321] = Defaults(), -- Rooted in Anima
 		[325382] = Defaults(), -- Warped Desires
+		[325184] = Defaults(), -- Loose Anima
+		[342287] = Defaults(), -- Lesser Sins and Suffering
+		[331527] = Defaults(), -- Indemnification
+		[326538] = Defaults(), -- Anima Web
+		[331573] = Defaults(), -- Unconscionable Guilt
 		-- Sun King's Salvation
 		[333002] = Defaults(), -- Vulgar Brand
 		[326078] = Defaults(), -- Infuser's Boon
-		[325251] = Defaults(), -- Sin of Pride
+		[325251] = Defaults(), -- Drained Soul
+		[326456] = Defaults(), -- Burning Remnants
+		[326430] = Defaults(), -- Lingering Embers
+		[325442] = Defaults(), -- Vanquished
+		[341473] = Defaults(), -- Crimson Flurry
+		[333002] = Defaults(), -- Vulgar Brand
 		-- Artificer Xy'mox
 		[327902] = Defaults(), -- Fixate
 		[326302] = Defaults(), -- Stasis Trap
 		[325236] = Defaults(), -- Glyph of Destruction
 		[327414] = Defaults(), -- Possession
+		[328437] = Defaults(), -- Dimensional tear
+		[325361] = Defaults(), -- Glyph of Destruction
+		[340533] = Defaults(), -- Arcane Vulnerability
+		[340860] = Defaults(), -- Withering Touch
 		-- The Council of Blood
 		[327052] = Defaults(), -- Drain Essence 1
 		[327773] = Defaults(), -- Drain Essence 2
@@ -526,6 +547,14 @@ S["UnitFrames"].RaidDebuffs = {
 		[331706] = Defaults(), -- Scarlet Letter
 		[331636] = Defaults(), -- Dark Recital 1
 		[331637] = Defaults(), -- Dark Recital 2
+		[334909] = Defaults(), -- Oppressive Atmosphere
+		[346690] = Defaults(), -- Duelist's Reposte
+		[337110] = Defaults(), -- Dreadbolt Volley
+		[346681] = Defaults(), -- Soul Spikes
+		[327503] = Defaults(), -- Evasive Lunge
+		[331634] = Defaults(), -- Dark Recital
+		[346932] = Defaults(), -- Two Left Feet
+		[347350] = Defaults(), -- Dancing Fever
 		-- Sludgefist
 		[335470] = Defaults(), -- Chain Slam
 		[339181] = Defaults(), -- Chain Slam (Root)
@@ -533,6 +562,8 @@ S["UnitFrames"].RaidDebuffs = {
 		[335293] = Defaults(), -- Chain Link
 		[335270] = Defaults(), -- Chain This One!
 		[335295] = Defaults(), -- Shattering Chain
+		[335300] = Defaults(), -- Chain Link
+		[339189] = Defaults(), -- Chain Bleed
 		-- Stone Legion Generals
 		[334498] = Defaults(), -- Seismic Upheaval
 		[337643] = Defaults(), -- Unstable Footing
@@ -543,6 +574,13 @@ S["UnitFrames"].RaidDebuffs = {
 		[339690] = Defaults(), -- Crystalize
 		[342655] = Defaults(), -- Volatile Anima Infusion
 		[342698] = Defaults(), -- Volatile Anima Infection
+		[333913] = Defaults(), -- Wicked Laceration
+		[334771] = Defaults(), -- Hart Hemorrhage
+		[343881] = Defaults(), -- Serrated Tear
+		[339693] = Defaults(), -- Crystalline Burst
+		[343063] = Defaults(), -- Stone Spike
+		[342425] = Defaults(), -- Stone Fist
+		[344655] = Defaults(), -- Reverberating Vulnerability
 		-- Sire Denathrius
 		[326851] = Defaults(), -- Blood Price
 		[327796] = Defaults(), -- Night Hunter
@@ -552,5 +590,10 @@ S["UnitFrames"].RaidDebuffs = {
 		[329181] = Defaults(), -- Wracking Pain
 		[335873] = Defaults(), -- Rancor
 		[329951] = Defaults(), -- Impale
+		[327842] = Defaults(), -- Touch of the Night
+		[329875] = Defaults(), -- Carnage
+		[332585] = Defaults(), -- Scorn
+		[341391] = Defaults(), -- Searing Censure
+		[326851] = Defaults(), -- Blood Price
 
 }
