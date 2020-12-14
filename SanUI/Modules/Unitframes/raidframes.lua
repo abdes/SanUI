@@ -371,7 +371,7 @@ local function Shared(self, unit)
 	ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
 	
 	if not ORD.RegisteredSanUI then
-		S["UnitFrames"].DebuffsTracking.RaidDebuffs.spells = RaidDebuffs.Debuffs
+		S["UnitFrames"].DebuffsTracking.PvE.spells = RaidDebuffs.Debuffs
 		ORD:ResetDebuffData()
 		ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
 		ORD.RegisteredSanUI = true
