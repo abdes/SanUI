@@ -586,7 +586,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[327796] = Defaults(), -- Night Hunter
 		[327992] = Defaults(), -- Desolation
 		[328276] = Defaults(), -- March of the Penitent
-		[326699] = Defaults(), -- Burden of Sin
+		--[326699] = Defaults(), -- Burden of Sin
 		[329181] = Defaults(), -- Wracking Pain
 		[335873] = Defaults(), -- Rancor
 		[329951] = Defaults(), -- Impale
@@ -595,5 +595,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[332585] = Defaults(), -- Scorn
 		[341391] = Defaults(), -- Searing Censure
 		[326851] = Defaults(), -- Blood Price
+		[327089] = Defaults(), -- Feeding Time
+		[327039] = Defaults(), -- Feeding Time
 
 }
