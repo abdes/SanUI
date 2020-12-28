@@ -185,7 +185,7 @@ local function Shared(self, unit)
 	local Dead = self.Health:CreateFontString(nil, "OVERLAY")
 	Dead:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",-S.scale1,0)
 	Dead:SetFont(C["Medias"].Font, 11)
-	self:Tag(Dead, "[enhdead]")
+	self:Tag(Dead, "[status]")
 	self.Dead = Dead
 	
 	local RaidIcon = health:CreateTexture(nil, "OVERLAY")
