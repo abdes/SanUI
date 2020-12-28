@@ -305,16 +305,26 @@ end
 if SanUIButtonOrder["MDT"] then
 	local HackButton = CreateFrame("Frame", "MDTToggle", Menu)
 	CreateButton(HackButton, SanUIButtonOrder["MDT"])
+	
+	local is_mdt = IsAddOnLoaded("MythicDungeonTools")
+	local is_mandt = IsAddOnLoaded("ManbabyDungeonTools")
 
-	if not IsAddOnLoaded("MythicDungeonTools") then 
+	if not (is_mdt or is_mandt) then 
 		HackButton.title:SetTextColor(0.6, 0.6, 0.6)
 		HackButton.title:SetText("MDT Disabled")
 	else
 		HackButton.title:SetText("MDT")
 		
-		HackButton:SetScript("OnMouseDown", function()
-				SlashCmdList.MYTHICDUNGEONTOOLS('')
-				MenuMouseDown()
-		end)
+		if is_mdt then
+			HackButton:SetScript("OnMouseDown", function()
+					SlashCmdList.MYTHICDUNGEONTOOLS('')
+					MenuMouseDown()
+			end)
+		else --is_mandt
+			HackButton:SetScript("OnMouseDown", function()
+					SlashCmdList.MANBABYDUNGEONTOOLS('')
+					MenuMouseDown()
+			end)
+		end
 	end
 end
