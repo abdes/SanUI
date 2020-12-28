@@ -79,18 +79,17 @@ end
 local buffRows = 0
 
 local function MyBuffFrame_UpdateAllBuffAnchors()
-	local buff, previousBuff, aboveBuff,icon;
-	local numBuffs = 0
+	local buff, previousBuff, aboveBuff;
 	local hidden = 0
-	local slack = BuffFrame.numEnchants or 0
-	local inde = 0
-	buffRows = 0
+	local numEnchants = BuffFrame.numEnchants or 0
+	local idx = 0
+	buffRows = (numEnchants > 0 and 1) or 0 -- keep this, needed when no buff is shown but a temp enchant
 	
 	for i = 1, BUFF_ACTUAL_DISPLAY do
 		buff = _G["BuffButton"..i];
-		icon = _G["BuffButton"..i.."Icon"]
-		
+			
 		if not buff.Backdrop then
+			local icon = _G["BuffButton"..i.."Icon"]
 			icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 			icon:SetPoint("TOPLEFT", buff, S.scale2, -S.scale2)
 			icon:SetPoint("BOTTOMRIGHT", buff, -S.scale2, S.scale2)
@@ -99,38 +98,39 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 			local level = buff:GetFrameLevel()
 			buff:SetFrameLevel(level+1)
 			buff.Backdrop:SetFrameLevel(level)
+			buff.count:SetFontObject(NumberFontNormal)
+			buff:SetParent(BuffFrame)
 		end
 			
 		if not buff:IsShown() then
-			hidden = hidden + 1
-			numBuffs = numBuffs + 1
+			hidden = hidden + 1	
 		else
-			numBuffs = numBuffs + 1
-			inde = numBuffs + slack - hidden
-			if ( buff.parent ~= BuffFrame ) then
-				buff.count:SetFontObject(NumberFontNormal)
-				buff:SetParent(BuffFrame)
-				buff.parent = BuffFrame
-			end
-			buff:ClearAllPoints();
-			if ( (inde > 1) and (mod(inde, BUFFS_PER_ROW) == 1) ) then -- New row
+			idx = idx + 1
+			--idx = i + numEnchants - hidden
+			buff:ClearAllPoints();			
+			if idx == 1 then -- first buff we're showing
+				local lastEnchant = _G["TempEnchant"..numEnchants]
+				
+				if lastEnchant then
+					buff:SetPoint("TOPRIGHT", lastEnchant, "TOPLEFT", -S.scale4, 0)
+					aboveBuff = TempEnchant1 -- if numEnchants > 1, this exists anyways
+				else
+					buff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
+					aboveBuff = buff
+				end
+				buffRows = 1
+			elseif mod(idx + numEnchants, BUFFS_PER_ROW) == 1 then -- New row, idx is not 1
 				buffRows = buffRows + 1
 				buff:SetPoint("TOP", aboveBuff, "BOTTOM", 0, -Scale(BUFF_ROW_SPACING))
 				aboveBuff = buff
-			elseif ( inde == 1 ) then
-				buffRows = 1
-				buff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
-				aboveBuff = buff;
 			else
-				if ( numBuffs == 1 ) then
-					buff:SetPoint("TOPRIGHT", "TemporaryEnchantFrame", "TOPLEFT", -S.scale4, 0)
-				else
-					buff:SetPoint("RIGHT", previousBuff, "LEFT", -S.scale4, 0)
-				end
+				buff:SetPoint("RIGHT", previousBuff, "LEFT", -S.scale4, 0)
 			end
 			previousBuff = buff;
 		end
 	end
+
+	saf.UpdateAllDebuffAnchors()
 end
 
 local function UpdateDebuffAnchors(buttonName, index)
@@ -167,7 +167,7 @@ local function UpdateDebuffAnchors(buttonName, index)
 	end
 end
 
-local function UpdateAllDebuffAnchors()
+saf.UpdateAllDebuffAnchors = function()
 	for i = 1, DEBUFF_ACTUAL_DISPLAY do
 		UpdateDebuffAnchors("DebuffButton",i)
 	end
@@ -179,5 +179,5 @@ function saf:hookups()
 	hooksecurefunc("AuraButton_Update", HideBadBuff)
 	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
 	hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuffAnchors)
-	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",UpdateAllDebuffAnchors)
+	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", saf.UpdateAllDebuffAnchors)
 end
