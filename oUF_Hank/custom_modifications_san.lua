@@ -19,6 +19,7 @@ local playerClass = select(2, UnitClass("player"))
 
 local Scale = TukuiDB.Toolkit.Functions.Scale
 
+local S, C, L = unpack(SanUI)
 -- local backdrop = {
 	-- bgFile = TukuiCF["Medias"].Blank,
 	-- insets = {top = -TukuiDB.Mult, left = -TukuiDB.Mult, bottom = -TukuiDB.Mult, right = -TukuiDB.Mult},
@@ -203,6 +204,71 @@ oUF_Hank_hooks.ClassToT_etc = {
 sharedStyle = function(self, unit, isSingle)
 	if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "|c[classColor]\226\128\186  [smartName] @ [perhp]%|r")
 	elseif unit == "targettargettarget" then self:Tag(name, "|c[classColor]\194\187 [smartName] @ [perhp]%|r") end
+end,
+}
+
+oUF_Hank_hooks.FocusAuras = {
+sharedStyle = function(self, unit, isSingle)
+	if unit ~= "focus" then return end
+	
+	local auras = CreateFrame("Frame", nil, self)
+	auras:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, S.scale1)
+	auras:SetScale(1/cfg.FocusFrameScale)
+	auras:SetSize(36, 14)
+	auras:CreateBackdrop()
+	auras.Icons = {}
+	auras.Texts = {}
+	
+	for _, spell in pairs(S["UnitFrames"].RaidBuffsTracking[S.MyClass] or {}) do
+		local icon = CreateFrame("Frame", nil, auras)
+		icon:SetPoint(unpack(spell.pos))
+		
+		icon.spellID = spell.spellID
+		icon.anyCaster = spell.anyCaster
+		icon.timers = spell.timers
+		icon.cooldownAnim = spell.cooldownAnim	
+		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
+		icon:SetWidth(S.scale6)
+		icon:SetHeight(S.scale6)
+	
+		if icon.cooldownAnim then 
+			local cd = CreateFrame("Cooldown", nil, icon,"CooldownFrameTemplate")
+			cd:SetAllPoints(icon)
+			cd.noCooldownCount = icon.noCooldownCount or false -- needed for tullaCC to not show cooldown numbers
+			cd:SetReverse(true)
+			icon.cd = cd
+		end
+		
+		local tex = icon:CreateTexture(nil, "OVERLAY")
+		tex:SetAllPoints(icon)
+		tex:SetTexture(C.Medias.Blank)
+		tex:SetVertexColor(unpack(spell.color))
+		
+		icon.tex = tex
+		icon.color = spell.color	
+		
+		auras.Icons[spell.spellID] = icon
+		icon:Hide()
+	end
+		for _, spellID in pairs(S["UnitFrames"].RaidBuffsTracking["ALL"]) do	
+		auras.Icons[spellID] = turtle_icon
+	end
+	
+	for _, spell in ipairs(S["UnitFrames"].TextAuras[S.MyClass] or {}) do
+		local text = auras:CreateFontString(nil, "OVERLAY")
+		text:SetFont("Fonts\\FRIZQT__.TTF", spell.textsize)--, "THINOUTLINE")
+		text:SetPoint(unpack(spell.pos))
+		
+		text.anyCaster = spell.anyCaster
+		text.format = spell.format
+		text.res = 0.3
+		text.timers = spell.timers
+		
+		auras.Texts[spell.spellID] = text
+		text:Hide()
+	end
+
+	self.NotAuraTrack = auras
 end,
 }
 
