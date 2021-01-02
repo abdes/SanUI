@@ -56,17 +56,19 @@ if not S["UnitFrames"].TextAuras then
 	S["UnitFrames"].TextAuras = {}
 end
 
-S["UnitFrames"].TextAuras["DRUID"] = {
-	--Lifebloom
+S["UnitFrames"].TextAuras["DRUID"] = S["UnitFrames"].TextAuras["DRUID"] or {}
+for _, lb_id in ipairs({33763, 33778, 43421, 188550, 290754, 186371}) do
+table.insert(
+	S["UnitFrames"].TextAuras["DRUID"],
 	{
-		spellID = 33763,
+		spellID = lb_id,
 		pos = {"TOP",0,-1},
 		textsize = 8, 
 		format = "|cFF00FF00%u|r", 
 		timers = { { 2, "|cFFFF0000%.1f|r", 0.05}, { 4.5, "|cFFFFFF00%u|r", 0.3} },
 		anyCaster = false,
-	},
-}
+	})
+end
 
 -- Defensive cooldowns: Simple list of spellIDs
 S["UnitFrames"].RaidBuffsTracking["ALL"] = {
@@ -591,7 +593,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[329181] = Defaults(), -- Wracking Pain
 		[335873] = Defaults(), -- Rancor
 		[329951] = Defaults(), -- Impale
-		[327842] = Defaults(), -- Touch of the Night
+		--[327842] = Defaults(), -- Touch of the Night
 		[329875] = Defaults(), -- Carnage
 		[332585] = Defaults(), -- Scorn
 		[341391] = Defaults(), -- Searing Censure
