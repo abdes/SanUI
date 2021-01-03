@@ -57,18 +57,18 @@ if not S["UnitFrames"].TextAuras then
 end
 
 S["UnitFrames"].TextAuras["DRUID"] = S["UnitFrames"].TextAuras["DRUID"] or {}
-for _, lb_id in ipairs({33763, 33778, 43421, 188550, 290754, 186371}) do
+
 table.insert(
 	S["UnitFrames"].TextAuras["DRUID"],
 	{
-		spellID = lb_id,
+		spellID = {33763, 33778, 43421, 188550, 290754, 186371},
 		pos = {"TOP",0,-1},
 		textsize = 8, 
 		format = "|cFF00FF00%u|r", 
 		timers = { { 2, "|cFFFF0000%.1f|r", 0.05}, { 4.5, "|cFFFFFF00%u|r", 0.3} },
 		anyCaster = false,
-	})
-end
+	}
+)
 
 -- Defensive cooldowns: Simple list of spellIDs
 S["UnitFrames"].RaidBuffsTracking["ALL"] = {

@@ -325,7 +325,15 @@ local function Shared(self, unit)
 		text.res = 0.3
 		text.timers = spell.timers
 		
-		auras.Texts[spell.spellID] = text
+		if type(spell.spellID == "table") then
+			for _, id in ipairs(spell.spellID) do
+				auras.Texts[id] = text
+			end
+			text.spellIDs = spell.spellID
+		else
+			auras.Texts[spell.spellID] = text
+			text.spellID = spell.spellID
+		end
 		text:Hide()
 	end
 	

@@ -109,7 +109,14 @@ local Update = function(self, event, unit)
 			text.expiration = expiration
 			UpdateText(text, nat.lastUpdate)
 			text:Show()
-			showing.texts[spellID] = true
+			if text.spellIDs then
+			  --sharing a text between multiple spellIDs, need to register them all for being shown
+				for _, id in ipairs(text.spellIDs) do
+					showing.texts[id] = true
+				end
+			else
+				showing.texts[spellID] = true
+			end
 		end
 	end
 	
