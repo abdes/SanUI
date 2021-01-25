@@ -181,6 +181,7 @@ S["UnitFrames"].RaidDebuffs = {
 		-- Halls of Atonement
 		[319603] = Defaults(), -- Curse of Stone
 		[319611] = Defaults(), -- Turned to Stone
+		[319592] = Defaults(12), -- Stone Shattering Leap
 		[319703] = Defaults(), -- Blood Torrent
 		[323437] = Defaults(), -- Stigma of Pride
 		[323650] = Defaults(), -- Haunting Fixation
@@ -281,7 +282,7 @@ S["UnitFrames"].RaidDebuffs = {
     [333406] = Defaults(), -- Assassinate 		stacking dot
     [334926] = Defaults(), -- Wretched Phlegm 	Poison	snare
     [335090] = Defaults(), -- Crushing Embrace  		grip
-    [336258] = Defaults(), -- Solitary Prey 		debuff - after 6s will be wrapped in web
+    --[336258] = Defaults(), -- Solitary Prey 		debuff - after 6s will be wrapped in web
     [340355] = Defaults(), -- Rapid Infection 		floor debuff (increases haste)
     [344001] = Defaults(), -- Slime Trail 		unsure - floor debuff?
 		-- The Necrotic Wake
@@ -498,6 +499,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[342075] = Defaults(), -- Echolocation
 		-- Huntsman Altimor
 		[335304] = Defaults(), -- Sinseeker
+		[335114] = Defaults(), -- Sinseeker
 		[334971] = Defaults(), -- Jagged Claws
 		[335111] = Defaults(), -- Huntsman's Mark 1
 		[335112] = Defaults(), -- Huntsman's Mark 2
@@ -505,10 +507,13 @@ S["UnitFrames"].RaidDebuffs = {
 		[334945] = Defaults(), -- Bloody Thrash
 		[334708] = Defaults(), -- Deathly Roar
 		[334852] = Defaults(), -- Petrifying Howl
+		[334939] = Defaults(), -- Vicious Lunge 
+		[334960] = Defaults(), -- Vicious Wound
+		[334797] = Defaults(), -- Rip Soul
 		-- Hungering Destroyer
 		--[334228] = Defaults(), -- Volatile Ejection
 		[329298] = Defaults(), -- Gluttonous Miasma
-		[334755] = Defaults(), -- Essence Sap
+		--[334755] = Defaults(), -- Essence Sap
 		-- Lady Inerva Darkvein
 		[325936] = Defaults(), -- Shared Cognition
 		[335396] = Defaults(), -- Hidden Desire
