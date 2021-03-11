@@ -123,6 +123,17 @@ S["Modes"] = {
 		["ActionButtons"] = "SanBear",
 		["DBM"] = "SanBear", 
 	},
+	["PickerEnh"] = {
+		["raidframes"] = "SanChicken",
+		["SimpleAuraFilter"] = "PickerEnh",
+		["castbar"] = "SanBear",
+		["powerbar"] = "SanBear",
+		["gcd"] = "SanBear",
+		["bossbars"] = "SanChicken",
+		["coolline"] = "SanBear",
+		["ActionButtons"] = "SanBear",
+		["DBM"] = "PickerEnh", 
+	},
 	["SanCat"] = {
 		["raidframes"] = "SanChicken",
 		["SimpleAuraFilter"] = "SanCat",
