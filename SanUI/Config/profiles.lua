@@ -8,7 +8,7 @@ local S = unpack(addon)
 S["profiles"] = {
  ["Tavore"] = { 
 	modes = {"SanHeal","SanChicken","SanBear", "SanCat" },
-	AddonMenu = {DBM=1, Altoholic=2, Hack=3, MDT=4},
+	AddonMenu = {BigWigs=1, Altoholic=2, Hack=3, MDT=4},
  },
   ["Tamdam"] = { 
 	modes = {"SanHeal","SanChicken","SanBear", "SanCat" },

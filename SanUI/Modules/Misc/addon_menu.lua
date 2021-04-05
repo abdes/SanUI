@@ -267,6 +267,24 @@ if SanUIButtonOrder["DBM"] then
 	end
 end
 
+-----BigWigs Toggle Button----
+if SanUIButtonOrder["BigWigs"] then
+	local BWButton = CreateFrame("Frame", "BWToggle", Menu)
+	CreateButton(BWButton, SanUIButtonOrder["BigWigs"])
+
+	if not IsAddOnLoaded("BigWigs") then 
+		BWButton.title:SetTextColor(0.6, 0.6, 0.6)
+		BWButton.title:SetText("BW Disabled")
+	else
+		BWButton.title:SetText("BigWigs")
+		
+		BWButton:SetScript("OnMouseDown", function()
+				SlashCmdList.BigWigs('')
+				MenuMouseDown()
+		end)
+	end
+end
+
 -----Altoholic Button -------
 if SanUIButtonOrder["Altoholic"] then
 	local AltoholicButton = CreateFrame("Frame", "AltoholicToggle", Menu)
