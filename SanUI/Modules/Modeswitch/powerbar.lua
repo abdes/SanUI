@@ -41,6 +41,8 @@ S.switchPowerbar = function(profile)
 		Power.PostUpdate = function(self,unit, cur, min, max)
       if cur > 80 then
         Power:SetStatusBarColor(0.69, 0.31, 0.31)
+			elseif cur >= 50 and cur < 80 then
+				Power:SetStatusBarColor(0,1,1)
       elseif cur >= 30 and cur < 80 then
         Power:SetStatusBarColor(0.5,1,0)
       else
