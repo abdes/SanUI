@@ -73,11 +73,13 @@ S.switchCoolLine = function(profile)
 			[GetSpellInfo(17364) or "Sturmschlag"] = true,
 			[GetSpellInfo(60103) or "Lavapeitsche"] = true,
 			[GetSpellInfo(73680) or "Elemente entfesseln"] = true,
-			[GetSpellInfo(8042) or "Erdschock"] = true,
-			[GetSpellInfo(8050) or "Flammenschock"] = true,
+			[GetSpellInfo(188389) or "Flammenschock"] = true,
 			[GetSpellInfo(8056) or "Frostschock"] = true,
 			[GetSpellInfo(73899) or "Urtümlicher Schlag"] = true,
 			[GetSpellInfo(58861) or "Hieb"] = true,
+			[GetSpellInfo(187874) or "Crash Lightning"] = true,
+			[GetSpellInfo(115356) or "Windstrike"] = true,
+			[GetSpellInfo(197214) or "Sundering"] = true,
 		}
 		
 	elseif profile == "SahneUnholy" then

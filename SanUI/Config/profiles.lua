@@ -130,7 +130,7 @@ S["Modes"] = {
 		["powerbar"] = "SanBear",
 		["gcd"] = "SanBear",
 		["bossbars"] = "SanChicken",
-		["coolline"] = "SanBear",
+		["coolline"] = "Simplex",
 		["ActionButtons"] = "SanBear",
 		["DBM"] = "PickerEnh", 
 	},
