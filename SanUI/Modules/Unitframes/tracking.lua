@@ -538,14 +538,16 @@ S["UnitFrames"].RaidDebuffs = {
 		[341473] = Defaults(), -- Crimson Flurry
 		[333002] = Defaults(), -- Vulgar Brand
 		-- Artificer Xy'mox
-		[327902] = Defaults(), -- Fixate
+		--[327902] = Defaults(), -- Fixate
+		--[326892] = Defaults(), -- Fixate
 		[326302] = Defaults(), -- Stasis Trap
 		[325236] = Defaults(), -- Glyph of Destruction
 		[327414] = Defaults(), -- Possession
 		[328437] = Defaults(), -- Dimensional tear
 		[325361] = Defaults(), -- Glyph of Destruction
 		[340533] = Defaults(), -- Arcane Vulnerability
-		[340860] = Defaults(), -- Withering Touch
+		[340860] = Defaults(10), -- Withering Touch
+		[325399] = Defaults(), -- Hyperlight Spark
 		-- The Council of Blood
 		[327052] = Defaults(), -- Drain Essence 1
 		[327773] = Defaults(), -- Drain Essence 2
@@ -570,7 +572,7 @@ S["UnitFrames"].RaidDebuffs = {
 		--[335293] = Defaults(), -- Chain Link
 		[335270] = Defaults(), -- Chain This One!
 		[335295] = Defaults(), -- Shattering Chain
-		[335300] = Defaults(), -- Chain Link
+		--[335300] = Defaults(), -- Chain Link
 		[339189] = Defaults(), -- Chain Bleed
 		-- Stone Legion Generals
 		[334498] = Defaults(), -- Seismic Upheaval
