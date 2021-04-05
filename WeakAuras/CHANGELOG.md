@@ -1,26 +1,34 @@
-# [3.1.2](https://github.com/WeakAuras/WeakAuras2/tree/3.1.2) (2020-11-22)
+# [3.2.2](https://github.com/WeakAuras/WeakAuras2/tree/3.2.2) (2021-03-14)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.1.1...3.1.2)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.2.1...3.2.2)
 
 ## Highlights
 
- bug fixes 
+ - DBM triggers rework
+- Bug fixes 
 
 ## Commits
 
-InfusOnWoW (9):
+InfusOnWoW (2):
 
-- Remove debug code
-- Models: Use more force in PreShowModels
-- Add a Class/Spec trigger
-- Duplicate Aura: Optimize this for big dynamic groups
-- Tweak Off-Screen Arrow
-- Options Thumbnails: Use fallback icon if set
-- Templates: Add Rupture Debuff to Sub Debuffs
-- Format Options: Keep the expand/collapse state separate
-- Information: Fix nil error with multi-selection
+- Fix aura_env being unavailable in some condition checks
+- Fix Legendary ID mapping
 
-cont1nuity (1):
+Stanzilla (5):
 
-- Adding support for Plater personal resource bar anchoring (#2614)
+- Publish Classic to Wago Addons as well
+- Publish Retail to Wago Addons as well
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+
+mrbuds (7):
+
+- fix nameFunc for "Cooldown Ready (Equipment Slot)" trigger fixes #2976
+- set tocversion as an internal field for import diff
+- add DBT (DBM options) to .luacheckrc
+- DBM bars options table was moved
+- handle BigWigs_PauseBar and BigWigs_ResumeBar events
+- handle DBM_TimerPause & DBM_TimerResume callbacks fixes #2951
+- add state.paused support for timed progress auras
 
