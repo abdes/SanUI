@@ -1,34 +1,19 @@
-# [3.2.2](https://github.com/WeakAuras/WeakAuras2/tree/3.2.2) (2021-03-14)
+# [3.6.1](https://github.com/WeakAuras/WeakAuras2/tree/3.6.1) (2021-07-26)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.2.1...3.2.2)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.6.0...3.6.1)
 
 ## Highlights
 
- - DBM triggers rework
-- Bug fixes 
+ - Fix a regression in the swing timer code 
 
 ## Commits
 
-InfusOnWoW (2):
+Stanzilla (1):
 
-- Fix aura_env being unavailable in some condition checks
-- Fix Legendary ID mapping
-
-Stanzilla (5):
-
-- Publish Classic to Wago Addons as well
-- Publish Retail to Wago Addons as well
-- Update WeakAurasModelPaths from wow.tools
-- Update WeakAurasModelPaths from wow.tools
 - Update WeakAurasModelPaths from wow.tools
 
-mrbuds (7):
+mrbuds (2):
 
-- fix nameFunc for "Cooldown Ready (Equipment Slot)" trigger fixes #2976
-- set tocversion as an internal field for import diff
-- add DBT (DBM options) to .luacheckrc
-- DBM bars options table was moved
-- handle BigWigs_PauseBar and BigWigs_ResumeBar events
-- handle DBM_TimerPause & DBM_TimerResume callbacks fixes #2951
-- add state.paused support for timed progress auras
+- swing timer: not all ranged attack trigger PLAYER_ENTER_COMBAT event, fixes #3232
+- swing timer: fix not hidding after swing, fixes #3233
 
