@@ -29,6 +29,8 @@ function S.misc(self,event,arg)
 			WorldStateAlwaysUpFrame:ClearAllPoints()
 			WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
 		end
+		
+		hooksecurefunc("TalkingHeadFrame_PlayCurrent", function() TalkingHeadFrame_CloseImmediately() end)
 
 		S.disableBlizzard()
 		
