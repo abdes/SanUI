@@ -656,7 +656,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[355143] = Defaults(6), -- Deathlink
 		[350763] = Defaults(6), -- Annihilating Glare
 	-- The Nine
-		[350287] = Defaults(2), -- Song of Dissolution
+		--[350287] = Defaults(2), -- Song of Dissolution
 		[350542] = Defaults(6), -- Fragments of Destiny
 		[350202] = Defaults(3), -- Unending Strike
 		[350475] = Defaults(5), -- Pierce Soul
@@ -674,17 +674,17 @@ S["UnitFrames"].RaidDebuffs = {
 		[354479] = Defaults(6), -- Spite 2
 		[354534] = Defaults(6), -- Spite 3
 	-- Soulrender Dormazain
-		[353429] = Defaults(2), -- Tormented
+		--[353429] = Defaults(2), -- Tormented
 		[353023] = Defaults(3), -- Torment
 		[351787] = Defaults(5), -- Agonizing Spike
-		[350647] = Defaults(5), -- Brand of Torment
+		--[350647] = Defaults(5), -- Brand of Torment
 		[350422] = Defaults(6), -- Ruinblade
 		[350851] = Defaults(6), -- Vessel of Torment
-		[354231] = Defaults(6), -- Soul Manacles
+		--[354231] = Defaults(6), -- Soul Manacles
 		[348987] = Defaults(6), -- Warmonger Shackle 1
 		[350927] = Defaults(6), -- Warmonger Shackle 2
 	-- Painsmith Raznal
-		[356472] = Defaults(5), -- Lingering Flames
+		--[356472] = Defaults(5), -- Lingering Flames
 		[355505] = Defaults(6), -- Shadowsteel Chains 1
 		[355506] = Defaults(6), -- Shadowsteel Chains 2
 		[348456] = Defaults(6), -- Flameclasp Trap
@@ -705,12 +705,12 @@ S["UnitFrames"].RaidDebuffs = {
 		[353435] = Defaults(6), -- Overwhelming Burden
 		[351680] = Defaults(6), -- Invoke Destiny
 		[353432] = Defaults(6), -- Burden of Destiny
-		[353693] = Defaults(6), -- Unstable Accretion
+		--[353693] = Defaults(6), -- Unstable Accretion
 		[350355] = Defaults(6), -- Fated Conjunction
-		[353931] = Defaults(2), -- Twist Fate
+		--[353931] = Defaults(2), -- Twist Fate
 	-- Kel'Thuzad
-		[346530] = Defaults(2), -- Frozen Destruction
-		[354289] = Defaults(2), -- Sinister Miasma
+		--[346530] = Defaults(2), -- Frozen Destruction
+		--[354289] = Defaults(2), -- Sinister Miasma
 		[347454] = Defaults(6), -- Oblivion's Echo 1
 		[347518] = Defaults(6), -- Oblivion's Echo 2
 		[347292] = Defaults(6), -- Oblivion's Echo 3
@@ -732,4 +732,5 @@ S["UnitFrames"].RaidDebuffs = {
 		[351092] = Defaults(6), -- Destabilize 1
 		[351091] = Defaults(6), -- Destabilize 2
 		[348064] = Defaults(6), -- Wailing Arrow
+		[353929] = Defaults(8), -- Banshee's Bane
 }
