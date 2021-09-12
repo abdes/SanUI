@@ -30,8 +30,6 @@ function S.misc(self,event,arg)
 			WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
 		end
 		
-		hooksecurefunc("TalkingHeadFrame_PlayCurrent", function() TalkingHeadFrame_CloseImmediately() end)
-
 		S.disableBlizzard()
 		
 		addon.saf:hookups()
@@ -88,21 +86,6 @@ function S.misc(self,event,arg)
 			-- just start empty, switch2Mode will take care of it
 			addon.saf.filters = { }
 		end	
-		
-		-- Hide the annoying taling head frame, together with the audio and the
-		-- chat lines
-		if name == "Blizzard_TalkingHeadUI" then
-			hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
-				--Query subzone text when the talkinghead plays
-				zoneName = GetSubZoneText();
-				--If we are not doing withered training, suppress the talkinghead
-				if zoneName ~= "Temple of Fal'adora" and
-				   zoneName ~= "Falanaar Tunnels" and
-				   zoneName ~= "Shattered Locus" then
-					TalkingHeadFrame_CloseImmediately()
-				end
-			end)
-		end
 	end
 	
 end
