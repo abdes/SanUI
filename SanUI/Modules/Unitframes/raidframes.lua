@@ -188,10 +188,10 @@ local function Shared(self, unit)
 	self:Tag(Dead, "[status]")
 	self.Dead = Dead
 	
-	local RaidIcon = health:CreateTexture(nil, "OVERLAY")
+	local RaidIcon = HighlightTarget:CreateTexture(nil, "OVERLAY")
 	RaidIcon:SetHeight(Scale(16))
 	RaidIcon:SetWidth(Scale(16))
-	RaidIcon:SetPoint("CENTER", self, "TOP",-Scale(12),-Scale(4))
+	RaidIcon:SetPoint("CENTER", self, "TOP",-Scale(12),-Scale(2))
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
 	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	self.RaidTargetIndicator  = RaidIcon
