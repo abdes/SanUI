@@ -57,6 +57,7 @@ function S.misc(self,event,arg)
 			S.weakAurasDialog(sanui_version, SanUIdb.addedWeakAuras)
 		end
 		
+		UIParent:UnregisterEvent("TALKINGHEAD_REQUESTED")
 	end
 		
 	if(event == "ADDON_LOADED") then
