@@ -242,13 +242,12 @@ local ChangeDefaultChatPosition = function(frame)
 end
 hooksecurefunc("FCF_RestorePositionAndDimensions", ChangeDefaultChatPosition)
 
---hooksecurefunc(S["Tooltips"], "SetTooltipDefaultAnchor", 
-hooksecurefunc("GameTooltip_SetDefaultAnchor", function(self, parent)
+hooksecurefunc(S["Tooltips"], "SetTooltipDefaultAnchor", function(self, parent)
+--hooksecurefunc("GameTooltip_SetDefaultAnchor", function(self, parent)
 	local f = TukuiActionBar5
-	
 	if (f and f:IsShown()) then
 		self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", -2, 0)
+		self:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", -4, 0)
 	else
 		self:ClearAllPoints()
 		self:SetPoint("BOTTOMRIGHT", TukuiRightDataTextBox, 0, 2)
