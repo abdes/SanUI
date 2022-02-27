@@ -31,6 +31,21 @@ assert(oUF, "oUF_NotAuraTrack cannot find an instance of oUF. If your oUF is emb
 
 local UnitAura = UnitAura
 
+-- key for swiftmend, will get special treatment
+local smid = 18562
+local rjname = GetSpellInfo(774) --rejuvenation
+local rgname = GetSpellInfo(8936) --regrowth
+local wgname = GetSpellInfo(48438) -- wild growth
+local germname = GetSpellInfo(155777) --germination
+local rbloomname = GetSpellInfo(364365) -- renewing bloom, 4pc tier set bonus
+local smhots = {
+	[rjname] = true,
+	[rgname] = true,
+	[wgname] = true,
+	[germname] = true,
+	[rbloomname] = true,
+}
+
 local function UpdateText(text, current_time)
 	local buf_remaining = text.expiration - current_time
 	
@@ -57,7 +72,6 @@ local function UpdateText(text, current_time)
 	end
 end
 
-
 local Update = function(self, event, unit)
 	if self.unit ~= unit then
 		return
@@ -68,14 +82,27 @@ local Update = function(self, event, unit)
 	local icons = nat.Icons
 	local texts = nat.Texts
 	local showing = { icons = {}, texts = {} }
+	local swiftmendable = false
 	
-	for i = 1, 40 do
+	-- lets da 41 so we have at least one nil return value for UnitAura so we can
+	-- handle swiftmend in all cases
+	for i = 1, 41 do
 		local name, texture, count, debuffType, duration, expiration, caster, isStealable,
 			nameplateShowSelf, spellID, canApply, isBossDebuff, casterIsPlayer, nameplateShowAll,
 			timeMod, effect1, effect2, effect3 = UnitAura(unit, i, "HELPFUL")
 		
-		if not name then break end
+		if not name then 
+			if not swiftmendable or showing.icons[icons[smid]] then
+				break
+			end
+			spellID = smid
+			caster = "player" -- otherwise icon isn't shown
+		end
 		
+		if smhots[name] then
+			swiftmendable = true
+		end
+				
 		local icon = icons[spellID]
 		if  icon and (icon.anyCaster or caster == "player") then	
 			if icon.setTex then
@@ -119,7 +146,6 @@ local Update = function(self, event, unit)
 			end
 		end
 	end
-	
 
 	for spellID, icon in pairs(icons) do
 		if not showing.icons[icon] then

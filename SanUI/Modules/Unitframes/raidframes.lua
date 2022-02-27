@@ -336,6 +336,12 @@ local function Shared(self, unit)
 		end
 		text:Hide()
 	end
+
+	-- special: Showing regrowth (8936) AND swiftmend (18562), so put
+	-- regrowth's icon above swiftmend's
+	if auras.Icons[8936] and auras.Icons[18562] then
+		auras.Icons[8936]:SetFrameLevel(auras.Icons[18562]:GetFrameLevel()+1)
+	end
 	
 	self.NotAuraTrack = auras
 

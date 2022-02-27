@@ -50,6 +50,13 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
     anyCaster = false,
     timers = { {2, {1, 0, 0}}, {3.6, {1, 1, 0}} }
   },
+	-- swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
+	{
+		spellID = 18562,
+		pos = {"TOPLEFT",0,-Scale(7)},
+		color = {1,1,1},
+		anyCaster = false,
+	}, 
 }
 
 if not S["UnitFrames"].TextAuras then
