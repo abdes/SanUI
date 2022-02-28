@@ -743,4 +743,63 @@ S["UnitFrames"].RaidDebuffs = {
 		[348064] = Defaults(6), -- Wailing Arrow
 		[353929] = Defaults(8), -- Banshee's Bane
 		[358708] = Defaults(10), -- Black Arrow
+	----------------------------------------------------------
+	-------------- Sepulcher of the First Ones ---------------
+	----------------------------------------------------------
+	-- Vigilant Guardian
+		[360403] = Defaults(2), -- Force Field
+		[364447] = Defaults(3), -- Dissonance
+		[364904] = Defaults(6), -- Anti-Matter
+		[364881] = Defaults(5), -- Matter Disolution
+		[360415] = Defaults(5), -- Defenseless
+		[360412] = Defaults(4), -- Exposed Core
+		[366393] = Defaults(5), -- Searing Ablation
+	-- Skolex, the Insatiable Ravener
+		[364522] = Defaults(2), -- Devouring Blood
+		[359976] = Defaults(2), -- Riftmaw
+		[359981] = Defaults(2), -- Rend
+		[360098] = Defaults(3), -- Warp Sickness
+		[366070] = Defaults(3), -- Volatile Residue
+	-- Artificer Xy'mox
+		[362850] = Defaults(2), -- Hyperlight Sparknova
+		[364030] = Defaults(3), -- Debilitating Ray
+		[365681] = Defaults(2), -- System Shock
+		[363413] = Defaults(4), -- Forerunner Rings A
+		[364604] = Defaults(4), -- Forerunner Rings B
+		[362615] = Defaults(6), -- Interdimensional Wormhole Player 1
+		[362614] = Defaults(6), -- Interdimensional Wormhole Player 2
+		[362803] = Defaults(5), -- Glyph of Relocation
+	-- Dausegne, The Fallen Oracle
+		[361751] = Defaults(2), -- Disintegration Halo
+		[364289] = Defaults(2), -- Staggering Barrage
+		[361018] = Defaults(2), -- Staggering Barrage Mythic 1
+		[360960] = Defaults(2), -- Staggering Barrage Mythic 2
+		[361225] = Defaults(2), -- Encroaching Dominion
+		[361966] = Defaults(2), -- Infused Strikes
+	-- Prototype Pantheon
+		[365306] = Defaults(2), -- Invigorating Bloom
+		[361608] = Defaults(3), -- Burden of Sin
+		[361689] = Defaults(3), -- Wracking Pain
+		[366232] = Defaults(4), -- Animastorm
+		[364839] = Defaults(4), -- Sinful Projection
+	-- Lihuvim, Principle Architect
+		[360159] = Defaults(5), -- Unstable Protoform Energy
+		[363681] = Defaults(3), -- Deconstructing Blast
+		[363676] = Defaults(4), -- Deconstructing Energy Player 1
+		[363795] = Defaults(4), -- Deconstructing Energy Player 2
+		[464312] = Defaults(5), -- Ephemeral Barrier
+	-- Halondrus the Reclaimer
+		[361309] = Defaults(3), -- Lightshatter Beam
+		[361002] = Defaults(4), -- Ephemeral Fissure
+		[360114] = Defaults(4), -- Ephemeral Fissure II
+	-- Anduin Wrynn
+		[365293] = Defaults(2), -- Befouled Barrier
+		[361817] = Defaults(3), -- Hopebreaker
+		[363020] = Defaults(3), -- Necrotic Claws
+		[365021] = Defaults(4), -- Wicked Star
+		[365445] = Defaults(3), -- Scarred Soul
+		[365008] = Defaults(4), -- Psychic Terror
+	-- Lords of Dread
+	-- Rygelon
+	-- The Jailer
 }
