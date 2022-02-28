@@ -58,6 +58,10 @@ function S.misc(self,event,arg)
 		end
 		
 		UIParent:UnregisterEvent("TALKINGHEAD_REQUESTED")
+		hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
+			TalkingHeadFrame:Hide()
+		end)
+
 	end
 		
 	if(event == "ADDON_LOADED") then
