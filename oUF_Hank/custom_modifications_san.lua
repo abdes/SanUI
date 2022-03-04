@@ -293,8 +293,8 @@ oUF_Hank_hooks.HealthColored = {
 			end
 
 			if UnitIsConnected(self.unit) and not UnitIsGhost(self.unit) and not UnitIsDead(self.unit) then
-				for i = self.unit:find("boss") and 4 or 1, 4 do
-					self.healthFill[5 - i]:SetVertexColor(1 - h / hMax, h / hMax, 0)
+				for i = self.unit:find("boss") and 3 or 1, 3 do
+					self.healthFill[4 - i]:SetVertexColor(1 - h / hMax, h / hMax, 0)
 				end
 			end
 		end
@@ -322,7 +322,8 @@ sharedStyle = function(self, unit, isSingle)
 					local nr_ClassPower = #oUF_player.ClassPower
 					castbar:SetPoint("TOPRIGHT", self.ClassPower[nr_ClassPower]:GetParent(), "BOTTOMRIGHT", 0, Scale(-2))
 				else
-					castbar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", Scale(2), Scale(-20))
+					castbar:ClearAllPoints()
+					castbar:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, Scale(-20))
 				end
 				castbar:SetHeight(Scale(15))
 				castbar:SetWidth(Scale(150))
@@ -333,7 +334,7 @@ sharedStyle = function(self, unit, isSingle)
 			elseif (unit == "focus") then
 				castbar:SetHeight(Scale(22))
 				castbar:SetWidth(Scale(200))
-				castbar:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",-Scale(22),0)
+				castbar:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",0,0)
 			end
 		end
 		
@@ -501,12 +502,12 @@ sharedStyle = function(self, unit, isSingle)
 
 	if (unit == "focus") then	
 		
-		for i=1,4 do
+		for i=1,3 do
 			self.health[i]:ClearAllPoints()
 		end
 		
-		self.health[4]:SetPoint("RIGHT")
-		self.health[3]:SetPoint("RIGHT", self.health[4], "LEFT")
+		self.health[3]:SetPoint("RIGHT")
+		--self.health[3]:SetPoint("RIGHT", self.health[4], "LEFT")
 		self.health[2]:SetPoint("RIGHT", self.health[3], "LEFT")
 		self.health[1]:SetPoint("RIGHT", self.health[2], "LEFT")
 		
@@ -558,34 +559,34 @@ UpdateHealth = function(self)
 	local status = (not UnitIsConnected(self.unit) or nil) and "Off" or UnitIsGhost(self.unit) and "G" or UnitIsDead(self.unit) and "X"
 	
 	if not status then
-		local hPerc = ("%d%%"):format(h / hMax * 100 + 0.5)
+		local hPerc = ("%d"):format(h / hMax * 100 + 0.5)
 		local len = string.len(hPerc)
 		
-		for i = 1, 4 do
+		for i = 1, 3 do
 				if i > len then
-					self.health[5 - i]:Hide()
-					self.healthFill[5 - i]:Hide()
+					self.health[4 - i]:Hide()
+					self.healthFill[4 - i]:Hide()
 				else
 					local digit = string.sub(hPerc , -i, -i)
 					
-					self.health[5 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"])
-					self.health[5 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
-					self.health[5 - i]:Show()
-					self.healthFill[5 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"] * h / hMax)
-					self.healthFill[5 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], (2 + 2 * oUF_Hank.digitTexCoords["height"] - oUF_Hank.digitTexCoords["height"] * h / hMax) / oUF_Hank.digitTexCoords["texHeight"], (2 + 2 * oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
-					self.healthFill[5 - i]:Show()
+					self.health[4 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"])
+					self.health[4 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
+					self.health[4 - i]:Show()
+					self.healthFill[4 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"] * h / hMax)
+					self.healthFill[4 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], (2 + 2 * oUF_Hank.digitTexCoords["height"] - oUF_Hank.digitTexCoords["height"] * h / hMax) / oUF_Hank.digitTexCoords["texHeight"], (2 + 2 * oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
+					self.healthFill[4 - i]:Show()
 				end
 			end
 			
 			
 		
 		self.power:ClearAllPoints()
-		self.power:SetPoint("BOTTOMRIGHT", self.health[5-len], "BOTTOMLEFT", 0, 0)
+		self.power:SetPoint("BOTTOMRIGHT", self.health[4-len], "BOTTOMLEFT", 0, 0)
 	
 	else
 		
 		self.power:ClearAllPoints()
-		self.power:SetPoint("BOTTOMRIGHT", self.health[4], "BOTTOMLEFT", 0, 0)
+		self.power:SetPoint("BOTTOMRIGHT", self.health[3], "BOTTOMLEFT", 0, 0)
 		
 	end
 end,

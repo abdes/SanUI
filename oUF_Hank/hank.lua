@@ -211,7 +211,7 @@ oUF_Hank.UpdateHealth = function(self)
 	local status = (not UnitIsConnected(self.unit) or nil) and "Off" or UnitIsGhost(self.unit) and "G" or UnitIsDead(self.unit) and "X"
 
 	if not status then
-		local hPerc = ("%d%%"):format(h / hMax * 100 + 0.5)
+		local hPerc = ("%d"):format(h / hMax * 100 + 0.5)
 		local len = strlen(hPerc)
 
 		if self.unit:find("boss") then
@@ -227,10 +227,10 @@ oUF_Hank.UpdateHealth = function(self)
 			)
 			self.healthFill[1]:Show()
 		else
-			for i = 1, 4 do
+			for i = 1, 3 do
 				if i > len then
-					self.health[5 - i]:Hide()
-					self.healthFill[5 - i]:Hide()
+					self.health[4 - i]:Hide()
+					self.healthFill[4 - i]:Hide()
 				else
 					local digit
 					if self == oUF_player then
@@ -238,19 +238,19 @@ oUF_Hank.UpdateHealth = function(self)
 					elseif self == oUF_target or self == oUF_focus then
 						digit = strsub(hPerc , i, i)
 					end
-					self.health[5 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"])
-					self.health[5 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
-					self.health[5 - i]:Show()
-					self.healthFill[5 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"] * h / hMax)
-					self.healthFill[5 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], (2 + 2 * oUF_Hank.digitTexCoords["height"] - oUF_Hank.digitTexCoords["height"] * h / hMax) / oUF_Hank.digitTexCoords["texHeight"], (2 + 2 * oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
-					self.healthFill[5 - i]:Show()
+					self.health[4 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"])
+					self.health[4 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
+					self.health[4 - i]:Show()
+					self.healthFill[4 - i]:SetSize(oUF_Hank.digitTexCoords[digit][2], oUF_Hank.digitTexCoords["height"] * h / hMax)
+					self.healthFill[4 - i]:SetTexCoord(oUF_Hank.digitTexCoords[digit][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[digit][1] + oUF_Hank.digitTexCoords[digit][2]) / oUF_Hank.digitTexCoords["texWidth"], (2 + 2 * oUF_Hank.digitTexCoords["height"] - oUF_Hank.digitTexCoords["height"] * h / hMax) / oUF_Hank.digitTexCoords["texHeight"], (2 + 2 * oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
+					self.healthFill[4 - i]:Show()
 				end
 			end
 
 			if self == oUF_player then
-				self.power:SetPoint("BOTTOMRIGHT", self.health[5 - len], "BOTTOMLEFT", -Scale(5), 0)
+				self.power:SetPoint("BOTTOMRIGHT", self.health[4 - len], "BOTTOMLEFT", -Scale(5), 0)
 			elseif self == oUF_target or self == oUF_focus then
-				self.power:SetPoint("BOTTOMLEFT", self.health[5 - len], "BOTTOMRIGHT", Scale(5), 0)
+				self.power:SetPoint("BOTTOMLEFT", self.health[4 - len], "BOTTOMRIGHT", Scale(5), 0)
 			end
 		end
 	else
@@ -260,19 +260,19 @@ oUF_Hank.UpdateHealth = function(self)
 			self.health[1]:SetTexCoord(oUF_Hank.digitTexCoords[status][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[status][1] + oUF_Hank.digitTexCoords[status][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
 			self.health[1]:Show()
 		else
-			for i = 1, 4 do
+			for i = 1, 3 do
 				self.healthFill[i]:Hide()
 				self.health[i]:Hide()
 			end
 
-			self.health[4]:SetSize(oUF_Hank.digitTexCoords[status][2], oUF_Hank.digitTexCoords["height"])
-			self.health[4]:SetTexCoord(oUF_Hank.digitTexCoords[status][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[status][1] + oUF_Hank.digitTexCoords[status][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
-			self.health[4]:Show()
+			self.health[3]:SetSize(oUF_Hank.digitTexCoords[status][2], oUF_Hank.digitTexCoords["height"])
+			self.health[3]:SetTexCoord(oUF_Hank.digitTexCoords[status][1] / oUF_Hank.digitTexCoords["texWidth"], (oUF_Hank.digitTexCoords[status][1] + oUF_Hank.digitTexCoords[status][2]) / oUF_Hank.digitTexCoords["texWidth"], 1 / oUF_Hank.digitTexCoords["texHeight"], (1 + oUF_Hank.digitTexCoords["height"]) / oUF_Hank.digitTexCoords["texHeight"])
+			self.health[3]:Show()
 
 			if self == oUF_player then
-				self.power:SetPoint("BOTTOMRIGHT", self.health[4], "BOTTOMLEFT", -Scale(5), 0)
+				self.power:SetPoint("BOTTOMRIGHT", self.health[3], "BOTTOMLEFT", -Scale(5), 0)
 			elseif self == oUF_target or self == oUF_focus then
-				self.power:SetPoint("BOTTOMLEFT", self.health[4], "BOTTOMRIGHT", Scale(5), 0)
+				self.power:SetPoint("BOTTOMLEFT", self.health[3], "BOTTOMRIGHT", Scale(5), 0)
 			end
 		end
 	end
@@ -625,7 +625,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		-- Thanks @ pelim for this approach
 		tinsert(self.__elements, oUF_Hank.UpdateHealth)
 
-		for i = unit:find("boss") and 1 or 4, 1, -1 do
+		for i = unit:find("boss") and 1 or 3, 1, -1 do
 			health[i] = self:CreateTexture(nil, "ARTWORK")
 			health[i]:SetTexture("Interface\\AddOns\\oUF_Hank\\textures\\digits.blp")
 			health[i]:Hide()
@@ -636,21 +636,21 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		end
 
 		if unit == "player" then
-			health[4]:SetPoint("RIGHT")
-			health[3]:SetPoint("RIGHT", health[4], "LEFT")
+			health[3]:SetPoint("RIGHT")
+			--health[3]:SetPoint("RIGHT", health[4], "LEFT")
 			health[2]:SetPoint("RIGHT", health[3], "LEFT")
 			health[1]:SetPoint("RIGHT", health[2], "LEFT")
 		elseif unit == "target" or unit == "focus" then
-			health[4]:SetPoint("LEFT")
-			health[3]:SetPoint("LEFT", health[4], "RIGHT")
+			health[3]:SetPoint("LEFT")
 			health[2]:SetPoint("LEFT", health[3], "RIGHT")
 			health[1]:SetPoint("LEFT", health[2], "RIGHT")
+			--health[1]:SetPoint("LEFT", health[2], "RIGHT")
 		elseif unit:find("boss") then
 			health[1]:SetPoint("RIGHT")
 		end
 
 		if not unit:find("boss") then
-			healthFill[4]:SetPoint("BOTTOM", health[4])
+			--healthFill[4]:SetPoint("BOTTOM", health[4])
 			healthFill[3]:SetPoint("BOTTOM", health[3])
 			healthFill[2]:SetPoint("BOTTOM", health[2])
 		end
@@ -670,8 +670,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		power = self:CreateFontString(nil, "OVERLAY")
 		power:SetFontObject("UFFontMedium")
 
-		if unit == "player" then power:SetPoint("BOTTOMRIGHT", health[4], "BOTTOMLEFT", -5, 0)
-		elseif unit == "target" or unit == "focus" then power:SetPoint("BOTTOMLEFT", health[4], "BOTTOMRIGHT", 5, 0)
+		if unit == "player" then power:SetPoint("BOTTOMRIGHT", health[3], "BOTTOMLEFT", -5, 0)
+		elseif unit == "target" or unit == "focus" then power:SetPoint("BOTTOMLEFT", health[3], "BOTTOMRIGHT", 5, 0)
 		elseif unit:find("boss") then power:SetPoint("BOTTOMRIGHT", health[1], "BOTTOMLEFT", -5, 0) end
 
 		if unit == "player" then self:Tag(power, "[ppDetailed]")
@@ -701,8 +701,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		name = self:CreateFontString(nil, "OVERLAY")
 		name:SetFontObject("UFFontSmall")
 		name:SetPoint("LEFT")
-		if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "\226\128\186  [smartName] @[perhp]%")
-		elseif unit == "targettargettarget" then self:Tag(name, "\194\187 [smartName] @[perhp]%") end
+		if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "\226\128\186  [smartName] @[perhp]")
+		elseif unit == "targettargettarget" then self:Tag(name, "\194\187 [smartName] @[perhp]") end
 	end
 
 	self.name = name

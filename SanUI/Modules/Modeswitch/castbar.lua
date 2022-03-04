@@ -50,7 +50,7 @@ S.switchCastbar = function(profile)
 				local nr_classicons = #oUF_player.ClassPower
 				cb:SetPoint("TOPRIGHT", oUF_player.ClassPower[nr_classicons]:GetParent(), "BOTTOMRIGHT", 0, -S.scale2)
 			else
-				cb:SetPoint("TOPLEFT", oUF_player, "BOTTOMLEFT", S.scale2, Scale(disp_y))
+				cb:SetPoint("TOPRIGHT", oUF_player, "BOTTOMRIGHT", -5, Scale(disp_y))
 			end
 			
 			cb.button:SetPoint("TOPRIGHT",cb.bg,"TOPLEFT",-S.scale2,0)
