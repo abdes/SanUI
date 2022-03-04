@@ -793,12 +793,13 @@ S["UnitFrames"].RaidDebuffs = {
 		[361002] = Defaults(4), -- Ephemeral Fissure
 		[360114] = Defaults(4), -- Ephemeral Fissure II
 	-- Anduin Wrynn
-		[365293] = Defaults(2), -- Befouled Barrier
-		[361817] = Defaults(3), -- Hopebreaker
+		--[365293] = Defaults(2), -- Befouled Barrier
+		--[361817] = Defaults(3), -- Hopebreaker
 		[363020] = Defaults(3), -- Necrotic Claws
 		[365021] = Defaults(4), -- Wicked Star
-		[365445] = Defaults(3), -- Scarred Soul
+		--[365445] = Defaults(3), -- Scarred Soul
 		[365008] = Defaults(4), -- Psychic Terror
+		[366849] = Defaults(6), -- Domination Word: Pain
 	-- Lords of Dread
 	-- Rygelon
 	-- The Jailer
