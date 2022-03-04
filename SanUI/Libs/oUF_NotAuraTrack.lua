@@ -84,7 +84,7 @@ local Update = function(self, event, unit)
 	local showing = { icons = {}, texts = {} }
 	local swiftmendable = false
 	
-	-- lets da 41 so we have at least one nil return value for UnitAura so we can
+	-- lets do 41 so we have at least one nil return value for UnitAura so we can
 	-- handle swiftmend in all cases
 	for i = 1, 41 do
 		local name, texture, count, debuffType, duration, expiration, caster, isStealable,
@@ -98,12 +98,13 @@ local Update = function(self, event, unit)
 			spellID = smid
 			caster = "player" -- otherwise icon isn't shown
 		end
-		
-		if smhots[name] then
-			swiftmendable = true
-		end
 				
 		local icon = icons[spellID]
+		
+		if smhots[name] and (icon.anyCaster or caster == "player") then
+			swiftmendable = true
+		end
+		
 		if  icon and (icon.anyCaster or caster == "player") then	
 			if icon.setTex then
 				icon.tex:SetTexture(texture)
