@@ -58,7 +58,16 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
 		color = {1,1,1},
 		anyCaster = false,
 	}, 
-	-- adaptive swarm 325727		count = { size = 9}
+	-- adaptive swarm
+	{
+	  spellID = 325748,
+    pos = {"BOTTOM", 0, 0},
+    color = {153/255, 102/255, 0},
+    anyCaster = false,
+    count = { size = 9 },
+		cooldownAnim = true
+
+  },
 }
 
 if not S["UnitFrames"].TextAuras then
