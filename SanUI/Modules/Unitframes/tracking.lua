@@ -16,7 +16,7 @@ end
 -- .cooldownAnim If truthy, show a cooldown sweep animation
 -- .timers Array (table indexed by integers) of timers. A timer is a table of the form { time, { r, g, b} }, where the icon texture 
 --         is colored by SetVertexColor(r, g, b) if the remaining duration of the buff is <time. The first one matching wins.
-
+-- .count Table { size } where size is fontsize
 S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Rejuvenation
 	{
@@ -24,7 +24,8 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
     pos = {"TOPLEFT", 0, 0},
     color = {0.4, 0.8, 0.2},
     anyCaster = false,
-    timers = { {2, {1, 0, 0}}, {4.5, {1, 1, 0}} }
+    timers = { {2, {1, 0, 0}}, {4.5, {1, 1, 0}} },
+
   },
   -- Germination
 	{
@@ -57,6 +58,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
 		color = {1,1,1},
 		anyCaster = false,
 	}, 
+	-- adaptive swarm 325727		count = { size = 9}
 }
 
 if not S["UnitFrames"].TextAuras then

@@ -264,7 +264,7 @@ local function Shared(self, unit)
 		icon.spellID = spell.spellID
 		icon.anyCaster = spell.anyCaster
 		icon.timers = spell.timers
-		icon.cooldownAnim = spell.cooldownAnim	
+		icon.cooldownAnim = spell.cooldownAnim
 		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
 		icon:SetWidth(S.scale6)
 		icon:SetHeight(S.scale6)
@@ -275,6 +275,13 @@ local function Shared(self, unit)
 			cd.noCooldownCount = icon.noCooldownCount or false -- needed for tullaCC to not show cooldown numbers
 			cd:SetReverse(true)
 			icon.cd = cd
+		end
+		
+		if spell.count then
+			icon.count = icon:CreateFontString(nil, "OVERLAY")
+			icon.count:SetFont(font1, spell.count.size, "THINOUTLINE")
+			icon.count:SetPoint("LEFT", icon, "RIGHT", 0, 0)
+			icon.count:SetTextColor(1, 1, 1)	
 		end
 		
 		local tex = icon:CreateTexture(nil, "OVERLAY")

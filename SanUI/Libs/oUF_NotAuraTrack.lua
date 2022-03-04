@@ -18,7 +18,7 @@ assert(oUF, "oUF_NotAuraTrack cannot find an instance of oUF. If your oUF is emb
 			.color (optional) The color of the texture (leave nil for showing images)
 			.timers (optional) Array (table indexed by integers) of timers. A timer is a table of the form { time, { r, g, b} }, where the icon texture 
 		            is colored by SetVertexColor(r, g, b) if the remaining duration of the buff is <time. The first one matching wins.
-				
+			.count (optional) Fontstring, will be set the the number of stacks (if > 1)	
 	.Texts Table of FontString instances to show
 		Keys: spellID
 		Values: Tables with the following Keys:
@@ -112,6 +112,10 @@ local Update = function(self, event, unit)
 
 			if icon.cd then
 				icon.cd:SetCooldown(expiration - duration, duration)
+			end
+			
+			if count ~= nil and icon.count then
+				icon.count:SetText(count)
 			end
 			
 			local color = icon.color
