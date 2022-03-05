@@ -31,7 +31,7 @@ end)
 hooksecurefunc(S["ActionBars"], "Enable", function()
 	local TukuiBar1 = S["ActionBars"].Bars.Bar1
 	local TukuiBar2 = S["ActionBars"].Bars.Bar2
-	local TukuiBar3 = S["ActionBars"].Bars.Bar3
+	local TukuiBar3 = TukuiActionBar3
 	local TukuiBar4 = S["ActionBars"].Bars.Bar4
 	local TukuiBar5 = S["ActionBars"].Bars.Bar5
 	local PetBar = S["ActionBars"].Bars.Pet
@@ -85,7 +85,13 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 		TukuiBar5:SetPoint("RIGHT", UIParent, "RIGHT", -5, -54)
 		TukuiBar5:SetHeight(Scale((Size*12)+(Spacing*13)))
 	end
-
+	
+	if TukuiBar3 then
+		TukuiBar3:ClearAllPoints()
+		TukuiBar3:SetPoint("BOTTOMRIGHT", CoolLine, "TOPRIGHT", 0, 2)
+		--TukuiBar5:SetHeight(Scale((Size*12)+(Spacing*13)))
+	end
+	
 	PetBar:ClearAllPoints()
 	PetBar:SetPoint("RIGHT", TukuiBar5, "LEFT", -Scale(5), 0)
 	PetBar:SetWidth(Size + Spacing*2)

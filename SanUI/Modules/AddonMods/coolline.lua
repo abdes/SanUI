@@ -29,8 +29,8 @@ function S.modCoolLine(event)
 	if S["ActionBars"].Bars.Bar1 then
 		hooksecurefunc(CoolLine, "updatelook", function()
 			CoolLine:ClearAllPoints()
-			CoolLine:SetPoint("BOTTOMLEFT",S["ActionBars"].Bars.Bar1,"TOPLEFT",0,Scale(3))
-			CoolLine:SetPoint("BOTTOMRIGHT",S["ActionBars"].Bars.Bar1,"TOPRIGHT",0,Scale(3))
+			CoolLine:SetPoint("BOTTOMLEFT",S["ActionBars"].Bars.Bar1,"TOPLEFT",0,Scale(2))
+			CoolLine:SetPoint("BOTTOMRIGHT",S["ActionBars"].Bars.Bar1,"TOPRIGHT",0,Scale(2))
 			S.placeStanceBar()
 		end)
 	end
@@ -50,7 +50,7 @@ end
 function S.placeStanceBar()
 	if TukuiStanceBar and CoolLine.Backdrop then
 		TukuiStanceBar:ClearAllPoints()
-		TukuiStanceBar:SetPoint("BOTTOMLEFT",CoolLine.Backdrop,"TOPLEFT",0,Scale(3))
+		TukuiStanceBar:SetPoint("BOTTOMLEFT",CoolLine.Backdrop,"TOPLEFT",0,Scale(2))
 		return 1
 	else
 		print("No TukuiStanceBar or no CoolLine.Backdrop, can't place it!")
