@@ -30,10 +30,15 @@ function S.modCoolLine(event)
 	
 	if S["ActionBars"].Bars.Bar1 then
 		hooksecurefunc(CoolLine, "updatelook", function()
+			local NumForms = GetNumShapeshiftForms()
 			CoolLine:ClearAllPoints()
-			CoolLine:SetPoint("BOTTOMLEFT",TukuiStanceBar,"BOTTOMRIGHT",spacing,spacing)
+			if TukuiStanceBar and NumForms > 0 then 
+				CoolLine:SetPoint("BOTTOMLEFT",TukuiStanceBar,"BOTTOMRIGHT",spacing,spacing)
+				CoolLine:SetPoint("TOPLEFT",TukuiStanceBar,"TOPRIGHT",spacing,-spacing)
+			else
+				CoolLine:SetPoint("TOPRIGHT",TukuiActionBar3,"TOPLEFT",-spacing,-spacing)
+			end
 			CoolLine:SetPoint("BOTTOMRIGHT",TukuiActionBar3,"BOTTOMLEFT",-spacing,spacing)
-			CoolLine:SetPoint("TOPLEFT",TukuiStanceBar,"TOPRIGHT",spacing,-spacing)
 			S.placeStanceBar()
 		end)
 	end
