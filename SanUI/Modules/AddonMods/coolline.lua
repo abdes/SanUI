@@ -2,6 +2,7 @@ local addonName, addon = ...
 local S,C = unpack(addon)
 
 local Scale = S.Toolkit.Functions.Scale
+local spacing = C["ActionBars"].ButtonSpacing
 
 -- executed  PLAYER_ENTERING_WORLD in Misc.lua
 --Putting it above the middle action bar
@@ -16,21 +17,32 @@ function S.modCoolLine(event)
 		db = CoolLineDB
 	end
 
-	db.h = C["ActionBars"].NormalButtonSize
-	db.w = C["ActionBars"].NormalButtonSize * 24 + C["ActionBars"].ButtonSpacing * 25
-	db.inactivealpha = 1
-	db.bordercolor.a = 0
-	db.bgcolor.a = 0
 	
 	if not CoolLine.Backdrop then
 		CoolLine:CreateBackdrop()
 	end
 	
+	CoolLine.panel = CreateFrame("Frame", "PPP", CoolLine)
+	CoolLine.panel:CreateBackdrop()
+	CoolLine:SetFrameLevel(CoolLine.panel:GetFrameLevel()+2)
+	CoolLine.Backdrop:SetFrameLevel(CoolLine.panel:GetFrameLevel()+1)
+	
+	db.h = C["ActionBars"].NormalButtonSize
+	db.w = 14*C["ActionBars"].NormalButtonSize - 2 * Scale(2) + 9 * spacing
+	db.inactivealpha = 1
+	db.bordercolor.a = 0
+	db.bgcolor.a = 0
+	
 	if S["ActionBars"].Bars.Bar1 then
 		hooksecurefunc(CoolLine, "updatelook", function()
+			CoolLine.panel:ClearAllPoints()
+			CoolLine.panel:SetPoint("BOTTOMLEFT",TukuiStanceBar,"BOTTOMRIGHT",Scale(2),0)
+			CoolLine.panel:SetPoint("TOPLEFT",TukuiStanceBar,"TOPRIGHT",Scale(2),0)
+			CoolLine.panel:SetPoint("BOTTOMRIGHT",TukuiActionBar3,"BOTTOMLEFT",-Scale(2),0)
 			CoolLine:ClearAllPoints()
-			CoolLine:SetPoint("BOTTOMLEFT",S["ActionBars"].Bars.Bar1,"TOPLEFT",0,Scale(2))
-			CoolLine:SetPoint("BOTTOMRIGHT",S["ActionBars"].Bars.Bar1,"TOPRIGHT",0,Scale(2))
+			CoolLine:SetPoint("BOTTOMLEFT",CoolLine.panel,"BOTTOMLEFT",spacing,spacing)
+			CoolLine:SetPoint("BOTTOMRIGHT",CoolLine.panel,"BOTTOMRIGHT",-spacing,spacing)
+			CoolLine:SetPoint("TOPLEFT",CoolLine.panel,"TOPLEFT",spacing,-spacing)
 			S.placeStanceBar()
 		end)
 	end
@@ -48,9 +60,9 @@ function S.modCoolLine(event)
 end
 
 function S.placeStanceBar()
-	if TukuiStanceBar and CoolLine.Backdrop then
+	if TukuiStanceBar then
 		TukuiStanceBar:ClearAllPoints()
-		TukuiStanceBar:SetPoint("BOTTOMLEFT",CoolLine.Backdrop,"TOPLEFT",0,Scale(2))
+		TukuiStanceBar:SetPoint("BOTTOMLEFT",TukuiActionBar1,"TOPLEFT",0,Scale(2))
 		return 1
 	else
 		print("No TukuiStanceBar or no CoolLine.Backdrop, can't place it!")

@@ -88,7 +88,7 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	
 	if TukuiBar3 then
 		TukuiBar3:ClearAllPoints()
-		TukuiBar3:SetPoint("BOTTOMRIGHT", CoolLine, "TOPRIGHT", 0, 2)
+		TukuiBar3:SetPoint("BOTTOMRIGHT", TukuiActionBar1, "TOPRIGHT", 0, Scale(2))
 		--TukuiBar5:SetHeight(Scale((Size*12)+(Spacing*13)))
 	end
 	
