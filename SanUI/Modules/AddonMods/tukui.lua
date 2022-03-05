@@ -88,7 +88,9 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	
 	if TukuiBar3 then
 		TukuiBar3:ClearAllPoints()
-		TukuiBar3:SetHeight(Size + 2 * Spacing)
+		--TukuiBar3:SetHeight(Size + 2 * Spacing)
+		TukuiBar3.Backdrop:Kill()
+		TukuiBar3.Shadow:Kill()
 		TukuiBar3:SetPoint("BOTTOMRIGHT", TukuiActionBar1, "TOPRIGHT", 0, Scale(2))
 	end
 	
@@ -106,6 +108,7 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	end
 
 	TukuiStanceBar.Shadow:Kill()
+	TukuiStanceBar.Backdrop:Kill()
 end)
 
 

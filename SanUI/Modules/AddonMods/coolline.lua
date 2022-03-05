@@ -22,27 +22,18 @@ function S.modCoolLine(event)
 		CoolLine:CreateBackdrop()
 	end
 	
-	CoolLine.panel = CreateFrame("Frame", "PPP", CoolLine)
-	CoolLine.panel:CreateBackdrop()
-	CoolLine:SetFrameLevel(CoolLine.panel:GetFrameLevel()+2)
-	CoolLine.Backdrop:SetFrameLevel(CoolLine.panel:GetFrameLevel()+1)
-	
 	db.h = C["ActionBars"].NormalButtonSize
-	db.w = 14*C["ActionBars"].NormalButtonSize - 2 * Scale(2) + 9 * spacing
+	db.w = 12*C["ActionBars"].NormalButtonSize - 2 * Scale(2) + 11 * spacing
 	db.inactivealpha = 1
 	db.bordercolor.a = 0
 	db.bgcolor.a = 0
 	
 	if S["ActionBars"].Bars.Bar1 then
 		hooksecurefunc(CoolLine, "updatelook", function()
-			CoolLine.panel:ClearAllPoints()
-			CoolLine.panel:SetPoint("BOTTOMLEFT",TukuiStanceBar,"BOTTOMRIGHT",Scale(2),0)
-			CoolLine.panel:SetPoint("TOPLEFT",TukuiStanceBar,"TOPRIGHT",Scale(2),0)
-			CoolLine.panel:SetPoint("BOTTOMRIGHT",TukuiActionBar3,"BOTTOMLEFT",-Scale(2),0)
 			CoolLine:ClearAllPoints()
-			CoolLine:SetPoint("BOTTOMLEFT",CoolLine.panel,"BOTTOMLEFT",spacing,spacing)
-			CoolLine:SetPoint("BOTTOMRIGHT",CoolLine.panel,"BOTTOMRIGHT",-spacing,spacing)
-			CoolLine:SetPoint("TOPLEFT",CoolLine.panel,"TOPLEFT",spacing,-spacing)
+			CoolLine:SetPoint("BOTTOMLEFT",TukuiStanceBar,"BOTTOMRIGHT",spacing,spacing)
+			CoolLine:SetPoint("BOTTOMRIGHT",TukuiActionBar3,"BOTTOMLEFT",-spacing,spacing)
+			CoolLine:SetPoint("TOPLEFT",TukuiStanceBar,"TOPRIGHT",spacing,-spacing)
 			S.placeStanceBar()
 		end)
 	end
