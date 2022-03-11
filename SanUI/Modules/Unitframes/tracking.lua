@@ -788,8 +788,8 @@ S["UnitFrames"].RaidDebuffs = {
 		[361225] = Defaults(2), -- Encroaching Dominion
 		[361966] = Defaults(2), -- Infused Strikes
 	-- Prototype Pantheon
-		[365306] = Defaults(2), -- Invigorating Bloom
-		[361608] = Defaults(3), -- Burden of Sin
+		--[365306] = Defaults(2), -- Invigorating Bloom
+		--[361608] = Defaults(3), -- Burden of Sin
 		[361689] = Defaults(3), -- Wracking Pain
 		[366232] = Defaults(4), -- Animastorm
 		[364839] = Defaults(4), -- Sinful Projection
@@ -812,6 +812,18 @@ S["UnitFrames"].RaidDebuffs = {
 		[365008] = Defaults(4), -- Psychic Terror
 		[366849] = Defaults(6), -- Domination Word: Pain
 	-- Lords of Dread
+		[360006] = Defaults(1),	-- Cloud of Carrion Icon Cloud of Carrion
+		[360148] = Defaults(1), -- Bursting Dread Icon Bursting Dread
+		[360241] = Defaults(1), -- Unsettling Dreams Icon Unsettling Dreams
+		[360284] = Defaults(1), -- Anguishing Strike Icon Anguishing Strike
 	-- Rygelon
-	-- The Jailer
+	-- The Jaile
+		[360282] = Defaults(1), --	Rune of Damnation
+		[265151] = Defaults(1), --	Rune of Domination
+		[366030] = Defaults(1), --	Tyranny
+		--[362194] = Defaults(1), --	Suffering
+		[359868] = Defaults(1), --	Shattering Blast
+		[360565] = Defaults(1), --	Decimator
+		[365153] = Defaults(6), --	Dominating Will
+		[365219] = Defaults(1), --	Chains of Anguish
 }
