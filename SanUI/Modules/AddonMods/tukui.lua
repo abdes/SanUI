@@ -46,9 +46,6 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	TukuiBar1:SetHeight(Size + (Spacing * 2))
 	TukuiBar1:SetWidth((Size * 24) + (Spacing * 25))
 	TukuiBar1:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 3)
-	if TukuiBar1.Shadow then
-		TukuiBar1.Shadow:Kill()
-	end
 
 	TukuiBar1:HookScript("OnEvent", function(self, event, unit, ...)
 	if InCombatLockdown() then return end
@@ -92,7 +89,6 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 		TukuiBar3:ClearAllPoints()
 		--TukuiBar3:SetHeight(Size + 2 * Spacing)
 		TukuiBar3.Backdrop:Kill()
-		TukuiBar3.Shadow:Kill()
 		TukuiBar3:SetPoint("BOTTOMRIGHT", TukuiActionBar1, "TOPRIGHT", 0, Scale(2))
 	end
 	
@@ -109,7 +105,6 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	Button:SetPoint("TOP", PreviousButton, "BOTTOM", 0, -Spacing)
 	end
 
-	TukuiStanceBar.Shadow:Kill()
 	TukuiStanceBar.Backdrop:Kill()
 end)
 
