@@ -817,6 +817,9 @@ S["UnitFrames"].RaidDebuffs = {
 		[360241] = Defaults(1), -- Unsettling Dreams Icon Unsettling Dreams
 		[360284] = Defaults(1), -- Anguishing Strike Icon Anguishing Strike
 	-- Rygelon
+		[361548] = Defaults(1), --	Dark Eclipse
+		[362081] = Defaults(1), --	Cosmic Ejection
+		[362088] = Defaults(1), --	Cosmic Irregularity
 	-- The Jaile
 		[360282] = Defaults(1), --	Rune of Damnation
 		[265151] = Defaults(1), --	Rune of Domination
