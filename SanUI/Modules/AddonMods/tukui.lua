@@ -46,7 +46,9 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	TukuiBar1:SetHeight(Size + (Spacing * 2))
 	TukuiBar1:SetWidth((Size * 24) + (Spacing * 25))
 	TukuiBar1:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 3)
-	TukuiBar1.Shadow:Kill()
+	if TukuiBar1.Shadow then
+		TukuiBar1.Shadow:Kill()
+	end
 
 	TukuiBar1:HookScript("OnEvent", function(self, event, unit, ...)
 	if InCombatLockdown() then return end

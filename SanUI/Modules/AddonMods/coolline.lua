@@ -52,7 +52,6 @@ function S.modCoolLine(event)
 	end
 	
 	CoolLine:SetParent(Tukui_PetBattleFrameHider)
-
 end
 
 function S.placeStanceBar()

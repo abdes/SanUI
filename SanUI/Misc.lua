@@ -58,9 +58,12 @@ function S.misc(self,event,arg)
 		end
 		
 		UIParent:UnregisterEvent("TALKINGHEAD_REQUESTED")
-		hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
-			TalkingHeadFrame:Hide()
-		end)
+		
+		if TalkingHeadFrame_PlayCurrent and type(TalkingHeadFrame_PlayCurrent) == "function" then
+			hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
+				TalkingHeadFrame:Hide()
+			end)
+		end
 
 	end
 		
