@@ -101,7 +101,7 @@ local Update = function(self, event, unit)
 				
 		local icon = icons[spellID]
 		
-		if smhots[name] and (icon.anyCaster or caster == "player") then
+		if smhots[name] and caster == "player" then
 			swiftmendable = true
 		end
 		
