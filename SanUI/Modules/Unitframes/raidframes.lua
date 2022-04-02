@@ -381,13 +381,13 @@ local function Shared(self, unit)
 
 	RaidDebuffs.Debuffs = S["UnitFrames"].RaidDebuffs
 	
-	self.RaidDebuffs = RaidDebuffs
+	self.NotRaidDebuffs = RaidDebuffs
 		
-	local ORD = oUF_RaidDebuffs	
+	local ORD = oUF_NotRaidDebuffs	
 	ORD.ShowDispelableDebuff = true
 	ORD.FilterDispellableDebuff = true
 	ORD.MatchBySpellName = true
-	ORD.SetDebuffTypeColor = RaidDebuffs.SetBorderColor
+	--ORD.SetDebuffTypeColor = RaidDebuffs.SetBorderColor
 	
 	ORD:ResetDebuffData()
 	ORD:RegisterDebuffs(RaidDebuffs.Debuffs)

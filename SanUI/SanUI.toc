@@ -13,6 +13,7 @@ Config\profiles.lua
 Libs\oUF_NotAuraTrack.lua
 Libs\oUF_TextAuras.lua
 Libs\oUF_ShadowTouched.lua
+Libs\oUF_NotRaidDebuffs.lua
 
 Modules\Auras\auras.lua
 Modules\Auras\optionspanel.lua
