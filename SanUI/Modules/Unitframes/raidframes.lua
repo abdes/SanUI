@@ -208,6 +208,7 @@ local function Shared(self, unit)
 	ResurrectIcon:SetPoint("CENTER")
 	ResurrectIcon:SetDrawLayer("OVERLAY", 7)
 	self.ResurrectIndicator = ResurrectIcon
+	self.SummonIndicator = ResurrectIcon
 	
 	local range = {insideAlpha = 1, outsideAlpha = C["Raid"].RangeAlpha}
 	range.PostUpdate = function(self, object, inRange, checkedRange, connected)
