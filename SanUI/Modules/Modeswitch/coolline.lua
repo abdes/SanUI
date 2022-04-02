@@ -25,6 +25,7 @@ S.switchCoolLine = function(profile)
 			[GetItemInfo(137486) or "Windscar Whetstone"] = true,
 			[GetItemInfo(140807) or "Infernal Contract"] = true,
 			[GetItemInfo(144249) or "Archimonde's Hatred Reborn"] = true,
+			["Rebirth"] = true
 		}
 		
 	elseif profile == "SanBear" then
