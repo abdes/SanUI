@@ -686,7 +686,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[350374] = Defaults(5), -- Wings of Rage
 	-- Remnant of Ner'zhul
 		[350073] = Defaults(2), -- Torment
-		[349890] = Defaults(5), -- Suffering
+		--[349890] = Defaults(5), -- Suffering
 		[350469] = Defaults(6), -- Malevolence
 		[354634] = Defaults(6), -- Spite 1
 		[354479] = Defaults(6), -- Spite 2
@@ -803,6 +803,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[361309] = Defaults(3), -- Lightshatter Beam
 		[361002] = Defaults(4), -- Ephemeral Fissure
 		[360114] = Defaults(4), -- Ephemeral Fissure II
+		[365297] = Defaults(5), -- Crushing Prism
 	-- Anduin Wrynn
 		--[365293] = Defaults(2), -- Befouled Barrier
 		--[361817] = Defaults(3), -- Hopebreaker
