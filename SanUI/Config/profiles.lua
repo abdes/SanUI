@@ -7,7 +7,7 @@ local S = unpack(addon)
 -- Modes are defined below, see "MODES HERE"
 S["profiles"] = {
  ["Tavore"] = { 
-	modes = {"SanHeal","SanChicken","SanBear", "SanCat" },
+	modes = {"SanHeal","SanChicken","SanBear", "SanCat", "SanAnduin" },
 	AddonMenu = {BigWigs=1, Altoholic=2, Hack=3, MDT=4},
  },
   ["Tamdam"] = { 
@@ -101,6 +101,7 @@ S["Modes"] = {
 							--SahneUnholy is the same as SanBear, just for the 8 first buttons instead of 7
 		["DBM"] = "SanHeal", --DBM profile to use, if you choose one that deosn't exist, one with that name will be created
 	},
+	
 	["SanChicken"] = {
 		["raidframes"] = "SanChicken",
 		["SimpleAuraFilter"] = "SanChicken",
@@ -138,12 +139,24 @@ S["Modes"] = {
 		["raidframes"] = "SanChicken",
 		["SimpleAuraFilter"] = "SanCat",
 		["castbar"] = "SanCat",
-		["powerbar"] = "SanCat",
+		["powerbar"] = "Hidden",
 		["gcd"] = "SanCat",
 		["bossbars"] = "SanHeal",
 		["coolline"] = "SanCat",
 		["ActionButtons"] = "SanHeal",
 		["DBM"] = "SanHeal", 
+	},
+	["SanAnduin"] = {
+	
+		["raidframes"] = "SanHeal",	
+		["SimpleAuraFilter"] = "SanHeal",
+		["castbar"] = "SanHeal",	
+		["powerbar"] = "Hidden",		
+		["gcd"] = "SanHeal",			
+		["bossbars"] = "SanChicken",		
+		["coolline"] = "SanHeal",	
+		["ActionButtons"] = "SanHeal",		
+		["DBM"] = "SanHeal",
 	},
 	["JhessDisc"] = {
 		["raidframes"] = "SanHeal",
