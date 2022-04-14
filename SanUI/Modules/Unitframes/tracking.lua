@@ -200,8 +200,21 @@ S["UnitFrames"].RaidDebuffs = {
 		[355732] = Defaults(), -- Melt Soul
 		[356925] = Defaults(), -- Carnage
 		[358777] = Defaults(), -- Bindings of Misery
-
-
+	-- Legion Timewalking
+		-- Black Rook Hold
+		[200261] = Defaults(), -- Bonebreaking Strike
+		[225962] = Defaults(), -- Bloodthirsty Leap
+		[197546] = Defaults(), -- Brutal Glaive
+		[197418] = Defaults(), -- Vengeful Shear
+		[197974] = Defaults(), -- Bonecrushing Strike
+		[203163] = Defaults(), -- Sic Bats!
+		[198245] = Defaults(), -- Brutal Haymaker
+		[198079] = Defaults(), -- Hateful Gaze
+		[224188] = Defaults(), -- Hateful Charge
+		[214001] = Defaults(), -- Raven's Dive
+		[198635] = Defaults(), -- Unerring Shear
+		[201733] = Defaults(), -- Stinging Swarm
+		
 	-- Shadowlands Dungeons
 		-- Tazavesh, the Veiled Market
 		[350804] = Defaults(), -- Collapsing Energy
@@ -734,7 +747,8 @@ S["UnitFrames"].RaidDebuffs = {
 		[347454] = Defaults(6), -- Oblivion's Echo 1
 		[347518] = Defaults(6), -- Oblivion's Echo 2
 		[347292] = Defaults(6), -- Oblivion's Echo 3
-		[348978] = Defaults(6), -- Soul Exhaustion
+		[348978] = Defaults(1), -- Soul Exhaustion, conflicts with
+		                        -- forgeborn reveries, so put this on lower priority
 		--[355389] = Defaults(6), -- Relentless Haunt (Fixate)
 		[357298] = Defaults(6), -- Frozen Binds
 		[355137] = Defaults(5), -- Shadow Pool
