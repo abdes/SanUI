@@ -203,9 +203,10 @@ local function Shared(self, unit)
 	ReadyCheck:SetPoint("CENTER",self.Health,"TOP") 	
 	self.ReadyCheckIndicator = ReadyCheck
 
-	local ResurrectIcon = self.Health:CreateTexture(nil, "OVERLAY")
-	ResurrectIcon:SetSize(Scale(16), Scale(16))
-	ResurrectIcon:SetPoint("CENTER")
+	local ResurrectIcon = self.Health:CreateTexture(nil, "HIGHLIGHT", nil, 7)
+	ResurrectIcon:SetSize(Scale(28), Scale(28))
+	--ResurrectIcon:SetPoint("CENTER")
+	ResurrectIcon:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",Scale(4),-Scale(4))
 	ResurrectIcon:SetDrawLayer("OVERLAY", 7)
 	self.ResurrectIndicator = ResurrectIcon
 	self.SummonIndicator = ResurrectIcon
@@ -215,6 +216,7 @@ local function Shared(self, unit)
 		if not connected then 
 			object:SetAlpha(self.outsideAlpha)
 		end
+		ResurrectIcon:SetAlpha(self.insideAlpha)
 	end
 	self.Range = range
 	
