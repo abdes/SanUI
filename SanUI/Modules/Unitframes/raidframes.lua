@@ -204,12 +204,17 @@ local function Shared(self, unit)
 	self.ReadyCheckIndicator = ReadyCheck
 
 	local ResurrectIcon = self.Health:CreateTexture(nil, "HIGHLIGHT", nil, 7)
-	ResurrectIcon:SetSize(Scale(28), Scale(28))
+	ResurrectIcon:SetSize(Scale(12), Scale(12))
 	--ResurrectIcon:SetPoint("CENTER")
 	ResurrectIcon:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",Scale(4),-Scale(4))
 	ResurrectIcon:SetDrawLayer("OVERLAY", 7)
 	self.ResurrectIndicator = ResurrectIcon
-	self.SummonIndicator = ResurrectIcon
+	
+	local SummonIndicator = self.Health:CreateTexture(nil, "HIGHLIGHT", nil, 7)
+	SummonIndicator:SetSize(Scale(28), Scale(28))
+	SummonIndicator:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",Scale(4),-Scale(4))
+	SummonIndicator:SetDrawLayer("OVERLAY", 7)
+	self.SummonIndicator = SummonIndicator
 	
 	local range = {insideAlpha = 1, outsideAlpha = C["Raid"].RangeAlpha}
 	range.PostUpdate = function(self, object, inRange, checkedRange, connected)
