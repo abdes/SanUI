@@ -6,6 +6,8 @@ local S,C,L = unpack(addon)
 local oUF = addon.oUF
 
 local Scale = S.Toolkit.Functions.Scale
+local scales = S.sizes.scales
+local rfsizes = S.sizes.raidframes
 
 local font2 = C["Medias"].UnitFrameFont
 local font1 = C["Medias"].Font
@@ -130,7 +132,7 @@ local function Shared(self, unit)
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetPoint("TOPLEFT")
 	health:SetPoint("TOPRIGHT")
-	health:SetHeight(Scale(28))
+	health:SetHeight(rfsizes.height)
 	health:SetStatusBarTexture(normTex)
 	health:SetFrameLevel(8)
 	health:SetStatusBarColor(.2, .2, .2, 1)
@@ -189,30 +191,30 @@ local function Shared(self, unit)
 	self.Dead = Dead
 	
 	local RaidIcon = HighlightTarget:CreateTexture(nil, "OVERLAY")
-	RaidIcon:SetHeight(Scale(16))
-	RaidIcon:SetWidth(Scale(16))
-	RaidIcon:SetPoint("CENTER", self, "TOP",-Scale(12),-Scale(2))
+	RaidIcon:SetHeight(rfsizes.raidicon)
+	RaidIcon:SetWidth(rfsizes.raidicon)
+	RaidIcon:SetPoint("CENTER", self, "TOP",-scales[12],-scales[2])
 	RaidIcon:SetTexture("Interface\\AddOns\\Tukui\\medias\\textures\\Others\\RaidIcons.blp")
 	RaidIcon.SetTexture = S.dummy -- idk why but RaidIcon:GetTexture() is returning nil in oUF, resetting icons to default ... stop it!
 	self.RaidTargetIndicator  = RaidIcon
 	RaidIcon:Hide() -- not sure if necessary, seems so from MOTHER's rooms
 
 	local ReadyCheck = self.Health:CreateTexture(nil, "OVERLAY")
-	ReadyCheck:SetHeight(Scale(12))
-	ReadyCheck:SetWidth(Scale(12))
+	ReadyCheck:SetHeight(rfsizes.readycheck)
+	ReadyCheck:SetWidth(rfsizes.readycheck)
 	ReadyCheck:SetPoint("CENTER",self.Health,"TOP") 	
 	self.ReadyCheckIndicator = ReadyCheck
 
 	local ResurrectIcon = self.Health:CreateTexture(nil, "HIGHLIGHT", nil, 7)
-	ResurrectIcon:SetSize(Scale(12), Scale(12))
+	ResurrectIcon:SetSize(rfsizes.resurrecticon, rfsizes.resurrecticon)
 	--ResurrectIcon:SetPoint("CENTER")
-	ResurrectIcon:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",Scale(4),-Scale(4))
+	ResurrectIcon:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",scales[4],-scales[4])
 	ResurrectIcon:SetDrawLayer("OVERLAY", 7)
 	self.ResurrectIndicator = ResurrectIcon
 	
 	local SummonIndicator = self.Health:CreateTexture(nil, "HIGHLIGHT", nil, 7)
-	SummonIndicator:SetSize(Scale(28), Scale(28))
-	SummonIndicator:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",Scale(4),-Scale(4))
+	SummonIndicator:SetSize(rfsizes.summonindicator, rfsizes.summonindicator)
+	SummonIndicator:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",scales[4],-scales[4])
 	SummonIndicator:SetDrawLayer("OVERLAY", 7)
 	self.SummonIndicator = SummonIndicator
 	
@@ -228,24 +230,24 @@ local function Shared(self, unit)
 	local mhpb = CreateFrame("StatusBar", nil, self.Health)
 	mhpb:SetOrientation("VERTICAL")
 	mhpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-	mhpb:SetWidth(Scale(66))
-	mhpb:SetHeight(Scale(28))				
+	mhpb:SetWidth(rfsizes.width)
+	mhpb:SetHeight(rfsizes.height)
 	mhpb:SetStatusBarTexture(normTex)
 	mhpb:SetStatusBarColor(0, 0.5, 0.15, 1)
 
 	local ohpb = CreateFrame("StatusBar", nil, self.Health)
 	ohpb:SetOrientation("VERTICAL")
 	ohpb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-	ohpb:SetWidth(Scale(66))
-	ohpb:SetHeight(Scale(28))
+	ohpb:SetWidth(rfsizes.width)
+	ohpb:SetHeight(rfsizes.height)
 	ohpb:SetStatusBarTexture(normTex)
 	ohpb:SetStatusBarColor(0, 0.5, 0, 1)
 	
 	local absb = CreateFrame("StatusBar", nil, self.Health)
 	absb:SetOrientation("VERTICAL")
 	absb:SetPoint("BOTTOM", self.Health:GetStatusBarTexture(), "TOP", 0, 0)
-	absb:SetWidth(Scale(66))
-	absb:SetHeight(Scale(28))				
+	absb:SetWidth(rfsizes.width)
+	absb:SetHeight(rfsizes.height)				
 	absb:SetStatusBarTexture(normTex)
 	absb:SetStatusBarColor(0.5, 0.5, 0, 1)
 
@@ -259,8 +261,8 @@ local function Shared(self, unit)
 	self.Name:SetParent(absb)
 	
 	local auras = CreateFrame("Frame", nil, self)
-	auras:SetPoint("TOPLEFT", self.Health, S.scale2, -S.scale2)
-	auras:SetPoint("BOTTOMRIGHT", self.Health, -S.scale2, S.scale2)
+	auras:SetPoint("TOPLEFT", self.Health, scales[2], -scales[2])
+	auras:SetPoint("BOTTOMRIGHT", self.Health, -scales[2], scales[2])
 	auras:SetFrameLevel(self.Health:GetFrameLevel()+2)
 	auras.Icons = {}
 	auras.Texts = {}
@@ -274,8 +276,8 @@ local function Shared(self, unit)
 		icon.timers = spell.timers
 		icon.cooldownAnim = spell.cooldownAnim
 		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
-		icon:SetWidth(S.scale6)
-		icon:SetHeight(S.scale6)
+		icon:SetWidth(rfsizes.notauratrackicon)
+		icon:SetHeight(rfsizes.notauratrackicon)
 	
 		if icon.cooldownAnim then 
 			local cd = CreateFrame("Cooldown", nil, icon,"CooldownFrameTemplate")
@@ -309,8 +311,8 @@ local function Shared(self, unit)
 	turtle_icon:SetPoint("TOPRIGHT", S.scale2, S.scale2)	
 	turtle_icon.anyCaster = true
 	turtle_icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
-	turtle_icon:SetWidth(Scale(15))
-	turtle_icon:SetHeight(Scale(15))
+	turtle_icon:SetWidth(rfsizes.turtleicon)
+	turtle_icon:SetHeight(rfsizes.turtleicon)
 	turtle_icon.setTex = true
 
 	local tex = turtle_icon:CreateTexture(nil, "OVERLAY")
@@ -361,8 +363,8 @@ local function Shared(self, unit)
 	self.NotAuraTrack = auras
 
 	local RaidDebuffs = CreateFrame("Frame", nil, self)
-	RaidDebuffs:SetHeight(Scale(15))
-	RaidDebuffs:SetWidth(Scale(15))
+	RaidDebuffs:SetHeight(rfsizes.raiddebuffs)
+	RaidDebuffs:SetWidth(rfsizes.raiddebuffs)
 	RaidDebuffs:SetPoint("BOTTOMLEFT",self, 1, 1)---S.scale2,-S.scale2)
 	RaidDebuffs:SetFrameStrata(health:GetFrameStrata())
 	--HighlightTarget has + 3, we want to be above that
@@ -373,7 +375,7 @@ local function Shared(self, unit)
 	RaidDebuffs.icon = RaidDebuffs:CreateTexture(nil, "OVERLAY")
 	RaidDebuffs.icon:SetTexCoord(.1,.9,.1,.9)
 	RaidDebuffs.icon:SetPoint("CENTER")
-	RaidDebuffs.icon:SetSize(Scale(14), Scale(14))
+	RaidDebuffs.icon:SetSize(rfsizes.raiddebuffsicon, rfsizes.raiddebuffsicon)
 
 	RaidDebuffs.cd = CreateFrame("Cooldown", nil, RaidDebuffs,"CooldownFrameTemplate")
 	RaidDebuffs.cd:SetAllPoints(RaidDebuffs.icon)
@@ -425,21 +427,21 @@ local function GetRaidFrameAttributes()
 		self:SetWidth(header:GetAttribute("initial-width"))
 		self:SetHeight(header:GetAttribute("initial-height"))
 	]],
-	"initial-width", Scale(66),
-	"initial-height", Scale(28),
+	"initial-width", rfsizes.width, --Scale(66),
+	"initial-height", rfsizes.height, --Scale(28),
 	"showParty", true,
 	"showRaid", true,
 	"showPlayer", true,
 	"showSolo", true,
-	"xoffset", S.scale2,
-	"yOffset", Scale(-2),
+	"xoffset", scales[2],
+	"yOffset", scales[-2],
 	"point", point,
 	"groupFilter", "1,2,3,4,5,6,7,8",
 	"groupingOrder", "1,2,3,4,5,6,7,8",
 	"groupBy", "GROUP",
 	"maxColumns", 8,
 	"unitsPerColumn", 5,
-	"columnSpacing", S.scale2,
+	"columnSpacing", scales[2],
 	"columnAnchorPoint", columnAnchorPoint
 end
 S.RaidFrameAttributes = GetAttributes
@@ -455,12 +457,12 @@ local function GetPetFrameAttributes()
 	"maxColumns", 8,
 	"point", point,
 	"unitsPerColumn", 5,
-	"columnSpacing", S.scale2,
+	"columnSpacing", scales[2],
 	"columnAnchorPoint", columnAnchorPoint,
-	"yOffset", Scale(-2),
-	"xOffset", S.scale2,
-	"initial-width", Scale(66),
-	"initial-height", Scale(28),
+	"yOffset", scales[-2],
+	"xOffset", scales[2],
+	"initial-width", rfsizes.width, --Scale(66),
+	"initial-height", rfsizes.height, --Scale(28),
 	"oUF-initialConfigFunction", [[
 		local header = self:GetParent()
 		self:SetWidth(header:GetAttribute("initial-width"))
@@ -468,7 +470,6 @@ local function GetPetFrameAttributes()
 	]]
 end
 S.RaidFramePetAttributes = GetPetAttributes
-local y = S.ScreenHeight / 9
 	
 oUF:Factory(function(self)
 	oUF:SetActiveStyle("SanUIRaid")
