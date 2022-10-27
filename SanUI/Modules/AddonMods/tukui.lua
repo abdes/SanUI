@@ -201,7 +201,7 @@ hooksecurefunc(S["DataTexts"], "Register", function()
   end
 end)
 
--- Hide Panels we don't want
+---[[ Hide Panels we don't want
 hooksecurefunc(S["Chat"], "Enable", function()
   S["Chat"].Panels.LeftChat:Hide()
   S["Chat"].Panels.RightChat:Hide()
@@ -213,7 +213,7 @@ hooksecurefunc(S["Chat"], "Enable", function()
   TukuiLeftDataTextBox:SetPoint("BOTTOMLEFT",UIParent,10,Scale(3))
   TukuiRightDataTextBox:SetPoint("BOTTOMRIGHT",UIParent,-10,Scale(3))
 end)
-
+--]]
 hooksecurefunc(S["Chat"], "SetChatFramePosition", function(self)
 	local ID = self:GetID()
 	if ID == 1 then
