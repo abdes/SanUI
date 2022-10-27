@@ -15,16 +15,18 @@ hooksecurefunc(S["Maps"]["Minimap"], "Enable", function()
   Minimap:ClearAllPoints()
   Minimap:SetPoint("TOPLEFT",UIParent,"TOPLEFT",5,-5)
   
+  --[[
   local Mail = MiniMapMailFrame
   Mail:ClearAllPoints()
   Mail:SetPoint("TOPRIGHT", 0, 0)
+  --]]
   
   -- This is needed for the tracking menu (left click on zone name), it's anchored to this
   MinimapBackdrop:ClearAllPoints()
   MinimapBackdrop:SetPoint("CENTER",Minimap,"BOTTOM")
   
-  QueueStatusMinimapButton:ClearAllPoints()
-  QueueStatusMinimapButton:SetPoint("BOTTOMRIGHT",Minimap,"BOTTOMRIGHT")
+  --QueueStatusMinimapButton:ClearAllPoints()
+  --QueueStatusMinimapButton:SetPoint("BOTTOMRIGHT",Minimap,"BOTTOMRIGHT")
 end)
 
 -- Rearrange action bars

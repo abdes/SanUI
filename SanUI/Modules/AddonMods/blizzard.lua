@@ -15,16 +15,23 @@ function S.disableBlizzard()
 		Boss.Show = Noop
 		Boss:Hide()
 
-		Health:UnregisterAllEvents()
-		Power:UnregisterAllEvents()
+		--Health:UnregisterAllEvents()
+		--Power:UnregisterAllEvents()
 	end
 
-	InterfaceOptionsFrameCategoriesButton11:SetScale(0.00001)
-	InterfaceOptionsFrameCategoriesButton11:SetAlpha(0)
+	--InterfaceOptionsFrameCategoriesButton11:SetScale(0.00001)
+	--InterfaceOptionsFrameCategoriesButton11:SetAlpha(0)
 
 	CompactRaidFrameManager:SetParent(S.Hider)
-	CompactUnitFrameProfiles:UnregisterAllEvents()
+	CompactRaidFrameManager:UnregisterAllEvents()
+	CompactRaidFrameManager:Hide()
 
+	CompactRaidFrameContainer:SetParent(S.Hider)
+	CompactRaidFrameContainer:UnregisterAllEvents()
+	CompactRaidFrameContainer:Hide()
+	--CompactUnitFrameProfiles:UnregisterAllEvents()
+
+	--[[
 	for i = 1, MAX_PARTY_MEMBERS do
 		local PartyMember = _G["PartyMemberFrame" .. i]
 		local Health = _G["PartyMemberFrame" .. i .. "HealthBar"]
@@ -51,4 +58,5 @@ function S.disableBlizzard()
 	InterfaceOptionsFrameCategoriesButton9:SetAlpha(0)
 	InterfaceOptionsFrameCategoriesButton10:SetHeight(0.00001)
 	InterfaceOptionsFrameCategoriesButton10:SetAlpha(0)
+	--]]
 end

@@ -129,28 +129,28 @@ PostCreateIcon = function(icons, icon)
 		icon.remaining = TukuiDB.SetFontString(icon, font1,11, "THINOUTLINE")
 		icon.remaining:SetPoint("CENTER", Scale(1), 0)
 		
-		icon.cd.noOCC = true		 	-- hide OmniCC CDs
-		icon.cd.noCooldownCount = true	-- hide CDC CDs
+		icon.Cooldown.noOCC = true		 	-- hide OmniCC CDs
+		icon.Cooldown.noCooldownCount = true	-- hide CDC CDs
 		
-		icon.cd:SetReverse()
-		icon.icon:SetPoint("TOPLEFT", Scale(2), Scale(-2))
-		icon.icon:SetPoint("BOTTOMRIGHT", Scale(-2), Scale(2))
-		icon.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-		icon.icon:SetDrawLayer('ARTWORK')
+		icon.Cooldown:SetReverse()
+		icon.Icon:SetPoint("TOPLEFT", Scale(2), Scale(-2))
+		icon.Icon:SetPoint("BOTTOMRIGHT", Scale(-2), Scale(2))
+		icon.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+		icon.Icon:SetDrawLayer('ARTWORK')
 		
-		icon.count:SetPoint("BOTTOMRIGHT", Scale(3), 0) --Scale(1.5))
-		icon.count:SetJustifyH("RIGHT")
-		icon.count:SetFont(TukuiCF["Medias"].Font, 9, "THICKOUTLINE")
-		icon.count:SetTextColor(0.84, 0.75, 0.65)
+		icon.Count:SetPoint("BOTTOMRIGHT", Scale(3), 0) --Scale(1.5))
+		icon.Count:SetJustifyH("RIGHT")
+		icon.Count:SetFont(TukuiCF["Medias"].Font, 9, "THICKOUTLINE")
+		icon.Count:SetTextColor(0.84, 0.75, 0.65)
 		
 		icon.overlayFrame = CreateFrame("frame", nil, icon, nil)
-		icon.cd:SetFrameLevel(icon:GetFrameLevel() + 1)
-		icon.cd:ClearAllPoints()
-		icon.cd:SetPoint("TOPLEFT", icon, "TOPLEFT", Scale(2), Scale(-2))
-		icon.cd:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", Scale(-2), Scale(2))
-		icon.overlayFrame:SetFrameLevel(icon.cd:GetFrameLevel() + 1)	   
-		icon.overlay:SetParent(icon.overlayFrame)
-		icon.count:SetParent(icon.overlayFrame)
+		icon.Cooldown:SetFrameLevel(icon:GetFrameLevel() + 1)
+		icon.Cooldown:ClearAllPoints()
+		icon.Cooldown:SetPoint("TOPLEFT", icon, "TOPLEFT", Scale(2), Scale(-2))
+		icon.Cooldown:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", Scale(-2), Scale(2))
+		icon.overlayFrame:SetFrameLevel(icon.Cooldown:GetFrameLevel() + 1)	   
+		icon.Overlay:SetParent(icon.overlayFrame)
+		icon.Count:SetParent(icon.overlayFrame)
 		icon.remaining:SetParent(icon.overlayFrame)
 	end
 end,
@@ -173,17 +173,17 @@ OnEnterAura = function(self, icon)
 		self.HighlightAura.icon.remaining:SetParent(icon.overlayFrame)
 		self.HighlightAura.oldicon = icon
 		
-		icon.count:SetPoint("BOTTOMRIGHT", self.HighlightAura, Scale(3), 0) --Scale(1.5))
-		icon.count:SetJustifyH("RIGHT")
-		icon.count:SetFont(TukuiCF["Medias"].Font, 9*cfg.AuraMagnification, "THICKOUTLINE")
+		icon.Count:SetPoint("BOTTOMRIGHT", self.HighlightAura, Scale(3), 0) --Scale(1.5))
+		icon.Count:SetJustifyH("RIGHT")
+		icon.Count:SetFont(TukuiCF["Medias"].Font, 9*cfg.AuraMagnification, "THICKOUTLINE")
 	end
 end,
 
 OnLeaveAura = function(self)
 	if self.HighlightAura.oldicon then
-		self.HighlightAura.oldicon.count:SetPoint("BOTTOMRIGHT",self.HighlightAura.oldicon, Scale(3), 0) --Scale(1.5))
-		self.HighlightAura.oldicon.count:SetJustifyH("RIGHT")
-		self.HighlightAura.oldicon.count:SetFont(TukuiCF["Medias"].Font, 9, "THICKOUTLINE")
+		self.HighlightAura.oldicon.Count:SetPoint("BOTTOMRIGHT",self.HighlightAura.oldicon, Scale(3), 0) --Scale(1.5))
+		self.HighlightAura.oldicon.Count:SetJustifyH("RIGHT")
+		self.HighlightAura.oldicon.Count:SetFont(TukuiCF["Medias"].Font, 9, "THICKOUTLINE")
 	end
 end,
 }

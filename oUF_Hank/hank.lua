@@ -139,6 +139,7 @@ end
 
 -- Party frames be gone!
 oUF_Hank.HideParty = function()
+	--[[
 	for i = 1, 4 do
 		local party = "PartyMemberFrame" .. i
 		local frame = _G[party]
@@ -150,6 +151,7 @@ oUF_Hank.HideParty = function()
 		_G[party .. "HealthBar"]:UnregisterAllEvents()
 		_G[party .. "ManaBar"]:UnregisterAllEvents()
 	end
+	--]]
 end
 
 -- Set up the mirror bars (breath, exhaustion etc.)
@@ -343,41 +345,50 @@ oUF_Hank.PostUpdateName = function(self)
 		end
 	end
 end
+	--[[ 
+	Called after the aura button has been updated.
 
+	* self     - the widget holding the aura buttons
+	* button   - the updated aura button (Button)
+	* unit     - the unit on which the aura is cast (string)
+	* data     - the aura data (table)
+	* position - the actual position of the aura button (number)
+		element:PostUpdateIcon(button, unit, data, position)
+		--]]
 -- Sticky aura colors
-oUF_Hank.PostUpdateIcon = function(icons, unit, icon, index, offset)
+oUF_Hank.PostUpdateIcon = function(icons, icon, unit, data, index)
 	-- We want the border, not the color for the type indication
-	icon.overlay:SetVertexColor(1, 1, 1)
+	icon.Overlay:SetVertexColor(1, 1, 1)
 
 	local _, _, _, dtype, _, _, caster, _, _, _ = UnitAura(unit, index, icon.filter)
 	if caster == "vehicle" then caster = "player" end
 
-	if icon.filter == "HELPFUL" and not UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myBuffs then
+	if icons.filter == "HELPFUL" and not UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myBuffs then
 		-- Sticky aura: myBuffs
-		icon.icon:SetVertexColor(unpack(cfg.AuraStickyColor))
-		icon.icon:SetDesaturated(false)
-	elseif icon.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myDebuffs then
+		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
+		icon.Icon:SetDesaturated(false)
+	elseif icons.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myDebuffs then
 		-- Sticky aura: myDebuffs
-		icon.icon:SetVertexColor(unpack(cfg.AuraStickyColor))
-		icon.icon:SetDesaturated(false)
-	elseif icon.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "pet" and cfg["Auras" .. upper(unit)].StickyAuras.petDebuffs then
+		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
+		icon.Icon:SetDesaturated(false)
+	elseif icons.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "pet" and cfg["Auras" .. upper(unit)].StickyAuras.petDebuffs then
 		-- Sticky aura: petDebuffs
-		icon.icon:SetVertexColor(unpack(cfg.AuraStickyColor))
-		icon.icon:SetDesaturated(false)
-	elseif icon.filter == "HARMFUL" and not UnitCanAttack("player", unit) and canDispel[({UnitClass("player")})[2]][dtype] and cfg["Auras" .. upper(unit)].StickyAuras.curableDebuffs then
+		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
+		icon.Icon:SetDesaturated(false)
+	elseif icons.filter == "HARMFUL" and not UnitCanAttack("player", unit) and canDispel[({UnitClass("player")})[2]][dtype] and cfg["Auras" .. upper(unit)].StickyAuras.curableDebuffs then
 		-- Sticky aura: curableDebuffs
-		icon.icon:SetVertexColor(DebuffTypeColor[dtype].r, DebuffTypeColor[dtype].g, DebuffTypeColor[dtype].b)
-		icon.icon:SetDesaturated(false)
-	elseif icon.filter == "HELPFUL" and UnitCanAttack("player", unit) and UnitIsUnit(unit, caster or "") and cfg["Auras" .. upper(unit)].StickyAuras.enemySelfBuffs then
+		icon.Icon:SetVertexColor(DebuffTypeColor[dtype].r, DebuffTypeColor[dtype].g, DebuffTypeColor[dtype].b)
+		icon.Icon:SetDesaturated(false)
+	elseif icons.filter == "HELPFUL" and UnitCanAttack("player", unit) and UnitIsUnit(unit, caster or "") and cfg["Auras" .. upper(unit)].StickyAuras.enemySelfBuffs then
 		-- Sticky aura: enemySelfBuffs
-		icon.icon:SetVertexColor(unpack(cfg.AuraStickyColor))
-		icon.icon:SetDesaturated(false)
-	elseif icon.filter == "HARMFUL" and not UnitCanAttack("player", unit) and cfg["Auras" .. upper(unit)].StickyAuras.debuffsOnFriendly then
-		icon.icon:SetVertexColor(unpack(cfg.AuraStickyColor))
-		icon.icon:SetDesaturated(false)
+		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
+		icon.Icon:SetDesaturated(false)
+	elseif icons.filter == "HARMFUL" and not UnitCanAttack("player", unit) and cfg["Auras" .. upper(unit)].StickyAuras.debuffsOnFriendly then
+		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
+		icon.Icon:SetDesaturated(false)
 	else
-		icon.icon:SetVertexColor(1, 1, 1)
-		icon.icon:SetDesaturated(true)
+		icon.Icon:SetVertexColor(1, 1, 1)
+		icon.Icon:SetDesaturated(true)
 	end
 end
 
@@ -440,7 +451,7 @@ oUF_Hank.OnEnterAura = function(self, icon)
 		self.HighlightAura.border:SetSize(cfg.BuffSize * cfg.AuraMagnification * 1.1, cfg.BuffSize * cfg.AuraMagnification * 1.1)
 		self.HighlightAura:SetPoint("TOPLEFT", icon, "TOPLEFT", -(cfg.BuffSize * cfg.AuraMagnification - cfg.BuffSize) / 2, (cfg.BuffSize * cfg.AuraMagnification - cfg.BuffSize) / 2)
 	end
-	self.HighlightAura.icon:SetTexture(icon.icon:GetTexture())
+	self.HighlightAura.icon:SetTexture(icon.Icon:GetTexture())
 	self.HighlightAura:Show()
 end
 
@@ -459,8 +470,8 @@ oUF_Hank.PostCreateIcon = function(icons, icon)
 		icon.overlay:SetTexCoord(0, 1, 0, 1)
 		icons.showType = true
 	end
-	icon.cd:SetReverse(true)
-	icon.cd.noCooldownCount = true
+	icon.Cooldown:SetReverse(true)
+	icon.Cooldown.noCooldownCount = true
 	icon:HookScript("OnEnter", function() oUF_Hank.OnEnterAura(icons:GetParent(), icon) end)
 	icon:HookScript("OnLeave", function() oUF_Hank.OnLeaveAura(icons:GetParent()) end)
 	-- Cancel player buffs on right click

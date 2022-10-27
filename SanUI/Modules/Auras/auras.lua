@@ -11,6 +11,7 @@ local saf = {}
 addon.saf = saf
 saf.filters = {}
 
+--[[
 TemporaryEnchantFrame:ClearAllPoints()
 TemporaryEnchantFrame:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
 
@@ -20,12 +21,14 @@ TempEnchant3:ClearAllPoints()
 TempEnchant1:SetPoint("TOPRIGHT", TemporaryEnchantFrame, "TOPRIGHT",0,0)
 TempEnchant2:SetPoint("RIGHT", TempEnchant1, "LEFT", -S.scale4, 0)
 TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -S.scale4, 0)
+--]]
 
 if WorldStateAlwaysUpFrame then 
 	WorldStateAlwaysUpFrame:SetFrameStrata("BACKGROUND")
 	WorldStateAlwaysUpFrame:SetFrameLevel(0)
 end
 
+--[[
 for i = 1, 3 do
 	local button = _G["TempEnchant"..i]
 	local icon = _G["TempEnchant"..i.."Icon"]
@@ -45,6 +48,7 @@ for i = 1, 3 do
 	duration:ClearAllPoints()
 	duration:SetPoint("BOTTOM", 0, -Scale(13))
 end
+--]]
 
 local function MyBuffButton_OnClick (button)
 	if IsShiftKeyDown() then
@@ -175,9 +179,9 @@ saf.UpdateAllDebuffAnchors = function()
 end
 
 function saf:hookups()
-	hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
-	hooksecurefunc("AuraButton_Update", HideBadBuff)
-	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
-	hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuffAnchors)
-	hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", saf.UpdateAllDebuffAnchors)
+	--hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
+	--hooksecurefunc("AuraButton_Update", HideBadBuff)
+	--hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
+	--hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuffAnchors)
+	--hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", saf.UpdateAllDebuffAnchors)
 end

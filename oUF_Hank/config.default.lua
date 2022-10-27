@@ -107,13 +107,13 @@ FontStyleBig = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 26, "OUT
 -- Power, absolute health
 FontStyleMedium = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 14, "OUTLINE"},
 -- ToT, TToT, pet
-FontStyleSmall = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 14},
+FontStyleSmall = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 14, "OUTLINE"},
 -- Castbar: Time text, focus spell name
-CastBarBig = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 15},
+CastBarBig = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 15, "OUTLINE"},
 -- Castbar: Spell name (player, target)
-CastBarMedium = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 9},
+CastBarMedium = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 9, "OUTLINE"},
 -- Castbar: Latency
-CastBarSmall = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 8},
+CastBarSmall = {[[Interface\AddOns\Tukui\Medias\Fonts\Expressway.ttf]], 8, "OUTLINE"},
 
 ---------------------- Castbar ------------------------------
 -------------------------------------------------------------

@@ -14,8 +14,8 @@ local font1 = C["Medias"].Font
 local normTex = C["Medias"].Blank
 
 -- disable blizzard party and raid frames
-InterfaceOptionsFrameCategoriesButton11:SetScale(0.00001)
-InterfaceOptionsFrameCategoriesButton11:SetAlpha(0)
+--InterfaceOptionsFrameCategoriesButton11:SetScale(0.00001)
+--InterfaceOptionsFrameCategoriesButton11:SetAlpha(0)
 
 local utf8sub = function(string, i, dots)
 	if not string then return end
