@@ -200,6 +200,105 @@ S["UnitFrames"].RaidDebuffs = {
 		[355732] = Defaults(), -- Melt Soul
 		[356925] = Defaults(), -- Carnage
 		[358777] = Defaults(), -- Bindings of Misery
+			-- Shadowlands Season 4
+		[373364] = Defaults(), -- Vampiric Claws
+		[373429] = Defaults(), -- Carrion Swarm
+		[373370] = Defaults(), -- Nightmare Cloud
+		[373391] = Defaults(), -- Nightmare
+		[373570] = Defaults(), -- Hypnosis
+		[373607] = Defaults(), -- Shadowy Barrier (Hypnosis)
+		[373509] = Defaults(), -- Shadow Claws (Stacking)
+	----------------------------------------------------------
+	---------------- Old Dungeons (Season 4) -----------------
+	----------------------------------------------------------
+	-- Grimrail Depot
+		[162057] = Defaults(), -- Spinning Spear
+		[156357] = Defaults(), -- Blackrock Shrapnel
+		[160702] = Defaults(), -- Blackrock Mortar Shells
+		[160681] = Defaults(), -- Suppressive Fire
+		[166570] = Defaults(), -- Slag Blast (Stacking)
+		[164218] = Defaults(), -- Double Slash
+		[162491] = Defaults(), -- Acquiring Targets 1
+		[162507] = Defaults(), -- Acquiring Targets 2
+		[161588] = Defaults(), -- Diffused Energy
+		[162065] = Defaults(), -- Freezing Snare
+	-- Iron Docks
+		[163276] = Defaults(), -- Shredded Tendons
+		[162415] = Defaults(), -- Time to Feed
+		[168398] = Defaults(), -- Rapid Fire Targeting
+		[172889] = Defaults(), -- Charging Slash
+		[164504] = Defaults(), -- Intimidated
+		[172631] = Defaults(), -- Knocked Down
+		[172636] = Defaults(), -- Slippery Grease
+		[158341] = Defaults(), -- Gushing Wounds
+		[167240] = Defaults(), -- Leg Shot
+		[173105] = Defaults(), -- Whirling Chains
+		[173324] = Defaults(), -- Jagged Caltrops
+		[172771] = Defaults(), -- Incendiary Slug
+		[173307] = Defaults(), -- Serrated Spear
+		[169341] = Defaults(), -- Demoralizing Roar
+	-- Return to Karazhan: Upper
+		[229248] = Defaults(), -- Fel Beam
+		[227592] = Defaults(6), -- Frostbite
+		[228252] = Defaults(), -- Shadow Rend
+		[227502] = Defaults(), -- Unstable Mana
+		[228261] = Defaults(6), -- Flame Wreath
+		[229241] = Defaults(), -- Acquiring Target
+		[230083] = Defaults(6), -- Nullification
+		[230221] = Defaults(), -- Absorbed Mana
+		[228249] = Defaults(5), -- Inferno Bolt 1
+		[228958] = Defaults(5), -- Inferno Bolt 2
+		[229159] = Defaults(), -- Chaotic Shadows
+		[227465] = Defaults(), -- Power Discharge
+		[229083] = Defaults(), -- Burning Blast (Stacking)
+	-- Return to Karazhan: Lower
+		[227917] = Defaults(), -- Poetry Slam
+		[228164] = Defaults(), -- Hammer Down
+		[228215] = Defaults(), -- Severe Dusting 1
+		[228221] = Defaults(), -- Severe Dusting 2
+		[29690]  = Defaults(), -- Drunken Skull Crack
+		[227493] = Defaults(), -- Mortal Strike
+		[228280] = Defaults(), -- Oath of Fealty
+		[29574]  = Defaults(), -- Rend
+		[230297] = Defaults(), -- Brittle Bones
+		[228526] = Defaults(), -- Flirt
+		[227851] = Defaults(), -- Coat Check 1
+		[227832] = Defaults(), -- Coat Check 2
+		[32752]  = Defaults(), -- Summoning Disorientation
+		[228559] = Defaults(), -- Charming Perfume
+		[227508] = Defaults(), -- Mass Repentance
+		[241774] = Defaults(), -- Shield Smash
+		[227742] = Defaults(), -- Garrote (Stacking)
+		[238606] = Defaults(), -- Arcane Eruption
+		[227848] = Defaults(), -- Sacred Ground (Stacking)
+		[227404] = Defaults(6), -- Intangible Presence
+		[228610] = Defaults(), -- Burning Brand
+		[228576] = Defaults(), -- Allured
+	-- Operation Mechagon
+		[291928] = Defaults(), -- Giga-Zap
+		[292267] = Defaults(), -- Giga-Zap
+		[302274] = Defaults(), -- Fulminating Zap
+		[298669] = Defaults(), -- Taze
+		[295445] = Defaults(), -- Wreck
+		[294929] = Defaults(), -- Blazing Chomp
+		[297257] = Defaults(), -- Electrical Charge
+		[294855] = Defaults(), -- Blossom Blast
+		[291972] = Defaults(), -- Explosive Leap
+		[285443] = Defaults(), -- 'Hidden' Flame Cannon
+		[291974] = Defaults(), -- Obnoxious Monologue
+		[296150] = Defaults(), -- Vent Blast
+		[298602] = Defaults(), -- Smoke Cloud
+		[296560] = Defaults(), -- Clinging Static
+		[297283] = Defaults(), -- Cave In
+		[291914] = Defaults(), -- Cutting Beam
+		[302384] = Defaults(), -- Static Discharge
+		[294195] = Defaults(), -- Arcing Zap
+		[299572] = Defaults(), -- Shrink
+		[300659] = Defaults(), -- Consuming Slime
+		[300650] = Defaults(), -- Suffocating Smog
+		[301712] = Defaults(), -- Pounce
+		[299475] = Defaults(), -- B.O.R.K
+		[293670] = Defaults(), -- Chain Blade
 	-- Legion Timewalking
 		-- Black Rook Hold
 		[200261] = Defaults(), -- Bonebreaking Strike
