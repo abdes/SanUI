@@ -3,7 +3,7 @@ local S,C = unpack(addon)
 
 local Scale = S.Toolkit.Functions.Scale
 
-local GetSpellName = function(id) return select(1,GetSpellInfo(id)) end
+--local GetSpellName = function(id) return select(1,GetSpellInfo(id)) end
 		
 function S.weakAurasDialog(new_version, old_version)
 	local main = CreateFrame("Frame", nil, UIParent)
@@ -91,7 +91,8 @@ function S.addWeakAuras()
 		end
 	end
 end
-	
+
+--[[
 -- Adapted from AddonSkins by Azilroka
 -- conceived by Elv
 local function skinWaFrame(frame, type)
@@ -150,3 +151,4 @@ for weakAura, _ in pairs(WeakAuras.regions) do
 end
 
 S.skinWaFrame = skinWaFrame
+--]]
