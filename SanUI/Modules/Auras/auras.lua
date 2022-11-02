@@ -89,11 +89,13 @@ local function MyBuffFrame_UpdateAllBuffAnchors()
 	local idx = 0
 	buffRows = (numEnchants > 0 and 1) or 0 -- keep this, needed when no buff is shown but a temp enchant
 	
-	for i = 1, BUFF_ACTUAL_DISPLAY do
-		buff = _G["BuffButton"..i];
+	for i = 1, BUFF_MAX_DISPLAY do
+		buff = BuffFrame.AuraContainer[i]
+		--buff = _G["BuffButton"..i];
 			
 		if not buff.Backdrop then
-			local icon = _G["BuffButton"..i.."Icon"]
+			--local icon = _G["BuffButton"..i.."Icon"]
+			local icon = buff.icon
 			icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 			icon:SetPoint("TOPLEFT", buff, S.scale2, -S.scale2)
 			icon:SetPoint("BOTTOMRIGHT", buff, -S.scale2, S.scale2)
@@ -172,13 +174,18 @@ local function UpdateDebuffAnchors(buttonName, index)
 end
 
 saf.UpdateAllDebuffAnchors = function()
-	for i = 1, DEBUFF_ACTUAL_DISPLAY do
+	for i = 1, DEBUFF_MAX_DISPLAY do
 		UpdateDebuffAnchors("DebuffButton",i)
 	end
 	
 end
 
 function saf:hookups()
+	--hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
+	--hooksecurefunc("AuraButton_Update", HideBadBuff)
+	--hooksecurefunc(BuffFrame, "UpdateGridLayout", MyBuffFrame_UpdateAllBuffAnchors)
+	--hooksecurefunc("DebuffButton_UpdateAnchors", UpdateDebuffAnchors)
+	--hooksecurefunc(BuffFrame, "UpdateGridLayout", saf.UpdateAllDebuffAnchors)
 	--hooksecurefunc("BuffButton_OnClick", MyBuffButton_OnClick)
 	--hooksecurefunc("AuraButton_Update", HideBadBuff)
 	--hooksecurefunc("BuffFrame_UpdateAllBuffAnchors",MyBuffFrame_UpdateAllBuffAnchors)
