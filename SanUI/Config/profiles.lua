@@ -20,7 +20,7 @@ S["profiles"] = {
  },
  ["Picker"] = { 
 	modes = {"PickerEnh" },
-	AddonMenu = {BigWigs=1},
+	AddonMenu = {BigWigs=1, Hack=2},
  },
  ["Sahnetorture"] = { 
 	modes = {"SahneUnholy"},
