@@ -1,9 +1,11 @@
-if not WeakAuras.IsCorrectVersion() then return end
+if not WeakAuras.IsLibsOK() then return end
+--- @type string, Private
 local AddonName, Private = ...
 
 local WeakAuras = WeakAuras
 local L = WeakAuras.L
 local prettyPrint = WeakAuras.prettyPrint
+local LGF = LibStub("LibGetFrame-1.0")
 
 local profileData = {}
 profileData.systems = {}
@@ -12,7 +14,7 @@ profileData.auras = {}
 local currentProfileState, ProfilingTimer
 
 local RealTimeProfilingWindow = CreateFrame("Frame", nil, UIParent)
-WeakAuras.frames["RealTime Profiling Window"] = RealTimeProfilingWindow
+Private.frames["RealTime Profiling Window"] = RealTimeProfilingWindow
 RealTimeProfilingWindow.width = 500
 RealTimeProfilingWindow.height = 300
 RealTimeProfilingWindow.barHeight = 20
@@ -154,7 +156,7 @@ local function CreateProfilePopup()
   scrollFrame:SetScrollChild(popupFrame)
   scrollFrame:Hide()
 
-  local bg = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
+  local bg = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
   bg:SetFrameStrata("DIALOG")
   bg:SetBackdrop({
     bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
@@ -342,6 +344,7 @@ function WeakAuras.StartProfile(startType)
   Private.StopProfileSystem = StopProfileSystem
   Private.StopProfileAura = StopProfileAura
   Private.StopProfileUID = StopProfileUID
+  LGF.StartProfile()
 end
 
 local function doNothing()
@@ -364,6 +367,7 @@ function WeakAuras.StopProfile()
   Private.StopProfileSystem = doNothing
   Private.StopProfileAura = doNothing
   Private.StopProfileUID = doNothing
+  LGF.StopProfile()
 
   currentProfileState = nil
   RealTimeProfilingWindow:UnregisterAllEvents()
@@ -453,6 +457,19 @@ function WeakAuras.PrintProfile()
   PrintOneProfile(popup, "|cff9900ffTotal time:|r", profileData.systems.time)
   PrintOneProfile(popup, "|cff9900ffTime inside WA:|r", profileData.systems.wa)
   popup:AddText(string.format("|cff9900ffTime spent inside WA:|r %.2f%%", 100 * profileData.systems.wa.elapsed / profileData.systems.time.elapsed))
+
+  popup:AddText("")
+  popup:AddText("Note: Not every aspect of each aura can be tracked.")
+  popup:AddText("You can ask on our discord https://discord.gg/weakauras for help interpreting this output.")
+
+  popup:AddText("")
+  popup:AddText("|cff9900ffAuras:|r")
+  local total = TotalProfileTime(profileData.auras)
+  popup:AddText("Total time attributed to auras: ", floor(total) .."ms")
+  for i, k in ipairs(SortProfileMap(profileData.auras)) do
+    PrintOneProfile(popup, k, profileData.auras[k], total)
+  end
+
   popup:AddText("")
   popup:AddText("|cff9900ffSystems:|r")
 
@@ -463,12 +480,11 @@ function WeakAuras.PrintProfile()
   end
 
   popup:AddText("")
-  popup:AddText("|cff9900ffAuras:|r")
-  local total = TotalProfileTime(profileData.auras)
-  popup:AddText("Total time attributed to auras: ", floor(total) .."ms")
-  for i, k in ipairs(SortProfileMap(profileData.auras)) do
-    PrintOneProfile(popup, k, profileData.auras[k], total)
+  popup:AddText("|cff9900ffLibGetFrame:|r")
+  for id, map in pairs(LGF.GetProfileData()) do
+    PrintOneProfile(popup, id, map)
   end
+
   popup:Show()
 end
 
@@ -478,7 +494,7 @@ function RealTimeProfilingWindow:GetBar(name)
   if self.bars[name] then
     return self.bars[name]
   else
-    local bar = CreateFrame("FRAME", nil, self.barsFrame)
+    local bar = CreateFrame("Frame", nil, self.barsFrame)
     self.bars[name] = bar
     Mixin(bar, SmoothStatusBarMixin)
     bar.name = name
@@ -678,7 +694,7 @@ function RealTimeProfilingWindow:Init()
   toggleButton:SetFrameLevel(statsFrame:GetFrameLevel() + 1)
   toggleButton:SetHeight(20)
   toggleButton:SetWidth(width)
-  toggleButton:SetText(L["Start"])
+  toggleButton:SetText(L["Start Now"])
   toggleButton:SetScript("OnClick", function(self)
     local parent = self:GetParent():GetParent()
     if (not profileData.systems.time or profileData.systems.time.count ~= 1) then
@@ -801,7 +817,7 @@ function RealTimeProfilingWindow:Stop()
   self:Hide()
   self:ResetBars()
   WeakAuras.StopProfile()
-  self.toggleButton:SetText(L["Start"])
+  self.toggleButton:SetText(L["Start Now"])
 end
 
 function RealTimeProfilingWindow:Toggle()

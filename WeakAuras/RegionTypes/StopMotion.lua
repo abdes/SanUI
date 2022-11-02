@@ -1,9 +1,8 @@
-if not WeakAuras.IsCorrectVersion() then return end
+if not WeakAuras.IsLibsOK() then return end
+--- @type string, Private
 local AddonName, Private = ...
 
-local texture_types = WeakAuras.StopMotion.texture_types;
 local texture_data = WeakAuras.StopMotion.texture_data;
-local animation_types = WeakAuras.StopMotion.animation_types;
 local L = WeakAuras.L;
 
 local default = {
@@ -90,17 +89,21 @@ local properties = {
 WeakAuras.regionPrototype.AddProperties(properties, default);
 
 local function create(parent)
-    local frame = CreateFrame("FRAME", nil, UIParent);
+    local frame = CreateFrame("Frame", nil, UIParent);
     frame.regionType = "stopmotion"
     frame:SetMovable(true);
     frame:SetResizable(true);
-    frame:SetMinResize(1, 1);
+    if frame.SetResizeBounds then
+      frame:SetResizeBounds(1, 1)
+    else
+      frame:SetMinResize(1, 1)
+    end
 
     local background = frame:CreateTexture(nil, "BACKGROUND");
     frame.background = background;
     background:SetAllPoints(frame);
 
-    local foreground = frame:CreateTexture(nil, "ART");
+    local foreground = frame:CreateTexture(nil, "ARTWORK");
     frame.foreground = foreground;
     foreground:SetAllPoints(frame);
 
