@@ -20,6 +20,7 @@ local sizes = {
 	raidframes = {
 		width = 75,
 		height = 32,
+		smallheight = 24,
 		raidicon =16,
 		readycheck = 12,
 		resurrecticon = 12,

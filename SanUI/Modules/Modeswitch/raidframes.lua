@@ -2,8 +2,9 @@ local addonName, addon = ...
 local S,C = unpack(addon)
 
 local Scale = S.Toolkit.Functions.Scale
-
-local RaidButtonSize = 28
+local height = S.sizes.raidframes.height
+local smallheight = S.sizes.raidframes.smallheight
+--local RaidButtonSize = 28
 
 local function changeAuras(frame,auras)
 	local nat = frame.NotAuraTrack
@@ -153,14 +154,14 @@ S.switchRaidFrames = function(profile)
 		changeRaid = function(numraid) --executed when raid roster etc changes, supposed to deal with raid size 40
 			if numraid > 25 then
 				showRaidPets(false)
-				frame:SetAttribute("initial-height", 24)
-				pets:SetAttribute("initial-height", 24)
-				changeRaidButtons(24)
+				frame:SetAttribute("initial-height", smallheight)
+				pets:SetAttribute("initial-height", smallheight)
+				changeRaidButtons(smallheight)
 			elseif  numraid < 26 then
 				showRaidPets(true)
-				frame:SetAttribute("initial-height", 28)
-				pets:SetAttribute("initial-height", 28)
-				changeRaidButtons(28)
+				frame:SetAttribute("initial-height", height)
+				pets:SetAttribute("initial-height", height)
+				changeRaidButtons(height)
 			end
 		end
 		
