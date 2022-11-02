@@ -12,7 +12,7 @@ local font = C.Medias.Font
 
 local buffs_selected = {}
 
-function CreatePanel()
+panel.create = function()
     panel.created = true
 
     local title = panel:CreateFontString(nil, "OVERLAY")
@@ -123,12 +123,12 @@ function panel.okay()
 		saf.filters[name] = not not value
     end
 	
-	BuffFrame_UpdateAllBuffAnchors()
+	--BuffFrame_UpdateAllBuffAnchors()
 end
 
 function panel.refresh()
     if not panel.created then
-        CreatePanel()
+        panel.create()
     end
 
     for name, filtering in pairs(saf.filters) do
@@ -136,14 +136,14 @@ function panel.refresh()
     end
 	
 	panel.title:SetText("Select buffs to hide for profile "..(saf.profile or "NONE"))
-	BuffFrame_UpdateAllBuffAnchors()
+	--BuffFrame_UpdateAllBuffAnchors()
 
     panel:UpdateScrollFrame()
 end
 
 panel:SetScript("OnShow", function(self)
     if not panel.created then
-        CreatePanel()
+        panel.create()
     end
     panel.refresh()
 end)
