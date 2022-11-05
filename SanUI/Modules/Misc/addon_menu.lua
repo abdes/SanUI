@@ -139,7 +139,7 @@ else
 	Menu:CreateBackdrop()
 end
 Menu:Hide()
-Menu:SetFrameStrata("HIGH") --BACKGROUND")
+Menu:SetFrameStrata("MEDIUM") --BACKGROUND")
 Menu:EnableMouse(true)
 
 MenuOpen:SkinButton()

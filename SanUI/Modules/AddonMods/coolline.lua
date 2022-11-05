@@ -28,7 +28,7 @@ function S.modCoolLine(event)
 	db.bordercolor.a = 0
 	db.bgcolor.a = 0
 	
-	if S["ActionBars"].Bars.Bar1 then
+	if S.ActionBars and S.ActionBars.Bars and S["ActionBars"].Bars.Bar1 then
 		hooksecurefunc(CoolLine, "updatelook", function()
 			local NumForms = GetNumShapeshiftForms()
 			CoolLine:ClearAllPoints()
