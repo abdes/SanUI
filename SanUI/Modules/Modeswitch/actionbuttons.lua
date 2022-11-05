@@ -91,7 +91,7 @@ end
 -- Tukui rearranges the buttons on each PLAYER_ENTERING_WORLD
 -- so we get the function and hook this switch function
 hooksecurefunc(S["ActionBars"],"Enable",function()
-	if not S["ActionBars"].Bars.Bar1 then
+	if not (S.ActionBars and S.ActionBars.Bars and S["ActionBars"].Bars.Bar1) then
 		print("No ActionBar1! Can't hook OnEvent!")
 	else
 		S["ActionBars"].Bars.Bar1:HookScript("OnEvent",function(self, event, unit, ...)

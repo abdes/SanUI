@@ -8,7 +8,7 @@ button:SetSize(S.scale10, S.scale10)
 button:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), Scale(28))
 button:CreateBackdrop()
 button:SetFrameStrata("MEDIUM")
-button:SetParent(Tukui_PetBattleFrameHider)
+--button:SetParent(Tukui_PetBattleFrameHider)
 
 local Text = button:CreateFontString(nil, "OVERLAY")
 Text:SetFont(C.Medias.Font, 10)

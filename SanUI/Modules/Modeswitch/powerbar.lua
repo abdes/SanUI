@@ -7,7 +7,7 @@ S.switchPowerbar = function(profile)
 
   local wrathname = GetSpellInfo(190984)
   local starfirename = GetSpellInfo(194153)
-  local TukuiBar1 = S["ActionBars"].Bars.Bar1
+  local TukuiBar1 = S.ActionBars and S.ActionBars.Bars and S["ActionBars"].Bars.Bar1
 	
   local Power = oUF_player.Power
   Power.update_surge = function(self, event, unit)

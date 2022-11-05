@@ -5,12 +5,12 @@ local S,C = unpack(addon)
 
 local Scale = S.Toolkit.Functions.Scale
 
-local button  = CreateFrame("Frame", nil, UIParent)
+local button  = CreateFrame("Frame", "BugSackButton", UIParent)
 button:SetSize(S.scale10, S.scale10)
 button:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMRIGHT", Scale(3), Scale(14))
 button:CreateBackdrop()
 button:SetFrameStrata("MEDIUM")
-button:SetParent(Tukui_PetBattleFrameHider)
+--button:SetParent(Tukui_PetBattleFrameHider)
 
 
 local Text = button:CreateFontString(nil, "OVERLAY")

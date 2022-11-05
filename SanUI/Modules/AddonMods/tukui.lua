@@ -31,6 +31,7 @@ end)
 
 -- Rearrange action bars
 hooksecurefunc(S["ActionBars"], "Enable", function()
+	if not C.ActionBars.Enable then return end
 	local TukuiBar1 = S["ActionBars"].Bars.Bar1
 	local TukuiBar2 = S["ActionBars"].Bars.Bar2
 	local TukuiBar3 = TukuiActionBar3
