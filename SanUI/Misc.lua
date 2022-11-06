@@ -33,7 +33,7 @@ function S.misc(self,event,arg)
 		S.disableBlizzard()
 		
 		--addon.saf:hookups()
-		S.Auras:Enable()
+		--S.Auras:Enable()
 	
 		S.modCoolLine(event)
 			

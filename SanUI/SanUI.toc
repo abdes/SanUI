@@ -19,8 +19,8 @@ Libs\oUF_NotRaidDebuffs.lua
 #Modules\Auras\auras.lua
 #Modules\Auras\Templates.xml
 Modules\Auras\SimpleAuraFilter.lua
-Modules\Auras\Auras.lua
-Modules\Auras\Headers.lua
+#Modules\Auras\Auras.lua
+#Modules\Auras\Headers.lua
 
 Modules\Auras\optionspanel.lua
 

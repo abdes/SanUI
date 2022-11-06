@@ -12,16 +12,39 @@ local saf = {}
 addon.saf = saf
 saf.filters = {}
 
-saf.UpdateGrid = function(self, aura)
-	local header = aura:GetParent()
+BuffFrame:ClearAllPoints()
+BuffFrame:SetPoint("TOPRIGHT", UIParent, -5, -5)
+
+saf.UpdateGrid = function(mixin)--self, aura)
+	--local header = aura:GetParent()
+	mixin.numHideableBuffs = 0;
+	mixin.auraInfo = {};
 	
+	AuraUtil.ForEachAura("player", "HELPFUL", nil, function(...)
+		local name, texture, count, debuffType, duration, expirationTime, _, _, _, _, _, _, _, _, timeMod = ...;
+		local hideUnlessExpanded = false
+		
+		if name and saf.filters[name] then
+			hideUnlessExpanded = true
+			mixin.numHideableBuffs = mixin.numHideableBuffs + 1
+		end
+		local index = #mixin.auraInfo + 1
+		mixin.auraInfo[index] = {index = index, texture = texture, count = count, debuffType = debuffType, duration = duration,  expirationTime = expirationTime, timeMod = timeMod, hideUnlessExpanded = hideUnlessExpanded};
+
+		return #mixin.auraInfo > mixin.maxAuras;	
+		
+	end)
+	
+	--[[
+	local header = BuffFrame;
 	local frames = { header:GetChildren() }
 	local toShow = {}
 	
 	for _,f in ipairs(frames) do
 		local name = f.Name
+		f.hideUnlessExpanded = true
 		if name and saf.filters[name] then
-			--print("Hiding "..tostring(f:GetName()).."("..name..")")
+		--print("Hiding "..tostring(f:GetName()).."("..name..")")
 			f:Hide()
 			f.oldOnShow = f:GetScript("OnShow")
 			f:SetScript("OnShow", function(self) self:Hide() end)
@@ -32,6 +55,7 @@ saf.UpdateGrid = function(self, aura)
 	end
 	
 	for index, f in ipairs(toShow) do
+		f.hideUnlessExpanded = false
 		if f.oldOnShow then
 			f:SetScript("OnShow", f.oldOnShow)
 		end
@@ -46,4 +70,9 @@ saf.UpdateGrid = function(self, aura)
 
 		f:Show()
 	end
+	--]]
 end
+--BuffFrame.UpdatePlayerBuffs = function(self)
+--	saf.UpdateGrid(self)
+--	end
+hooksecurefunc(BuffFrame,"UpdatePlayerBuffs", saf.UpdateGrid)
