@@ -38,6 +38,7 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	local TukuiBar4 = S["ActionBars"].Bars.Bar4
 	local TukuiBar5 = S["ActionBars"].Bars.Bar5
 	local PetBar = S["ActionBars"].Bars.Pet
+	local TukuiStanceBar = S["ActionBars"].Bars.Stance
 
 	-- Bars: Bar 1 will contain all main Buttons, Bar 2 is just moved on top of
 	-- it, background made invisible, 3 and 4 must go, Bar 5 stays at the rigt, 6
@@ -98,17 +99,19 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 		TukuiBar3.Backdrop:Kill()
 	end
 	
-	PetBar:ClearAllPoints()
-	PetBar:SetPoint("RIGHT", TukuiBar5, "LEFT", -Scale(5), 0)
-	PetBar:SetWidth(Size + Spacing*2)
-	PetBar:SetHeight(Size*NUM_PET_ACTION_SLOTS + Spacing*(NUM_PET_ACTION_SLOTS + 1))
+	if PetBar then
+		PetBar:ClearAllPoints()
+		PetBar:SetPoint("RIGHT", TukuiBar5, "LEFT", -Scale(5), 0)
+		PetBar:SetWidth(Size + Spacing*2)
+		PetBar:SetHeight(Size*NUM_PET_ACTION_SLOTS + Spacing*(NUM_PET_ACTION_SLOTS + 1))
+	end
 
 	for i = 2, NUM_PET_ACTION_SLOTS do
 		local Button = _G["PetActionButton"..i]
 		local PreviousButton = _G["PetActionButton"..i-1]
 		
-	Button:ClearAllPoints()
-	Button:SetPoint("TOP", PreviousButton, "BOTTOM", 0, -Spacing)
+		Button:ClearAllPoints()
+		Button:SetPoint("TOP", PreviousButton, "BOTTOM", 0, -Spacing)
 	end
 
 	TukuiStanceBar.Backdrop:Kill()
