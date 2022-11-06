@@ -30,13 +30,13 @@ end
 oUF.Tags.Events["BossBars:ppDetailed"] = oUF.Tags.Events["curpp"] .. " " .. oUF.Tags.Events["maxpp"]
 oUF.Tags.Methods["BossBars:ppDetailed"] = function(unit)
 	local _, pType = UnitPowerType(unit)
-	print(unit)
+	--print(unit)
 	return ("%s/%s"):format(valShort(UnitPower(unit)), valShort(UnitPowerMax(unit)))
 end
 
 oUF.Tags.Events['BossBars:altpower'] = 'UNIT_POWER_UPDATE'
 oUF.Tags.Methods['BossBars:altpower'] = function(unit)
-	print(unit)
+	--print(unit)
 	local cur = UnitPower(unit, ALTERNATE_POWER_INDEX)
 	local max = UnitPowerMax(unit, ALTERNATE_POWER_INDEX)
 	if(max > 0 and not UnitIsDeadOrGhost(unit)) then
