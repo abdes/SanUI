@@ -12,8 +12,10 @@ local saf = {}
 addon.saf = saf
 saf.filters = {}
 
-BuffFrame:ClearAllPoints()
-BuffFrame:SetPoint("TOPRIGHT", UIParent, -5, -5)
+hooksecurefunc(BuffFrame, "UpdateAuraContainerAnchor", function(self)
+	self:ClearAllPoints()
+	self:SetPoint("TOPRIGHT", UIParent, -5, -5)
+end)
 
 saf.UpdateGrid = function(mixin)--self, aura)
 	--local header = aura:GetParent()
@@ -29,50 +31,38 @@ saf.UpdateGrid = function(mixin)--self, aura)
 			mixin.numHideableBuffs = mixin.numHideableBuffs + 1
 		end
 		local index = #mixin.auraInfo + 1
-		mixin.auraInfo[index] = {index = index, texture = texture, count = count, debuffType = debuffType, duration = duration,  expirationTime = expirationTime, timeMod = timeMod, hideUnlessExpanded = hideUnlessExpanded};
+		mixin.auraInfo[index] = { name = name, index = index, texture = texture, count = count, debuffType = debuffType, duration = duration,  expirationTime = expirationTime, timeMod = timeMod, hideUnlessExpanded = hideUnlessExpanded};
 
 		return #mixin.auraInfo > mixin.maxAuras;	
 		
 	end)
-	
-	--[[
-	local header = BuffFrame;
-	local frames = { header:GetChildren() }
-	local toShow = {}
-	
-	for _,f in ipairs(frames) do
-		local name = f.Name
-		f.hideUnlessExpanded = true
-		if name and saf.filters[name] then
-		--print("Hiding "..tostring(f:GetName()).."("..name..")")
-			f:Hide()
-			f.oldOnShow = f:GetScript("OnShow")
-			f:SetScript("OnShow", function(self) self:Hide() end)
-			--f:SetAlpha(0)
-		elseif name and f:IsShown() then
-			table.insert(toShow, f)
-		end
-	end
-	
-	for index, f in ipairs(toShow) do
-		f.hideUnlessExpanded = false
-		if f.oldOnShow then
-			f:SetScript("OnShow", f.oldOnShow)
-		end
-
-		local row = floor(index / BUFFS_PER_ROW)
-		local index_in_row = index % BUFFS_PER_ROW
-		print("row: "..row..", idx: "..index_in_row)
-		local x_off = (index_in_row - 1)*(button_size + offset)
-		local y_off = (row)*(button_size + offset)	
-		
-		f:SetPoint("TOPRIGHT", header, "TOPRIGHT", -x_off, -y_off)
-
-		f:Show()
-	end
-	--]]
 end
---BuffFrame.UpdatePlayerBuffs = function(self)
---	saf.UpdateGrid(self)
---	end
+
 hooksecurefunc(BuffFrame,"UpdatePlayerBuffs", saf.UpdateGrid)
+
+saf.rightClickHook = function(button) 
+
+	if IsShiftKeyDown() then
+		local idx = button.buttonInfo.index
+		local name = BuffFrame.auraInfo[idx].name				
+		if name then
+			saf.filters[name] = true
+		end
+	end
+end
+
+
+saf.hookButtons = function()
+	for _, button in ipairs(BuffFrame.auraFrames) do
+		if not button.clickHooked then
+			button:HookScript("OnClick", saf.rightClickHook)
+			button:CreateBackdrop()
+			button.Backdrop:ClearAllPoints()
+			button.Backdrop:SetPoint("TOPRIGHT", button.Icon, 2, 2)
+			button.Backdrop:SetPoint("BOTTOMLEFT", button.Icon, -2, -2)
+			button.Icon:SetTexCoord(.1, .9, .1, .9)
+			button.clickHooked = true
+		end
+	end
+end
+hooksecurefunc(BuffFrame, "UpdateAuraButtons", saf.hookButtons)
