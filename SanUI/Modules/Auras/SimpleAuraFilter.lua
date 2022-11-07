@@ -57,6 +57,9 @@ saf.hookButtons = function()
 		if not button.clickHooked then
 			button:HookScript("OnClick", saf.rightClickHook)
 			button:CreateBackdrop()
+			local flevel = button:GetFrameLevel()
+			flevel = (flevel > 1 and flevel-1) or 1
+			button.Backdrop:SetFrameLevel(flevel)
 			button.Backdrop:ClearAllPoints()
 			button.Backdrop:SetPoint("TOPRIGHT", button.Icon, 2, 2)
 			button.Backdrop:SetPoint("BOTTOMLEFT", button.Icon, -2, -2)
