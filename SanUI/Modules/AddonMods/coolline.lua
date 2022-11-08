@@ -7,7 +7,7 @@ local spacing = C["ActionBars"].ButtonSpacing
 -- executed  PLAYER_ENTERING_WORLD in Misc.lua
 --Putting it above the middle action bar
 function S.modCoolLine(event)
-
+	local TukuiStanceBar = S["ActionBars"].Bars.Stance
 	local db
 
 	CoolLineDB = CoolLineDB or { }
@@ -55,6 +55,7 @@ function S.modCoolLine(event)
 end
 
 function S.placeStanceBar()
+	local TukuiStanceBar = S["ActionBars"].Bars.Stance
 	if TukuiStanceBar then
 		TukuiStanceBar:ClearAllPoints()
 		TukuiStanceBar:SetPoint("BOTTOMLEFT",TukuiActionBar1,"TOPLEFT",0,Scale(2))

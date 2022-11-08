@@ -32,7 +32,8 @@ function S.misc(self,event,arg)
 		
 		S.disableBlizzard()
 		
-		addon.saf:hookups()
+		--addon.saf:hookups()
+		--S.Auras:Enable()
 	
 		S.modCoolLine(event)
 			
@@ -56,7 +57,7 @@ function S.misc(self,event,arg)
 		if tukui_installed and not wa_asked then
 			S.weakAurasDialog(sanui_version, SanUIdb.addedWeakAuras)
 		end
-		
+		--[[
 		UIParent:UnregisterEvent("TALKINGHEAD_REQUESTED")
 		
 		if TalkingHeadFrame_PlayCurrent and type(TalkingHeadFrame_PlayCurrent) == "function" then
@@ -64,6 +65,7 @@ function S.misc(self,event,arg)
 				TalkingHeadFrame:Hide()
 			end)
 		end
+		--]]
 
 	end
 		
