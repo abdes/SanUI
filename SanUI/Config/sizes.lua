@@ -18,8 +18,8 @@ local sizes = {
 	scales = {
 	},
 	raidframes = {
-		width = 66,
-		height = 28,
+		width = 75,
+		height = 32,
 		raidicon =16,
 		readycheck = 12,
 		resurrecticon = 12,
