@@ -28,7 +28,7 @@ local sizes = {
 		turtleicon = 15,
 		raiddebuffs = 15,
 		raiddebuffsicon = 14,
-		notauratrackicon = 6,
+		notauratrackicon = 7,
 		
 	},
 }

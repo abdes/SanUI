@@ -135,14 +135,14 @@ local function Shared(self, unit)
 	health:SetHeight(rfsizes.height)
 	health:SetStatusBarTexture(normTex)
 	health:SetFrameLevel(8)
-	health:SetStatusBarColor(.2, .2, .2, 1)
+	health:SetStatusBarColor(131/255, 148/255, 150/255, 1)
 	health:SetOrientation("VERTICAL")
 	self.Health = health
 
 	health.bg = health:CreateTexture(nil, "BORDER")
 	health.bg:SetAllPoints()
+	health.bg:SetVertexColor(0,43/255,54/255,1)
 	health.bg:SetTexture(normTex)
-	health.bg:SetVertexColor(0,0,0,1)
 	
 	health.colorDisconnected = false
 	health.colorClass = false
@@ -155,7 +155,7 @@ local function Shared(self, unit)
 	health.Smooth = true
 
 	local name = self.Health:CreateFontString(nil, "OVERLAY")
-	name:SetPoint("CENTER",self.Health,"CENTER")
+	name:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT", -1, 1)
 	name:SetFont(font1, 11)
 	self:Tag(name, "[getnamecolor][nameshort]")
 	self.Name = name
@@ -185,7 +185,7 @@ local function Shared(self, unit)
 	self.HighlightTarget = HighlightTarget
 	
 	local Dead = self.Health:CreateFontString(nil, "OVERLAY")
-	Dead:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT",-S.scale1,0)
+	Dead:SetPoint("TOPRIGHT",self.Health,"TOPRIGHT",-S.scale1,0)
 	Dead:SetFont(C["Medias"].Font, 11)
 	self:Tag(Dead, "[status]")
 	self.Dead = Dead
@@ -269,6 +269,7 @@ local function Shared(self, unit)
 
 	for _, spell in pairs(S["UnitFrames"].RaidBuffsTracking[S.MyClass] or {}) do
 		local icon = CreateFrame("Frame", nil, auras)
+		spell.pos[2] = auras
 		icon:SetPoint(unpack(spell.pos))
 		
 		icon.spellID = spell.spellID
@@ -278,7 +279,7 @@ local function Shared(self, unit)
 		icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
 		icon:SetWidth(rfsizes.notauratrackicon)
 		icon:SetHeight(rfsizes.notauratrackicon)
-	
+			
 		if icon.cooldownAnim then 
 			local cd = CreateFrame("Cooldown", nil, icon,"CooldownFrameTemplate")
 			cd:SetAllPoints(icon)
@@ -306,6 +307,29 @@ local function Shared(self, unit)
 		icon:Hide()
 	end
 	
+	local rej_icon = auras.Icons[774]
+	if rej_icon then
+		--rej_icon:CreateBackdrop("Transparent")
+		local b = CreateFrame("Frame", nil, auras)
+		b:SetAllPoints(rej_icon)
+		local t = b:CreateTexture(nil, "OVERLAY")
+		t:SetAllPoints(b)
+		t:SetTexture(C.Medias.Blank)
+		t:SetVertexColor(.5,.5,.5)
+		
+		rej_icon.Backdrop = b
+		b.tex = t
+		b:SetFrameLevel(rej_icon:GetFrameLevel()-1)
+
+--[[
+		if auras.Icons[8936] then
+			b:SetParent(auras.Icons[8936])
+			
+		else
+			b:SetParent(self.Health)
+		end
+		--]]
+	end	
 	
 	local turtle_icon = CreateFrame("Frame", nil, auras)	
 	turtle_icon:SetPoint("TOPRIGHT", S.scale2, S.scale2)	
@@ -390,6 +414,7 @@ local function Shared(self, unit)
 
 	RaidDebuffs.Debuffs = S["UnitFrames"].RaidDebuffs
 	
+	RaidDebuffs.forceShow = true
 	self.NotRaidDebuffs = RaidDebuffs
 		
 	local ORD = oUF_NotRaidDebuffs	

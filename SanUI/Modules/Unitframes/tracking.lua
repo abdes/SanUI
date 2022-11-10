@@ -21,7 +21,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Rejuvenation
 	{
     spellID = 774,
-    pos = {"TOPLEFT", 0, 0},
+    pos = {"RIGHT", nil, "CENTER", -Scale(5), 0},
     color = {0.4, 0.8, 0.2},
     anyCaster = false,
     timers = { {2, {1, 0, 0}}, {4.5, {1, 1, 0}} },
@@ -30,7 +30,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Germination
 	{
     spellID = 155777,
-    pos = {"TOPLEFT", Scale(7), 0},
+    pos = {"RIGHT", nil, "CENTER", -Scale(5), -Scale(9)},
     color = {0.4, 0.8, 0.2},
     anyCaster = false,
     timers = { {2, {1, 0, 0}}, {4.5, {1, 1, 0}} }
@@ -38,7 +38,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Wild Growth
 	{
     spellID = 48438,
-    pos = {"TOPRIGHT", 0, 0},
+    pos = {"CENTER", 0, 0},
     color = {0, 1, 1},
     anyCaster = false,
     cooldownAnim = true
@@ -46,18 +46,19 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Regrowth
 	{
     spellID = 8936,
-    pos = {"TOPLEFT", 0,- Scale(7)},
+    pos = {"LEFT", nil, "CENTER", Scale(5), 0},
     color = {0.4, 0.8, 0.2},
     anyCaster = false,
     timers = { {2, {1, 0, 0}}, {3.6, {1, 1, 0}} }
   },
-	-- swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
+	--[[ swiftmend -- SPECIAL DON'T CHANGE THIS (commenting out is ok)
 	{
 		spellID = 18562,
 		pos = {"TOPLEFT",0,-Scale(7)},
 		color = {1,1,1},
 		anyCaster = false,
 	}, 
+	--]]
 	-- adaptive swarm
 	{
 	  spellID = 325748,
@@ -80,8 +81,8 @@ table.insert(
 	S["UnitFrames"].TextAuras["DRUID"],
 	{
 		spellID = {33763, 33778, 43421, 188550, 290754, 186371},
-		pos = {"TOP",0,-1},
-		textsize = 8, 
+		pos = {"TOP",0,1},
+		textsize = 10, 
 		format = "|cFF00FF00%u|r", 
 		timers = { { 2, "|cFFFF0000%.1f|r", 0.05}, { 4.5, "|cFFFFFF00%u|r", 0.3} },
 		anyCaster = false,
