@@ -385,37 +385,46 @@ local function Shared(self, unit)
 	end
 	
 	self.NotAuraTrack = auras
+	
+	-- oUF_NotRaidDebuffs
+	local raiddebuffs = S["UnitFrames"].RaidDebuffs
+	self.NotRaidDebuffs = { forceShow = true }
+	for i = 1,2 do
+		local rd = CreateFrame("Frame", nil, self)
+		rd:SetHeight(rfsizes.raiddebuffs)
+		rd:SetWidth(rfsizes.raiddebuffs)
+		
+		if i == 1 then
+			rd:SetPoint("BOTTOMLEFT",self,0,0)-- scales[1], scales[1])
+		else
+			rd:SetPoint("TOPLEFT",self,0,0)-- scales[1], -scales[1])
+		end
+		rd:SetFrameStrata(health:GetFrameStrata())
+		--HighlightTarget has + 3, we want to be above that
+		rd:SetFrameLevel(health:GetFrameLevel() + 4)
+		
+		rd:CreateBackdrop()
+		
+		rd.icon = rd:CreateTexture(nil, "OVERLAY")
+		rd.icon:SetTexCoord(.1,.9,.1,.9)
+		rd.icon:SetPoint("CENTER")
+		rd.icon:SetSize(rfsizes.raiddebuffsicon, rfsizes.raiddebuffsicon)
 
-	local RaidDebuffs = CreateFrame("Frame", nil, self)
-	RaidDebuffs:SetHeight(rfsizes.raiddebuffs)
-	RaidDebuffs:SetWidth(rfsizes.raiddebuffs)
-	RaidDebuffs:SetPoint("BOTTOMLEFT",self, 1, 1)---S.scale2,-S.scale2)
-	RaidDebuffs:SetFrameStrata(health:GetFrameStrata())
-	--HighlightTarget has + 3, we want to be above that
-	RaidDebuffs:SetFrameLevel(health:GetFrameLevel() + 4)
-	
-	RaidDebuffs:CreateBackdrop()
-	
-	RaidDebuffs.icon = RaidDebuffs:CreateTexture(nil, "OVERLAY")
-	RaidDebuffs.icon:SetTexCoord(.1,.9,.1,.9)
-	RaidDebuffs.icon:SetPoint("CENTER")
-	RaidDebuffs.icon:SetSize(rfsizes.raiddebuffsicon, rfsizes.raiddebuffsicon)
+		rd.cd = CreateFrame("Cooldown", nil, rd,"CooldownFrameTemplate")
+		rd.cd:SetAllPoints(rd.icon)
+		rd.cd.noOCC = true -- remove this line if you want cooldown number on it
+		rd.cd.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
+		rd.cd:SetReverse(true)
+		
+		rd.count = rd:CreateFontString(nil, "OVERLAY")
+		rd.count:SetFont(font2, 9, "THINOUTLINE")
+		rd.count:SetPoint("BOTTOMRIGHT", rd, "BOTTOMRIGHT", 0, S.scale2)
+		rd.count:SetTextColor(1, .9, 0)	
 
-	RaidDebuffs.cd = CreateFrame("Cooldown", nil, RaidDebuffs,"CooldownFrameTemplate")
-	RaidDebuffs.cd:SetAllPoints(RaidDebuffs.icon)
-	RaidDebuffs.cd.noOCC = true -- remove this line if you want cooldown number on it
-	RaidDebuffs.cd.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers
-	RaidDebuffs.cd:SetReverse(true)
-	
-	RaidDebuffs.count = RaidDebuffs:CreateFontString(nil, "OVERLAY")
-	RaidDebuffs.count:SetFont(font2, 9, "THINOUTLINE")
-	RaidDebuffs.count:SetPoint("BOTTOMRIGHT", RaidDebuffs, "BOTTOMRIGHT", 0, S.scale2)
-	RaidDebuffs.count:SetTextColor(1, .9, 0)	
-
-	RaidDebuffs.Debuffs = S["UnitFrames"].RaidDebuffs
-	
-	RaidDebuffs.forceShow = true
-	self.NotRaidDebuffs = RaidDebuffs
+		rd.Debuffs = raiddebuffs
+		
+		self.NotRaidDebuffs[i] = rd
+	end
 		
 	local ORD = oUF_NotRaidDebuffs	
 	ORD.ShowDispelableDebuff = true
@@ -424,12 +433,12 @@ local function Shared(self, unit)
 	--ORD.SetDebuffTypeColor = RaidDebuffs.SetBorderColor
 	
 	ORD:ResetDebuffData()
-	ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
+	ORD:RegisterDebuffs(raiddebuffs)
 	
 	if not ORD.RegisteredSanUI then
-		S["UnitFrames"].Debuffs.PvE.spells = RaidDebuffs.Debuffs
+		S["UnitFrames"].Debuffs.PvE.spells = raiddebuffs
 		ORD:ResetDebuffData()
-		ORD:RegisterDebuffs(RaidDebuffs.Debuffs)
+		ORD:RegisterDebuffs(raiddebuffs)
 		ORD.RegisteredSanUI = true
 	end
 
@@ -458,15 +467,15 @@ local function GetRaidFrameAttributes()
 	"showRaid", true,
 	"showPlayer", true,
 	"showSolo", true,
-	"xoffset", scales[2],
-	"yOffset", scales[-2],
+	"xoffset", scales[3],
+	"yOffset", scales[-3],
 	"point", point,
 	"groupFilter", "1,2,3,4,5,6,7,8",
 	"groupingOrder", "1,2,3,4,5,6,7,8",
 	"groupBy", "GROUP",
 	"maxColumns", 8,
 	"unitsPerColumn", 5,
-	"columnSpacing", scales[2],
+	"columnSpacing", scales[3],
 	"columnAnchorPoint", columnAnchorPoint
 end
 S.RaidFrameAttributes = GetAttributes
@@ -482,10 +491,10 @@ local function GetPetFrameAttributes()
 	"maxColumns", 8,
 	"point", point,
 	"unitsPerColumn", 5,
-	"columnSpacing", scales[2],
+	"columnSpacing", scales[3],
 	"columnAnchorPoint", columnAnchorPoint,
-	"yOffset", scales[-2],
-	"xOffset", scales[2],
+	"yOffset", scales[-3],
+	"xOffset", scales[3],
 	"initial-width", rfsizes.width, --Scale(66),
 	"initial-height", rfsizes.height, --Scale(28),
 	"oUF-initialConfigFunction", [[

@@ -189,66 +189,73 @@ local function OnUpdate(self, elapsed)
 	end
 end
 
-local function UpdateDebuff(self, data) -- name, icon, count, debuffType, duration, endTime, spellID, stackThreshold)
-	local f = self.NotRaidDebuffs
-	local name = data.name
-	local icon = data.icon
-	local count = data.count
-	local debuffType = data.debuffType
-	local duration = data.duration
-	local endTime = data.endTime
-	local spellID = data.spellID
-	local stackThreshold = data.stackThreshold
+local function UpdateDebuffs(self, data) -- name, icon, count, debuffType, duration, endTime, spellID, stackThreshold)
 	
+	for index = 1,2 do
+		local f = self.NotRaidDebuffs[index]
+		local data = data[index]
+		
+		if (not f) or (not data) then return end
+		
+		local name = data.name
+		local icon = data.icon
+		local count = data.count
+		local debuffType = data.debuffType
+		local duration = data.duration
+		local endTime = data.endTime
+		local spellID = data.spellID
+		local stackThreshold = data.stackThreshold
+		
 
-	if name and (count >= stackThreshold) then
-		f.icon:SetTexture(icon)
-		f.icon:Show()
-		f.duration = duration
-		f.reverse = f.ReverseTimer and f.ReverseTimer[spellID]
+		if name and (count >= stackThreshold) then
+			f.icon:SetTexture(icon)
+			f.icon:Show()
+			f.duration = duration
+			f.reverse = f.ReverseTimer and f.ReverseTimer[spellID]
 
-		if f.count then
-			if count and (count > 1) then
-				f.count:SetText(count)
-				f.count:Show()
-			else
-				f.count:SetText("")
-				f.count:Hide()
+			if f.count then
+				if count and (count > 1) then
+					f.count:SetText(count)
+					f.count:Show()
+				else
+					f.count:SetText("")
+					f.count:Hide()
+				end
 			end
-		end
 
-		if f.time then
-			if duration and (duration > 0) then
-				f.endTime = endTime
-				f.nextUpdate = 0
-				f:SetScript('OnUpdate', OnUpdate)
-				f.time:Show()
-			else
-				f:SetScript('OnUpdate', nil)
-				f.time:Hide()
+			if f.time then
+				if duration and (duration > 0) then
+					f.endTime = endTime
+					f.nextUpdate = 0
+					f:SetScript('OnUpdate', OnUpdate)
+					f.time:Show()
+				else
+					f:SetScript('OnUpdate', nil)
+					f.time:Hide()
+				end
 			end
-		end
 
-		if f.cd then
-			if duration and (duration > 0) then
-				f.cd:SetCooldown(endTime - duration, duration)
-				f.cd:Show()
-			else
-				f.cd:Hide()
+			if f.cd then
+				if duration and (duration > 0) then
+					f.cd:SetCooldown(endTime - duration, duration)
+					f.cd:Show()
+				else
+					f.cd:Hide()
+				end
 			end
-		end
 
-		--print("dtype: "..debuffType)
-		local c = DispelColor[debuffType] or DispelColor.none
-		if f.Backdrop then
-			f.Backdrop:SetBorderColor(c[1], c[2], c[3])
+			--print("dtype: "..debuffType)
+			local c = DispelColor[debuffType] or DispelColor.none
+			if f.Backdrop then
+				f.Backdrop:SetBorderColor(c[1], c[2], c[3])
+			else
+				f:SetBackdropBorderColor(c[1], c[2], c[3])
+			end
+
+			f:Show()
 		else
-			f:SetBackdropBorderColor(c[1], c[2], c[3])
+			f:Hide()
 		end
-
-		f:Show()
-	else
-		f:Hide()
 	end
 end
 
@@ -313,13 +320,15 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 		_name, _, _icon = GetSpellInfo(_spellID)
 		--_count, _debuffType, _duration, _expiration, _stackThreshold = 5, 'Magic', 0, 60, 0
 		data[1] = { priority = 0, name = _name, icon = _icon, count = 5, debuffType = 'Magic', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
+		data[2] = { priority = 0, name = _name, icon = _icon, count = 4, debuffType = 'Disease', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
+		data[2].count = 4
 	end
 
 	if data[1] then
 		data[1].stackThreshold = debuff_data[addon.MatchBySpellName and data[1].name or data[1].spellID] and debuff_data[addon.MatchBySpellName and data[1].name or data[1].spellID].stackThreshold or data[1].stackThreshold
 	end
 
-	UpdateDebuff(self, data[1])
+	UpdateDebuffs(self, data)
 
 	--Reset the DispelPriority
 	DispelPriority.Magic = 4
