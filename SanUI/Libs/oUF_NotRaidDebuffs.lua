@@ -189,8 +189,17 @@ local function OnUpdate(self, elapsed)
 	end
 end
 
-local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTime, spellID, stackThreshold)
+local function UpdateDebuff(self, data) -- name, icon, count, debuffType, duration, endTime, spellID, stackThreshold)
 	local f = self.NotRaidDebuffs
+	local name = data.name
+	local icon = data.icon
+	local count = data.count
+	local debuffType = data.debuffType
+	local duration = data.duration
+	local endTime = data.endTime
+	local spellID = data.spellID
+	local stackThreshold = data.stackThreshold
+	
 
 	if name and (count >= stackThreshold) then
 		f.icon:SetTexture(icon)
@@ -246,14 +255,16 @@ end
 local function Update(self, event, unit, isFullUpdate, updatedAuras)
 	if not unit or self.unit ~= unit then return end
 
-	local _name, _icon, _count, _dtype, _duration, _endTime, _spellID
-	local _stackThreshold, _priority, priority = 0, 0, 0
+	--local _name, _icon, _count, _dtype, _duration, _endTime, _spellID
+	--local _stackThreshold, _priority, priority = 0, 0, 0
 
 	--store if the unit its charmed, mind controlled units (Imperial Vizier Zor'lok: Convert)
 	local isCharmed = UnitIsCharmed(unit)
 
 	--store if we cand attack that unit, if its so the unit its hostile (Amber-Shaper Un'sok: Reshape Life)
 	local canAttack = UnitCanAttack('player', unit)
+
+	local data = { { }, { } }
 
 	local index = 1
 	local name, icon, count, debuffType, duration, expiration, _, _, _, spellID = UnitAura(unit, index, 'HARMFUL')
@@ -271,8 +282,8 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 				priority = DispelPriority[debuffType] or 0
 			end
 
-			if priority > _priority then
-				_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellID = priority, name, icon, count, debuffType, duration, expiration, spellID
+			if priority > data[1].priority then
+				data[1] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
 			end
 		end
 
@@ -288,8 +299,9 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 		end
 
 		priority = debuff and debuff.priority
-		if priority and not blackList[spellID] and (priority > _priority) then
-			_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellID = priority, name, icon, count, debuffType, duration, expiration, spellID
+		if priority and not blackList[spellID] and (priority > data[1].priority) then
+			data[1] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
+			--_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellID = priority, name, icon, count, debuffType, duration, expiration, spellID
 		end
 
 		index = index + 1
@@ -299,14 +311,15 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 	if self.NotRaidDebuffs.forceShow then
 		_spellID = 5782
 		_name, _, _icon = GetSpellInfo(_spellID)
-		_count, _dtype, _duration, _endTime, _stackThreshold = 5, 'Magic', 0, 60, 0
+		--_count, _debuffType, _duration, _expiration, _stackThreshold = 5, 'Magic', 0, 60, 0
+		data[1] = { priority = 0, name = _name, icon = _icon, count = 5, debuffType = 'Magic', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
 	end
 
-	if _name then
-		_stackThreshold = debuff_data[addon.MatchBySpellName and _name or _spellID] and debuff_data[addon.MatchBySpellName and _name or _spellID].stackThreshold or _stackThreshold
+	if data[1] then
+		data[1].stackThreshold = debuff_data[addon.MatchBySpellName and data[1].name or data[1].spellID] and debuff_data[addon.MatchBySpellName and data[1].name or data[1].spellID].stackThreshold or data[1].stackThreshold
 	end
 
-	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _spellID, _stackThreshold)
+	UpdateDebuff(self, data[1])
 
 	--Reset the DispelPriority
 	DispelPriority.Magic = 4
