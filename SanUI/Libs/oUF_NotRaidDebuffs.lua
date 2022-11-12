@@ -195,14 +195,15 @@ local function UpdateDebuffs(self, data) -- name, icon, count, debuffType, durat
 		local f = self.NotRaidDebuffs[index]
 		local data = data[index]
 		
-		if (not f) or (not data) then return end
+		if (not f) then return end 
+		if (not data) then f:Hide() return end
 		
 		local name = data.name
 		local icon = data.icon
 		local count = data.count
 		local debuffType = data.debuffType
 		local duration = data.duration
-		local endTime = data.endTime
+		local endTime = data.expiration
 		local spellID = data.spellID
 		local stackThreshold = data.stackThreshold
 		
@@ -271,7 +272,8 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 	--store if we cand attack that unit, if its so the unit its hostile (Amber-Shaper Un'sok: Reshape Life)
 	local canAttack = UnitCanAttack('player', unit)
 
-	local data = { { }, { } }
+	-- keep elements for the algorithm to work
+	local data = { { priority = 0, stackThreshold = 0 }, { priority = 0, stackThreshold = 0 } }
 
 	local index = 1
 	local name, icon, count, debuffType, duration, expiration, _, _, _, spellID = UnitAura(unit, index, 'HARMFUL')
@@ -290,7 +292,10 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 			end
 
 			if priority > data[1].priority then
+				data[2] = data[1]
 				data[1] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
+			elseif priority > data[2].priority then
+				data[2] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
 			end
 		end
 
@@ -307,8 +312,11 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 
 		priority = debuff and debuff.priority
 		if priority and not blackList[spellID] and (priority > data[1].priority) then
+			data[2] = data[1]
 			data[1] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
 			--_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellID = priority, name, icon, count, debuffType, duration, expiration, spellID
+		elseif priority and not blackList[spellID] and (priority > data[2].priority) then
+			data[2] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
 		end
 
 		index = index + 1
@@ -321,7 +329,6 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 		--_count, _debuffType, _duration, _expiration, _stackThreshold = 5, 'Magic', 0, 60, 0
 		data[1] = { priority = 0, name = _name, icon = _icon, count = 5, debuffType = 'Magic', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
 		data[2] = { priority = 0, name = _name, icon = _icon, count = 4, debuffType = 'Disease', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
-		data[2].count = 4
 	end
 
 	if data[1] then
