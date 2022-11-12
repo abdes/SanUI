@@ -26,9 +26,10 @@ local sizes = {
 		resurrecticon = 12,
 		summonindicator = 28,
 		turtleicon = 15,
-		raiddebuffs = 15,
+		raiddebuffs = 16,
 		raiddebuffsicon = 14,
 		notauratrackicon = 7,
+		name = 12,
 		
 	},
 }

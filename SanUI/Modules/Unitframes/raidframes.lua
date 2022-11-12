@@ -154,12 +154,6 @@ local function Shared(self, unit)
 	health.colorHealth = false
 	health.Smooth = true
 
-	local name = self.Health:CreateFontString(nil, "OVERLAY")
-	name:SetPoint("BOTTOMRIGHT",self.Health,"BOTTOMRIGHT", -1, 1)
-	name:SetFont(font1, 11)
-	self:Tag(name, "[getnamecolor][nameshort]")
-	self.Name = name
-
 	table.insert(self.__elements, updateThreat)
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", updateThreat, true)
 	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", updateThreat)
@@ -184,8 +178,14 @@ local function Shared(self, unit)
 		
 	self.HighlightTarget = HighlightTarget
 	
-	local Dead = self.Health:CreateFontString(nil, "OVERLAY")
-	Dead:SetPoint("TOPRIGHT",self.Health,"TOPRIGHT",-S.scale1,0)
+	local name = HighlightTarget:CreateFontString(nil, "OVERLAY")
+	name:SetPoint("BOTTOMRIGHT", HighlightTarget,"BOTTOMRIGHT", 0,0) -- -1, 1)
+	name:SetFont(font1, rfsizes.name)
+	self:Tag(name, "[getnamecolor][nameshort]")
+	self.Name = name
+	
+	local Dead = HighlightTarget:CreateFontString(nil, "OVERLAY")
+	Dead:SetPoint("TOPRIGHT",HighlightTarget,"TOPRIGHT",0,0) -- -S.scale1,0)
 	Dead:SetFont(C["Medias"].Font, 11)
 	self:Tag(Dead, "[status]")
 	self.Dead = Dead

@@ -62,7 +62,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
 	-- adaptive swarm
 	{
 	  spellID = 325748,
-    pos = {"BOTTOM", 0, 0},
+    pos = {"LEFT", nil, "CENTER", Scale(14), 0},
     color = {153/255, 102/255, 0},
     anyCaster = false,
     count = { size = 9 },
