@@ -59,9 +59,19 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
 		anyCaster = false,
 	}, 
 	--]]
-	-- adaptive swarm
+	-- adaptive swarm necro
 	{
 	  spellID = 325748,
+    pos = {"LEFT", nil, "CENTER", Scale(14), 0},
+    color = {153/255, 102/255, 0},
+    anyCaster = false,
+    count = { size = 9 },
+		cooldownAnim = true
+
+  },
+  	-- adaptive swarm talent
+	{
+	  spellID = 391891,
     pos = {"LEFT", nil, "CENTER", Scale(14), 0},
     color = {153/255, 102/255, 0},
     anyCaster = false,
