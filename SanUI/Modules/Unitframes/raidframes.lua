@@ -179,7 +179,7 @@ local function Shared(self, unit)
 	self.HighlightTarget = HighlightTarget
 	
 	local name = HighlightTarget:CreateFontString(nil, "OVERLAY")
-	name:SetPoint("BOTTOMRIGHT", HighlightTarget,"BOTTOMRIGHT", 0,0) -- -1, 1)
+	name:SetPoint("BOTTOMRIGHT", HighlightTarget,"BOTTOMRIGHT", -scales[2],scales[2]) -- -1, 1)
 	name:SetFont(font1, rfsizes.name)
 	self:Tag(name, "[getnamecolor][nameshort]")
 	self.Name = name
@@ -333,6 +333,8 @@ local function Shared(self, unit)
 	
 	local turtle_icon = CreateFrame("Frame", nil, auras)	
 	turtle_icon:SetPoint("TOPRIGHT", S.scale2, S.scale2)	
+	--HighlightTarget has + 3, we want to be above that
+	turtle_icon:SetFrameLevel(health:GetFrameLevel() + 4)
 	turtle_icon.anyCaster = true
 	turtle_icon.noCooldownCount = true -- needed for tullaCC to not show cooldown numbers	
 	turtle_icon:SetWidth(rfsizes.turtleicon)
@@ -388,7 +390,7 @@ local function Shared(self, unit)
 	
 	-- oUF_NotRaidDebuffs
 	local raiddebuffs = S["UnitFrames"].RaidDebuffs
-	self.NotRaidDebuffs = { forceShow = true }
+	self.NotRaidDebuffs = { } -- forceShow = true }
 	for i = 1,2 do
 		local rd = CreateFrame("Frame", nil, self)
 		rd:SetHeight(rfsizes.raiddebuffs)
