@@ -308,7 +308,7 @@ local function Shared(self, unit)
 	end
 	
 	local rej_icon = auras.Icons[774]
-	if rej_icon then
+	if rej_icon and not self.unit:find("pet") then
 		--rej_icon:CreateBackdrop("Transparent")
 		local b = CreateFrame("Frame", nil, auras)
 		b:SetAllPoints(rej_icon)
@@ -469,15 +469,15 @@ local function GetRaidFrameAttributes()
 	"showRaid", true,
 	"showPlayer", true,
 	"showSolo", true,
-	"xoffset", scales[3],
-	"yOffset", scales[-3],
+	"xoffset", scales[2],
+	"yOffset", scales[-2],
 	"point", point,
 	"groupFilter", "1,2,3,4,5,6,7,8",
 	"groupingOrder", "1,2,3,4,5,6,7,8",
 	"groupBy", "GROUP",
 	"maxColumns", 8,
 	"unitsPerColumn", 5,
-	"columnSpacing", scales[3],
+	"columnSpacing", scales[2],
 	"columnAnchorPoint", columnAnchorPoint
 end
 S.RaidFrameAttributes = GetAttributes
@@ -493,10 +493,10 @@ local function GetPetFrameAttributes()
 	"maxColumns", 8,
 	"point", point,
 	"unitsPerColumn", 5,
-	"columnSpacing", scales[3],
+	"columnSpacing", scales[2],
 	"columnAnchorPoint", columnAnchorPoint,
-	"yOffset", scales[-3],
-	"xOffset", scales[3],
+	"yOffset", scales[-2],
+	"xOffset", scales[2],
 	"initial-width", rfsizes.width, --Scale(66),
 	"initial-height", rfsizes.height, --Scale(28),
 	"oUF-initialConfigFunction", [[
