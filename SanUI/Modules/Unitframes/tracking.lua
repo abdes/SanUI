@@ -21,7 +21,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Rejuvenation
 	{
     spellID = 774,
-    pos = {"RIGHT", nil, "CENTER", -Scale(7), 0},
+    pos = {"CENTER", nil, "CENTER", -Scale(14), 0},
     color = {0.4, 0.8, 0.2},
     anyCaster = false,
     timers = { {2, {1, 0, 0}}, {4.5, {1, 1, 0}} },
@@ -30,7 +30,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Germination
 	{
     spellID = 155777,
-    pos = {"RIGHT", nil, "CENTER", -Scale(7), -Scale(9)},
+    pos = {"CENTER", nil, "CENTER", -Scale(14), -Scale(9)},
     color = {0.4, 0.8, 0.2},
     anyCaster = false,
     timers = { {2, {1, 0, 0}}, {4.5, {1, 1, 0}} }
@@ -38,7 +38,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Wild Growth
 	{
     spellID = 48438,
-    pos = {"CENTER", 0, 0},
+    pos = {"CENTER", nil, "CENTER", -Scale(5), 0},
     color = {0, 1, 1},
     anyCaster = false,
     cooldownAnim = true
@@ -46,7 +46,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
   -- Regrowth
 	{
     spellID = 8936,
-    pos = {"LEFT", nil, "CENTER", Scale(3), 0},
+    pos = {"CENTER", nil, "CENTER", Scale(3), 0},
     color = {0.4, 0.8, 0.2},
     anyCaster = false,
     timers = { {2, {1, 0, 0}}, {3.6, {1, 1, 0}} }
@@ -62,7 +62,7 @@ S["UnitFrames"].RaidBuffsTracking["DRUID"] = {
 	-- adaptive swarm necro
 	{
 	  spellID = 325748,
-    pos = {"LEFT", nil, "CENTER", Scale(12), 0},
+    pos = {"CENTER", nil, "CENTER", Scale(12), 0},
     color = {153/255, 102/255, 0},
     anyCaster = false,
     count = { size = 9 },
