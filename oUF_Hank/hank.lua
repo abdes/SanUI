@@ -117,7 +117,7 @@ fntSmall:SetTextColor(unpack(cfg.colors.text))
 fntSmall:SetShadowColor(unpack(cfg.colors.textShadow))
 fntSmall:SetShadowOffset(Scale(1), -Scale(1))
 
-local canDispel = {}
+local canDispel = oUF_NotRaidDebuffs.DispelFilter
 
 -- Functions -------------------------------------
 
@@ -135,23 +135,6 @@ oUF_Hank.menu = function(self)
 	elseif(_G[cunit.."FrameDropDown"]) then
 		ToggleDropDownMenu(nil, nil, _G[cunit.."FrameDropDown"], "cursor", 0, 0)
 	end
-end
-
--- Party frames be gone!
-oUF_Hank.HideParty = function()
-	--[[
-	for i = 1, 4 do
-		local party = "PartyMemberFrame" .. i
-		local frame = _G[party]
-
-		frame:UnregisterAllEvents()
-		frame.Show = function() end
-		frame:Hide()
-
-		_G[party .. "HealthBar"]:UnregisterAllEvents()
-		_G[party .. "ManaBar"]:UnregisterAllEvents()
-	end
-	--]]
 end
 
 -- Set up the mirror bars (breath, exhaustion etc.)
@@ -185,24 +168,6 @@ oUF_Hank.AdjustMirrorBars = function()
 		text:SetPoint("TOPLEFT", statusbar, "TOPLEFT", 10, 0)
 		text:SetPoint("BOTTOMRIGHT", statusbar, "BOTTOMRIGHT", -10, 0)
 	end
-end
-
--- Update the dispel table after talent changes
-oUF_Hank.UpdateDispel = function()
-	canDispel = {
-		["DEMONHUNTER"] = {},
-		["DEATHKNIGHT"] = {},
-		["DRUID"] = {["Poison"] = true, ["Curse"] = true, ["Magic"] = (GetSpecialization() == 4)},
-		["HUNTER"] = {},
-		["MAGE"] = {["Curse"] = true},
-		["MONK"] = {["Poison"] = true, ["Disease"] = true, ["Magic"] = (GetSpecialization() == 2)},
-		["PALADIN"] = {["Poison"] = true, ["Disease"] = true, ["Magic"] = (GetSpecialization() == 1)},
-		["PRIEST"] = {["Disease"] = true, ["Magic"] = (GetSpecialization() ~= 3)},
-		["ROGUE"] = {},
-		["SHAMAN"] = {["Curse"] = true, ["Magic"] = (GetSpecialization() == 3)},
-		["WARLOCK"] = {["Magic"] = true},
-		["WARRIOR"] = {},
-	}
 end
 
 -- This is where the magic happens. Handle health update, display digit textures
@@ -356,34 +321,42 @@ end
 		element:PostUpdateIcon(button, unit, data, position)
 		--]]
 -- Sticky aura colors
-oUF_Hank.PostUpdateIcon = function(icons, icon, unit, data, index)
+oUF_Hank.PostUpdateButton = function(icons, icon, unit, data, index)
+	local filter = icons.filter
+	local config = cfg["Auras" .. upper(unit)]
+	local stickyauras = config.StickyAuras
+	local can_attack = UnitCanAttack("player", unit)
+	
+	local dtype = data.dispelName
+	local caster = data.sourceUnit
+	
 	-- We want the border, not the color for the type indication
 	icon.Overlay:SetVertexColor(1, 1, 1)
 
-	local _, _, _, dtype, _, _, caster, _, _, _ = UnitAura(unit, index, icon.filter)
+	--local _, _, _, dtype, _, _, caster, _, _, _ = UnitAura(unit, index, icon.filter)
 	if caster == "vehicle" then caster = "player" end
 
-	if icons.filter == "HELPFUL" and not UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myBuffs then
+	if filter == "HELPFUL" and (not can_attack) and caster == "player" and stickyauras.myBuffs then
 		-- Sticky aura: myBuffs
 		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
 		icon.Icon:SetDesaturated(false)
-	elseif icons.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myDebuffs then
+	elseif filter == "HARMFUL" and can_attack and caster == "player" and stickyauras.myDebuffs then
 		-- Sticky aura: myDebuffs
 		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
 		icon.Icon:SetDesaturated(false)
-	elseif icons.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "pet" and cfg["Auras" .. upper(unit)].StickyAuras.petDebuffs then
+	elseif filter == "HARMFUL" and can_attack and caster == "pet" and stickyauras.petDebuffs then
 		-- Sticky aura: petDebuffs
 		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
 		icon.Icon:SetDesaturated(false)
-	elseif icons.filter == "HARMFUL" and not UnitCanAttack("player", unit) and canDispel[({UnitClass("player")})[2]][dtype] and cfg["Auras" .. upper(unit)].StickyAuras.curableDebuffs then
+	elseif filter == "HARMFUL" and (not can_attack) and canDispel[dtype] and stickyauras.curableDebuffs then
 		-- Sticky aura: curableDebuffs
 		icon.Icon:SetVertexColor(DebuffTypeColor[dtype].r, DebuffTypeColor[dtype].g, DebuffTypeColor[dtype].b)
 		icon.Icon:SetDesaturated(false)
-	elseif icons.filter == "HELPFUL" and UnitCanAttack("player", unit) and UnitIsUnit(unit, caster or "") and cfg["Auras" .. upper(unit)].StickyAuras.enemySelfBuffs then
+	elseif filter == "HELPFUL" and can_attack and UnitIsUnit(unit, caster or "") and stickyauras.enemySelfBuffs then
 		-- Sticky aura: enemySelfBuffs
 		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
 		icon.Icon:SetDesaturated(false)
-	elseif icons.filter == "HARMFUL" and not UnitCanAttack("player", unit) and cfg["Auras" .. upper(unit)].StickyAuras.debuffsOnFriendly then
+	elseif filter == "HARMFUL" and (not can_attack) and stickyauras.debuffsOnFriendly then
 		icon.Icon:SetVertexColor(unpack(cfg.AuraStickyColor))
 		icon.Icon:SetDesaturated(false)
 	else
@@ -393,38 +366,52 @@ oUF_Hank.PostUpdateIcon = function(icons, icon, unit, data, index)
 end
 
 -- Custom filters
-oUF_Hank.customFilter = function(icons, unit, icon, name, texture, count, dtype, duration, timeLeft, caster)
+oUF_Hank.FilterAura = function(icons, unit, data)
+--function(icons, unit, icon, name, texture, count, dtype, duration, timeLeft, caster)
+	local filter = icons.filter
+	local config = cfg["Auras" .. upper(unit)]
+	local stickyauras = config.StickyAuras
+	local can_attack = UnitCanAttack("player", unit)
+	
+	local name = data.name
+	local dtype = data.dispelName
+	local caster = data.sourceUnit
+	
 	if caster == "vehicle" then caster = "player" end
-	if icons.filter == "HELPFUL" and not UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myBuffs then
+	
+	if filter == "HELPFUL" and (not can_attack) and caster == "player" and stickyauras.myBuffs then
 		-- Sticky aura: myBuffs
 		return true
-	elseif icons.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "player" and cfg["Auras" .. upper(unit)].StickyAuras.myDebuffs then
+	elseif filter == "HARMFUL" and can_attack and caster == "player" and stickyauras.myDebuffs then
 		-- Sticky aura: myDebuffs
 		return true
-	elseif icons.filter == "HARMFUL" and UnitCanAttack("player", unit) and caster == "pet" and cfg["Auras" .. upper(unit)].StickyAuras.petDebuffs then
+	elseif filter == "HARMFUL" and can_attack and caster == "pet" and stickyauras.petDebuffs then
 		-- Sticky aura: petDebuffs
 		return true
-	elseif icons.filter == "HARMFUL" and not UnitCanAttack("player", unit) and canDispel[({UnitClass("player")})[2]][dtype] and cfg["Auras" .. upper(unit)].StickyAuras.curableDebuffs then
+	elseif filter == "HARMFUL" and not can_attack and canDispel[dtype] and stickyauras.curableDebuffs then
 		-- Sticky aura: curableDebuffs
 		return true
 	-- Usage of UnitIsUnit: Call from within focus frame will return "target" as caster if focus is targeted (player > target > focus)
-	elseif icons.filter == "HELPFUL" and UnitCanAttack("player", unit) and UnitIsUnit(unit, caster or "") and cfg["Auras" .. upper(unit)].StickyAuras.enemySelfBuffs then
+	elseif filter == "HELPFUL" and can_attack and UnitIsUnit(unit, caster or "") and stickyauras.enemySelfBuffs then
 		-- Sticky aura: enemySelfBuffs
 		return true
-	elseif icon.filter == "HARMFUL" and not UnitCanAttack("player", unit) and cfg["Auras" .. upper(unit)].StickyAuras.debuffsOnFriendly then
+	elseif icon.filter == "HARMFUL" and not can_attack and stickyauras.debuffsOnFriendly then
 		return true
 	else
+		local auratype = filter == "HELPFUL" and "Buffs" or "Debuffs"
+		local filtermethod = config.FilterMethod[auratype]
+		
 		-- Aura is not sticky, filter is set to blacklist
-		if cfg["Auras" .. upper(unit)].FilterMethod[icons.filter == "HELPFUL" and "Buffs" or "Debuffs"] == "BLACKLIST" then
-			for _, v in ipairs(cfg["Auras" .. upper(unit)].BlackList) do
+		if filtermethod == "BLACKLIST" then
+			for _, v in ipairs(config.BlackList) do
 				if v == name then
 					return false
 				end
 			end
 			return true
 		-- Aura is not sticky, filter is set to whitelist
-		elseif cfg["Auras" .. upper(unit)].FilterMethod[icons.filter == "HELPFUL" and "Buffs" or "Debuffs"] == "WHITELIST" then
-			for _, v in ipairs(cfg["Auras" .. upper(unit)].WhiteList) do
+		elseif filtermethod == "WHITELIST" then
+			for _, v in ipairs(config.WhiteList) do
 				if v == name then
 					return true
 				end
@@ -464,10 +451,10 @@ end
 oUF_Hank.PostCreateIcon = function(icons, icon)
 	if cfg.AuraBorder then
 		-- Custom aura border
-		icon.overlay:SetTexture(cfg.AuraBorder)
-		icon.overlay:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
-		icon.overlay:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
-		icon.overlay:SetTexCoord(0, 1, 0, 1)
+		icon.Overlay:SetTexture(cfg.AuraBorder)
+		icon.Overlay:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
+		icon.Overlay:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
+		icon.Overlay:SetTexCoord(0, 1, 0, 1)
 		icons.showType = true
 	end
 	icon.Cooldown:SetReverse(true)
@@ -486,16 +473,28 @@ oUF_Hank.PostCreateIcon = function(icons, icon)
 end
 
 -- Debuff anchoring
-oUF_Hank.PreSetPosition = function(buffs, max)
-	if buffs.visibleBuffs > 0 then
+oUF_Hank.BuffsPostUpdate = function(buffs, unit)
+	local width = cfg.BuffSize
+	local height = cfg.BuffSize
+	local sizex = width + cfg.AuraSpacing
+	local sizey = height + cfg.AuraSpacing
+	local cols = floor(buffs:GetWidth() / sizex + 0.5)
+	local buffs_shown = #buffs.sorted
+	local rows = floor((buffs_shown - 1) / cols)
+	--print("rows: "..tostring(rows).."width: "..tostring(buffs:GetWidth()))
+	
+	local debuffs = buffs:GetParent().Debuffs
+	debuffs:ClearAllPoints()
+	
+	if buffs_shown > 0 then
 		-- Anchor debuff frame to bottomost buff icon, i.e the last buff row
-		buffs:GetParent().Debuffs:SetPoint("TOP", buffs[buffs.visibleBuffs], "BOTTOM", 0, -cfg.AuraSpacing -2)
+		debuffs:SetPoint("TOPLEFT", buffs, "BOTTOMLEFT", 0, -rows*sizey -cfg.AuraSpacing -2)
 	else
 		-- No buffs
 		if buffs:GetParent().CPoints then
-			buffs:GetParent().Debuffs:SetPoint("TOP", buffs:GetParent().CPoints[1], "BOTTOM", 0, -10)
+			debuffs:SetPoint("TOP", buffs:GetParent().CPoints[1], "BOTTOM", 0, -10)
 		else
-			buffs:GetParent().Debuffs:SetPoint("TOP", buffs:GetParent(), "BOTTOM", 0, -10)
+			debuffs:SetPoint("TOPLEFT", buffs)
 		end
 	end
 end
@@ -592,11 +591,6 @@ oUF_Hank.PostChannelStop = function(castbar, unit, spellname, spellrank)
 	end
 end
 
-oUF_Hank.PostSpawnFrames = function(this)
-	-- custom_modifications function
-	oUF_Hank.UpdateDispel()
-end
-
 -- Frame constructor -----------------------------
 
 oUF_Hank.sharedStyle = function(self, unit, isSingle)
@@ -607,9 +601,6 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	self:SetAttribute("*type2", "menu")
 
 	self.colors = cfg.colors
-
-	-- Update dispel table on talent update
-	if unit == "player" then self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", oUF_Hank.UpdateDispel, true) end
 
 	-- HP%
 	local health = {}
@@ -1366,8 +1357,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 
 		-- Debuffs
 		self.Debuffs = CreateFrame("Frame", unit .. "_Debuffs", self)
-		self.Debuffs:SetPoint("LEFT", relative, "LEFT", offset, 0)
-		self.Debuffs:SetPoint("TOP", relative, "TOP", offset, 0) -- We will reanchor this in PreAuraSetPosition
+		self.Debuffs:SetPoint("TOPLEFT", self.Buffs, "BOTTOMLEFT", 0, -cfg.AuraSpacing)
 		self.Debuffs:SetHeight(cfg.DebuffSize)
 		self.Debuffs:SetWidth(225)
 		self.Debuffs.size = cfg.DebuffSize
@@ -1388,13 +1378,13 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		self.HighlightAura.border:SetTexture(cfg.AuraBorder)
 		self.HighlightAura.border:SetPoint("CENTER")
 
-		self.Buffs.PostUpdateIcon = oUF_Hank.PostUpdateIcon
-		self.Debuffs.PostUpdateIcon = oUF_Hank.PostUpdateIcon
+		self.Buffs.PostUpdateButton = oUF_Hank.PostUpdateButton
+		self.Debuffs.PostUpdateButton = oUF_Hank.PostUpdateButton
 		self.Buffs.PostCreateIcon = oUF_Hank.PostCreateIcon
 		self.Debuffs.PostCreateIcon = oUF_Hank.PostCreateIcon
-		self.Buffs.PreSetPosition = oUF_Hank.PreSetPosition
-		self.Buffs.CustomFilter = oUF_Hank.customFilter
-		self.Debuffs.CustomFilter = oUF_Hank.customFilter
+		self.Buffs.PostUpdate = oUF_Hank.BuffsPostUpdate
+		self.Buffs.FilterAura = oUF_Hank.FilterAura
+		self.Debuffs.FilterAura = oUF_Hank.FilterAura
 	end
 
 	-- Support for oUF_SpellRange. The built-in oUF range check sucks :/
@@ -1617,11 +1607,6 @@ oUF:Spawn("targettargettarget", "oUF_ToTT"):SetPoint("BOTTOMLEFT", oUF_ToT, "TOP
 oUF:Spawn("focus", "oUF_focus"):SetPoint("CENTER", UIParent, "CENTER", -cfg.FocusFrameMargin[1], -cfg.FocusFrameMargin[2])
 oUF:Spawn("focustarget", "oUF_ToF"):SetPoint("BOTTOMLEFT", oUF_focus, "TOPLEFT", 0, 5)
 
---for i = 1, MAX_BOSS_FRAMES do
---	oUF:Spawn("boss" .. i, "oUF_boss" .. i):SetPoint("RIGHT", UIParent, cfg.BossFrameMargin[1], -55 * (i - 1) - cfg.BossFrameMargin[2])
---	_G["oUF_boss" .. i]:SetScale(cfg.FrameScale * cfg.BossFrameScale)
---end
-
 oUF_player:SetScale(cfg.FrameScale)
 oUF_pet:SetScale(cfg.FrameScale)
 oUF_target:SetScale(cfg.FrameScale)
@@ -1634,7 +1619,6 @@ else
 	oUF_ToF:SetScale(cfg.FrameScale * cfg.FocusFrameScale)
 end
 
-if cfg.HideParty then oUF_Hank.HideParty() end
 if cfg.Castbar then oUF_Hank.AdjustMirrorBars() end
 
 if cfg.RangeFade and not IsAddOnLoaded("oUF_SpellRange") then
@@ -1642,6 +1626,3 @@ if cfg.RangeFade and not IsAddOnLoaded("oUF_SpellRange") then
 elseif cfg.TotemBar and not IsAddOnLoaded("oUF_TotemBar") then
 	DEFAULT_CHAT_FRAME:AddMessage("oUF_Hank: Please download and install oUF_TotemBar before enabling the totem bar!", cfg.colors.text[1], cfg.colors.text[2], cfg.colors.text[3])
 end
-
--- Call for custom_modifications
-oUF_Hank.PostSpawnFrames(oUF_Hank)
