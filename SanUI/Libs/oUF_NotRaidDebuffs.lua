@@ -106,6 +106,7 @@ end
 
 local playerClass = select(2, UnitClass('player'))
 local DispelFilter = DispelList[playerClass] or {}
+addon.DispelFilter = DispelFilter
 
 local function CheckTalentTree(tree)
 	local activeGroup = GetActiveSpecGroup()
