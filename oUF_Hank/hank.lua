@@ -388,14 +388,14 @@ oUF_Hank.FilterAura = function(icons, unit, data)
 	elseif filter == "HARMFUL" and can_attack and caster == "pet" and stickyauras.petDebuffs then
 		-- Sticky aura: petDebuffs
 		return true
-	elseif filter == "HARMFUL" and not can_attack and canDispel[dtype] and stickyauras.curableDebuffs then
+	elseif filter == "HARMFUL" and (not can_attack) and canDispel[dtype] and stickyauras.curableDebuffs then
 		-- Sticky aura: curableDebuffs
 		return true
 	-- Usage of UnitIsUnit: Call from within focus frame will return "target" as caster if focus is targeted (player > target > focus)
 	elseif filter == "HELPFUL" and can_attack and UnitIsUnit(unit, caster or "") and stickyauras.enemySelfBuffs then
 		-- Sticky aura: enemySelfBuffs
 		return true
-	elseif icon.filter == "HARMFUL" and not can_attack and stickyauras.debuffsOnFriendly then
+	elseif filter == "HARMFUL" and (not can_attack) and stickyauras.debuffsOnFriendly then
 		return true
 	else
 		local auratype = filter == "HELPFUL" and "Buffs" or "Debuffs"
