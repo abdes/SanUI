@@ -1378,8 +1378,8 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		self.HighlightAura.border:SetTexture(cfg.AuraBorder)
 		self.HighlightAura.border:SetPoint("CENTER")
 
-		self.Buffs.PostUpdateButton = oUF_Hank.PostUpdateButton
-		self.Debuffs.PostUpdateButton = oUF_Hank.PostUpdateButton
+		self.Buffs.PostUpdateIcon = oUF_Hank.PostUpdateButton
+		self.Debuffs.PostUpdateIcon = oUF_Hank.PostUpdateButton
 		self.Buffs.PostCreateIcon = oUF_Hank.PostCreateIcon
 		self.Debuffs.PostCreateIcon = oUF_Hank.PostCreateIcon
 		self.Buffs.PostUpdate = oUF_Hank.BuffsPostUpdate
