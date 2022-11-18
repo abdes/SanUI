@@ -25,13 +25,12 @@ local GetTime = GetTime
 
 local debuff_data = {}
 addon.DebuffData = debuff_data
-addon.priority = 10
 
 local DispelPriority = {
-	Magic   = 4,
-	Curse   = 3,
-	Disease = 2,
-	Poison  = 1,
+	Magic   = 54,
+	Curse   = 53,
+	Disease = 52,
+	Poison  = 51,
 }
 
 local blackList = {
@@ -55,7 +54,7 @@ local function add(spell, priority, stackThreshold)
 
 	if spell then
 		debuff_data[spell] = {
-			priority = (addon.priority + priority),
+			priority = priority,
 			stackThreshold = stackThreshold,
 		}
 	end
@@ -281,7 +280,7 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 			if shouldShowDispellable and data.debuffType then
 				--Make Dispel buffs on top of Boss Debuffs
 				if DispelFilter[data.debuffType] then
-					data.priority = DispelPriority[data.debuffType] + addon.priority
+					data.priority = DispelPriority[data.debuffType]
 				else
 					data.debuffType = nil
 				end
