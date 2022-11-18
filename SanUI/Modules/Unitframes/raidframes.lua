@@ -390,7 +390,7 @@ local function Shared(self, unit)
 	
 	-- oUF_NotRaidDebuffs
 	local raiddebuffs = S["UnitFrames"].RaidDebuffs
-	self.NotRaidDebuffs = { } -- forceShow = true }
+	self.NotRaidDebuffs = { } --forceShow = true }
 	for i = 1,2 do
 		local rd = CreateFrame("Frame", nil, self)
 		rd:SetHeight(rfsizes.raiddebuffs)
@@ -429,9 +429,9 @@ local function Shared(self, unit)
 	end
 		
 	local ORD = oUF_NotRaidDebuffs	
-	ORD.ShowDispelableDebuff = true
-	ORD.FilterDispellableDebuff = true
-	ORD.MatchBySpellName = true
+	--ORD.ShowDispelableDebuff = true
+	--ORD.FilterDispellableDebuff = true
+	--ORD.MatchBySpellName = true
 	--ORD.SetDebuffTypeColor = RaidDebuffs.SetBorderColor
 	
 	ORD:ResetDebuffData()

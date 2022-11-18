@@ -10,7 +10,7 @@ if not _G.oUF_NotRaidDebuffs then
 	_G.oUF_NotRaidDebuffs = addon
 end
 
-local abs = math.abs
+local abs, max = math.abs, math.max
 local format, floor, next = format, floor, next
 local type, pairs, wipe = type, pairs, wipe
 
@@ -25,9 +25,6 @@ local GetTime = GetTime
 
 local debuff_data = {}
 addon.DebuffData = debuff_data
-addon.ShowDispellableDebuff = true
-addon.FilterDispellableDebuff = true
-addon.MatchBySpellName = false
 addon.priority = 10
 
 local DispelPriority = {
@@ -52,7 +49,7 @@ local DispelColor = {
 }
 
 local function add(spell, priority, stackThreshold)
-	if addon.MatchBySpellName and type(spell) == 'number' then
+	if type(spell) == 'number' then
 		spell = GetSpellInfo(spell)
 	end
 
@@ -92,17 +89,8 @@ local DispelList = {
 	DRUID = { Curse = true, Poison = true },
 	MAGE = { Curse = true },
 	WARLOCK = {},
-	SHAMAN = {}
+	SHAMAN = { Curse = true }
 }
-
-if oUF.isRetail then
-	DispelList.SHAMAN.Curse = true
-else
-	DispelList.SHAMAN.Poison = true
-	DispelList.SHAMAN.Disease = true
-
-	DispelList.PALADIN.Magic = true
-end
 
 local playerClass = select(2, UnitClass('player'))
 local DispelFilter = DispelList[playerClass] or {}
@@ -190,7 +178,7 @@ local function OnUpdate(self, elapsed)
 	end
 end
 
-local function UpdateDebuffs(self, data) -- name, icon, count, debuffType, duration, endTime, spellID, stackThreshold)
+local function UpdateDebuffs(self, data)
 	
 	for index = 1,2 do
 		local f = self.NotRaidDebuffs[index]
@@ -261,92 +249,83 @@ local function UpdateDebuffs(self, data) -- name, icon, count, debuffType, durat
 	end
 end
 
+local function debuffData(unit, index)
+	local name, icon, count, debuffType, duration, expiration, _, _, _, spellID = UnitAura(unit, index, 'HARMFUL')
+	return { 
+		priority = -1,
+		name = name,
+		icon = icon,
+		count = count,
+		debuffType = debuffType,
+		duration = duration,
+		expiration = expiration,
+		spellID = spellID,
+		stackThreshold = 0
+	}
+end
+
 local function Update(self, event, unit, isFullUpdate, updatedAuras)
 	if not unit or self.unit ~= unit then return end
 
-	--local _name, _icon, _count, _dtype, _duration, _endTime, _spellID
-	--local _stackThreshold, _priority, priority = 0, 0, 0
-
-	--store if the unit its charmed, mind controlled units (Imperial Vizier Zor'lok: Convert)
-	local isCharmed = UnitIsCharmed(unit)
-
-	--store if we cand attack that unit, if its so the unit its hostile (Amber-Shaper Un'sok: Reshape Life)
-	local canAttack = UnitCanAttack('player', unit)
+	--we coudln't dispel if the unit its charmed, or its not friendly
+	local shouldShowDispellable = (not UnitIsCharmed(unit)) and (not UnitCanAttack('player', unit))
 
 	-- keep elements for the algorithm to work
-	local data = { { priority = 0, stackThreshold = 0 }, { priority = 0, stackThreshold = 0 } }
+	local toShow = { { priority = 0, stackThreshold = 0 }, { priority = 0, stackThreshold = 0 } }
 
 	local index = 1
-	local name, icon, count, debuffType, duration, expiration, _, _, _, spellID = UnitAura(unit, index, 'HARMFUL')
-	while name do
-		--we coudln't dispel if the unit its charmed, or its not friendly
-		if addon.ShowDispellableDebuff and (self.NotRaidDebuffs.showDispellableDebuff ~= false) and debuffType and (not isCharmed) and (not canAttack) then
-			if addon.FilterDispellableDebuff then
-				DispelPriority[debuffType] = (DispelPriority[debuffType] or 0) + addon.priority --Make Dispel buffs on top of Boss Debuffs
-
-				priority = DispelFilter[debuffType] and DispelPriority[debuffType] or 0
-				if priority == 0 then
-					debuffType = nil
+	local data = debuffData(unit, index)
+	
+	while data.name do
+		if not blackList[data.spellID] then	
+			if shouldShowDispellable and data.debuffType then
+				--Make Dispel buffs on top of Boss Debuffs
+				if DispelFilter[data.debuffType] then
+					data.priority = DispelPriority[data.debuffType] + addon.priority
+				else
+					data.debuffType = nil
 				end
-			else
-				priority = DispelPriority[debuffType] or 0
 			end
 
-			if priority > data[1].priority then
-				data[2] = data[1]
-				data[1] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
-			elseif priority > data[2].priority then
-				data[2] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
-			end
-		end
+			local debuff = debuff_data[name]
 
-		local debuff
-		if self.NotRaidDebuffs.onlyMatchSpellID then
-			debuff = debuff_data[spellID]
-		else
-			if debuff_data[spellID] then
-				debuff = debuff_data[spellID]
-			else
-				debuff = debuff_data[name]
+			if debuff then
+				data.priority = max(data.priority, debuff.priority or 0)
+				data.stackThreshold = debuff.stackThreshold or 0
+			end	
+		
+			if data.priority > -1 then
+				if data.priority > toShow[1].priority then
+					toShow[2] = toShow[1]	
+					toShow[1] = data
+				elseif data.priority > toShow[2].priority then
+					toShow[2] = data
+				end
 			end
-		end
-
-		priority = debuff and debuff.priority
-		if priority and not blackList[spellID] and (priority > data[1].priority) then
-			data[2] = data[1]
-			data[1] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
-			--_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellID = priority, name, icon, count, debuffType, duration, expiration, spellID
-		elseif priority and not blackList[spellID] and (priority > data[2].priority) then
-			data[2] = { priority = priority, name = name, icon = icon, count = count, debuffType = debuffType, duration = duration, expiration = expiration, spellID = spellID, stackThreshold = 0 }
 		end
 
 		index = index + 1
-		name, icon, count, debuffType, duration, expiration, _, _, _, spellID = UnitAura(unit, index, 'HARMFUL')
+		data = debuffData(unit, index)
 	end
 
 	if self.NotRaidDebuffs.forceShow then
 		_spellID = 5782
 		_name, _, _icon = GetSpellInfo(_spellID)
-		--_count, _debuffType, _duration, _expiration, _stackThreshold = 5, 'Magic', 0, 60, 0
-		data[1] = { priority = 0, name = _name, icon = _icon, count = 5, debuffType = 'Magic', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
-		data[2] = { priority = 0, name = _name, icon = _icon, count = 4, debuffType = 'Disease', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
+		toShow[1] = { priority = 0, name = _name, icon = _icon, count = 5, debuffType = 'Magic', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
+		toShow[2] = { priority = 0, name = _name, icon = _icon, count = 4, debuffType = 'Disease', duration = 0, expiration = 60, spellID = _spellID, stackThreshold = 0 }
 	end
 
-	if data[1] then
-		data[1].stackThreshold = debuff_data[addon.MatchBySpellName and data[1].name or data[1].spellID] and debuff_data[addon.MatchBySpellName and data[1].name or data[1].spellID].stackThreshold or data[1].stackThreshold
-	end
-
-	UpdateDebuffs(self, data)
-
-	--Reset the DispelPriority
-	DispelPriority.Magic = 4
-	DispelPriority.Curse = 3
-	DispelPriority.Disease = 2
-	DispelPriority.Poison = 1
+	UpdateDebuffs(self, toShow)
 end
 
 local function Enable(self)
 	if self.NotRaidDebuffs then
+		if self.NotRaidDebuffs.blackList then
+			for k,v in pairs(self.NotRaidDebuffs.blackList) do
+				blackList[k] = value
+			end
+		end
+		
 		self:RegisterEvent('UNIT_AURA', Update)
 
 		return true
