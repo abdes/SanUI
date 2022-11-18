@@ -88,7 +88,8 @@ local DispelList = {
 	DRUID = { Curse = true, Poison = true },
 	MAGE = { Curse = true },
 	WARLOCK = {},
-	SHAMAN = { Curse = true }
+	SHAMAN = { Curse = true },
+	EVOKER = { Poison = true }
 }
 
 local playerClass = select(2, UnitClass('player'))
@@ -104,25 +105,9 @@ local function CheckTalentTree(tree)
 end
 
 local SingeMagic = 89808
-local DevourMagic = {
-	[19505] = 'Rank 1',
-	[19731] = 'Rank 2',
-	[19734] = 'Rank 3',
-	[19736] = 'Rank 4',
-	[27276] = 'Rank 5',
-	[27277] = 'Rank 6'
-}
 
 local function CheckPetSpells()
-	if oUF.isRetail then
-		return IsSpellKnown(SingeMagic, true)
-	else
-		for spellID in next, DevourMagic do
-			if IsSpellKnown(spellID, true) then
-				return true
-			end
-		end
-	end
+	return IsSpellKnownOrOverridesKnown(SingeMagic, true)
 end
 
 -- Check for certain talents to see if we can dispel magic or not
@@ -140,7 +125,7 @@ local function CheckDispel(_, event, arg1)
 			DispelFilter.Magic = CheckTalentTree(3)
 		elseif playerClass == 'DRUID' then
 			DispelFilter.Magic = CheckTalentTree(4)
-		elseif playerClass == 'MONK' then
+		elseif playerClass == 'MONK' or playerClass == 'EVOKER' then
 			DispelFilter.Magic = CheckTalentTree(2)
 		end
 	end
