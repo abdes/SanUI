@@ -448,7 +448,7 @@ oUF_Hank.OnLeaveAura = function(self)
 end
 
 -- Hook aura scripts, set aura border
-oUF_Hank.PostCreateIcon = function(icons, icon)
+oUF_Hank.PostCreateButton = function(icons, icon)
 	if cfg.AuraBorder then
 		-- Custom aura border
 		icon.Overlay:SetTexture(cfg.AuraBorder)
@@ -1377,10 +1377,10 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 		self.HighlightAura.border:SetTexture(cfg.AuraBorder)
 		self.HighlightAura.border:SetPoint("CENTER")
 
-		self.Buffs.PostUpdateIcon = oUF_Hank.PostUpdateButton
-		self.Debuffs.PostUpdateIcon = oUF_Hank.PostUpdateButton
-		self.Buffs.PostCreateIcon = oUF_Hank.PostCreateIcon
-		self.Debuffs.PostCreateIcon = oUF_Hank.PostCreateIcon
+		self.Buffs.PostUpdateButton = oUF_Hank.PostUpdateButton
+		self.Debuffs.PostUpdateButton = oUF_Hank.PostUpdateButton
+		self.Buffs.PostCreateButton = oUF_Hank.PostCreateButton
+		self.Debuffs.PostCreateButton = oUF_Hank.PostCreateButton
 		self.Buffs.PostUpdate = oUF_Hank.BuffsPostUpdate
 		self.Buffs.FilterAura = oUF_Hank.FilterAura
 		self.Debuffs.FilterAura = oUF_Hank.FilterAura
