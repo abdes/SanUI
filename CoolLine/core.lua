@@ -643,8 +643,9 @@ do
     -- scans equipments and bags for item cooldowns
     local GetItemInfo                                       = GetItemInfo
     local GetInventoryItemCooldown, GetInventoryItemTexture = GetInventoryItemCooldown, GetInventoryItemTexture
-    local GetContainerItemCooldown, GetContainerItemInfo    = GetContainerItemCooldown, GetContainerItemInfo
-    local GetContainerNumSlots                              = GetContainerNumSlots
+    local GetContainerItemCooldown, GetContainerItemInfo    = C_Container.GetContainerItemCooldown,     C_Container.GetContainerItemInfo
+    local GetContainerNumSlots                              = C_Container.GetContainerNumSlots
+	local GetContainerItemLink = C_Container.GetContainerItemLink
 
     ---------------------------------------
     function CoolLine:BAG_UPDATE_COOLDOWN()
