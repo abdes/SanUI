@@ -15,10 +15,7 @@ saf.hookedBuffFrame = false
 
 saf.placeBuffFrame = function() 
 	BuffFrame:ClearAllPoints()
-	BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
-	
-	BuffFrame.AuraContainer:ClearAllPoints()
-	BuffFrame.AuraContainer:SetPoint("TOPRIGHT")
+	BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",0,-5)
 end
 
 
