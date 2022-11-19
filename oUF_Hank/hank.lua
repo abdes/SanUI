@@ -457,6 +457,7 @@ oUF_Hank.PostCreateButton = function(icons, icon)
 		icon.Overlay:SetTexCoord(0, 1, 0, 1)
 		icons.showType = true
 	end
+	icon.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 	icon.Cooldown:SetReverse(true)
 	icon.Cooldown.noCooldownCount = true
 	icon:HookScript("OnEnter", function() oUF_Hank.OnEnterAura(icons:GetParent(), icon) end)
