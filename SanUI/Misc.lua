@@ -17,13 +17,8 @@ sharedMedia:Register(sharedMedia.MediaType.STATUSBAR, "Tukui_Blank_Texture", [[I
 
 function S.misc(self,event,arg)
 	if (event == "PLAYER_ENTERING_WORLD") then
-		BuffFrame:ClearAllPoints()
-		BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
-		
-		hooksecurefunc("UIParent_UpdateTopFramePositions", function()
-			BuffFrame:ClearAllPoints()
-			BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
-		end)
+		addon.saf.placeBuffFrame()
+		addon.saf.hookBuffFrame()
 		
 		if WorldStateAlwaysUpFrame then
 			WorldStateAlwaysUpFrame:ClearAllPoints()

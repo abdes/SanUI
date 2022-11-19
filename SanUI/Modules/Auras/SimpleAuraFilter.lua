@@ -11,11 +11,30 @@ local floor = math.floor
 local saf = {}
 addon.saf = saf
 saf.filters = {}
+saf.hookedBuffFrame = false
 
-hooksecurefunc(BuffFrame, "UpdateAuraContainerAnchor", function(self)
-	self:ClearAllPoints()
-	self:SetPoint("TOPRIGHT", UIParent, -5, -5)
-end)
+saf.placeBuffFrame = function() 
+	BuffFrame:ClearAllPoints()
+	BuffFrame:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT",-5,-5)
+	
+	BuffFrame.AuraContainer:ClearAllPoints()
+	BuffFrame.AuraContainer:SetPoint("TOPRIGHT")
+end
+
+
+saf.hookBuffFrame = function()
+	if not saf.hookedBuffFrame then
+		saf.hookedBuffFrame = true
+		
+		-- those are a bit cargo culted, not sure which is really needed
+		hooksecurefunc("UIParent_UpdateTopFramePositions", function()
+			saf.placeBuffFrame()
+		end)
+		hooksecurefunc(BuffFrame, "UpdateAuraContainerAnchor", function(self)
+			saf.placeBuffFrame()
+		end)
+	end
+end
 
 saf.UpdateGrid = function(mixin)--self, aura)
 	--local header = aura:GetParent()
