@@ -84,6 +84,7 @@ oUF_Hank.classResources = {
 		active = {'Interface\\PlayerFrame\\MonkLightPower'},
 		size = {20, 20},
 		max = 6,
+		offset = - 100,
 	},
 	['SHAMAN'] = {
 		inactive = {'Interface\\AddOns\\oUF_Hank\\textures\\blank.blp', { 0, 23/128, 0, 20/32 }},
