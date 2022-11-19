@@ -105,6 +105,7 @@ local Enable = function(self, unit)
 		self:RegisterEvent('UNIT_POWER_UPDATE', Path, true)
 		self:RegisterEvent('PLAYER_TARGET_CHANGED', Path, true)
 		self:RegisterEvent('PLAYER_TALENT_UPDATE', SetMaxCombo, true)
+		self:RegisterEvent('UNIT_POWER_POINT_CHARGE', Path)
 
 		for i = 1, MaxComboPts do
 			local Point = cpb[i]
@@ -128,6 +129,7 @@ local Disable = function(self)
 		self:UnregisterEvent('UNIT_POWER_UPDATE', Path)
 		self:UnregisterEvent('PLAYER_TARGET_CHANGED', Path)
 		self:UnregisterEvent('PLAYER_TALENT_UPDATE', SetMaxCombo)
+		self:UnregisterEvent('UNIT_POWER_POINT_CHARGE', Path)
 	end
 end
 
