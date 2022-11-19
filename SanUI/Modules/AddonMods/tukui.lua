@@ -216,8 +216,8 @@ hooksecurefunc(S["Chat"], "Enable", function()
   
   TukuiLeftDataTextBox:ClearAllPoints()
   TukuiRightDataTextBox:ClearAllPoints()
-  TukuiLeftDataTextBox:SetPoint("BOTTOMLEFT",UIParent,10,Scale(3))
-  TukuiRightDataTextBox:SetPoint("BOTTOMRIGHT",UIParent,-10,Scale(3))
+  TukuiLeftDataTextBox:SetPoint("BOTTOMLEFT",UIParent,5,Scale(3))
+  TukuiRightDataTextBox:SetPoint("BOTTOMRIGHT",UIParent,-5,Scale(3))
 end)
 --]]
 hooksecurefunc(S["Chat"], "SetChatFramePosition", function(self)
