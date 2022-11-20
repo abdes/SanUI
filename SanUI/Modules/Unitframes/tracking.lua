@@ -91,7 +91,7 @@ table.insert(
 	S["UnitFrames"].TextAuras["DRUID"],
 	{
 		spellID = {33763, 33778, 43421, 188550, 290754, 186371},
-		pos = {"TOP",0,2},
+		pos = {"TOP",0,1},
 		textsize = 10, 
 		format = "|cFF00FF00%u|r", 
 		timers = { { 2, "|cFFFF0000%.1f|r", 0.05}, { 4.5, "|cFFFFFF00%u|r", 0.3} },
