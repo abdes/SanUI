@@ -100,7 +100,14 @@ oUF_Hank.classResources = {
 		size = {16, 16},
 		spacing = 5,
 		max = 6,
-	}
+	},
+	['EVOKER'] = {
+		inactive = {'Interface\\PlayerFrame\\MonkNoPower'},
+		active = {'Interface\\PlayerFrame\\MonkLightPower'},
+		size = {20, 20},
+		max = UnitPowerMax("player", Enum.PowerType.Essence),
+		offset = - 85,
+	},
 }
 
 local fntBig = CreateFont("UFFontBig")
@@ -1030,7 +1037,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 	local initClassIconAnimation, updateClassIconAnimation
 	local initClassPower, initClassSingleIcon
 	-- animation: fade in
-	if unit == "player" and (playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "WARLOCK") then
+	if unit == "player" and (playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "WARLOCK" or playerClass == "EVOKER") then
 		initClassIconAnimation = function(unitFrame, i)
 			unitFrame.ClassPower.animations[i] = unitFrame.ClassPower[i]:CreateAnimationGroup()
 			local alphaIn = unitFrame.ClassPower.animations[i]:CreateAnimation("Alpha")
@@ -1214,7 +1221,7 @@ oUF_Hank.sharedStyle = function(self, unit, isSingle)
 			end
 		end
 	-- ClassPower: Harmony Orbs / Holy Power / Warlock Shards
-	elseif unit == "player" and (playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "WARLOCK") then
+	elseif unit == "player" and (playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "WARLOCK" or playerClass == "EVOKER") then
 		local data = oUF_Hank.classResources[playerClass]
 		local bg = {}
 		self.ClassPower = {}

@@ -31,6 +31,7 @@ local referenceSpells = {
 	100780,			-- Jab (Monk)
 	162794,			-- Chaos Strike (Demon Hunter, Havoc)
 	222030,			-- Soul Cleave (Demon Hunter, Vengeance)
+	362969,			-- Azure Strike (Evoker)
 }
 
 
