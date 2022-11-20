@@ -255,7 +255,7 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 	local shouldShowDispellable = (not UnitIsCharmed(unit)) and (not UnitCanAttack('player', unit))
 
 	-- keep elements for the algorithm to work
-	local toShow = { { priority = 0, stackThreshold = 0 }, { priority = 0, stackThreshold = 0 } }
+	local toShow = { { priority = -1, stackThreshold = 0 }, { priority = -1, stackThreshold = 0 } }
 
 	local index = 1
 	local data = debuffData(unit, index)
@@ -271,12 +271,12 @@ local function Update(self, event, unit, isFullUpdate, updatedAuras)
 				end
 			end
 
-			local debuff = debuff_data[name]
+			local debuff = debuff_data[data.name]
 
 			if debuff then
 				data.priority = max(data.priority, debuff.priority or 0)
 				data.stackThreshold = debuff.stackThreshold or 0
-			end	
+			end
 		
 			if data.priority > -1 then
 				if data.priority > toShow[1].priority then
