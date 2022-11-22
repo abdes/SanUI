@@ -101,94 +101,93 @@ table.insert(
 
 -- Defensive cooldowns: Simple list of spellIDs
 S["UnitFrames"].RaidBuffsTracking["ALL"] = {
-  --Death Knight
-	48707, -- Anti-Magic Shell
-	81256, -- Dancing Rune Weapon
-	55233, -- Vampiric Blood
-	219809, -- Tombstone
-	48792, -- Icebound Fortitude
-	207319, -- Corpse Shield
-	194844, -- BoneStorm
-	145629, -- Anti-Magic Zone
-  194679, -- Rune Tap
-  --Demon Hunter
-	--207811, -- Nether Bond (DH)
-	--207810, -- Nether Bond (Target)
-	187827, -- Metamorphosis
-	263648, -- Soul Barrier
-  209426, -- Darkness
-	196555, -- Netherwalk
-	212800, -- Blur
-	203819, -- Demon Spikes
-  -- Druid
+	1022, -- Blessing of Protection
 	102342, -- Ironbark
-	61336, -- Survival Instincts
+	104773, -- Unending Resolve
+	108271, -- Astral Shift
+	108416, -- Dark Pact
+	113862, -- Greater Invisibility
+	11426, -- Ice Barrier
+	116849, -- Life Cocoon
+	118038, -- Die by the Sword
+	120954, -- Fortifying Brew
+	122278, -- Dampen Harm
+	122783, -- Diffuse Magic
+	125174, -- Touch of Karma
+	12975, -- Last Stand
+	145629, -- Anti-Magic Zone
+	147833, -- Intervene
+	184364, -- Enraged Regeneration
+	184662, -- Shield of Vengeance
+	186265, -- Aspect of the Turtle
+	187827, -- Metamorphosis
+	193320, -- Umbilicus Eternus
+	194679, -- Rune Tap
+	194844, -- BoneStorm
+	196555, -- Netherwalk
+	1966, -- Feint
+	198065, -- Prismatic Cloak
+	198158, -- Mass Invisibility
+	198760, -- Intercept
+	199027, -- Veil of Midnight
+	199038, -- Leave No Man Behind
+	199507, -- Spreading The Word: Protection
+	199754, -- Riposte
+	200851, -- Rage of the Sleeper
+	201318, -- Fortifying Elixir
+	201939, -- Protector of the Pack 3
+	201940, -- Protector of the Pack 2
+	202043, -- Protector of the Pack 1
+	202162, -- Guard
+	203524, -- Neltharion's Fury
+	203819, -- Demon Spikes
+	204018, -- Blessing of Spellwarding
+	205191, -- Eye for an Eye
+	20594 , -- Stoneform
+	207319, -- Corpse Shield
+	207654, -- Servant of the Queen
+	209426, -- Darkness
+	210655, -- Protection of Ashamane
+	210918, -- Ethereal Form
+	212295, -- Nether Ward
+	212641, -- Guardian of Ancien Kings (Glyph of the Queen)
+	212800, -- Blur
+	215479, -- Ironskin Brew
+	215769, -- Spirit of Redemption
+	219809, -- Tombstone
+	223658, -- Safeguard
+	228049, -- Guardian of the Forgotten Queen
 	22812, -- Barkskin
 	234081, -- Celestial Guardian
-  --Hunter
-	186265, -- Aspect of the Turtle
-	202748, -- Survival Tactics
-  --Mage
-	45438, -- Ice Block
-	113862, -- Greater Invisibility
-	198111, -- Temporal Shield
-	198065, -- Prismatic Cloak
-	--11426, -- Ice Barrier
-	--235313, -- Blazing Barrier
-  --Monk
-	122783, -- Diffuse Magic
-	122278, -- Dampen Harm
-	125174, -- Touch of Karma
-	201318, -- Fortifying Elixir
-	202248, -- Guided Meditation
-	202162, -- Guard
-	120954, -- Fortifying Brew
-	116849, -- Life Cocoon
-	215479, -- Ironskin Brew
-  --Paladin
-	642, -- Divine Shield
-	498, -- Divine Protection
-	205191, -- Eye for an Eye
-	184662, -- Shield of Vengeance
-	1022, -- Blessing of Protection
-	6940, -- Blessing of Sacrifice
-	204018, -- Blessing of Spellwarding
-	199507, -- Spreading The Word: Protection
-	228049, -- Guardian of the Forgotten Queen
-	31850, -- Ardent Defender
-	86659, -- Guardian of Ancien Kings
-	212641, -- Guardian of Ancien Kings (Glyph of the Queen)
-  --Priest
-	81782, -- Power Word: Barrier
-	47585, -- Dispersion
+	235313, -- Blazing Barrier
+	235450, -- Prismatic Barrier
+	23920, -- Spell Reflection
+	263648, -- Soul Barrier
 	27827, -- Spirit of Redemption
-	197268, -- Ray of Hope
-	47788, -- Guardian Spirit
-	33206, -- Pain Suppression
-  --Rogue
-	5277, -- Evasion
 	31224, -- Cloak of Shadows
-	1966, -- Feint
-	199754, -- Riposte
-	199027, -- Veil of Midnight
-  --Shaman
-	204293, -- Spirit Link
-	210918, -- Ethereal Form
-	108271, -- Astral Shift
-	98007, -- Spirit Link Totem
-	--207498, -- Ancestral Protection
-  --Warlock
-	108416, -- Dark Pact
-	104773, -- Unending Resolve
-	212295, -- Nether Ward
-  --Warrior
-	118038, -- Die by the Sword
-	184364, -- Enraged Regeneration
+	31850, -- Ardent Defender
+	324867, -- Fleshcraft (Necrolord)
+	33206, -- Pain Suppression
+	353319, -- Peaceweaver (PvP)
+	353362, -- Dematerialize (PvP)
+	363522, -- Gladiator's Eternal Aegis
+	363916, -- Obsidian Scales
+	45182, -- Cheating Death
+	45438, -- Ice Block
+	47585, -- Dispersion
+	47788, -- Guardian Spirit
+	48707, -- Anti-Magic Shell
+	48792, -- Icebound Fortitude
+	498, -- Divine Protection
+	5277, -- Evasion
+	55233, -- Vampiric Blood
+	61336, -- Survival Instincts
+	6940, -- Blessing of Sacrifice
+	81256, -- Dancing Rune Weapon
+	81782, -- Power Word: Barrier
+	86659, -- Guardian of Ancien Kings
 	871, -- Shield Wall
-	199038, -- Leave No Man Behind
-  --Racial
-	20594 , -- Stoneform
-
+	97463, -- Rallying Cry
 }
 
 local function Defaults(priorityOverride)
