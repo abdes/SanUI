@@ -105,7 +105,7 @@ oUF_Hank.classResources = {
 		inactive = {'Interface\\PlayerFrame\\MonkNoPower'},
 		active = {'Interface\\PlayerFrame\\MonkLightPower'},
 		size = {20, 20},
-		max = UnitPowerMax("player", Enum.PowerType.Essence),
+		max = 5,
 		offset = - 85,
 	},
 }
