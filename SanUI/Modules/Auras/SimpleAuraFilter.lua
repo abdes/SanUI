@@ -5,7 +5,7 @@ local BUFFS_PER_ROW = C.Auras.BuffsPerRow
 local button_size = 30
 local offset = 5
 local Scale = S.Toolkit.Functions.Scale
-
+local scale2 = Scale(2)
 local floor = math.floor
 
 local saf = {}
@@ -77,8 +77,8 @@ saf.hookButtons = function()
 			flevel = (flevel > 1 and flevel-1) or 1
 			button.Backdrop:SetFrameLevel(flevel)
 			button.Backdrop:ClearAllPoints()
-			button.Backdrop:SetPoint("TOPRIGHT", button.Icon, 2, 2)
-			button.Backdrop:SetPoint("BOTTOMLEFT", button.Icon, -2, -2)
+			button.Backdrop:SetPoint("TOPRIGHT", button.Icon, scale2, scale2)
+			button.Backdrop:SetPoint("BOTTOMLEFT", button.Icon, -scale2, -scale2)
 			button.Icon:SetTexCoord(.1, .9, .1, .9)
 			button.clickHooked = true
 		end
