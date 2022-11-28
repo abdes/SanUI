@@ -33,7 +33,7 @@ for _ in pairs(SanUIButtonOrder) do
 	Btns = Btns +1
 end
 -- Toggles if the Open/Close button is hidden on mouseout
-HideMenuButton = false
+--HideMenuButton = false
 
 -- Set to the offset of the menu if you have data texts under your minimap
 local Offset = 19
@@ -46,7 +46,7 @@ local BtnHeight = 20
 local AnchorSide = true
 
 -- Set this to true if you want it to hide your loot frame when skada is shown
-HideChat = false
+--HideChat = false
 
 -- Set font
 --local font = C["media"].uffont --local font = S["media"].uffont
