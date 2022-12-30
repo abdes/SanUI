@@ -23,7 +23,7 @@ local referenceSpells = {
 	585,			-- Smite (Priest)
 	35395,			-- Crusader Strike (Paladin)
 	172,			-- Corruption (Warlock)
-	34428,			-- Victory Rush (Warrior) (was 772)
+	1464,			-- Slam (Warrior)
 	44614,			-- Frostfire (Mage)
 	188196,			-- Lightning Bolt (Shaman)
 	6770,			-- Sap (Rogue)
