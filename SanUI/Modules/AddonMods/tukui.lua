@@ -78,22 +78,23 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 
 	RegisterStateDriver(TukuiBar1, "visibility", "[petbattle] hide; show")
 	
-	TukuiBar1:SetAttribute("_onstate-page", [[
-		if HasVehicleActionBar and HasVehicleActionBar() then
-			newstate = GetVehicleBarIndex() or newstate
-		elseif HasOverrideActionBar and HasOverrideActionBar() then
-			newstate = GetOverrideBarIndex() or newstate
-		elseif HasTempShapeshiftActionBar and HasTempShapeshiftActionBar() then
-			newstate = GetTempShapeshiftBarIndex() or newstate
-		elseif HasBonusActionBar and HasBonusActionBar() then
-			local page = GetActionBarPage() or 0
-			newstate = (page > 1 and page) or GetBonusBarIndex() or newstate
-		end
+	-- [[
+	-- TukuiBar1:SetAttribute("_onstate-page", [[
+		-- if HasVehicleActionBar and HasVehicleActionBar() then
+			-- newstate = GetVehicleBarIndex() or newstate
+		-- elseif HasOverrideActionBar and HasOverrideActionBar() then
+			-- newstate = GetOverrideBarIndex() or newstate
+		-- elseif HasTempShapeshiftActionBar and HasTempShapeshiftActionBar() then
+			-- newstate = GetTempShapeshiftBarIndex() or newstate
+		-- elseif HasBonusActionBar and HasBonusActionBar() then
+			-- local page = GetActionBarPage() or 0
+			-- newstate = (page > 1 and page) or GetBonusBarIndex() or newstate
+		-- end
 
-		for i, Button in ipairs(Button) do
-			Button:SetAttribute("actionpage", tonumber(newstate))
-		end
-	]])
+		-- for i, Button in ipairs(Button) do
+			-- Button:SetAttribute("actionpage", tonumber(newstate))
+		-- end
+	-- ]])
 
 	MultiBarBottomLeft:SetParent(TukuiBar1)
 
