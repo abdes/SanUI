@@ -6,6 +6,32 @@ local spacing = C["ActionBars"].ButtonSpacing
 
 -- executed  PLAYER_ENTERING_WORLD in Misc.lua
 --Putting it above the middle action bar
+
+local updatedLook = false
+
+local function placeCoolLine(db)
+	local NumForms = GetNumShapeshiftForms()
+	CoolLine:ClearAllPoints()
+	if TukuiStanceBar and NumForms > 0 then 
+		CoolLine:SetPoint("BOTTOMLEFT",TukuiStanceBar,"BOTTOMRIGHT",spacing,spacing)
+		CoolLine:SetPoint("TOPLEFT",TukuiStanceBar,"TOPRIGHT",spacing,-spacing)
+	else
+		CoolLine:SetPoint("TOPRIGHT",TukuiActionBar3,"TOPLEFT",-spacing,-spacing)
+	end
+	CoolLine:SetPoint("BOTTOMRIGHT",TukuiActionBar3,"BOTTOMLEFT",-spacing,spacing)
+	S.placeStanceBar()
+	db.h = CoolLine:GetHeight()
+	db.w = CoolLine:GetWidth()
+	
+	if not updatedLook then
+		updatedLook = true
+		CoolLine.updatelook()
+	else
+		updatedLook = false
+	end
+end
+
+
 function S.modCoolLine(event)
 	local TukuiStanceBar = S["ActionBars"].Bars.Stance
 	local db
@@ -29,20 +55,9 @@ function S.modCoolLine(event)
 	db.bgcolor.a = 0
 	
 	if S.ActionBars and S.ActionBars.Bars and S["ActionBars"].Bars.Bar1 then
-		hooksecurefunc(CoolLine, "updatelook", function()
-			local NumForms = GetNumShapeshiftForms()
-			CoolLine:ClearAllPoints()
-			if TukuiStanceBar and NumForms > 0 then 
-				CoolLine:SetPoint("BOTTOMLEFT",TukuiStanceBar,"BOTTOMRIGHT",spacing,spacing)
-				CoolLine:SetPoint("TOPLEFT",TukuiStanceBar,"TOPRIGHT",spacing,-spacing)
-			else
-				CoolLine:SetPoint("TOPRIGHT",TukuiActionBar3,"TOPLEFT",-spacing,-spacing)
-			end
-			CoolLine:SetPoint("BOTTOMRIGHT",TukuiActionBar3,"BOTTOMLEFT",-spacing,spacing)
-			S.placeStanceBar()
-		end)
+		hooksecurefunc(CoolLine, "updatelook", function() placeCoolLine(db) end)
 	end
-
+	
 	CoolLine.updatelook()	
 	
 	if not SanUIdb.stanceBarHasBeenPlaced then
