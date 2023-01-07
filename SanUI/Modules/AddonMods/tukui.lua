@@ -118,10 +118,26 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 	end
 	
 	if PetBar then
+		local numPetButtons = C["ActionBars"].BarPetButtonsPerRow
+		local Size = C["ActionBars"].PetButtonSize
+	
 		PetBar:ClearAllPoints()
 		PetBar:SetPoint("RIGHT", TukuiBar5, "LEFT", -Scale(5), 0)
 		PetBar:SetWidth(Size + Spacing*2)
-		PetBar:SetHeight(Size*NUM_PET_ACTION_SLOTS + Spacing*(NUM_PET_ACTION_SLOTS + 1))
+		PetBar:SetHeight(Size*numPetButtons + Spacing*(numPetButtons + 1))
+		
+		TukuiPetActionBarButton1:ClearAllPoints()
+		TukuiPetActionBarButton1:SetPoint("TOP", PetBar, 0, -Spacing)
+		local prev = TukuiPetActionBarButton1
+		for i = 2,numPetButtons do
+			local b = _G["TukuiPetActionBarButton"..tostring(i)]
+			if b then
+				b:ClearAllPoints()
+				b:SetPoint("TOP", prev, "BOTTOM", 0, -Spacing)
+				prev = b
+			end
+		end
+		
 	end
 
 	for i = 2, NUM_PET_ACTION_SLOTS do
