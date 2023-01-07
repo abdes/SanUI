@@ -199,13 +199,14 @@ end,
 	
 	-- return ("FF%.2x%.2x%.2x"):format(color.r * 255, color.g * 255, color.b * 255)
 -- end
-
+--[[
 oUF_Hank_hooks.ClassToT_etc = {
 sharedStyle = function(self, unit, isSingle)
 	if unit == "targettarget" or unit == "focustarget" then self:Tag(name, "|c[classColor]\226\128\186  [smartName] @ [perhp]%|r")
 	elseif unit == "targettargettarget" then self:Tag(name, "|c[classColor]\194\187 [smartName] @ [perhp]%|r") end
 end,
 }
+--]]
 
 oUF_Hank_hooks.FocusAuras = {
 sharedStyle = function(self, unit, isSingle)
