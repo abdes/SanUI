@@ -38,7 +38,7 @@ saf.UpdateGrid = function(mixin)--self, aura)
 	mixin.numHideableBuffs = 0;
 	mixin.auraInfo = {};
 	
-	AuraUtil.ForEachAura("player", "HELPFUL", nil, function(...)
+	AuraUtil.ForEachAura("player", "HELPFUL", mixin.maxAuras, function(...)
 		local name, texture, count, debuffType, duration, expirationTime, _, _, _, _, _, _, _, _, timeMod = ...;
 		local hideUnlessExpanded = false
 		
@@ -46,8 +46,10 @@ saf.UpdateGrid = function(mixin)--self, aura)
 			hideUnlessExpanded = true
 			mixin.numHideableBuffs = mixin.numHideableBuffs + 1
 		end
+		
 		local index = #mixin.auraInfo + 1
-		mixin.auraInfo[index] = { name = name, index = index, texture = texture, count = count, debuffType = debuffType, duration = duration,  expirationTime = expirationTime, timeMod = timeMod, hideUnlessExpanded = hideUnlessExpanded};
+		mixin.auraInfo[index] = { name = name, index = index, texture = texture, count = count, debuffType = debuffType, duration = duration,  expirationTime = expirationTime, timeMod = timeMod, hideUnlessExpanded = hideUnlessExpanded,
+		auraType = "Buff"};
 
 		return #mixin.auraInfo > mixin.maxAuras;	
 		
@@ -80,6 +82,8 @@ saf.hookButtons = function()
 			button.Backdrop:SetPoint("TOPRIGHT", button.Icon, scale2, scale2)
 			button.Backdrop:SetPoint("BOTTOMLEFT", button.Icon, -scale2, -scale2)
 			button.Icon:SetTexCoord(.1, .9, .1, .9)
+			button.DebuffBorder:SetAlpha(0)
+			button.TempEnchantBorder:SetAlpha(0)
 			button.clickHooked = true
 		end
 	end
