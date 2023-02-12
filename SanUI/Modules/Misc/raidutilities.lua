@@ -107,7 +107,8 @@ local function Enable()
 		b.icon:SetSize(Scale(17), Scale(17))
 		b.icon:SetPoint("CENTER", b, "CENTER", 0, 0)
 
-    b:SkinButton()
+		b:RegisterForClicks("AnyUp", "AnyDown")
+		b:SkinButton()
 
 	end
 	
