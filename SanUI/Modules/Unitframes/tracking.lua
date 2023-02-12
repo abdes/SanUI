@@ -221,8 +221,8 @@ S["UnitFrames"].RaidDebuffs = {
 		[373607] = List(), -- Shadowy Barrier (Hypnosis)
 		[373509] = List(), -- Shadow Claws (Stacking)
 	-- Dragonflight Season 1
-		[396369] = List(), -- Mark of Lightning
-		[396364] = List(), -- Mark of Wind
+		[396369] = List(15), -- Mark of Lightning
+		[396364] = List(15), -- Mark of Wind
 	----------------------------------------------------------
 	---------------- Dragonflight (Season 1) -----------------
 	----------------------------------------------------------
@@ -254,6 +254,10 @@ S["UnitFrames"].RaidDebuffs = {
 		[215430] = List(), -- Thunderstrike 1
 		[215429] = List(), -- Thunderstrike 2
 		[203963] = List(), -- Eye of the Storm
+		[193659] = List(), -- Felblaze Rush
+		[196497] = List(), -- Ravenous Leap
+		[192048] = List(), -- Expel Light
+		[193092] = List(), -- Bloodletting Sweep
 	-- Shadowmoon Burial Grounds
 		[156776] = List(), -- Rending Voidlash
 		[153692] = List(), -- Necrotic Pitch
@@ -401,6 +405,7 @@ S["UnitFrames"].RaidDebuffs = {
 		[390920] = List(5), -- Shocking Burst
 		[372458] = List(6), -- Below Zero
 		[391055] = List(0), -- Enveloping Earth
+		[372517] = List(6), -- Frozen Solid
 	-- Broodkeeper Diurna
 		[388920] = List(6), -- Frozen Shroud
 		[378782] = List(5), -- Mortal Wounds
