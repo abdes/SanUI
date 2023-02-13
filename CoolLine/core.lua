@@ -1,4 +1,4 @@
-local ORANGEY, LIGHTRED             = '|cffFF4500', '|cffff6060'
+local ORANGEY, LIGHTRED             = '|cffFFD700', '|cffff6060'
 local build_toc_version             = select(4, GetBuildInfo())
 -- version numbering is X.XX.XX shorten in param 4 as XXXXX
 local SUPPORTED_RETAIL_VERSION      = 90000
@@ -17,16 +17,11 @@ end)
 
 if not IS_RETAIL_RELEASE and not IS_CLASSIC then
     local version, build, date, tocversion = GetBuildInfo()
-    print(format("!!! %sBEWARE %s!!!!", LIGHTRED, "|r"))
-    local coolline_version = "9.0.000"
-    print(format("%sCoolLine v%s hasn't been updated to support WoW v |r%s - %sbuild|r %s- %sdate|r %s - %sversion number|r %s", ORANGEY, coolline_version, version, ORANGEY, build, ORANGEY, date, ORANGEY, tocversion))
-    print(format("%sPlease file any bugs you find @ https://github.com/LoneWanderer-GH/CoolLine/issues", ORANGEY))
-    print(format("%sPlease be precise and provide as much intel as needed (PTR realm, release, beta etc.)", ORANGEY))
+    local coolline_version = "9.0.000-modified"
+    print(format("%sCoolLine v%s for WoW v |r%s - %sbuild|r %s- %sdate|r %s - %sversion number|r %s", ORANGEY, coolline_version, version, ORANGEY, build, ORANGEY, date, ORANGEY, tocversion))
     if build_toc_version > MAX_SUPPORTED_RETAIL_VERSION then
-        print(format("%sAssuming unsupported version is retail (%d)", LIGHTRED, MAX_SUPPORTED_RETAIL_VERSION))
         IS_RETAIL_RELEASE = true
     elseif build_toc_version > MAX_SUPPORTED_CLASSIC_VERSION then
-        print(format("%sAssuming unsupported version is classic (%d)", LIGHTRED, MAX_SUPPORTED_CLASSIC_VERSION))
         IS_CLASSIC = true
     end
 end

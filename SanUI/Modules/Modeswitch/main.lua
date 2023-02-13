@@ -18,18 +18,6 @@ S.switch2Mode = function(mode)
 		if not S["Modes"][mode] then print("last") end
 	end
 	
-	local safprofile = S["Modes"][mode].SimpleAuraFilter
-	if safprofile then
-		SanUIGlobaldb.saf = SanUIGlobaldb.saf or {}
-		SanUIGlobaldb.saf[safprofile] = SanUIGlobaldb.saf[safprofile] or { }
-		SanUIGlobaldb.saf[safprofile].filters = SanUIGlobaldb.saf[safprofile].filters or { }
-
-		addon.saf.filters = SanUIGlobaldb.saf[safprofile].filters or {}
-		addon.saf.profile = safprofile
-	else
-		print("No SimpleAuraFilter profile found for mode "..mode.."!")
-	end
-	
 	if S["Modes"][mode]["castbar"] and IsAddOnLoaded("oUF_Hank") then
 		S.switchCastbar(S["Modes"][mode]["castbar"])
 	else

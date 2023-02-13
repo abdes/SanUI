@@ -5,22 +5,15 @@
 ## Notes: Druid UI based on Tukui.
 ## SavedVariablesPerCharacter: SanUIdb
 ## SavedVariables: SanUIGlobaldb
-## RequiredDeps: Tukui, tullaCC
+## RequiredDeps: Tukui
 ## OptionalDeps: CoolLine, BugSack, WeakAuras, Details, DBM-Core, REHack, MythicDungeonTools, ManbabyDungeonTools
 Core\init.lua
 Config\profiles.lua
 Config\sizes.lua
 
-Libs\oUF_NotAuraTrack.lua
-Libs\oUF_TextAuras.lua
-Libs\oUF_ShadowTouched.lua
 Libs\oUF_NotRaidDebuffs.lua
 
-Modules\Auras\SimpleAuraFilter.lua
-Modules\Auras\optionspanel.lua
-
 Modules\Unitframes\tracking.lua
-Modules\Unitframes\raidframes.lua
 Modules\Unitframes\bossframes.lua
 
 Modules\AddonMods\blizzard.lua
@@ -29,8 +22,8 @@ Modules\AddonMods\tukui_lfrdatatext.lua
 Modules\AddonMods\tukui_lootspecdatatext.lua
 Modules\AddonMods\coolline.lua
 Modules\AddonMods\bugsack.lua
-Modules\AddonMods\weakauras_displays.lua
-Modules\AddonMods\weakauras.lua
+##Modules\AddonMods\weakauras_displays.lua
+##Modules\AddonMods\weakauras.lua
 
 Modules\Modeswitch\actionbuttons.lua
 Modules\Modeswitch\bossbars.lua

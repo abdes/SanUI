@@ -17,19 +17,13 @@ sharedMedia:Register(sharedMedia.MediaType.STATUSBAR, "Tukui_Blank_Texture", [[I
 
 function S.misc(self,event,arg)
 	if (event == "PLAYER_ENTERING_WORLD") then
-		addon.saf.placeBuffFrame()
-		addon.saf.hookBuffFrame()
-		
 		if WorldStateAlwaysUpFrame then
 			WorldStateAlwaysUpFrame:ClearAllPoints()
 			WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -50)
 		end
 		
 		S.disableBlizzard()
-		
-		--addon.saf:hookups()
-		--S.Auras:Enable()
-	
+
 		S.modCoolLine(event)
 			
 		-- Most important call here
@@ -42,26 +36,6 @@ function S.misc(self,event,arg)
 		-- PLAYER_TALENT_UPDATE
 		f:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 		f:RegisterEvent("PLAYER_TALENT_UPDATE")
-		
-		--this should be last, it might induce a reloadui
-		local tukui_installed = TukuiDatabase.Variables[S.MyRealm][S.MyName].Installation.Done
-		SanUIdb.addedWeakAuras = (type(SanUIdb.addedWeakAuras) == "string" and SanUIdb.addedWeakAuras) or "None"
-		--local wa_installed = SanUIdb.addedWeakAuras and SanUIdb.addedWeakAuras == sanui_version
-		local wa_asked = SanUIdb.askedWeakAuras and SanUIdb.askedWeakAuras == sanui_version
-
-		if tukui_installed and not wa_asked then
-			S.weakAurasDialog(sanui_version, SanUIdb.addedWeakAuras)
-		end
-		--[[
-		UIParent:UnregisterEvent("TALKINGHEAD_REQUESTED")
-		
-		if TalkingHeadFrame_PlayCurrent and type(TalkingHeadFrame_PlayCurrent) == "function" then
-			hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
-				TalkingHeadFrame:Hide()
-			end)
-		end
-		--]]
-
 	end
 		
 	if(event == "ADDON_LOADED") then
@@ -84,12 +58,6 @@ function S.misc(self,event,arg)
 			if not SanUIGlobaldb then
 				SanUIGlobaldb = {}
 			end
-			if not SanUIGlobaldb.saf then
-				SanUIGlobaldb.saf = {}
-			end
-			
-			-- just start empty, switch2Mode will take care of it
-			addon.saf.filters = { }
 		end	
 	end
 	
@@ -117,8 +85,3 @@ function main.OnShow(self)
 end
 
 main:SetScript("OnShow", main.OnShow)
-
-addon.optionspanel = main
-
-InterfaceOptions_AddCategory(main)
-InterfaceOptions_AddCategory(addon.saf.optionspanel)--, addon.optpanels.ABOUT)
