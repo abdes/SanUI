@@ -262,9 +262,9 @@ hooksecurefunc(S["Chat"], "SetChatFramePosition", function(self)
 	end
 end)
 
-hooksecurefunc(S["Miscellaneous"].Experience, "Enable", function()
-  S.Miscellaneous.Experience:Disable()
-end)
+-- hooksecurefunc(S["Miscellaneous"].Experience, "Enable", function()
+--   S.Miscellaneous.Experience:Disable()
+-- end)
 
 hooksecurefunc(S["UnitFrames"], "Enable", function()
   RegisterStateDriver(Tukui_PetBattleFrameHider, "visibility", "[petbattle] hide;show")
