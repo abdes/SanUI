@@ -22,7 +22,7 @@ local function placeCoolLine(db)
 	end
 	S.placeStanceBar()
 	db.h = CoolLine:GetHeight()
-	db.w = CoolLine:GetWidth()
+	db.w = CoolLine:GetWidth() - C["ActionBars"].NormalButtonSize
 	
 	if not updatedLook then
 		updatedLook = true
@@ -49,8 +49,6 @@ function S.modCoolLine(event)
 		CoolLine:CreateBackdrop()
 	end
 	
-	db.h = C["ActionBars"].NormalButtonSize
-	db.w = 12*C["ActionBars"].NormalButtonSize - 2 * Scale(2) + 11 * spacing
 	db.inactivealpha = 1
 	db.bordercolor.a = 0
 	db.bgcolor.a = 0
