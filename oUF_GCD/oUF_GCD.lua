@@ -24,7 +24,7 @@ local referenceSpells = {
 	35395,			-- Crusader Strike (Paladin)
 	172,			-- Corruption (Warlock)
 	1464,			-- Slam (Warrior)
-	115,                    -- Frostbolt (Mage)
+	116,            -- Frostbolt (Mage)
 	188196,			-- Lightning Bolt (Shaman)
 	1752,			-- Sinister Strike (Rogue)
 	5176,			-- Wrath (Druid)
