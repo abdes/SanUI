@@ -3,6 +3,7 @@ local S,C = unpack(addon)
 
 local Scale = S.Toolkit.Functions.Scale
 local spacing = C["ActionBars"].ButtonSpacing
+local buttonsize = C["ActionBars"].NormalButtonSize
 
 -- executed  PLAYER_ENTERING_WORLD in Misc.lua
 --Putting it above the middle action bar
@@ -11,16 +12,24 @@ local updatedLook = false
 
 local function placeCoolLine(db)
 	local NumForms = GetNumShapeshiftForms()
-	CoolLine:ClearAllPoints()
+	
+	local bg = CoolLine.Backdrop
+	bg:ClearAllPoints()
 	if TukuiStanceBar and NumForms > 0 then
-		CoolLine:SetPoint("TOPLEFT", TukuiStanceBar, "TOPRIGHT", spacing, -spacing)
-		CoolLine:SetPoint("BOTTOMRIGHT", TukuiActionBar3, "BOTTOMLEFT", -spacing, spacing)
+		bg:SetPoint("TOPLEFT", TukuiStanceBar, "TOPRIGHT", spacing, -spacing)
+		bg:SetPoint("BOTTOMRIGHT", TukuiActionBar3, "BOTTOMLEFT", -spacing, spacing)
 	else
-		CoolLine:SetPoint("LEFT", TukuiActionBar1, "LEFT")
-		CoolLine:SetPoint("BOTTOM", TukuiActionBar3, "BOTTOM", 0, spacing)
-		CoolLine:SetPoint("TOPRIGHT", TukuiActionBar3, "TOPLEFT", -spacing, -spacing)
+		bg:SetPoint("LEFT", TukuiActionBar1, "LEFT")
+		bg:SetPoint("BOTTOM", TukuiActionBar3, "BOTTOM", 0, spacing)
+		bg:SetPoint("TOPRIGHT", TukuiActionBar3, "TOPLEFT", -spacing, -spacing)
 	end
+	
+	CoolLine:ClearAllPoints()
+	CoolLine:SetPoint("TOPRIGHT", bg, -buttonsize/2, 0)
+	CoolLine:SetPoint("BOTTOMLEFT", bg, buttonsize/2, 0)
+	
 	S.placeStanceBar()
+	
 	db.h = CoolLine:GetHeight()
 	db.w = CoolLine:GetWidth()
 	
@@ -49,11 +58,13 @@ function S.modCoolLine(event)
 		CoolLine:CreateBackdrop()
 	end
 	
-	db.h = C["ActionBars"].NormalButtonSize
-	db.w = 12*C["ActionBars"].NormalButtonSize - 2 * Scale(2) + 11 * spacing
+	db.h = buttonsize
+	-- 11 instead of 12 so icons on either side fully fit inside
+	db.w = 11*buttonsize - 2 * Scale(2) + 11 * spacing
 	db.inactivealpha = 1
 	db.bordercolor.a = 0
 	db.bgcolor.a = 0
+	db.iconplus = 0
 	
 	if S.ActionBars and S.ActionBars.Bars and S["ActionBars"].Bars.Bar1 then
 		hooksecurefunc(CoolLine, "updatelook", function() placeCoolLine(db) end)
