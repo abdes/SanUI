@@ -188,6 +188,8 @@ S["UnitFrames"].RaidBuffsTracking["ALL"] = {
 	86659, -- Guardian of Ancien Kings
 	871, -- Shield Wall
 	97463, -- Rallying Cry
+	264735, -- Survival of the fittest
+	388035, -- Fortitude of the bear
 }
 
 local function Defaults(priorityOverride)
