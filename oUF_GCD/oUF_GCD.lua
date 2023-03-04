@@ -21,7 +21,7 @@ local referenceSpells = {
 	45902,			-- Blood Strike (Death Knight) (was 66215)
 	186257,			-- Aspect of the Cheetah (Hunter)
 	585,			-- Smite (Priest)
-	35395,			-- Crusader Strike (Paladin)
+	343122,			-- Judgement (Paladin)
 	172,			-- Corruption (Warlock)
 	1464,			-- Slam (Warrior)
 	116,            -- Frostbolt (Mage)
