@@ -26,7 +26,7 @@ local referenceSpells = {
 	1464,			-- Slam (Warrior)
 	116,            -- Frostbolt (Mage)
 	188196,			-- Lightning Bolt (Shaman)
-	1752,			-- Sinister Strike (Rogue)
+	6770,			-- Sap (Rogue)
 	5176,			-- Wrath (Druid)
 	100780,			-- Jab (Monk)
 	162794,			-- Chaos Strike (Demon Hunter, Havoc)
