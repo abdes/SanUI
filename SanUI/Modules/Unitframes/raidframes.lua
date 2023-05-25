@@ -166,13 +166,14 @@ local function Shared(self, unit)
 	HighlightTarget:SetFrameLevel(self.Health:GetFrameLevel() + 3)
 	HighlightTarget:SetAllPoints()
 	HighlightTarget:SetBackdrop(glowBorder)
-	HighlightTarget:SetBackdropBorderColor(0,0,0,1)
+	HighlightTarget.origColor = {0,0,0,1}
+	HighlightTarget:SetBackdropBorderColor(unpack(HighlightTarget.origColor))
 	
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", function(self,event,unit)
 			if UnitIsUnit("target", self.unit) then
 				self.HighlightTarget:SetBackdropBorderColor(1,1,1)
 			else
-				self.HighlightTarget:SetBackdropBorderColor(0,0,0)
+				self.HighlightTarget:SetBackdropBorderColor(unpack(HighlightTarget.origColor))
 			end
 		end)
 		

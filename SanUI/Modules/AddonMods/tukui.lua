@@ -148,7 +148,7 @@ hooksecurefunc(S["ActionBars"], "Enable", function()
 		Button:SetPoint("TOP", PreviousButton, "BOTTOM", 0, -Spacing)
 	end
 
-	if TukuiStanceBar then
+	if TukuiStanceBar and TukuiStanceBar.Backdrop then
 		TukuiStanceBar.Backdrop:Kill()
 	end
 end)
